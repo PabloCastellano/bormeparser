@@ -1,0 +1,2 @@
+include CHANGES.rst README.md LICENSE.txt
+exclude MANIFEST.in
