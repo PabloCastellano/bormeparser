@@ -107,7 +107,7 @@ class BormeparserInvalidDateTestCase(unittest.TestCase):
 
 
 class BormeparserBormeDoesntExistTestCase(unittest.TestCase):
-    date = (2015, 6, 1)
+    date = (2015, 6, 6)
 
     def test_url_pdf(self):
         self.assertRaises(BormeDoesntExistException, bormeparser.get_url_pdf, self.date, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)

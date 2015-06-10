@@ -42,7 +42,7 @@ def download_pdfs(date, path, seccion):
         downloaded = download_url(full_url, full_path)
 
         if not downloaded:
-            print "ERROR downloading", url.text
+            print("ERROR downloading %s" % url.text)
             continue
 
         #assert os.path.exists(filepdf)
@@ -113,7 +113,7 @@ def download_url(url, filename, timeout=TIMEOUT):
 
     r = requests.get(url, stream=True, timeout=timeout)
     cl = r.headers.get('content-length')
-    print "%.2f KB" % (int(cl) / 1024.0)
+    print("%.2f KB" % (int(cl) / 1024.0))
 
     with open(filename, 'wb') as fd:
         for chunk in r.iter_content(8192):
