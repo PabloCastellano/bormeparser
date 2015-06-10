@@ -1,0 +1,17 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+
+branches:
+  only:
+    - master
+
+# command to install requirements
+install:
+  - python setup.py install
+
+# command to run tests, e.g. python setup.py test
+script:
+  - python setup.py test
