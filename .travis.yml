@@ -10,7 +10,8 @@ branches:
 
 # command to install requirements
 install:
-  - python setup.py install
+  - if [[ $TRAVIS_PYTHON_VERSION == '2.6' ]]; then python setup.py install; fi
+  - if [[ $TRAVIS_PYTHON_VERSION == '3.4' ]]; then pip install -r requirements3.txt; fi
 
 # command to run tests, e.g. python setup.py test
 script:
