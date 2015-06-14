@@ -25,6 +25,20 @@ to publish all data in some useful format like XML and the most interesting info
 You can read more about it on:
 - Wikipedia: https://es.wikipedia.org/wiki/Boletín_Oficial_del_Registro_Mercantil
 
+Compiling
+=========
+
+lxml package has some parts that need to be compiled and you need the following dependencies:
+
+For Python 3:
+
+    sudo apt-get install python-dev libxslt1-dev
+
+For Python 3:
+
+    sudo apt-get install python3-dev libxslt1-dev
+
+
 Usage
 =====
 

@@ -20,6 +20,7 @@
 import unittest
 import bormeparser
 import datetime
+import six
 
 from bormeparser.exceptions import BormeDoesntExistException
 
@@ -85,12 +86,12 @@ class BormeparserUrlsTestCase(unittest.TestCase):
 
     def test_url_pdfs_tuple(self):
         urls = bormeparser.get_url_pdfs(self.date, bormeparser.SECCION.A)
-        self.assertItemsEqual(urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
+        six.assertCountEqual(self, urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
 
     def test_url_pdfs_date(self):
         date = datetime.date(*self.date)
         urls = bormeparser.get_url_pdfs(date, bormeparser.SECCION.A)
-        self.assertItemsEqual(urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
+        six.assertCountEqual(self, urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
 
 
 class BormeparserInvalidDateTestCase(unittest.TestCase):

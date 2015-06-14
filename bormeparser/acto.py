@@ -17,7 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from utils import remove_accents
+from .utils import remove_accents
+import six
 
 
 class ACTOS:
@@ -113,16 +114,17 @@ class ACTOS:
     }
 
 
-    ARG_KEYWORDS = _arg_keywords.keys()
-    NOARG_KEYWORDS = _noarg_keywords.keys()
-    COLON_KEYWORDS = _colon_keywords.keys()
-    ENDING_KEYWORDS = _ending_keywords.keys()
+    ARG_KEYWORDS = list(six.viewkeys(_arg_keywords))
+    NOARG_KEYWORDS = list(six.viewkeys(_noarg_keywords))
+    COLON_KEYWORDS = list(six.viewkeys(_colon_keywords))
+    ENDING_KEYWORDS = list(six.viewkeys(_ending_keywords))
     ALL_KEYWORDS = ARG_KEYWORDS + NOARG_KEYWORDS + COLON_KEYWORDS + ENDING_KEYWORDS
 
 
+"""
     DICT_KEYWORDS = {kw: remove_accents(kw).replace(' del ', ' ').replace(' por ', ' ').replace(' de ', ' ')
                  .replace(' ', '_').replace('/', '_').replace('.', '_').lower() for kw in ALL_KEYWORDS}
-"""
+
 >>> DICT_KEYWORDS.values()
 [u'revocaciones', u'cambio_objeto_social', u'reelecciones', u'otros_conceptos', u'fe_erratas', u'sociedad_unipersonal', u'declaracion_unipersonalidad', u'constitucion', u'suspension_pagos', u'
 perdida_caracter_unipersonalidad', u'cancelaciones_oficio_nombramientos', u'datos_registrales', u'cambio_domicilio_social', u'disolucion', u'ampliacion_objeto_social', u'cierre_provisional_hoj
