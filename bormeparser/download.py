@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime
+import logging
 import os
 import requests
 from lxml import etree
@@ -42,7 +43,7 @@ def download_pdfs(date, path, seccion):
         downloaded = download_url(full_url, full_path)
 
         if not downloaded:
-            print("ERROR downloading %s" % url.text)
+            logging.error('Error downloading %s' % url.text)
             continue
 
         #assert os.path.exists(filepdf)
@@ -111,9 +112,10 @@ def download_url(url, filename, timeout=TIMEOUT):
     if os.path.exists(filename):
         return False
 
+    logging.info('Downloading URL: %s' % url)
     r = requests.get(url, stream=True, timeout=timeout)
     cl = r.headers.get('content-length')
-    print("%.2f KB" % (int(cl) / 1024.0))
+    logging.info("%.2f KB" % (int(cl) / 1024.0))
 
     with open(filename, 'wb') as fd:
         for chunk in r.iter_content(8192):
