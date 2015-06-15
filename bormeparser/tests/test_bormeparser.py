@@ -24,6 +24,7 @@ import tempfile
 import unittest
 
 import bormeparser
+from bormeparser.borme import Borme
 from bormeparser.exceptions import BormeDoesntExistException
 
 DATA = {(2015, 6, 2):
@@ -132,8 +133,10 @@ class BormeparserDownloadTestCase(unittest.TestCase):
     # TODO: Get size from xml: urlPdf/szBytes
     def test_download_pdf(self):
         path = os.path.join(tempfile.gettempdir(), 'BORME-A-2015-102-29.pdf')
-        downloaded = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
-        self.assertTrue(downloaded)
+        borme = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
+        #self.assertTrue(isinstance(borme, Borme))
+        self.assertIsInstance(borme, Borme)
+        #six.assertIsInstance(self, borme, Borme)
         self.assertEqual(os.path.getsize(path), 202795)
         os.unlink(path)
 
@@ -141,6 +144,14 @@ class BormeparserDownloadTestCase(unittest.TestCase):
         # Maybe these are too many files to download
         pass
 
+
+class BormeparserParserTestCase(unittest.TestCase):
+    date = (2015, 6, 2)
+
+    def test_parser(self):
+        path = os.path.join(tempfile.gettempdir(), 'BORME-A-2015-102-29.pdf')
+        # data = parse(path)
+        pass
 
 if __name__ == '__main__':
     unittest.main()

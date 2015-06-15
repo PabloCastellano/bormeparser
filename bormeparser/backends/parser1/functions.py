@@ -11,8 +11,12 @@ import time
 
 try:
     from PyPDF2 import PdfFileWriter, PdfFileReader
+    logging.info('Using PyPDF2')
+    print('Using PyPDF2')
 except ImportError:
     from pyPdf import PdfFileWriter, PdfFileReader
+    logging.info('Using deprecated pyPdf')
+    print('Using PyPDF2')
 
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
@@ -20,6 +24,7 @@ from pdfminer.pdfpage import PDFPage
 from pdfminer.layout import LAParams
 
 from bormeparser.acto import ACTOS
+from bormeparser.borme import BormeActo
 
 CROP_FIRST = (0.08196721311475409, 0.26981300089047194, 0.09079445145018916, 0.0)
 CROP_MIDDLE = (0.0832282471626734, 0.11308993766696349, 0.08953341740226986, 0.03294746215494212)
@@ -80,9 +85,6 @@ def crop_file(filename_in, filename_out, rewrite=False):
         rewrite:
     """
 
-    if os.path.isdir(filename_out):
-        filename_out = os.path.join(filename_out, os.path.basename(filename_in))
-
     if os.path.exists(filename_out) and not rewrite:
         logging.info('Skipping file %s already exists and rewriting is disabled!' % filename_out)
         return False
@@ -109,8 +111,12 @@ def crop_file(filename_in, filename_out, rewrite=False):
     writer.addPage(page)
 
     pdf_fp.close()
-    with open(filename_out, 'wb') as fp:
-        writer.write(fp)
+
+    output_fp = open(filename_out, 'wb')
+    writer.write(output_fp)
+    #output_fp.close()
+    #with open(filename_out, 'wb') as fp:
+    #    writer.write(fp)
 
     return True
 
@@ -208,13 +214,7 @@ def _parse_line(trozo):
 
     def save_field(content):
         logging.debug('Guardando %s', content)
-
         data[content[0]] = content[1]
-
-        if not 'total' in data:
-            data['total'] = 1
-        else:
-            data['total'] += 1
 
     tr2_ = trozo.replace('\n', ' ').replace('  ', ' ')
     logging.debug(tr2_)
@@ -262,15 +262,13 @@ def parse_file(filename_in, filename_out, rewrite=False):
     outfp = open(filename_out, 'w')
 
     for trozo in text.split('.\n\n'):
-        data = {}
         trozo += '.'
 
         try:
             data =_parse_line(trozo)
             logging.debug('###########')
-            logging.debug('Keys: %s total: %d', data.keys(), data['total'])
+            logging.debug('Keys: %s total: %d', data.keys(), len(data))
             logging.debug('%s', data)
-            del data['total']
             jsondata.append(data)
             logging.debug('###########')
         except Exception as e:
@@ -291,3 +289,47 @@ def parse_file(filename_in, filename_out, rewrite=False):
 
     results['ok'] += 1
     return True
+
+
+def parse_file_actos(filename_in, rewrite=False):
+    """
+        Parse file according to BORME PDF format
+
+        filename:
+        filenameOut:
+    """
+
+    had_warning = False
+    actos = {}
+    results = {'error': 0, 'skip': 0, 'ok': 0, 'warning': 0}
+
+    fp = open(filename_in, 'r')
+    text = fp.read()
+    fp.close()
+
+    for trozo in text.split('.\n\n'):
+        trozo += '.'
+
+        try:
+            data =_parse_line(trozo)
+            logging.debug('###########')
+            logging.debug('Keys: %s total: %d', data.keys(), len(data))
+            logging.debug('%s', data)
+            acto_id = data.pop('ID')
+            acto_empresa = data.pop('Nombre')
+            actos[acto_id] = BormeActo(int(acto_id), acto_empresa, data)
+            logging.debug('###########')
+        except Exception as e:
+            logging.error(e)
+            had_warning = True
+            logging.warning('###########')
+            logging.warning('SKIPPING. Invalid data found:')
+            logging.warning(trozo)
+            logging.warning('###########')
+            results['error'] += 1
+
+    if had_warning:
+        results['error'] += 1
+
+    results['ok'] += 1
+    return actos, results

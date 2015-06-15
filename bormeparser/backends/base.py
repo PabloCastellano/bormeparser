@@ -10,3 +10,6 @@ class BormeParserBackend(object):
 
     def parse(self):
         raise NotImplementedError
+
+    def parse_actos(self):
+        raise NotImplementedError

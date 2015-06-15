@@ -8,6 +8,7 @@ import requests
 from lxml import etree
 
 from .exceptions import BormeDoesntExistException
+from .borme import Borme
 
 # URLs
 
@@ -58,7 +59,10 @@ def download_pdf(date, filename, seccion, provincia):
     url = get_url_pdf(date, seccion, provincia)
     downloaded = download_url(url, filename)
 
-    return downloaded
+    if downloaded:
+        return Borme(date, seccion, provincia, filename=filename)
+    else:
+        return False
 
 
 # No se puede porque van numerados. Ademas de la fecha, el tipo y la provincia necesitariamos saber el numero de
