@@ -17,11 +17,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
-import bormeparser
 import datetime
+import os
 import six
+import tempfile
+import unittest
 
+import bormeparser
 from bormeparser.exceptions import BormeDoesntExistException
 
 DATA = {(2015, 6, 2):
@@ -117,13 +119,27 @@ class BormeparserBormeDoesntExistTestCase(unittest.TestCase):
         self.assertRaises(BormeDoesntExistException, bormeparser.get_url_pdfs, self.date, bormeparser.SECCION.A)
 
 
-#bormeparser.download_xml((2015, 6, 2), '/tmp/20150602.xml')
-#bormeparser.download_pdf((2015, 6, 2), '/tmp/20150602.pdf', bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
-#bormeparser.download_pdfs((2015, 6, 2), '/tmp/asd/', bormeparser.SECCION.A)
 class BormeparserDownloadTestCase(unittest.TestCase):
-    def test_valid(self):
-        bormeparser
-        self.assertTrue(True)
+    date = (2015, 6, 2)
+
+    def test_download_xml(self):
+        path = os.path.join(tempfile.gettempdir(), '20150602.xml')
+        downloaded = bormeparser.download_xml(self.date, path)
+        self.assertTrue(downloaded)
+        self.assertEqual(os.path.getsize(path), 31590)
+        os.unlink(path)
+
+    # TODO: Get size from xml: urlPdf/szBytes
+    def test_download_pdf(self):
+        path = os.path.join(tempfile.gettempdir(), 'BORME-A-2015-102-29.pdf')
+        downloaded = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
+        self.assertTrue(downloaded)
+        self.assertEqual(os.path.getsize(path), 202795)
+        os.unlink(path)
+
+    def test_download_pdf(self):
+        # Maybe these are too many files to download
+        pass
 
 
 if __name__ == '__main__':
