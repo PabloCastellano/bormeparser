@@ -9,7 +9,11 @@ import sys
 import getopt
 import time
 
-from pyPdf import PdfFileWriter, PdfFileReader
+try:
+    from PyPDF2 import PdfFileWriter, PdfFileReader
+except ImportError:
+    from pyPdf import PdfFileWriter, PdfFileReader
+
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
 from pdfminer.pdfpage import PDFPage
@@ -83,7 +87,8 @@ def crop_file(filename_in, filename_out, rewrite=False):
         logging.info('Skipping file %s already exists and rewriting is disabled!' % filename_out)
         return False
 
-    reader = PdfFileReader(file(filename_in, "rb"))
+    pdf_fp = open(filename_in, "rb")
+    reader = PdfFileReader(pdf_fp)
     writer = PdfFileWriter()
     num_pages = reader.getNumPages()
 
@@ -103,6 +108,7 @@ def crop_file(filename_in, filename_out, rewrite=False):
     _crop_page(page, CROP_LAST, False)
     writer.addPage(page)
 
+    pdf_fp.close()
     with open(filename_out, 'wb') as fp:
         writer.write(fp)
 
@@ -124,8 +130,8 @@ def clean_file(filename_in, filename_out, rewrite=False):
         logging.info('Skipping file %s already exists and rewriting is disabled!' % filename_out)
         return False
 
-    outfp = file(filename_out, 'w')
-    fp = file(filename_in, 'r')
+    outfp = open(filename_out, 'w')
+    fp = open(filename_in, 'r')
 
     # Al comienzo de una página nueva, el parser de PDF a texto añade el carácter 0x0c (^L)
     # y hace que no funcionen las expresiones regulares en estos casos.
@@ -174,9 +180,9 @@ def convert_to_text_file(filename_in, filename_out, rewrite=False):
 
     caching = True
     rsrcmgr = PDFResourceManager(caching=caching)
-    outfp = file(filename_out, 'w')
+    outfp = open(filename_out, 'w')
     device = TextConverter(rsrcmgr, outfp, codec=codec, laparams=laparams, imagewriter=imagewriter)
-    fp = file(filename_in, 'rb')
+    fp = open(filename_in, 'rb')
     interpreter = PDFPageInterpreter(rsrcmgr, device)
 
     # https://github.com/euske/pdfminer/issues/72
@@ -267,7 +273,7 @@ def parse_file(filename_in, filename_out, rewrite=False):
             del data['total']
             jsondata.append(data)
             logging.debug('###########')
-        except Exception, e:
+        except Exception as e:
             logging.error(e)
             had_warning = True
             logging.warning('###########')

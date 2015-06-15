@@ -8,7 +8,8 @@ import requests
 import bormeparser.backends
 
 # backends
-DEFAULT_PARSER = bormeparser.backends.Parser1
+# TODO: Dynamic import
+DEFAULT_PARSER = bormeparser.backends.parser1
 
 # parse: url, filename (string)
 def parse(data):

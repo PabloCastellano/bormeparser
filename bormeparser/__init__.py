@@ -8,4 +8,4 @@ from .seccion import *
 from .utils import *
 from .version import *
 
-import backends
+from . import backends
