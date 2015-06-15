@@ -134,9 +134,7 @@ class BormeparserDownloadTestCase(unittest.TestCase):
     def test_download_pdf(self):
         path = os.path.join(tempfile.gettempdir(), 'BORME-A-2015-102-29.pdf')
         borme = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
-        #self.assertTrue(isinstance(borme, Borme))
         self.assertIsInstance(borme, Borme)
-        #six.assertIsInstance(self, borme, Borme)
         self.assertEqual(os.path.getsize(path), 202795)
         os.unlink(path)
 

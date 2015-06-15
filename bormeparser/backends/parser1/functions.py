@@ -89,8 +89,10 @@ def crop_file(filename_in, filename_out, rewrite=False):
         logging.info('Skipping file %s already exists and rewriting is disabled!' % filename_out)
         return False
 
-    pdf_fp = open(filename_in, "rb")
-    reader = PdfFileReader(pdf_fp)
+    # PyPDF2 bug?
+    #pdf_fp = open(filename_in, "rb")
+    #reader = PdfFileReader(pdf_fp)
+    reader = PdfFileReader(open(filename_in, "rb"))
     writer = PdfFileWriter()
     num_pages = reader.getNumPages()
 
@@ -110,7 +112,7 @@ def crop_file(filename_in, filename_out, rewrite=False):
     _crop_page(page, CROP_LAST, False)
     writer.addPage(page)
 
-    pdf_fp.close()
+    #pdf_fp.close()
 
     output_fp = open(filename_out, 'wb')
     writer.write(output_fp)
