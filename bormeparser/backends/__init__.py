@@ -1,1 +1,1 @@
-from parser1.parser import Parser1
+from .parser1.parser import Parser1
