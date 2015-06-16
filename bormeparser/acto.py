@@ -21,7 +21,7 @@ from .utils import remove_accents
 import six
 
 
-class ACTOS:
+class ACTO:
     NOMBRAMIENTOS = 1
     REVOCACIONES = 2
     CESES_DIMISIONES = 3

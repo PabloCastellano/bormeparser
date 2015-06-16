@@ -1,4 +1,4 @@
-from .acto import ACTOS
+from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
 from .exceptions import BormeAlreadyDownloadedException
 #from .parser import parse as parse_borme
