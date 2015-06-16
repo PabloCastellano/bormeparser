@@ -317,9 +317,9 @@ def parse_file_actos(filename_in, rewrite=False):
             logging.debug('###########')
             logging.debug('Keys: %s total: %d', data.keys(), len(data))
             logging.debug('%s', data)
-            acto_id = data.pop('ID')
+            acto_id = int(data.pop('ID'))
             acto_empresa = data.pop('Nombre')
-            actos[acto_id] = BormeActo(int(acto_id), acto_empresa, data)
+            actos[acto_id] = BormeActo(acto_id, acto_empresa, data)
             logging.debug('###########')
         except Exception as e:
             logging.error(e)
