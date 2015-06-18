@@ -40,7 +40,7 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
-
+REGEX_BORME_NUM = re.compile('^Núm\. (\d+)')
 
 def regex_cargos(data):
     """

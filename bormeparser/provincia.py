@@ -78,3 +78,10 @@ class PROVINCIA:
     ZARAGOZA = '50'
     CEUTA = '51'
     MELILLA = '52'
+
+    """
+    TODO:
+    @staticmethod
+    def from_string(string):
+        return PROVINCIA._keywords[string]
+    """

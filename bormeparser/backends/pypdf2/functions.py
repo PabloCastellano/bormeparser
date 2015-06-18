@@ -1,11 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import logging
 from PyPDF2 import PdfFileReader
-from bormeparser.regex import regex_cargos, REGEX_EMPRESA, REGEX_TEXT
+
+from bormeparser.regex import regex_cargos, REGEX_EMPRESA, REGEX_TEXT, REGEX_BORME_NUM
 from bormeparser.acto import ACTO
 
-ACTOS = {}
+logger = logging.getLogger(__name__)
+#logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARN)
+
+DATA = {'borme_fecha': None, 'borme_num': None, 'borme_seccion': None, 'borme_provincia': None}
 
 
 def clean_data(data):
@@ -20,11 +26,15 @@ def parse_content(content):
     nombreacto = None
     acto_id = None
     empresa = None
+    fecha = False
+    numero = False
+    seccion = False
+    provincia = False
 
     # Python 3
     if isinstance(content, bytes):
         content = content.decode('unicode_escape')
-    #print(content)
+    logger.debug(content)
 
     for line in content.split('\n'):
         if line.startswith('/Cabecera_acto'):
@@ -36,6 +46,26 @@ def parse_content(content):
         if line.startswith('/Texto_acto'):
             texto = True
             data = ""
+            continue
+
+        if line.startswith('/Fecha'):
+            if not DATA['borme_fecha']:
+                fecha = True
+            continue
+
+        if line.startswith('/Numero_BORME'):
+            if not DATA['borme_num']:
+                numero = True
+            continue
+
+        if line.startswith('/Seccion'):
+            if not DATA['borme_seccion']:
+                seccion = True
+            continue
+
+        if line.startswith('/Provincia'):
+            if not DATA['borme_provincia']:
+                provincia = True
             continue
 
         if line == 'BT':
@@ -54,10 +84,10 @@ def parse_content(content):
                 texto = False
                 data = clean_data(data)
                 actos[nombreacto] = data
-                ACTOS[acto_id] = {'Empresa': empresa, 'Actos': actos}
+                DATA[acto_id] = {'Empresa': empresa, 'Actos': actos}
             continue
 
-        if not texto and not cabecera:
+        if True not in (texto, cabecera, fecha, numero, seccion, provincia):
             continue
 
         if line == '/F1 8 Tf':
@@ -88,7 +118,20 @@ def parse_content(content):
 
         m = REGEX_TEXT.match(line)
         if m:
-            #print(m.group(1))
+            if fecha:
+                DATA['borme_fecha'] = m.group(1)
+                fecha = False
+            if numero:
+                text = m.group(1)
+                DATA['borme_num'] = int(REGEX_BORME_NUM.match(text).group(1))
+                numero = False
+            if seccion:
+                DATA['borme_seccion'] = m.group(1)
+                seccion = False
+            if provincia:
+                DATA['borme_provincia'] = m.group(1)
+                provincia = False
+            logger.debug(m.group(1))
             data += ' ' + m.group(1)
 
 
@@ -97,4 +140,4 @@ def parse_file(filename):
     for n in range(0, reader.getNumPages()):
         content = reader.getPage(n).getContents().getData()
         parse_content(content)
-    return ACTOS
+    return DATA

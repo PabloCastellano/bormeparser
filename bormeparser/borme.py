@@ -44,12 +44,13 @@ class BormeXML(object):
 # TODO: Create instance directly from filename
 class Borme(object):
 
-    def __init__(self, date, seccion, provincia, actos=None, url=None, filename=None):
+    def __init__(self, date, seccion, provincia, num, actos=None, url=None, filename=None):
         if isinstance(date, tuple):
             date = datetime.date(year=date[0], month=date[1], day=date[2])
         self.date = date
         self.seccion = seccion
         self.provincia = provincia
+        self.num = num
         self.actos = actos
         self.url = url
         self.filename = filename
