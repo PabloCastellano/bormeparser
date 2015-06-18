@@ -38,6 +38,8 @@ REGEX3 = re.compile(RE_COLON_KEYWORDS + ':\s+(.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
 REGEX4 = re.compile(RE_ENDING_KEYWORD + '\.\s+(.*)\.\s*')
 REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
+REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
+REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 
 def regex_cargos(data):
     """
