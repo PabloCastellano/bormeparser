@@ -6,22 +6,31 @@ import re
 from bormeparser.acto import ACTO
 from bormeparser.cargo import CARGO
 
+esc_arg_keywords = [x.replace('.', '\.') for x in ACTO.ALL_KEYWORDS]
+esc_colon_keywords = [x.replace('.', '\.') for x in ACTO.COLON_KEYWORDS]
+esc_noarg_keywords = [x.replace('.', '\.') for x in ACTO.NOARG_KEYWORDS]
+esc_ending_keywords = [x.replace('.', '\.') for x in ACTO.ENDING_KEYWORDS]
+
+# -- ACTOS --
 # OR de las palabras clave con argumentos
-RE_ARG_KEYWORDS = '(%s)' % '|'.join(ACTO.ARG_KEYWORDS)
-# OR de todas las palabras clave, "non grouping"
-RE_ALL_KEYWORDS_NG = '(?:%s|%s|%s|%s)' % ('|'.join(ACTO.ARG_KEYWORDS), '|'.join(ACTO.COLON_KEYWORDS), '|'.join(ACTO.NOARG_KEYWORDS), ACTO.ENDING_KEYWORDS[0])
+RE_ARG_KEYWORDS = '(%s)' % '|'.join(esc_arg_keywords)
+# OR de las palabras clave, "non grouping"
+RE_ALL_KEYWORDS_NG = '(?:%s|%s|%s|%s)' % ('|'.join(esc_arg_keywords), '|'.join(esc_colon_keywords),
+                                          '|'.join(esc_noarg_keywords), esc_ending_keywords[0])
 # OR de las palabras clave sin argumentos
-RE_NOARG_KEYWORDS = '(%s)' % '|'.join(ACTO.NOARG_KEYWORDS)
+RE_NOARG_KEYWORDS = '(%s)' % '|'.join(esc_noarg_keywords)
 # OR de las palabras clave con argumentos seguidas por :
-RE_COLON_KEYWORDS = '(%s)' % '|'.join(ACTO.COLON_KEYWORDS)
-RE_ENDING_KEYWORD = '(%s)' % ACTO.ENDING_KEYWORDS[0]
+RE_COLON_KEYWORDS = '(%s)' % '|'.join(esc_colon_keywords)
+RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 
-# Cargos
-RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(CARGO.CARGOS_KEYWORDS)
-RE_CARGOS_KEYWORDS_NG = '(?:%s)' % '|'.join(CARGO.CARGOS_KEYWORDS)
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+ ;]+)+\.' + RE_CARGOS_KEYWORDS_NG + '?'
-
-# TODO: Escapar por puntos (. por \.)
+# -- CARGOS --
+# OR de las palabras clave
+RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(CARGO.KEYWORDS)
+# OR de las palabras clave, "non grouping"
+RE_CARGOS_KEYWORDS_NG = '(?:%s)' % '|'.join(CARGO.KEYWORDS)
+# RE para capturar el cargo y los nombres
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+ ;&]+)+\.' + RE_CARGOS_KEYWORDS_NG + '?'
+# FIXME: algunos nombres pueden contener caracteres raros como &
 
 REGEX1 = re.compile('^(\d+) - (.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
 REGEX2 = re.compile('(?=' + RE_ARG_KEYWORDS + '\.\s+(.*?)\.\s*' + RE_ALL_KEYWORDS_NG + ')')
@@ -32,11 +41,14 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
 def regex_cargos(data):
     """
-    [('Auditor', 'ACME AUDITORES SL'), ('Aud.Supl.', 'MACIAS MUÑOZ FELIPE JOSE')]
-    [('Adm. Solid.', 'RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE')]
-
     :param data:
+    'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
+    'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
+
     :return:
+
+    [('Adm. Solid.', {'RAMA SANCHEZ JOSE PEDRO', 'RAMA SANCHEZ JAVIER JORGE'})]
+    [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {'MACIAS MUÑOZ FELIPE JOSE'})]
     """
     cargos = []
     for cargo in re.findall(RE_CARGOS_MATCH, data):

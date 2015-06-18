@@ -120,6 +120,8 @@ class ACTO:
     ENDING_KEYWORDS = list(six.viewkeys(_ending_keywords))
     ALL_KEYWORDS = ARG_KEYWORDS + NOARG_KEYWORDS + COLON_KEYWORDS + ENDING_KEYWORDS
 
+    # Palabras clave que tienen asociado una serie de cargos con nombres
+    CARGOS_KEYWORDS = ['Nombramientos', 'Revocaciones', 'Ceses/Dimisiones', 'Reelecciones']
 
 """
     DICT_KEYWORDS = {kw: remove_accents(kw).replace(' del ', ' ').replace(' por ', ' ').replace(' de ', ' ')
