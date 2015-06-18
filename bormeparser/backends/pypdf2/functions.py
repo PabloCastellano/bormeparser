@@ -62,17 +62,18 @@ def parse_content(content):
 
         if line == '/F1 8 Tf':
             # Font 1: bold
-            data = clean_data(data)
-            if nombreacto in ACTO.CARGOS_KEYWORDS:
-                data = regex_cargos(data)
-            actos[nombreacto] = data
+            if nombreacto:
+                data = clean_data(data)
+                if nombreacto in ACTO.CARGOS_KEYWORDS:
+                    data = regex_cargos(data)
+                actos[nombreacto] = data
             data = ""
             continue
 
         if line == '/F2 8 Tf':
             # Font 2: normal
 
-            # Declaración de unipersonalidad. Socio único: FUENTES GARCIA JUAN CARLOS. Nombramientos
+            # Declaración de unipersonalidad. Socio único: GARCIA FUENTES JUAN CARLOS. Nombramientos
             """
             if nombreacto and 'Declaración de unipersonalidad' in nombreacto:
                 nombreacto = clean_data(data)[:-1]

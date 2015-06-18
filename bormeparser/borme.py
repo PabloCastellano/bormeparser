@@ -3,7 +3,7 @@
 
 from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
-from .exceptions import BormeAlreadyDownloadedException
+from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException
 #from .parser import parse as parse_borme
 import datetime
 
@@ -23,19 +23,17 @@ class BormeActo(object):
         self._set_actos(actos)
 
     def _set_actos(self, actos):
-        # TODO
+        for acto in actos.keys():
+            if acto not in ACTO.ALL_KEYWORDS:
+                logger.warning('Invalid acto found: %s\n' % acto)
+                #raise BormeInvalidActoException('Invalid acto found: %s' % acto)
         self.actos = actos
 
+    def get_actos(self):
+        return self.actos
+
     def __repr__(self):
-        return "<BormeActo(%d) %s>" % (self.id, self.empresa)
-
-
-"""
-borme['actos'] = [{'nombre': 'asdada', 'id': 123131, 'nombramientos': {}, ...}]
-borme['actos'][123123] = {'nombre': 'asdada', 'tipo_actos': ['nombramientos', 'revocaciones', ampliacion de capital'], ...}
-
-nombramientos = [{'cargo': 'Presidente', 'nombre': 'Juan Ruiz'}, {'cargo': 'Secretaria': 'Ofelia Gomez'}]
-"""
+        return "<BormeActo(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos)-1)
 
 
 class BormeXML(object):
