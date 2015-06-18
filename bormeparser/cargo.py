@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import six
+
 
 class CARGO:
     PRESIDENTE = 1
@@ -92,7 +94,7 @@ class CARGO:
                 'Aud.Supl.': AUD_SUPL,
                 'REP.ADM.CONC': REP_ADM_CONC
                 }
-    CARGOS_KEYWORDS = _keywords.keys()
+    KEYWORDS = list(six.viewkeys(_keywords))
 
     @staticmethod
     def from_string(string):
