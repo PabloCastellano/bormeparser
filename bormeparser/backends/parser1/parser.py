@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from .functions import crop_file, clean_file, parse_file, parse_file_actos, convert_to_text_file
 
 from bormeparser.backends.base import BormeParserBackend

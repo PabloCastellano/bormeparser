@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
 from .exceptions import BormeAlreadyDownloadedException
