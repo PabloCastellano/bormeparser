@@ -25,35 +25,7 @@ from pdfminer.layout import LAParams
 
 from bormeparser.acto import ACTO
 from bormeparser.borme import BormeActo
-
-CROP_FIRST = (0.08196721311475409, 0.26981300089047194, 0.09079445145018916, 0.0)
-CROP_MIDDLE = (0.0832282471626734, 0.11308993766696349, 0.08953341740226986, 0.03294746215494212)
-CROP_LAST = (0.0832282471626734, 0.11308993766696349, 0.08953341740226986, 0.053428317008014245)
-
-# OR de las palabras clave con argumentos
-RE_ARG_KEYWORDS = '(%s)' % '|'.join(ACTO.ARG_KEYWORDS)
-# OR de todas las palabras clave, "non grouping"
-RE_ALL_KEYWORDS_NG = '(?:%s|%s|%s|%s)' % ('|'.join(ACTO.ARG_KEYWORDS), '|'.join(ACTO.COLON_KEYWORDS), '|'.join(ACTO.NOARG_KEYWORDS), ACTO.ENDING_KEYWORDS[0])
-# OR de las palabras clave sin argumentos
-RE_NOARG_KEYWORDS = '(%s)' % '|'.join(ACTO.NOARG_KEYWORDS)
-# OR de las palabras clave con argumentos seguidas por :
-RE_COLON_KEYWORDS = '(%s)' % '|'.join(ACTO.COLON_KEYWORDS)
-RE_ENDING_KEYWORD = '(%s)' % ACTO.ENDING_KEYWORDS[0]
-
-# Cargos
-"""
-RE_CARGOS_KEYWORD = '(%s)' % '|'.join(ACTO.CARGOS_KEYWORD)
-RE_CARGOS_KEYWORD_NG = '(?:\.\s*%s|$)' % '|'.join(RE_CARGOS_KEYWORD) # MAL, FIX, pero funciona RE_...
-for match in re.finditer(RE_CARGOS_KEYWORD + ':\s+(.*?)' + RE_CARGOS_KEYWORD_NG, str1):
-    print match.group(1), match.group(2)
-"""
-
-REGEX1 = re.compile('^(\d+) - (.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
-REGEX2 = re.compile('(?=' + RE_ARG_KEYWORDS + '\.\s+(.*?)\.\s*' + RE_ALL_KEYWORDS_NG + ')')
-REGEX3 = re.compile(RE_COLON_KEYWORDS + ':\s+(.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
-REGEX4 = re.compile(RE_ENDING_KEYWORD + '\.\s+(.*)\.\s*')
-REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
-
+from bormeparser.regex import *
 
 CROP_FIRST = (0.08196721311475409, 0.26981300089047194, 0.09079445145018916, 0.0)
 CROP_MIDDLE = (0.0832282471626734, 0.11308993766696349, 0.08953341740226986, 0.03294746215494212)

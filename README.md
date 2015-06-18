@@ -55,6 +55,14 @@ or you can get it from PYPI by using pip:
 
     pip install bormeparser
 
+Tests
+=====
+
+This package contains unittests. You can run them by typing:
+
+    python setup.py test
+    python -m unittest bormeparser.tests.test_bormeregex
+
 License
 =======
 The code license is GPLv3+

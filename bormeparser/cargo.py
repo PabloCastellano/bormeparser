@@ -89,7 +89,7 @@ class CARGO:
                 'VsecrNoConsj': VSECR_NO_CONSJ,
                 'Auditor': AUDITOR,
                 'Aud.C.Con.': AUD_C_CON,
-                'Aud.Supl': AUD_SUPL,
+                'Aud.Supl.': AUD_SUPL,
                 'REP.ADM.CONC': REP_ADM_CONC
                 }
     CARGOS_KEYWORDS = _keywords.keys()
