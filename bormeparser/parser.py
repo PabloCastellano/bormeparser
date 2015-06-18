@@ -1,31 +1,26 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import logging
+import importlib
 import os
 import requests
 
-import bormeparser.backends
-
-from .borme import Borme
-import datetime
-
 # backends
-# TODO: Dynamic import
-DEFAULT_PARSER = bormeparser.backends.parser1
+DEFAULT_PARSER = ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser')
 
 # parse: url, filename (string)
 def parse(data):
-
+    module = importlib.import_module(DEFAULT_PARSER[0])
+    parser = getattr(module, DEFAULT_PARSER[1])
     if os.path.isfile(data):
-        # pasar file(data)
-        parser = bormeparser.backends.Parser1(data)
-        actos = parser.parse_actos()
+        # FIXME: pasar open(data)
+        borme = parser(data).parse()
     elif data.startswith('http'):
+        # TODO
         content = requests.get(data).read()
-        parser = bormeparser.backends.Parser1(content)
-        actos = parser.parse_actos()
+        borme = parser(data).parse()
+        #actos = parser.parse_actos()
     else:
         raise ValueError
 
-    return Borme(datetime.date(1970, 1, 1), 'DUMMY', 'DUMMY', actos)
+    return borme

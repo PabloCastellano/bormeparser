@@ -41,6 +41,7 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 
+
 def regex_cargos(data):
     """
     :param data:
