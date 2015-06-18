@@ -7,12 +7,17 @@ from .exceptions import BormeAlreadyDownloadedException
 #from .parser import parse as parse_borme
 import datetime
 
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARN)
+
 class BormeActo(object):
     """
     Representa un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
     def __init__(self, id, empresa, actos):
+        logger.debug('new BormeActo(%s) %s' % (id, empresa))
         self.id = id
         self.empresa = empresa
         self._set_actos(actos)
