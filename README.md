@@ -1,68 +1,76 @@
+< [English version here](README_en.md) >
+
 bormeparser
 ===========
 
-**bormeparser** is a Python library for parsing BORME files (Boletín Oficial del Registro Mercantil in Spain).
+**bormeparser** es una librería de Python para parsear los archivos del BORME (Boletín Oficial del Registro Mercantil en España).
 
 [![Travis bormeparser](https://travis-ci.org/PabloCastellano/bormeparser.svg?branch=master)](https://travis-ci.org/PabloCastellano/bormeparser)
 [![Pypi bormeparser](https://badge.fury.io/py/bormeparser.png)]( https://pypi.python.org/pypi/bormeparser)
 [![Downloads bormeparser](https://img.shields.io/pypi/dm/bormeparser.svg)](https://pypi.python.org/pypi/bormeparser)
+[![Documentation Status](https://readthedocs.org/projects/bormeparser/badge/?version=latest)](https://readthedocs.org/projects/bormeparser/?badge=latest)
 
-What is BORME
-=============
+Qué es BORME
+============
 
-The **Boletín Oficial del Registro Mercantil** (Spanish for *Official Mercantile Register Bulletin*) is a document published daily by
-Registro Mercantil Central (RMC) in Spain which contains newly created societies, societies that have broken up, and some other data
-the companies must communicate.
+El **Boletín Oficial del Registro Mercantil** es un documento publicado diariamente por el Registro Mercantil Central (RMC)
+en España que contiene un listado de las últimas sociedades creadas y disueltas así como otros datos que las empresas
+están obligadas a comunicar.
 
-This library takes advantage of the electronic format of BORMEs that are published since 2009 due to
-[this Spanish law](http://www.boe.es/buscar/doc.php?id=BOE-A-2008-19826).
+La librería aprovecha que desde la aprobación de [esta ley](http://www.boe.es/buscar/doc.php?id=BOE-A-2008-19826),
+desde el año 2009 el BORME se publica también en formato electrónico con la misma validez que su versión en papel.
 
-BORMEs are published at http://boe.es/diario_borme/.
+Los BORMEs se publican en http://boe.es/diario_borme/.
 
-Unfortunately due to some agreements with Mercantile Register they are not allowed
-to publish all data in some useful format like XML and the most interesting information is only available in PDF files.
+Desgraciadamente debido al acuerdo actual con el Registro Mercantil, no pueden publicar todos los datos en un formato
+útil y reutilizable como XML o JSON y los datos más interesantes están solo disponibles en los archivos PDF.
 
-You can read more about it on:
+Puedes leer más sobre ello en:
 - Wikipedia: https://es.wikipedia.org/wiki/Boletín_Oficial_del_Registro_Mercantil
 
-Compiling
+Compilar
 =========
 
-lxml package has some parts that need to be compiled and you need the following dependencies:
+El paquete lxml tiene una parte que necesita ser compilada y requiere las siguientes dependencias:
 
-For Python 2:
+Para Python 2:
 
     sudo apt-get install python-dev libxslt1-dev
 
-For Python 3:
+Para Python 3:
 
     sudo apt-get install python3-dev libxslt1-dev
 
 
-Usage
-=====
+Documentación y uso
+===================
 
-TBD...
+El directorio docs/ contiene toda la documentación.
 
-Install
-=======
+Puedes consultar la versión online en http://bormeparser.readthedocs.org/es/latest/.
 
-You can install it by typing:
+
+Instalación
+===========
+
+Puedes instalar bormeparser descargándolo y ejecutando:
 
     python setup.py install
 
-or you can get it from PYPI by using pip:
+o puedes obtenerlo desde PyPI así:
 
     pip install bormeparser
 
 Tests
 =====
 
-This package contains unittests. You can run them by typing:
+Este paquete contiene tests unitarios. Puedes ejecutarlos escribiendo alguna de estas órdenes:
 
     python setup.py test
     python -m unittest bormeparser.tests.test_bormeregex
 
-License
-=======
-The code license is GPLv3+
+
+Licencia
+========
+
+Todo el código está bajo licencia GPLv3+.
