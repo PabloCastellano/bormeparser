@@ -54,6 +54,6 @@ def regex_cargos(data):
     [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {'MACIAS MUÑOZ FELIPE JOSE'})]
     """
     cargos = []
-    for cargo in re.findall(RE_CARGOS_MATCH, data):
+    for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
         cargos.append((cargo[0], set(cargo[1].split(';'))))
     return cargos

@@ -22,11 +22,11 @@ import unittest
 from bormeparser.regex import regex_cargos
 
 DATA = {'fake1': [('Adm. Solid.', {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'})],
-        'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {'MACIAS MUÑOZ FELIPE JOSE'})]}
+        'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {u'MACIAS MUÑOZ FELIPE JOSE'})]}
 
 class BormeparserRegexCargosTestCase(unittest.TestCase):
     nombramientos1 = 'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
-    nombramientos2 = 'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
+    nombramientos2 = u'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
 
     def test_regexp_nombramientos(self):
         cargos1 = regex_cargos(self.nombramientos1)
