@@ -7,3 +7,5 @@
 /build
 /dist
 /.venv
+
+/docs/_build
