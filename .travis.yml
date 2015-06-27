@@ -10,10 +10,14 @@ branches:
 
 # command to install requirements
 install:
+  - pip install coveralls
   - if [[ $TRAVIS_PYTHON_VERSION == 2* ]]; then pip install -r requirements.txt; fi
   - if [[ $TRAVIS_PYTHON_VERSION == 3* ]]; then pip install -r requirements3.txt; fi
   - python setup.py -q develop
 
 # command to run tests, e.g. python setup.py test
 script:
-  - python setup.py test
+  - coverage run --source=bormeparser setup.py test
+
+after_success:
+  - coveralls
