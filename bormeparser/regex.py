@@ -40,7 +40,7 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
-REGEX_BORME_NUM = re.compile('^Núm\. (\d+)')
+REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
 
 MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6, 'julio': 7,
