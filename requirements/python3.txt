@@ -1,0 +1,2 @@
+-r base.txt
+pdfminer.six==20140915
