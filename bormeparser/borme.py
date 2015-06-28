@@ -51,11 +51,16 @@ class Borme(object):
         self.seccion = seccion
         self.provincia = provincia
         self.num = num
-        self.actos = actos
         self.url = url
         self.filename = filename
         self._parsed = False
         self.info = {}
+        self._set_actos(actos)
+
+    def _set_actos(self, actos):
+        self.actos = {}
+        for acto in actos:
+            self.actos[acto.id] = acto
 
     def get_url(self):
         if self.url is None:
@@ -67,11 +72,14 @@ class Borme(object):
         #return self.info
         raise NotImplementedError
 
+    def get_acto(self, acto_id):
+        return self.actos[acto_id]
+
     def get_actos(self):
         """
         [BormeActo]
         """
-        return self.actos
+        return list(self.actos.values())
 
     def download(self, filename):
         if self.filename is not None:

@@ -87,7 +87,7 @@ def parse_content(content):
                 DATA[acto_id] = {'Empresa': empresa, 'Actos': actos}
             continue
 
-        if True not in (texto, cabecera, fecha, numero, seccion, provincia):
+        if not any([texto, cabecera, fecha, numero, seccion, provincia]):
             continue
 
         if line == '/F1 8 Tf':

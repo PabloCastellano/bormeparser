@@ -9,6 +9,7 @@ from lxml import etree
 
 from .exceptions import BormeDoesntExistException
 from .borme import Borme
+from .parser import parse as parse_borme
 
 # URLs
 
@@ -55,14 +56,16 @@ def download_pdfs(date, path, seccion):
 # date = (year, month, date) or datetime.date
 # seccion = ('A', 'B', 'C') or class SECCION
 # province = class PROVINCIA
-def download_pdf(date, filename, seccion, provincia):
+def download_pdf(date, filename, seccion, provincia, parse=False):
     url = get_url_pdf(date, seccion, provincia)
     downloaded = download_url(url, filename)
 
-    if downloaded:
-        return Borme(date, seccion, provincia, filename=filename, num=0) # FIXME: num
-    else:
+    if not downloaded:
         return False
+    if parse:
+        return parse_borme(filename)
+
+    return True
 
 
 # No se puede porque van numerados. Ademas de la fecha, el tipo y la provincia necesitariamos saber el numero de

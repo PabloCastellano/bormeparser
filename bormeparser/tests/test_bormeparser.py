@@ -133,7 +133,15 @@ class BormeparserDownloadTestCase(unittest.TestCase):
     # TODO: Get size from xml: urlPdf/szBytes
     def test_download_pdf(self):
         path = os.path.join(tempfile.gettempdir(), 'BORME-A-2015-102-29.pdf')
-        borme = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
+        downloaded = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
+        self.assertTrue(downloaded)
+        self.assertEqual(os.path.getsize(path), 202795)
+        os.unlink(path)
+
+    # TODO: Get size from xml: urlPdf/szBytes
+    def test_download_parse_pdf(self):
+        path = os.path.join(tempfile.gettempdir(), 'BORME-A-2015-102-29.pdf')
+        borme = bormeparser.download_pdf(self.date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA, parse=True)
         self.assertIsInstance(borme, Borme)
         self.assertEqual(os.path.getsize(path), 202795)
         os.unlink(path)

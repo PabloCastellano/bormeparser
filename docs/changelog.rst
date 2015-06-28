@@ -1,6 +1,6 @@
 Lista de cambios
 ================
 
-0.1
----
+Cambios en la versión 0.1
+-------------------------
     - TBD....
