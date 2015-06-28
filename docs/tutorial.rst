@@ -76,6 +76,8 @@ es una instancia de Borme:
 Borme y BormeActo
 -----------------
 
+De la instancia BORME puedes obtener información básica como la fecha, la sección, la provincia...
+
 .. code-block:: python
 
     >>> borme.num
@@ -88,6 +90,10 @@ Borme y BormeActo
     'MÁLAGA'
     >>> borme.seccion
     'SECCIÓN PRIMERA'
+
+Y lo más importante: los actos mercantiles.
+
+.. code-block:: python
 
     >>> for acto in borme.get_actos():
     ...         print(acto)
@@ -113,12 +119,25 @@ Borme y BormeActo
     <BormeActo(223988) JEWELLERY THEATRE IBERIA SL. (3)>
     <BormeActo(223989) AF ASESORIA DE EMPRESAS SL. (1)>
     [...]
-    >>> acto = borme.get_acto(223978)
-    >>> acto
-    <BormeActo(223978) DISTRIBUIDORA MALAGUEÑA DE EXPLOSIVOS SL. (1)>
-    >>> acto.get_actos()
-    {'Nombramientos': [('Apoderado', {'GRACIAN ALCAIDE ALBERTO JAVIER'})]}
+
+El segundo número entre paréntesis indica el número de cambios que contiene dicho acto.
+
+Para analizar un acto mercantil en concreto, podemos obtenerlo de la instancia Borme a través de su id:
+
+.. code-block:: python
+
+    >>> acto = borme.get_acto(223988)
     >>> acto.get_datos_registrales()
-    'T 1728, L 641, F 141, S 8, H MA 22254, I/A 10 (21.05.15).'
+    'T 5367, L 4274, F 64, S 8, H MA126720, I/A 2 (22.05.15).'
+    >>> acto.get_actos()
+    {'Ceses/Dimisiones': [('Adm. Unico', {'MARTINEZ MORALES IVAN KARIM'})], 'Nombramientos': [('Adm. Unico', {'NIKOLAEKO MARIA'})], 'Cambio de domicilio social': 'URB PUEBLO MARINERO DE RIBERA S/N 9C - EDF. DE LA (MARBELLA).'}
+    >>> import pprint
+    >>> actos = acto.get_actos()
+    >>> pprint.pprint(actos)
+    {'Cambio de domicilio social': 'URB PUEBLO MARINERO DE RIBERA S/N 9C - EDF. DE LA (MARBELLA).',
+     'Ceses/Dimisiones': [('Adm. Unico', {'MARTINEZ MORALES IVAN KARIM'})],
+     'Nombramientos': [('Adm. Unico', {'NIKOLAEKO MARIA'})]}
+
+
 
 

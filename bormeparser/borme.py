@@ -31,7 +31,12 @@ class BormeActo(object):
             if acto_name not in ACTO.ALL_KEYWORDS:
                 logger.warning('Invalid acto found: %s\n' % acto_name)
                 #raise BormeInvalidActoException('Invalid acto found: %s' % acto_name)
-        del actos[acto_name]
+
+        # FIXME
+        try:
+            del actos['Datos registrales']
+        except KeyError:
+            pass
         self.actos = actos
 
     def get_datos_registrales(self):
