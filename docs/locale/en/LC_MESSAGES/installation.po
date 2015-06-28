@@ -1,0 +1,29 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bormeparser 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-28 19:26+0200\n"
+"PO-Revision-Date: 2015-06-28 19:37+0100\n"
+"Last-Translator: Pablo Castellano <pablo@anche.no>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../../installation.rst:2
+msgid "Instalación"
+msgstr "Installation"
+
+#: ../../installation.rst:4
+msgid "Puedes obtener bormeparser sencillamente desde PyPI::"
+msgstr "You can obtain bormeparser easily from PyPI::"
+
+#: ../../installation.rst:8
+msgid ""
+"O si lo prefieres, puedes clonar el repositorio e instalarlo desde ahí, "
+"compilando previamente sus dependencias::"
+msgstr ""
+"And you can also clone the repository and install it from there, compiling "
+"beforehand its dependencies::"

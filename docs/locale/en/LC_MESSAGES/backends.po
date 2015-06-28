@@ -1,0 +1,35 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bormeparser 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-28 19:26+0200\n"
+"PO-Revision-Date: 2015-06-28 19:35+0100\n"
+"Last-Translator: Pablo Castellano <pablo@anche.no>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../../backends.rst:2
+msgid "Backends"
+msgstr ""
+
+#: ../../backends.rst:4
+msgid ""
+"Bormeparser soporta diferentes backends a la hora de parsear los archivos "
+"PDF."
+msgstr "Bormeparser supports differents backend when parsing PDF files."
+
+#: ../../backends.rst:7
+msgid "Usar un backend específico"
+msgstr "Using a specific backend"
+
+#: ../../backends.rst:18
+msgid "Implementar un nuevo backend"
+msgstr "Implement a new backend"
+
+#: ../../backends.rst:20
+msgid "base.py"
+msgstr ""

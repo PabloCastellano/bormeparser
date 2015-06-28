@@ -8,10 +8,10 @@ Usar un backend específico
 
 .. code-block:: python
 
-    import bormeparser
+    import bormeparser.backends.pypdf2
 
-    parser = bormeparser.backend.pypdf2.parser()
-    parser.download(...)
+    parser = bormeparser.backends.pypdf2.parser.PyPDF2Parser('pdf/BORME-A-2015-27-10.pdf')
+    borme = parser.parse()
 
 
 Implementar un nuevo backend

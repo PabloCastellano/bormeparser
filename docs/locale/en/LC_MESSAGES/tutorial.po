@@ -1,0 +1,60 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bormeparser 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-28 19:26+0200\n"
+"PO-Revision-Date: 2015-06-28 19:40+0100\n"
+"Last-Translator: Pablo Castellano <pablo@anche.no>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../../tutorial.rst:2
+msgid "Tutorial"
+msgstr ""
+
+#: ../../tutorial.rst:5
+msgid "Uso básico"
+msgstr "Basic usage"
+
+#: ../../tutorial.rst:7
+msgid ""
+"bormeparser proporciona distintas funciones para tratar los archivos del "
+"BORME."
+msgstr ""
+"bormeparser provides diverse several functions to deal with BORME files."
+
+#: ../../tutorial.rst:9
+msgid "Empezamos con las funciones para generar las urls de descarga:"
+msgstr "We begin with the basic functions used to generate the download URLs:"
+
+#: ../../tutorial.rst:25
+msgid ""
+"Pero podemos usar otras funciones para descargar el BORME directamente de "
+"ese día:"
+msgstr ""
+"But we can use other functions to download BORME directly from one specific "
+"day:"
+
+#: ../../tutorial.rst:35
+msgid ""
+"Si no ha habido ningún error (problema de conexión, el BORME de esa fecha no "
+"existe, ...) la variable borme es una instancia de Borme:"
+msgstr ""
+"If it succeeded (no connection problems, BORME existed, ...) the borme "
+"variable is now an instance of Borme:"
+
+#: ../../tutorial.rst:43
+msgid ""
+"Para conocer la url de un PDF, bormeparser internamente descarga el archivo "
+"XML del día y ahí encuentra la ruta. Podemos obtener dicho archivo XML así:"
+msgstr ""
+"To know the URL of a PDF, bormeparser internally downloads the XML file of "
+"the day and finds the path there. We can obtain that XML file like this:"
+
+#: ../../tutorial.rst:53
+msgid "Uso avanzado"
+msgstr "Advanced usage"

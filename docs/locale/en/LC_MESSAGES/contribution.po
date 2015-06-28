@@ -1,0 +1,29 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bormeparser 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-28 19:26+0200\n"
+"PO-Revision-Date: 2015-06-28 19:36+0100\n"
+"Last-Translator: Pablo Castellano <pablo@anche.no>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../../contribution.rst:2
+msgid "Contribuir"
+msgstr "Contribute"
+
+#: ../../contribution.rst:4
+msgid ""
+"Puedes mandar tus Pull Requests directamente a través de GitHub, donde "
+"también hay una lista de issues puedes ayudar a arreglar."
+msgstr ""
+"You can send your Pull Requests directly through GitHub. There is also "
+"available a list of issues there that you can help fixing."
+
+#: ../../contribution.rst:7
+msgid "https://github.com/PabloCastellano/bormeparser/issues"
+msgstr ""

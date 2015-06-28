@@ -1,0 +1,77 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: bormeparser 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-28 19:26+0200\n"
+"PO-Revision-Date: 2015-06-28 19:33+0100\n"
+"Last-Translator: Pablo Castellano <pablo@anche.no>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: ../../introduction.rst:2
+msgid "Introducción"
+msgstr "Introduction"
+
+#: ../../introduction.rst:4
+msgid ""
+"**bormeparser** es una librería de Python para parsear los archivos del "
+"BORME (Boletín Oficial del Registro Mercantil en España)."
+msgstr ""
+"**bormeparser** is a Python library for parsing BORME files (Boletín Oficial "
+"del Registro Mercantil in Spain)."
+
+#: ../../introduction.rst:7
+msgid "Qué es BORME"
+msgstr "What is BORME"
+
+#: ../../introduction.rst:9
+msgid ""
+"El **Boletín Oficial del Registro Mercantil** es un documento publicado "
+"diariamente por el Registro Mercantil Central (RMC) en España que contiene "
+"un listado de las últimas sociedades creadas y disueltas así como otros "
+"datos que las empresas están obligadas a comunicar."
+msgstr ""
+"The **Boletín Oficial del Registro Mercantil** (Spanish for *Official "
+"Mercantile Register Bulletin*) is a document published daily by Registro "
+"Mercantil Central (RMC) in Spain which contains newly created societies, "
+"societies that have broken up, and some other data the companies must "
+"communicate."
+
+#: ../../introduction.rst:13
+msgid ""
+"La librería aprovecha que desde la aprobación de `esta ley`_, desde el año "
+"2009 el BORME se publica también en formato electrónico con la misma validez "
+"que su versión en papel."
+msgstr ""
+"This library takes advantage of the electronic format of BORMEs that are "
+"published since 2009 due to `esta ley`_."
+
+#: ../../introduction.rst:16
+msgid "Los BORMEs se publican en http://boe.es/diario_borme/."
+msgstr "BORMEs are published at http://boe.es/diario_borme/."
+
+#: ../../introduction.rst:18
+msgid ""
+"Desgraciadamente debido al acuerdo actual con el Registro Mercantil, no "
+"pueden publicar todos los datos en un formato útil y reutilizable como XML o "
+"JSON y los datos más interesantes están solo disponibles en los archivos PDF."
+msgstr ""
+"Unfortunately due to some agreements with Mercantile Register they are not "
+"allowedto publish all data in some useful format like XML or JSON and the "
+"most interesting information is only available in PDF files."
+
+#: ../../introduction.rst:21
+msgid "Puedes leer más sobre ello en:"
+msgstr "You can read more about it on:"
+
+#: ../../introduction.rst:23
+msgid ""
+"Wikipedia: `https://es.wikipedia.org/wiki/"
+"Boletín_Oficial_del_Registro_Mercantil`_"
+msgstr ""
+"Wikipedia: `https://es.wikipedia.org/wiki/"
+"Boletín_Oficial_del_Registro_Mercantil`_"
