@@ -6,7 +6,12 @@
 ¡Bienvenido a la documentación de bormeparser!
 ==============================================
 
-Contenido:
+
+Esta documentación describe el funcionamiento de **bormeparser**.
+
+Esta documentación está disponible en http://bormeparser.readthedocs.org/. Si la estás leyendo desde otro sitio, es posible que no sea la última versión.
+
+This documentation is provided by the author "as is" without any express or implied warranties.
 
 .. toctree::
    :maxdepth: 2
@@ -18,8 +23,8 @@ Contenido:
     Contribuir <contribution>
     Lista de cambios <changelog>
 
-Indices and tables
-==================
+Índices y tablas
+================
 
 * :ref:`genindex`
 * :ref:`modindex`

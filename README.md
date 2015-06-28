@@ -50,6 +50,10 @@ El directorio docs/ contiene toda la documentación. Puedes generarla ejecutando
 
     cd docs && make html
 
+Si quieres generarla para otro idioma (inglés en este caso):
+
+    make -e SPHINXOPTS="-D language='en'" html
+
 Puedes consultar la versión online en http://bormeparser.readthedocs.org/es/latest/.
 
 
