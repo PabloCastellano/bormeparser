@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import datetime
-import locale
 import os
 
 from bormeparser.borme import Borme, BormeActo
-
-# TODO: What if the system hasn't generated this locale?
-# locale -a
-locale.setlocale(locale.LC_TIME, 'es_ES.utf8')
+from bormeparser.regex import regex_fecha
 
 
 class BormeParserBackend(object):
@@ -30,8 +25,7 @@ class BormeParserBackend(object):
             a = BormeActo(id_acto, data['Empresa'], data['Actos'])
             bormeactos.append(a)
 
-        fecha = datetime.datetime.strptime(actos['borme_fecha'], '%A %d de %B de %Y')
-        fecha = datetime.date(fecha.year, fecha.month, fecha.day)
+        fecha = regex_fecha(actos['borme_fecha'])
         # FIXME: provincia, seccion objects
         return Borme(fecha, actos['borme_seccion'], actos['borme_provincia'], actos['borme_num'], bormeactos)
 

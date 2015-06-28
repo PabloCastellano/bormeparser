@@ -129,8 +129,6 @@ Para analizar un acto mercantil en concreto, podemos obtenerlo de la instancia B
     >>> acto = borme.get_acto(223988)
     >>> acto.get_datos_registrales()
     'T 5367, L 4274, F 64, S 8, H MA126720, I/A 2 (22.05.15).'
-    >>> acto.get_actos()
-    {'Ceses/Dimisiones': [('Adm. Unico', {'MARTINEZ MORALES IVAN KARIM'})], 'Nombramientos': [('Adm. Unico', {'NIKOLAEKO MARIA'})], 'Cambio de domicilio social': 'URB PUEBLO MARINERO DE RIBERA S/N 9C - EDF. DE LA (MARBELLA).'}
     >>> import pprint
     >>> actos = acto.get_actos()
     >>> pprint.pprint(actos)

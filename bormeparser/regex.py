@@ -41,6 +41,10 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile('^Núm\. (\d+)')
+REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
+
+MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6, 'julio': 7,
+         'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
 
 def regex_cargos(data):
     """
@@ -57,3 +61,15 @@ def regex_cargos(data):
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
         cargos.append((cargo[0], set(cargo[1].split(';'))))
     return cargos
+
+# This is a way not to use datetime.strftime, which requires es_ES.utf8 locale generated.
+def regex_fecha(data):
+    """
+    Martes 2 de junio de 2015
+
+    >>> REGEX_BORME_FECHA.match(dd).groups()
+    ('2', 'junio', '2015')
+    """
+
+    day, month, year = re.match('\w+ (\d+) de (\w+) de (\d+)', data).groups()
+    return (int(year), MESES[month], int(day))
