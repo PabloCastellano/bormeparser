@@ -117,5 +117,8 @@ Borme y BormeActo
     >>> acto
     <BormeActo(223978) DISTRIBUIDORA MALAGUEÑA DE EXPLOSIVOS SL. (1)>
     >>> acto.get_actos()
-    {'Datos registrales': 'T 1728, L 641, F 141, S 8, H MA 22254, I/A 10 (21.05.15).', 'Nombramientos': [('Apoderado', {'GRACIAN ALCAIDE ALBERTO JAVIER'})]}
+    {'Nombramientos': [('Apoderado', {'GRACIAN ALCAIDE ALBERTO JAVIER'})]}
+    >>> acto.get_datos_registrales()
+    'T 1728, L 641, F 141, S 8, H MA 22254, I/A 10 (21.05.15).'
+
 

@@ -15,3 +15,6 @@ class BormeAlreadyDownloadedException(BormeException):
 
 class BormeInvalidActoException(BormeException):
     pass
+
+class BormeActoNotFound(BormeException):
+    pass

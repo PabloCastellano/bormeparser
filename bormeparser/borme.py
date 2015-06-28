@@ -3,7 +3,7 @@
 
 from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
-from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException
+from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException, BormeActoNotFound
 #from .parser import parse as parse_borme
 import datetime
 
@@ -20,20 +20,28 @@ class BormeActo(object):
         logger.debug('new BormeActo(%s) %s' % (id, empresa))
         self.id = id
         self.empresa = empresa
+        self.datos_registrales = ""
         self._set_actos(actos)
 
     def _set_actos(self, actos):
-        for acto in actos.keys():
-            if acto not in ACTO.ALL_KEYWORDS:
-                logger.warning('Invalid acto found: %s\n' % acto)
-                #raise BormeInvalidActoException('Invalid acto found: %s' % acto)
+        for acto_name in actos.keys():
+            if acto_name == 'Datos registrales':
+                self.datos_registrales = actos[acto_name]
+                continue
+            if acto_name not in ACTO.ALL_KEYWORDS:
+                logger.warning('Invalid acto found: %s\n' % acto_name)
+                #raise BormeInvalidActoException('Invalid acto found: %s' % acto_name)
+        del actos[acto_name]
         self.actos = actos
+
+    def get_datos_registrales(self):
+        return self.datos_registrales
 
     def get_actos(self):
         return self.actos
 
     def __repr__(self):
-        return "<BormeActo(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos)-1)
+        return "<BormeActo(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))
 
 
 class BormeXML(object):
@@ -73,7 +81,10 @@ class Borme(object):
         raise NotImplementedError
 
     def get_acto(self, acto_id):
-        return self.actos[acto_id]
+        try:
+            return self.actos[acto_id]
+        except KeyError:
+            raise BormeActoNotFound('Acto %d not found in BORME %s' % (acto_id, str(self)))
 
     def get_actos(self):
         """
