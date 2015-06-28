@@ -89,4 +89,4 @@ class Borme(object):
         raise NotImplementedError
 
     def __repr__(self):
-        return "<Borme(%d-%d-%d) seccion:%s provincia:%s>" % (self.date.year, self.date.month, self.date.day, self.seccion, self.provincia)
+        return "<Borme(%s) seccion:%s provincia:%s>" % (self.date, self.seccion, self.provincia)

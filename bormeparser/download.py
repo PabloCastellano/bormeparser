@@ -60,7 +60,7 @@ def download_pdf(date, filename, seccion, provincia):
     downloaded = download_url(url, filename)
 
     if downloaded:
-        return Borme(date, seccion, provincia, filename=filename)
+        return Borme(date, seccion, provincia, filename=filename, num=0) # FIXME: num
     else:
         return False
 

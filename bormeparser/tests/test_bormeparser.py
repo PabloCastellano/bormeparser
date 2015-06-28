@@ -138,7 +138,7 @@ class BormeparserDownloadTestCase(unittest.TestCase):
         self.assertEqual(os.path.getsize(path), 202795)
         os.unlink(path)
 
-    def test_download_pdf(self):
+    def test_download_pdfs(self):
         # Maybe these are too many files to download
         pass
 

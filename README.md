@@ -46,7 +46,9 @@ Para Python 3:
 Documentación y uso
 ===================
 
-El directorio docs/ contiene toda la documentación.
+El directorio docs/ contiene toda la documentación. Puedes generarla ejecutando:
+
+    cd docs && make html
 
 Puedes consultar la versión online en http://bormeparser.readthedocs.org/es/latest/.
 

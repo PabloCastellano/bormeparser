@@ -13,6 +13,8 @@ Contenido:
 
     Introducción <introduction>
     Instalación <installation>
+    Tutorial <tutorial>
+    Backends <backends>
     Contribuir <contribution>
     Lista de cambios <changelog>
 
