@@ -47,6 +47,7 @@ Para implementar un nuevo backend, es necesario crear un nuevo paquete en el dir
      214017: {'Actos': {'Datos registrales': 'T 2226, L 1139, F 102, S 8, H MA 33737, I/A 6 (25.05.15).',
                         'Modificaciones estatutarias': '8. Administración y Representacion.-.'},
               'Empresa': 'EMPRESA ALEATORIA SL.'},
+     'borme_cve': 'BORME-A-2015-102-29',
      'borme_fecha': 'Martes 2 de junio de 2015',
      'borme_num': 102,
      'borme_provincia': 'MÁLAGA',

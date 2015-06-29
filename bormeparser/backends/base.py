@@ -27,7 +27,7 @@ class BormeParserBackend(object):
 
         fecha = regex_fecha(actos['borme_fecha'])
         # FIXME: provincia, seccion objects
-        return Borme(fecha, actos['borme_seccion'], actos['borme_provincia'], actos['borme_num'], bormeactos)
+        return Borme(fecha, actos['borme_seccion'], actos['borme_provincia'], actos['borme_num'], actos['borme_cve'], bormeactos)
 
     def _parse(self):
         """

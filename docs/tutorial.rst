@@ -80,6 +80,8 @@ De la instancia BORME puedes obtener información básica como la fecha, la secc
 
 .. code-block:: python
 
+    >>> borme.cve
+    'BORME-A-2015-102-29'
     >>> borme.num
     102
     >>> borme.info

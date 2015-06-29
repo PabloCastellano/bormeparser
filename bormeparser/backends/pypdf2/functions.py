@@ -4,14 +4,14 @@
 import logging
 from PyPDF2 import PdfFileReader
 
-from bormeparser.regex import regex_cargos, REGEX_EMPRESA, REGEX_TEXT, REGEX_BORME_NUM
+from bormeparser.regex import regex_cargos, REGEX_EMPRESA, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 from bormeparser.acto import ACTO
 
 logger = logging.getLogger(__name__)
 #logger.setLevel(logging.DEBUG)
 logger.setLevel(logging.WARN)
 
-DATA = {'borme_fecha': None, 'borme_num': None, 'borme_seccion': None, 'borme_provincia': None}
+DATA = {'borme_fecha': None, 'borme_num': None, 'borme_seccion': None, 'borme_provincia': None, 'borme_cve': None}
 
 
 def clean_data(data):
@@ -30,6 +30,7 @@ def parse_content(content):
     numero = False
     seccion = False
     provincia = False
+    cve = False
 
     # Python 3
     if isinstance(content, bytes):
@@ -68,6 +69,11 @@ def parse_content(content):
                 provincia = True
             continue
 
+        if line.startswith('/Codigo_verificacion'):
+            if not DATA['borme_cve']:
+                cve = True
+            continue
+
         if line == 'BT':
             # Begin text object
             continue
@@ -87,7 +93,7 @@ def parse_content(content):
                 DATA[acto_id] = {'Empresa': empresa, 'Actos': actos}
             continue
 
-        if not any([texto, cabecera, fecha, numero, seccion, provincia]):
+        if not any([texto, cabecera, fecha, numero, seccion, provincia, cve]):
             continue
 
         if line == '/F1 8 Tf':
@@ -131,6 +137,10 @@ def parse_content(content):
             if provincia:
                 DATA['borme_provincia'] = m.group(1)
                 provincia = False
+            if cve:
+                text = m.group(1)
+                DATA['borme_cve'] = REGEX_BORME_CVE.match(text).group(1)
+                cve = False
             logger.debug(m.group(1))
             data += ' ' + m.group(1)
 

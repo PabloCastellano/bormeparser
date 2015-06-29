@@ -42,6 +42,8 @@ REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
+REGEX_BORME_CVE = re.compile('^cve: (.*)$')
+
 
 MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6, 'julio': 7,
          'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
