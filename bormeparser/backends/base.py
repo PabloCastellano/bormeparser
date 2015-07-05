@@ -5,6 +5,7 @@ import os
 
 from bormeparser.borme import Borme, BormeActo
 from bormeparser.regex import regex_fecha
+from bormeparser.download import get_url_pdf
 
 
 class BormeParserBackend(object):
@@ -27,7 +28,8 @@ class BormeParserBackend(object):
 
         fecha = regex_fecha(actos['borme_fecha'])
         # FIXME: provincia, seccion objects
-        return Borme(fecha, actos['borme_seccion'], actos['borme_provincia'], actos['borme_num'], actos['borme_cve'], bormeactos)
+        url = get_url_pdf(fecha, actos['borme_seccion'], actos['borme_provincia'])
+        return Borme(fecha, actos['borme_seccion'], actos['borme_provincia'], actos['borme_num'], actos['borme_cve'], bormeactos, url=url)
 
     def _parse(self):
         """
