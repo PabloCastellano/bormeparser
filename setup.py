@@ -22,7 +22,7 @@ setup(
     packages=['bormeparser'],
     version=__version__,
     description="bormeparser is a Python library for parsing BORME files",
-    long_description=open('README.md').read(),
+    long_description=open('README.md', encoding='utf-8').read(),
     author='Pablo Castellano',
     author_email='pablo@anche.no',
     url='https://github.com/PabloCastellano/bormeparser/',
