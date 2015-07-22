@@ -8,6 +8,11 @@ sys.path.insert(0, 'bormeparser')
 from version import __version__, __license__
 sys.path.remove('bormeparser')
 
+if sys.version_info[0] == 3:
+    long_description = open('README.md', encoding='utf-8').read()
+else:
+    long_description = open('README.md').read()
+
 if sys.argv[-1] == 'publish':
     import os
     os.system("python setup.py sdist bdist_wheel upload -s")
@@ -22,16 +27,16 @@ setup(
     packages=['bormeparser'],
     version=__version__,
     description="bormeparser is a Python library for parsing BORME files",
-    long_description=open('README.md', encoding='utf-8').read(),
+    long_description=long_description,
     author='Pablo Castellano',
     author_email='pablo@anche.no',
     url='https://github.com/PabloCastellano/bormeparser/',
     download_url='https://github.com/PabloCastellano/bormeparser/archive/master.zip',
-    keywords = ['BORME', 'transparency', 'opendata', 'Spain', 'Registro mercantil', 'Boletín Oficial del Registro Mercantil'],
+    keywords=['BORME', 'transparency', 'opendata', 'Spain', 'Registro mercantil', 'Boletín Oficial del Registro Mercantil'],
     license=__license__,
     data_files=[('', ['LICENSE.txt'])],
     include_package_data=True,
     zip_safe=False,
     #install_requires=['requests', 'pdfminer', 'pyPdf', 'lxml'],
-    test_suite = "bormeparser.tests"
+    test_suite="bormeparser.tests"
 )
