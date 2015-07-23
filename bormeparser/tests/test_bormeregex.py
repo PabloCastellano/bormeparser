@@ -19,11 +19,26 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa
+from bormeparser.regex import regex_cargos, regex_empresa, is_company
 
 DATA = {'fake1': [('Adm. Solid.', {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'})],
         'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {u'MACIAS MUÑOZ FELIPE JOSE'})],
         'fake3': [('Auditor', {'A.T.A AUDITORES SL'}), ('Aud.Supl.', {u'CUEVAS MUÑOZ SILVIA MARIA'})]}
+
+
+class BormeparserIsCompanyTestCase(unittest.TestCase):
+    empresa1 = 'PATATAS SL'
+    empresa2 = 'HAMBURGUESAS AIE'
+    empresa3 = 'ZANAHORIAS SA'
+    empresa4 = 'COA-COA BARBACOA SRL'
+    persona1 = 'JOHN DOE'
+
+    def test_is_company(self):
+        self.assertTrue(is_company(self.empresa1))
+        self.assertTrue(is_company(self.empresa2))
+        self.assertTrue(is_company(self.empresa3))
+        self.assertTrue(is_company(self.empresa4))
+        self.assertFalse(is_company(self.persona1))
 
 
 class BormeparserRegexEmpresaTestCase(unittest.TestCase):

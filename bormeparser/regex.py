@@ -47,6 +47,14 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
          'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
 
 
+# TODO: COOP y otras sociedades menos usuales
+# Comprueba si es algún tipo de sociedad o por el contrario es una persona física
+def is_company(data):
+    siglas = [' SL', ' SA', ' AIE', ' SRL']
+    g = map(lambda s: data.endswith(s), siglas)
+    return any(g)
+
+
 def regex_empresa(data):
     m = REGEX_EMPRESA.match(data)
     acto_id = int(m.group(1))
