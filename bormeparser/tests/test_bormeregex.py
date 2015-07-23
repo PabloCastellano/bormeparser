@@ -19,18 +19,28 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos
+from bormeparser.regex import regex_cargos, regex_empresa
 
 DATA = {'fake1': [('Adm. Solid.', {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'})],
         'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {u'MACIAS MUÑOZ FELIPE JOSE'})],
         'fake3': [('Auditor', {'A.T.A AUDITORES SL'}), ('Aud.Supl.', {u'CUEVAS MUÑOZ SILVIA MARIA'})]}
+
+
+class BormeparserRegexEmpresaTestCase(unittest.TestCase):
+    acto1 = '57344 - ALDARA CATERING SL.'
+
+    def test_regex_empresa(self):
+        acto_id, empresa = regex_empresa(self.acto1)
+        self.assertEqual(acto_id, 57344)
+        self.assertEqual(empresa, 'ALDARA CATERING SL')
+
 
 class BormeparserRegexCargosTestCase(unittest.TestCase):
     nombramientos1 = 'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
     nombramientos2 = u'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
     nombramientos3 = u'Auditor: A.T.A AUDITORES SL. Aud.Supl.: CUEVAS MUÑOZ SILVIA MARIA.'
 
-    def test_regexp_nombramientos(self):
+    def test_regex_nombramientos(self):
         cargos1 = regex_cargos(self.nombramientos1)
         self.assertEqual(cargos1, DATA['fake1'])
 

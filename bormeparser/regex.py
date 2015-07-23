@@ -36,7 +36,7 @@ REGEX3 = re.compile(RE_COLON_KEYWORDS + ':\s+(.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
 REGEX4 = re.compile(RE_ENDING_KEYWORD + '\.\s+(.*)\.\s*')
 REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
-REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)$')
+REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)\.$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
@@ -45,6 +45,13 @@ REGEX_BORME_CVE = re.compile('^cve: (.*)$')
 
 MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6, 'julio': 7,
          'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
+
+
+def regex_empresa(data):
+    m = REGEX_EMPRESA.match(data)
+    acto_id = int(m.group(1))
+    empresa = m.group(2)
+    return (acto_id, empresa)
 
 
 def regex_cargos(data):

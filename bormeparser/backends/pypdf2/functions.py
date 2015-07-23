@@ -4,7 +4,7 @@
 import logging
 from PyPDF2 import PdfFileReader
 
-from bormeparser.regex import regex_cargos, REGEX_EMPRESA, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
+from bormeparser.regex import regex_cargos, regex_empresa, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 from bormeparser.acto import ACTO
 
 logger = logging.getLogger(__name__)
@@ -83,9 +83,7 @@ def parse_content(content):
             if cabecera:
                 cabecera = False
                 data = clean_data(data)
-                m = REGEX_EMPRESA.match(data)
-                acto_id = int(m.group(1))
-                empresa = m.group(2)
+                acto_id, empresa = regex_empresa(data)
             if texto:
                 texto = False
                 data = clean_data(data)
