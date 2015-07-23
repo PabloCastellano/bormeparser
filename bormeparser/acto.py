@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from .utils import remove_accents
+#from .utils import remove_accents
 import six
 
 
@@ -91,7 +91,7 @@ class ACTO:
     # Palabras clave sin argumentos
     _noarg_keywords = {
         'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
-        'Extinción' : EXTINCION,
+        'Extinción': EXTINCION,
         'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD,
         'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
         'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
@@ -113,7 +113,6 @@ class ACTO:
         'Datos registrales': DATOS_REGISTRALES
     }
 
-
     ARG_KEYWORDS = list(six.viewkeys(_arg_keywords))
     NOARG_KEYWORDS = list(six.viewkeys(_noarg_keywords))
     COLON_KEYWORDS = list(six.viewkeys(_colon_keywords))
@@ -134,4 +133,3 @@ a_registral_baja_en_el_indice_entidades_juridicas', u'ceses_dimisiones', u'nombr
 , u'cambio_denominacion_social', u'extincion', u'reduccion_capital', u'cambio_identidad_socio_unico', u'transformacion_sociedad', u'reapertura_hoja_registral', u'socio_unico', u'articulo_378_5
 _reglamento_registro_mercantil', u'fusion_absorcion']
 """
-

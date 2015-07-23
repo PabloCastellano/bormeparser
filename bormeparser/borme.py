@@ -11,6 +11,7 @@ import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
+
 class BormeActo(object):
     """
     Representa un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
@@ -51,6 +52,7 @@ class BormeActo(object):
 
 class BormeXML(object):
     pass
+
 
 # TODO: Iterador de actos
 # TODO: Info

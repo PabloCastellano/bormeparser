@@ -8,7 +8,6 @@ import requests
 from lxml import etree
 
 from .exceptions import BormeDoesntExistException
-from .borme import Borme
 from .parser import parse as parse_borme
 
 # URLs
@@ -25,6 +24,7 @@ URL_BASE = 'http://www.boe.es'
 # http request timeout, default is 5 seconds
 TIMEOUT = 5
 
+
 # date = (year, month, date) or datetime.date
 # filename = path to filename or just filename
 def download_xml(date, filename):
@@ -32,8 +32,8 @@ def download_xml(date, filename):
     downloaded = download_url(url, filename)
     return downloaded
 
-# TODO: def download_pdfs(date, path, provincia)
 
+# TODO: def download_pdfs(date, path, provincia)
 def download_pdfs(date, path, seccion):
     url = get_url_xml(date)
     tree = etree.parse(url)
@@ -53,6 +53,7 @@ def download_pdfs(date, path, seccion):
 
     return True
 
+
 # date = (year, month, date) or datetime.date
 # seccion = ('A', 'B', 'C') or class SECCION
 # province = class PROVINCIA
@@ -64,7 +65,7 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
         return False
     if parse:
         return parse_borme(filename)
-    
+
     return True
 
 

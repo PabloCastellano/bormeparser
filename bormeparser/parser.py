@@ -8,6 +8,7 @@ import requests
 # backends
 DEFAULT_PARSER = ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser')
 
+
 # parse: url, filename (string)
 def parse(data):
     module = importlib.import_module(DEFAULT_PARSER[0])

@@ -19,5 +19,6 @@
 
 import unicodedata
 
+
 def remove_accents(str):
     return ''.join((c for c in unicodedata.normalize('NFKD', unicode(str, 'utf-8')) if unicodedata.category(c) != 'Mn'))

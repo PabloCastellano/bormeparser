@@ -54,7 +54,7 @@ class PROVINCIA:
     MADRID = '28'
     MALAGA = '29'
     MURCIA = '30'
-    NAVARRA= '31'
+    NAVARRA = '31'
     ORENSE = '32'
     OURENSE = '32'
     ASTURIAS = '33'

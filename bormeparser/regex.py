@@ -48,6 +48,7 @@ REGEX_BORME_CVE = re.compile('^cve: (.*)$')
 MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6, 'julio': 7,
          'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
 
+
 def regex_cargos(data):
     """
     :param data:
@@ -63,6 +64,7 @@ def regex_cargos(data):
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
         cargos.append((cargo[0], set(cargo[1].split(';'))))
     return cargos
+
 
 # This is a way not to use datetime.strftime, which requires es_ES.utf8 locale generated.
 def regex_fecha(data):
