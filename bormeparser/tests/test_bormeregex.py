@@ -22,11 +22,13 @@ import unittest
 from bormeparser.regex import regex_cargos
 
 DATA = {'fake1': [('Adm. Solid.', {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'})],
-        'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {u'MACIAS MUÑOZ FELIPE JOSE'})]}
+        'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {u'MACIAS MUÑOZ FELIPE JOSE'})],
+        'fake3': [('Auditor', {'A.T.A AUDITORES SL'}), ('Aud.Supl.', {u'CUEVAS MUÑOZ SILVIA MARIA'})]}
 
 class BormeparserRegexCargosTestCase(unittest.TestCase):
     nombramientos1 = 'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
     nombramientos2 = u'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
+    nombramientos3 = u'Auditor: A.T.A AUDITORES SL. Aud.Supl.: CUEVAS MUÑOZ SILVIA MARIA.'
 
     def test_regexp_nombramientos(self):
         cargos1 = regex_cargos(self.nombramientos1)
@@ -35,6 +37,8 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
         cargos2 = regex_cargos(self.nombramientos2)
         self.assertEqual(cargos2, DATA['fake2'])
 
+        cargos3 = regex_cargos(self.nombramientos3)
+        self.assertEqual(cargos3, DATA['fake3'])
 
 if __name__ == '__main__':
     unittest.main()

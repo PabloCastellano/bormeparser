@@ -26,10 +26,8 @@ RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 # -- CARGOS --
 # OR de las palabras clave
 RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(CARGO.KEYWORDS)
-# OR de las palabras clave, "non grouping"
-RE_CARGOS_KEYWORDS_NG = '(?:%s)' % '|'.join(CARGO.KEYWORDS)
 # RE para capturar el cargo y los nombres
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+ ;&]+)+\.' + RE_CARGOS_KEYWORDS_NG + '?'
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+\. ;&]+)+(?:\.$|\.\s)'
 # FIXME: algunos nombres pueden contener caracteres raros como &
 
 REGEX1 = re.compile('^(\d+) - (.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
