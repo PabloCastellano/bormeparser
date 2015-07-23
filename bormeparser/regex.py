@@ -51,8 +51,7 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 # Comprueba si es algún tipo de sociedad o por el contrario es una persona física
 def is_company(data):
     siglas = [' SL', ' SA', ' AIE', ' SRL']
-    g = map(lambda s: data.endswith(s), siglas)
-    return any(g)
+    return any(data.endswith(s) for s in siglas)
 
 
 def regex_empresa(data):
