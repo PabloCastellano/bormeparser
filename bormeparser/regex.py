@@ -47,10 +47,22 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
          'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
 
 
-# TODO: COOP y otras sociedades menos usuales
-# Comprueba si es algún tipo de sociedad o por el contrario es una persona física
+# https://es.wikipedia.org/wiki/Anexo:Tipos_de_sociedad_mercantil_en_Espa%C3%B1a
+SOCIEDADES = {'SA': 'Sociedad Anónima',
+              'SL': 'Sociedad Limitada',
+              'SLU': 'Sociedad Limitada Unipersonal',
+              'SRL': 'Sociedad de Responsabilidad Limitada',
+              'AIE': 'Agrupación de Interés Económico',
+              'COOP': 'Cooperativa',
+              'SLL': 'Sociedad Limitada Laboral',
+              'SAL': 'Sociedad Anónima Laboral',
+              'SLNE': 'Sociedad Limitada Nueva Empresa'
+              }
+
+# TODO: Añadir otras sociedades menos usuales
 def is_company(data):
-    siglas = [' SL', ' SA', ' AIE', ' SRL']
+    """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
+    siglas = [' SL', ' SA', ' AIE', ' SRL', ' SOCIEDAD LIMITADA', ' SOCIEDAD ANONIMA', ' SLU', ' COOP', ' SLL', ' SAL', ' SLNE']
     return any(data.endswith(s) for s in siglas)
 
 
