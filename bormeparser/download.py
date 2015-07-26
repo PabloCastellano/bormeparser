@@ -35,10 +35,9 @@ def download_xml(date, filename):
 
 # TODO: def download_pdfs(date, path, provincia)
 def download_pdfs(date, path, seccion):
-    url = get_url_xml(date)
-    tree = etree.parse(url)
+    urls = get_url_pdfs(date, seccion)
 
-    for url in tree.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item/urlPdf' % seccion):
+    for url in urls.values():
         filename = url.text.split('/')[-1]
         full_path = os.path.join(path, filename)
         full_url = URL_BASE + url.text
