@@ -7,8 +7,8 @@ import sys
 
 if __name__ == '__main__':
 
+    # set logger DEBUG
     if len(sys.argv) == 3 and sys.argv[2] == '--debug':
-        # set logger DEBUG
         bormeparser.borme.logger.setLevel(logging.DEBUG)
 
     borme = bormeparser.parse(sys.argv[1])
@@ -17,4 +17,4 @@ if __name__ == '__main__':
     print('Num: %s' % borme.num)
     print('Provincia: %s' % borme.provincia)
     print('Seccion: %s' % borme.seccion)
-    print('Actos incluidos: %d' % len(borme.get_actos()))
+    print('Anuncios incluidos: %d' % len(borme.get_anuncios()))

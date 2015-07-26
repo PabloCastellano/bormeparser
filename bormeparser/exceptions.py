@@ -22,5 +22,5 @@ class BormeInvalidActoException(BormeException):
     pass
 
 
-class BormeActoNotFound(BormeException):
+class BormeAnuncioNotFound(BormeException):
     pass

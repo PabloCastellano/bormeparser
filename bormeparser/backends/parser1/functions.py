@@ -24,7 +24,7 @@ from pdfminer.pdfpage import PDFPage
 from pdfminer.layout import LAParams
 
 from bormeparser.acto import ACTO
-from bormeparser.borme import BormeActo
+from bormeparser.borme import BormeAnuncio
 from bormeparser.regex import *
 
 CROP_FIRST = (0.08196721311475409, 0.26981300089047194, 0.09079445145018916, 0.0)
@@ -265,7 +265,7 @@ def parse_file(filename_in, filename_out, rewrite=False):
     return True
 
 
-def parse_file_actos(filename_in, rewrite=False):
+def parse_file_anuncios(filename_in, rewrite=False):
     """
         Parse file according to BORME PDF format
 
@@ -274,7 +274,7 @@ def parse_file_actos(filename_in, rewrite=False):
     """
 
     had_warning = False
-    actos = {}
+    anuncios = {}
     results = {'error': 0, 'skip': 0, 'ok': 0, 'warning': 0}
 
     fp = open(filename_in, 'r')
@@ -289,9 +289,9 @@ def parse_file_actos(filename_in, rewrite=False):
             logging.debug('###########')
             logging.debug('Keys: %s total: %d', data.keys(), len(data))
             logging.debug('%s', data)
-            acto_id = int(data.pop('ID'))
-            acto_empresa = data.pop('Nombre')
-            actos[acto_id] = BormeActo(acto_id, acto_empresa, data)
+            anuncio_id = int(data.pop('ID'))
+            anuncio_empresa = data.pop('Nombre')
+            anuncios[anuncio_id] = BormeAnuncio(anuncio_id, anuncio_empresa, data)
             logging.debug('###########')
         except Exception as e:
             logging.error(e)
@@ -306,4 +306,4 @@ def parse_file_actos(filename_in, rewrite=False):
         results['error'] += 1
 
     results['ok'] += 1
-    return actos, results
+    return anuncios, results
