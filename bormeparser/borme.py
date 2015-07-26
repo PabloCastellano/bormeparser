@@ -3,7 +3,7 @@
 
 from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
-from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException, BormeActoNotFound
+from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException, BormeAnuncioNotFound
 #from .parser import parse as parse_borme
 import datetime
 
@@ -12,13 +12,13 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
 
-class BormeActo(object):
+class BormeAnuncio(object):
     """
     Representa un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
     def __init__(self, id, empresa, actos):
-        logger.debug('new BormeActo(%s) %s' % (id, empresa))
+        logger.debug('new BormeAnuncio(%s) %s' % (id, empresa))
         self.id = id
         self.empresa = empresa
         self.datos_registrales = ""
@@ -30,10 +30,9 @@ class BormeActo(object):
                 self.datos_registrales = actos[acto_name]
                 continue
             if acto_name not in ACTO.ALL_KEYWORDS:
-                logger.warning('Invalid acto found: %s\n' % acto_name)
+                logger.warning('Invalid acto found: %s' % acto_name)
                 #raise BormeInvalidActoException('Invalid acto found: %s' % acto_name)
 
-        # FIXME
         try:
             del actos['Datos registrales']
         except KeyError:
@@ -47,7 +46,7 @@ class BormeActo(object):
         return self.actos
 
     def __repr__(self):
-        return "<BormeActo(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))
+        return "<BormeAnuncio(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))
 
 
 class BormeXML(object):
@@ -88,15 +87,21 @@ class Borme(object):
         #return self.info
         raise NotImplementedError
 
-    def get_acto(self, acto_id):
+    def get_anuncio(self, anuncio_id):
         try:
-            return self.actos[acto_id]
+            return self.actos[anuncio_id]
         except KeyError:
-            raise BormeActoNotFound('Acto %d not found in BORME %s' % (acto_id, str(self)))
+            raise BormeAnuncioNotFound('Anuncio %d not found in BORME %s' % (anuncio_id, str(self)))
 
-    def get_actos(self):
+    def get_anuncios_ids(self):
         """
-        [BormeActo]
+        [BormeAnuncio]
+        """
+        return list(self.actos.values())
+
+    def get_anuncios(self):
+        """
+        [BormeAnuncio]
         """
         return list(self.actos.values())
 
