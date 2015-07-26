@@ -5,6 +5,8 @@ from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
 from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException, BormeAnuncioNotFound
 #from .parser import parse as parse_borme
+#from .seccion import SECCION
+#from .provincia import PROVINCIA
 import datetime
 
 import logging
@@ -72,6 +74,10 @@ class Borme(object):
         self.info = {}
         self._set_actos(actos)
 
+    @classmethod
+    def from_file(cls, filename):
+        raise NotImplementedError
+
     def _set_actos(self, actos):
         self.actos = {}
         for acto in actos:
@@ -112,13 +118,6 @@ class Borme(object):
         if downloaded:
             self.filename = filename
         return downloaded
-
-    @staticmethod
-    def from_file(filename):
-        #data = parse_borme(filename)
-        # extraer date, seccion y provincia
-        #return Borme()
-        raise NotImplementedError
 
     def __repr__(self):
         return "<Borme(%s) seccion:%s provincia:%s>" % (self.date, self.seccion, self.provincia)
