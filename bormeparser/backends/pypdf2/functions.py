@@ -11,7 +11,8 @@ logger = logging.getLogger(__name__)
 #logger.setLevel(logging.DEBUG)
 logger.setLevel(logging.WARN)
 
-DATA = {'borme_fecha': None, 'borme_num': None, 'borme_seccion': None, 'borme_provincia': None, 'borme_cve': None}
+DATA = {'borme_fecha': None, 'borme_num': None, 'borme_seccion': None, 'borme_subseccion': None,
+        'borme_provincia': None, 'borme_cve': None}
 
 
 def clean_data(data):
@@ -29,6 +30,7 @@ def parse_content(content):
     fecha = False
     numero = False
     seccion = False
+    subseccion = False
     provincia = False
     cve = False
 
@@ -64,6 +66,11 @@ def parse_content(content):
                 seccion = True
             continue
 
+        if line.startswith('/Subseccion'):
+            if not DATA['borme_subseccion']:
+                subseccion = True
+            continue
+
         if line.startswith('/Provincia'):
             if not DATA['borme_provincia']:
                 provincia = True
@@ -91,7 +98,7 @@ def parse_content(content):
                 DATA[acto_id] = {'Empresa': empresa, 'Actos': actos}
             continue
 
-        if not any([texto, cabecera, fecha, numero, seccion, provincia, cve]):
+        if not any([texto, cabecera, fecha, numero, seccion, subseccion, provincia, cve]):
             continue
 
         if line == '/F1 8 Tf':
@@ -132,6 +139,9 @@ def parse_content(content):
             if seccion:
                 DATA['borme_seccion'] = m.group(1)
                 seccion = False
+            if subseccion:
+                DATA['borme_subseccion'] = m.group(1)
+                subseccion = False
             if provincia:
                 DATA['borme_provincia'] = m.group(1)
                 provincia = False
