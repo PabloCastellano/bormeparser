@@ -3,9 +3,10 @@
 
 import os
 
-from bormeparser.borme import Borme, BormeActo
+from bormeparser.borme import Borme, BormeAnuncio
 from bormeparser.regex import regex_fecha
 from bormeparser.download import get_url_pdf
+from bormeparser import SECCION, PROVINCIA
 
 
 class BormeParserBackend(object):
@@ -17,19 +18,21 @@ class BormeParserBackend(object):
         self.filename = filename
 
     def parse(self):
-        actos = self._parse()
-        bormeactos = []
-        for id_acto in actos.keys():
-            if not isinstance(id_acto, int):
+        anuncios = self._parse()
+        bormeanuncios = []
+        for id_anuncio in anuncios.keys():
+            if not isinstance(id_anuncio, int):
                 continue
-            data = actos[id_acto]
-            a = BormeActo(id_acto, data['Empresa'], data['Actos'])
-            bormeactos.append(a)
+            data = anuncios[id_anuncio]
+            a = BormeAnuncio(id_anuncio, data['Empresa'], data['Actos'])
+            bormeanuncios.append(a)
 
-        fecha = regex_fecha(actos['borme_fecha'])
+        fecha = regex_fecha(anuncios['borme_fecha'])
         # FIXME: provincia, seccion objects
-        url = get_url_pdf(fecha, actos['borme_seccion'], actos['borme_provincia'])
-        return Borme(fecha, actos['borme_seccion'], actos['borme_provincia'], actos['borme_num'], actos['borme_cve'], bormeactos, url=url)
+        seccion = SECCION.from_borme(anuncios['borme_seccion'], anuncios['borme_subseccion'])
+        provincia = PROVINCIA.from_title(anuncios['borme_provincia'])
+        url = get_url_pdf(fecha, seccion, provincia)
+        return Borme(fecha, seccion, provincia, anuncios['borme_num'], anuncios['borme_cve'], bormeanuncios, url=url)
 
     def _parse(self):
         """

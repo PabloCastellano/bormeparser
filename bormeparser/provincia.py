@@ -17,6 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from bormeparser.utils import remove_accents
+
 
 class PROVINCIA:
     ALAVA = '01'
@@ -79,9 +81,10 @@ class PROVINCIA:
     CEUTA = '51'
     MELILLA = '52'
 
-    """
-    TODO:
     @staticmethod
-    def from_string(string):
-        return PROVINCIA._keywords[string]
-    """
+    def from_title(title):
+        try:
+            title = remove_accents(title).replace(' ', '_')
+            return getattr(PROVINCIA, title)
+        except AttributeError:
+            raise ValueError('InvalidProvince: %s' % title)

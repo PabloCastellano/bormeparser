@@ -22,3 +22,23 @@ class SECCION:
     A = 'A'
     B = 'B'
     C = 'C'
+
+    # TODO: No detecta tipo C, viene el texto comprimido
+    @staticmethod
+    def from_borme(seccion, subseccion):
+        if seccion == 'SECCIÓN PRIMERA':
+            if subseccion == 'Actos inscritos':
+                return SECCION.A
+            elif subseccion == 'Otros actos publicados en el Registro Mercantil':
+                return SECCION.B
+            else:
+                raise ValueError('InvalidSeccion: %s %s' % (seccion, subseccion))
+        else:
+            raise ValueError('InvalidSeccion: %s %s' % (seccion, subseccion))
+
+
+class SUBSECCION:
+    # Actos inscritos
+    ACTOS_INSCRITOS = 'A'
+    # Otros actos publicados en el Registro Mercantil
+    OTROS_ACTOS = 'B'
