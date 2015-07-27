@@ -59,6 +59,14 @@ SOCIEDADES = {'SA': 'Sociedad Anónima',
               'SLNE': 'Sociedad Limitada Nueva Empresa'
               }
 
+
+# TODO: Comprobar que son todos
+def is_acto_cargo(data):
+    """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
+    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones']
+    return data in actos
+
+
 # TODO: Añadir otras sociedades menos usuales
 def is_company(data):
     """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
