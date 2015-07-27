@@ -77,7 +77,11 @@ class BormeActoCargo(BormeActo):
             if not isinstance(v, set):
                 raise ValueError('v must be set: %s' % v)
 
-        self.cargos = value
+        self.value = value
+
+    @property
+    def cargos(self):
+        return self.value
 
     def get_nombres_cargos(self):
         return list(self.value.keys())
