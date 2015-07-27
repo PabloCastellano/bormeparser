@@ -3,7 +3,9 @@
 
 from .acto import ACTO
 #from .download import get_url_pdf, download_pdf
-from .exceptions import BormeAlreadyDownloadedException, BormeInvalidActoException, BormeAnuncioNotFound
+#from .exceptions import BormeInvalidActoException
+from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound
+from .regex import is_acto_cargo
 #from .parser import parse as parse_borme
 #from .seccion import SECCION
 #from .provincia import PROVINCIA
@@ -14,38 +16,114 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
 
+class BormeActo(object):
+    """
+    Representa un Acto del Registro Mercantil. Instanciar BormeActoTexto o BormeActoCargo
+    """
+    def __init__(self, name, value):
+        logger.debug('new %s(%s): %s' % (self.__class__.__name__, name, value))
+        if name not in ACTO.ALL_KEYWORDS:
+            logger.warning('Invalid acto found: %s' % name)
+            #raise BormeInvalidActoException('Invalid acto found: %s' % acto_nombre)
+        self._set_name(name)
+        self._set_value(value)
+
+    # TODO: @classmethod para elegir automaticamente el tipo?
+
+    def _set_name(self, name):
+        raise NotImplementedError
+
+    def _set_value(self, value):
+        raise NotImplementedError
+
+    def __lt__(self, other):
+        return self.name < other.name
+
+    def __repr__(self):
+        return "<%s(%s): %s>" % (self.__class__.__name__, self.name, self.value)
+
+
+class BormeActoTexto(BormeActo):
+    """
+    Representa un Acto del Registro Mercantil con atributo de cadena de texto.
+    """
+
+    def _set_name(self, name):
+        if is_acto_cargo(name):
+            raise ValueError
+        self.name = name
+
+    def _set_value(self, value):
+        if not isinstance(value, str):
+            raise ValueError('value must be str: %s' % value)
+        self.value = value
+
+
+class BormeActoCargo(BormeActo):
+    """
+    Representa un Acto del Registro Mercantil con atributo de lista de cargos y nombres.
+    """
+
+    def _set_name(self, name):
+        if not is_acto_cargo(name):
+            raise ValueError
+        self.name = name
+
+    def _set_value(self, value):
+        if not isinstance(value, dict):
+            raise ValueError('value must be dict: %s' % value)
+
+        for _, v in value.items():
+            if not isinstance(v, set):
+                raise ValueError('v must be set: %s' % v)
+
+        self.cargos = value
+
+    def get_nombres_cargos(self):
+        return list(self.value.keys())
+
+
 class BormeAnuncio(object):
     """
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
+    # TODO: Hay que copiar (copy()) mas atributos?? :|
     def __init__(self, id, empresa, actos):
         logger.debug('new BormeAnuncio(%s) %s' % (id, empresa))
         self.id = id
         self.empresa = empresa
         self.datos_registrales = ""
-        self._set_actos(actos)
+        self._set_actos(actos.copy())
 
     def _set_actos(self, actos):
-        for acto_name in actos.keys():
-            if acto_name == 'Datos registrales':
-                self.datos_registrales = actos[acto_name]
+        self.actos = []
+        for acto_nombre, valor in actos.items():
+            if acto_nombre == 'Datos registrales':
+                self.datos_registrales = actos[acto_nombre]
                 continue
-            if acto_name not in ACTO.ALL_KEYWORDS:
-                logger.warning('Invalid acto found: %s' % acto_name)
-                #raise BormeInvalidActoException('Invalid acto found: %s' % acto_name)
+
+            if is_acto_cargo(acto_nombre):
+                a = BormeActoCargo(acto_nombre, valor)
+                self.actos.append(a)
+            else:
+                a = BormeActoTexto(acto_nombre, valor)
+                self.actos.append(a)
 
         try:
             del actos['Datos registrales']
         except KeyError:
             pass
-        self.actos = actos
 
-    def get_datos_registrales(self):
-        return self.datos_registrales
+    def get_borme_actos(self):
+        return self.actos
 
     def get_actos(self):
-        return self.actos
+        for acto in self.actos:
+            if isinstance(acto, BormeActoTexto):
+                yield acto.name, acto.value
+            else:
+                yield acto.name, acto.cargos
 
     def __repr__(self):
         return "<BormeAnuncio(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))
