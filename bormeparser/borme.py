@@ -55,12 +55,12 @@ class BormeXML(object):
     pass
 
 
-# TODO: Iterador de actos
+# TODO: Iterador de anuncios
 # TODO: Info
 # TODO: Create instance directly from filename
 class Borme(object):
 
-    def __init__(self, date, seccion, provincia, num, cve, actos=None, url=None, filename=None):
+    def __init__(self, date, seccion, provincia, num, cve, anuncios=None, url=None, filename=None):
         if isinstance(date, tuple):
             date = datetime.date(year=date[0], month=date[1], day=date[2])
         self.date = date
@@ -72,16 +72,16 @@ class Borme(object):
         self.filename = filename
         self._parsed = False
         self.info = {}
-        self._set_actos(actos)
+        self._set_anuncios(anuncios)
 
     @classmethod
     def from_file(cls, filename):
         raise NotImplementedError
 
-    def _set_actos(self, actos):
-        self.actos = {}
-        for acto in actos:
-            self.actos[acto.id] = acto
+    def _set_anuncios(self, anuncios):
+        self.anuncios = {}
+        for anuncio in anuncios:
+            self.anuncios[anuncio.id] = anuncio
 
     def get_url(self):
         if self.url is None:
@@ -89,13 +89,13 @@ class Borme(object):
         return self.url
 
     def get_info(self):
-        #borme['info'] = {'pages': 5, 'actos': 38, 'fromacto': 12222, 'toacto': 12260}
+        #borme['info'] = {'pages': 5, 'anuncios': 38, 'fromanuncio': 12222, 'toanuncio': 12260}
         #return self.info
         raise NotImplementedError
 
     def get_anuncio(self, anuncio_id):
         try:
-            return self.actos[anuncio_id]
+            return self.anuncios[anuncio_id]
         except KeyError:
             raise BormeAnuncioNotFound('Anuncio %d not found in BORME %s' % (anuncio_id, str(self)))
 
@@ -103,13 +103,13 @@ class Borme(object):
         """
         [BormeAnuncio]
         """
-        return list(self.actos.values())
+        return list(self.anuncios.values())
 
     def get_anuncios(self):
         """
         [BormeAnuncio]
         """
-        return list(self.actos.values())
+        return list(self.anuncios.values())
 
     def download(self, filename):
         if self.filename is not None:

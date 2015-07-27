@@ -114,7 +114,7 @@ def parse_content(content):
         if line == '/F2 8 Tf':
             # Font 2: normal
 
-            # Declaración de unipersonalidad. Socio único: GARCIA FUENTES JUAN CARLOS. Nombramientos
+            # FIXME: Declaración de unipersonalidad. Socio único: GARCIA FUENTES JUAN CARLOS. Nombramientos
             """
             if nombreacto and 'Declaración de unipersonalidad' in nombreacto:
                 nombreacto = clean_data(data)[:-1]
