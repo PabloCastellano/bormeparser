@@ -26,7 +26,7 @@ class SECCION:
     # TODO: No detecta tipo C, viene el texto comprimido
     @staticmethod
     def from_borme(seccion, subseccion):
-        if seccion == 'SECCIÓN PRIMERA':
+        if seccion in (u'SECCIÓN PRIMERA', u'SECCI\xd3N PRIMERA'):
             if subseccion == 'Actos inscritos':
                 return SECCION.A
             elif subseccion == 'Otros actos publicados en el Registro Mercantil':

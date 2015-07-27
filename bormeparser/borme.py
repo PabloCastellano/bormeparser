@@ -16,7 +16,7 @@ logger.setLevel(logging.WARN)
 
 class BormeAnuncio(object):
     """
-    Representa un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
+    Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
     def __init__(self, id, empresa, actos):

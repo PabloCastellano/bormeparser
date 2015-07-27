@@ -17,12 +17,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import six
 import unicodedata
 
 
 def remove_accents(string):
-    if six.PY3:
+    try:
         return ''.join((c for c in unicodedata.normalize('NFKD', string) if unicodedata.category(c) != 'Mn'))
-    else:
+    except TypeError:
         return ''.join((c for c in unicodedata.normalize('NFKD', unicode(string, 'utf-8')) if unicodedata.category(c) != 'Mn'))
