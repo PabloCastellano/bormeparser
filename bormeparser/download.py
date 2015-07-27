@@ -2,13 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-import logging
 import os
 import requests
 from lxml import etree
 
 from .exceptions import BormeDoesntExistException
 from .parser import parse as parse_borme
+
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARN)
 
 # URLs
 
@@ -38,14 +41,14 @@ def download_pdfs(date, path, seccion):
     urls = get_url_pdfs(date, seccion)
 
     for url in urls.values():
-        filename = url.text.split('/')[-1]
+        filename = url.split('/')[-1]
         full_path = os.path.join(path, filename)
-        full_url = URL_BASE + url.text
-        downloaded = download_url(full_url, full_path)
+        downloaded = download_url(url, full_path)
 
-        if not downloaded:
-            logging.error('Error downloading %s' % url.text)
-            continue
+        if downloaded:
+            logger.debug('Downloaded %s' % filename)
+        else:
+            logger.error('Error downloading %s' % url)
 
         #assert os.path.exists(filepdf)
         #assert os.path.getsize(filepdf) == int(url.attrib['szBytes'])
@@ -60,8 +63,12 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
     url = get_url_pdf(date, seccion, provincia)
     downloaded = download_url(url, filename)
 
-    if not downloaded:
+    if downloaded:
+        logger.debug('Downloaded %s' % filename)
+    else:
+        logger.error('Error downloading %s' % url)
         return False
+
     if parse:
         return parse_borme(filename)
 
@@ -119,10 +126,10 @@ def download_url(url, filename, timeout=TIMEOUT):
     if os.path.exists(filename):
         return False
 
-    logging.info('Downloading URL: %s' % url)
+    logger.info('Downloading URL: %s' % url)
     r = requests.get(url, stream=True, timeout=timeout)
     cl = r.headers.get('content-length')
-    logging.info("%.2f KB" % (int(cl) / 1024.0))
+    logger.info("%.2f KB" % (int(cl) / 1024.0))
 
     with open(filename, 'wb') as fd:
         for chunk in r.iter_content(8192):
