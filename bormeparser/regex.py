@@ -89,12 +89,12 @@ def regex_cargos(data):
 
     :return:
 
-    [('Adm. Solid.', {'RAMA SANCHEZ JOSE PEDRO', 'RAMA SANCHEZ JAVIER JORGE'})]
-    [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {'MACIAS MUÑOZ FELIPE JOSE'})]
+    {'Adm. Solid.': {'RAMA SANCHEZ JOSE PEDRO', 'RAMA SANCHEZ JAVIER JORGE'}}
+    {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {'MACIAS MUÑOZ FELIPE JOSE'}}
     """
-    cargos = []
+    cargos = {}
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
-        cargos.append((cargo[0], set(cargo[1].split(';'))))
+        cargos[cargo[0]] = set(cargo[1].split(';'))
     return cargos
 
 

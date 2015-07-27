@@ -21,9 +21,9 @@ import unittest
 
 from bormeparser.regex import regex_cargos, regex_empresa, is_company
 
-DATA = {'fake1': [('Adm. Solid.', {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'})],
-        'fake2': [('Auditor', {'ACME AUDITORES SL'}), ('Aud.Supl.', {u'MACIAS MUÑOZ FELIPE JOSE'})],
-        'fake3': [('Auditor', {'A.T.A AUDITORES SL'}), ('Aud.Supl.', {u'CUEVAS MUÑOZ SILVIA MARIA'})]}
+DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
+        'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
+        'fake3': {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {u'CUEVAS MUÑOZ SILVIA MARIA'}}}
 
 
 class BormeparserIsCompanyTestCase(unittest.TestCase):
