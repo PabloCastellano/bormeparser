@@ -13,6 +13,8 @@ import datetime
 
 import logging
 logger = logging.getLogger(__name__)
+ch = logging.StreamHandler()
+logger.addHandler(ch)
 logger.setLevel(logging.WARN)
 
 

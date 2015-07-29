@@ -11,6 +11,8 @@ from .parser import parse as parse_borme
 
 import logging
 logger = logging.getLogger(__name__)
+ch = logging.StreamHandler()
+logger.addHandler(ch)
 logger.setLevel(logging.WARN)
 
 # URLs
