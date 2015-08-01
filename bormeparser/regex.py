@@ -51,6 +51,7 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 SOCIEDADES = {'SA': 'Sociedad Anónima',
               'SL': 'Sociedad Limitada',
               'SLU': 'Sociedad Limitada Unipersonal',
+              'SLP': 'Sociedad Limitada Profesional',
               'SRL': 'Sociedad de Responsabilidad Limitada',
               'AIE': 'Agrupación de Interés Económico',
               'COOP': 'Cooperativa',
@@ -78,7 +79,9 @@ def is_acto_cargo(data):
 # TODO: Añadir otras sociedades menos usuales
 def is_company(data):
     """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
-    siglas = [' SL', ' SA', ' AIE', ' SRL', ' SOCIEDAD LIMITADA', ' SOCIEDAD ANONIMA', ' SLU', ' COOP', ' SLL', ' SAL', ' SLNE']
+    siglas = list(SOCIEDADES.keys())
+    siglas.extend(['SOCIEDAD LIMITADA', 'SOCIEDAD ANONIMA'])
+    siglas = list(map(lambda x: ' %s' % x, siglas))
     return any(data.endswith(s) for s in siglas)
 
 
