@@ -10,8 +10,12 @@ from .regex import is_acto_cargo
 #from .seccion import SECCION
 #from .provincia import PROVINCIA
 import datetime
-
 import logging
+import json
+import os
+
+from collections import OrderedDict
+
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
 logger.addHandler(ch)
@@ -202,6 +206,49 @@ class Borme(object):
         if downloaded:
             self.filename = filename
         return downloaded
+
+    def _to_json(self, filename):
+        def set_default(obj):
+            """ serialize Python sets as lists
+                http://stackoverflow.com/a/22281062
+            """
+            if isinstance(obj, set):
+                return list(obj)
+            raise TypeError
+
+        d = OrderedDict()
+        d['cve'] = self.cve
+        d['date'] = self.date.isoformat()
+        d['seccion'] = self.seccion
+        d['provincia'] = self.provincia
+        d['num'] = self.num
+        d['url'] = self.url
+        d['filename'] = self.filename
+        d['info'] = self.info
+        d['anuncios'] = {}
+
+        for id, anuncio in self.anuncios.items():
+            d['anuncios'][anuncio.id] = OrderedDict()
+            d['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
+            d['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
+            d['anuncios'][anuncio.id]['actos'] = {}
+            for acto in anuncio.actos:
+                d['anuncios'][anuncio.id]['actos'][acto.name] = acto.value
+
+        logger.debug(d)
+        with open(filename, 'w') as fp:
+            fp.write(json.dumps(d, default=set_default, indent=2))
+
+    def to_json(self, filename, overwrite=True):
+        if os.path.isfile(filename) and not overwrite:
+            return False
+
+        self._to_json(filename)
+        return True
+
+    @classmethod
+    def from_json(self, filename):
+        raise NotImplementedError
 
     def __repr__(self):
         return "<Borme(%s) seccion:%s provincia:%s>" % (self.date, self.seccion, self.provincia)
