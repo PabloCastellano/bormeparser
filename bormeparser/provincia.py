@@ -20,66 +20,82 @@
 from bormeparser.utils import remove_accents
 
 
+class Provincia:
+    def __init__(self, name, code):
+        self.name = name
+        self._code = code
+
+    @property
+    def code(self):
+        return '%02d' % self._code
+
+    def __str__(self):
+        return self.name
+
+    def __repr__(self):
+        return '%s: %s' % (self.__class__, self.name)
+
+
 class PROVINCIA:
-    ALAVA = '01'
-    ARABA = '01'
-    ALBACETE = '02'
-    ALICANTE = '03'
-    ALMERIA = '04'
-    AVILA = '05'
-    BADAJOZ = '06'
-    ISLAS_BALEARES = '07'
-    ILLES_BALEARS = '07'
-    BARCELONA = '08'
-    BURGOS = '09'
-    CACERES = '10'
-    CADIZ = '11'
-    CASTELLON = '12'
-    CIUDAD_REAL = '13'
-    CORDOBA = '14'
-    LA_CORUNA = '15'
-    A_CORUNA = '15'
-    CUENCA = '16'
-    GERONA = '17'
-    GIRONA = '17'
-    GRANADA = '18'
-    GUADALAJARA = '19'
-    GUIPUZCOA = '20'
-    HUELVA = '21'
-    HUESCA = '22'
-    JAEN = '23'
-    LEON = '24'
-    LERIDA = '25'
-    LLEIDA = '25'
-    LA_RIOJA = '26'
-    LUGO = '27'
-    MADRID = '28'
-    MALAGA = '29'
-    MURCIA = '30'
-    NAVARRA = '31'
-    ORENSE = '32'
-    OURENSE = '32'
-    ASTURIAS = '33'
-    PALENCIA = '34'
-    LAS_PALMAS = '35'
-    PONTEVEDRA = '36'
-    SALAMANCA = '37'
-    SANTA_CRUZ_DE_TENERIFE = '38'
-    CANTABRIA = '39'
-    SEGOVIA = '40'
-    SEVILLA = '41'
-    SORIA = '42'
-    TARRAGONA = '43'
-    TERUEL = '44'
-    TOLEDO = '45'
-    VALENCIA = '46'
-    VALLADOLID = '47'
-    VIZCAYA = '48'
-    BIZKAIA = '48'
-    ZAMORA = '49'
-    ZARAGOZA = '50'
-    CEUTA = '51'
-    MELILLA = '52'
+    ALAVA = Provincia('Álava', 1)
+    ARABA = ALAVA
+    ALBACETE = Provincia('Albacete', 2)
+    ALICANTE = Provincia('Alicante', 3)
+    ALMERIA = Provincia('Almería', 4)
+    AVILA = Provincia('Ávila', 5)
+    BADAJOZ = Provincia('Badajoz', 6)
+    ISLAS_BALEARES = Provincia('Islas Baleares', 7)
+    ILLES_BALEARS = ISLAS_BALEARES
+    BARCELONA = Provincia('Barcelona', 8)
+    BURGOS = Provincia('Burgos', 9)
+    CACERES = Provincia('Cáceres', 10)
+    CADIZ = Provincia('Cádiz', 11)
+    CASTELLON = Provincia('Castellón', 12)
+    CIUDAD_REAL = Provincia('Ciudad Real', 13)
+    CORDOBA = Provincia('Córdoba', 14)
+    LA_CORUNA = Provincia('La Coruña', 15)
+    A_CORUNA = LA_CORUNA
+    CUENCA = Provincia('Cuenca', 16)
+    GERONA = Provincia('Gerona', 17)
+    GIRONA = GERONA
+    GRANADA = Provincia('Granada', 18)
+    GUADALAJARA = Provincia('Guadalajara', 19)
+    GUIPUZCOA = Provincia('Guipúzcoa', 20)
+    HUELVA = Provincia('Huelva', 21)
+    HUESCA = Provincia('Huesca', 22)
+    JAEN = Provincia('Jaén', 23)
+    LEON = Provincia('León', 24)
+    LERIDA = Provincia('Lérida', 25)
+    LLEIDA = LERIDA
+    LA_RIOJA = Provincia('La Rioja', 26)
+    LUGO = Provincia('Lugo', 27)
+    MADRID = Provincia('Madrid', 28)
+    MALAGA = Provincia('Málaga', 29)
+    MURCIA = Provincia('Murcia', 30)
+    NAVARRA = Provincia('Navarra', 31)
+    ORENSE = Provincia('Orense', 32)
+    OURENSE = ORENSE
+    ASTURIAS = Provincia('Asturias', 33)
+    PALENCIA = Provincia('Palencia', 34)
+    LAS_PALMAS = Provincia('Las Palmas', 35)
+    PONTEVEDRA = Provincia('Pontevedra', 36)
+    SALAMANCA = Provincia('Salamanca', 37)
+    SANTA_CRUZ_DE_TENERIFE = Provincia('Santa Cruz de Tenerife', 38)
+    CANTABRIA = Provincia('Cantabria', 39)
+    SEGOVIA = Provincia('Segovia', 40)
+    SEVILLA = Provincia('Sevilla', 41)
+    SORIA = Provincia('Soria', 42)
+    TARRAGONA = Provincia('Tarragona', 43)
+    TERUEL = Provincia('Teruel', 44)
+    TOLEDO = Provincia('Toledo', 45)
+    VALENCIA = Provincia('Valencia', 46)
+    VALLADOLID = Provincia('Valladolid', 47)
+    VIZCAYA = Provincia('Vizcaya', 48)
+    BIZKAIA = VIZCAYA
+    ZAMORA = Provincia('Zamora', 49)
+    ZARAGOZA = Provincia('Zaragoza', 50)
+    CEUTA = Provincia('Ceuta', 51)
+    MELILLA = Provincia('Melilla', 52)
 
     @staticmethod
     def from_title(title):
