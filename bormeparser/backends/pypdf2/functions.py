@@ -3,6 +3,7 @@
 
 import logging
 from PyPDF2 import PdfFileReader
+from collections import OrderedDict
 
 from bormeparser.regex import regex_cargos, regex_empresa, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 from bormeparser.acto import ACTO
@@ -11,8 +12,9 @@ logger = logging.getLogger(__name__)
 #logger.setLevel(logging.DEBUG)
 logger.setLevel(logging.WARN)
 
-DATA = {'borme_fecha': None, 'borme_num': None, 'borme_seccion': None, 'borme_subseccion': None,
-        'borme_provincia': None, 'borme_cve': None}
+DATA = OrderedDict()
+for key in ('borme_fecha', 'borme_num', 'borme_seccion', 'borme_subseccion', 'borme_provincia', 'borme_cve'):
+    DATA[key] = None
 
 
 def clean_data(data):
