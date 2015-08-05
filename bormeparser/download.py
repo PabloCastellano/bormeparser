@@ -88,14 +88,26 @@ def get_url_pdf(date, seccion, provincia):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
     url = get_url_xml(date)
-    tree = etree.parse(url)
+    nbo = get_nbo_from_xml(url)
+    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia)
+
+
+def get_url_pdf_from_xml(date, seccion, provincia, xml_path):
+    if isinstance(date, tuple):
+        date = datetime.date(year=date[0], month=date[1], day=date[2])
+
+    nbo = get_nbo_from_xml(xml_path)
+    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia)
+
+
+def get_nbo_from_xml(xml_path):
+    """ Número de Boletín Oficial """
+    tree = etree.parse(xml_path)
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
 
-    nbo = tree.xpath('//sumario/diario')[0].attrib['nbo']
-
-    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia)
+    return tree.xpath('//sumario/diario')[0].attrib['nbo']
 
 
 def get_url_pdfs(date, seccion):
