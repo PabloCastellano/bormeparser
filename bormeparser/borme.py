@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from .acto import ACTO
-#from .download import get_url_pdf, download_pdf
+#from .download import download_pdf
+from .download import get_url_pdf
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound
 from .regex import is_acto_cargo
@@ -148,7 +149,7 @@ class BormeXML(object):
 # TODO: Create instance directly from filename
 class Borme(object):
 
-    def __init__(self, date, seccion, provincia, num, cve, anuncios=None, url=None, filename=None):
+    def __init__(self, date, seccion, provincia, num, cve, anuncios=None, filename=None):
         if isinstance(date, tuple):
             date = datetime.date(year=date[0], month=date[1], day=date[2])
         self.date = date
@@ -156,11 +157,11 @@ class Borme(object):
         self.provincia = provincia
         self.num = num
         self.cve = cve
-        self.url = url
         self.filename = filename
         self._parsed = False
         self.info = {}
         self._set_anuncios(anuncios)
+        self._set_url()
 
     @classmethod
     def from_file(cls, filename):
@@ -171,10 +172,8 @@ class Borme(object):
         for anuncio in anuncios:
             self.anuncios[anuncio.id] = anuncio
 
-    def get_url(self):
-        if self.url is None:
-            self.url = get_url_pdf(self.date, self.seccion, self.provincia)
-        return self.url
+    def _set_url(self):
+        self.url = get_url_pdf(self.date, self.seccion, self.provincia)
 
     def get_info(self):
         #borme['info'] = {'pages': 5, 'anuncios': 38, 'fromanuncio': 12222, 'toanuncio': 12260}
