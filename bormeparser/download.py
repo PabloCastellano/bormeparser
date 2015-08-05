@@ -41,6 +41,7 @@ def download_xml(date, filename):
 # TODO: def download_pdfs(date, path, provincia)
 def download_pdfs(date, path, seccion):
     urls = get_url_pdfs(date, seccion)
+    files = []
 
     for url in urls.values():
         filename = url.split('/')[-1]
@@ -48,6 +49,7 @@ def download_pdfs(date, path, seccion):
         downloaded = download_url(url, full_path)
 
         if downloaded:
+            files.append(full_path)
             logger.debug('Downloaded %s' % filename)
         else:
             logger.error('Error downloading %s' % url)
@@ -55,7 +57,7 @@ def download_pdfs(date, path, seccion):
         #assert os.path.exists(filepdf)
         #assert os.path.getsize(filepdf) == int(url.attrib['szBytes'])
 
-    return True
+    return True, files
 
 
 # date = (year, month, date) or datetime.date
