@@ -32,7 +32,7 @@ class BormeParserBackend(object):
         seccion = SECCION.from_borme(anuncios['borme_seccion'], anuncios['borme_subseccion'])
         provincia = PROVINCIA.from_title(anuncios['borme_provincia'])
         url = get_url_pdf(fecha, seccion, provincia)
-        return Borme(fecha, seccion, provincia, anuncios['borme_num'], anuncios['borme_cve'], bormeanuncios, url=url)
+        return Borme(fecha, seccion, provincia, anuncios['borme_num'], anuncios['borme_cve'], bormeanuncios, url=url, filename=self.filename)
 
     def _parse(self):
         """
