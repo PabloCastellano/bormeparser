@@ -89,7 +89,7 @@ def get_url_pdf(date, seccion, provincia):
 
     url = get_url_xml(date)
     nbo = get_nbo_from_xml(url)
-    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia)
+    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
 
 
 def get_url_pdf_from_xml(date, seccion, provincia, xml_path):
@@ -97,7 +97,7 @@ def get_url_pdf_from_xml(date, seccion, provincia, xml_path):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
     nbo = get_nbo_from_xml(xml_path)
-    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia)
+    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
 
 
 def get_nbo_from_xml(xml_path):
