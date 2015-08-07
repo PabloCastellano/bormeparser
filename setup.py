@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from setuptools import setup
+from setuptools import setup, find_packages
 
 sys.path.insert(0, 'bormeparser')
 from version import __version__, __license__
@@ -41,7 +41,7 @@ if sys.argv[-1] == 'publish':
 
 setup(
     name='bormeparser',
-    packages=['bormeparser'],
+    packages=find_packages(exclude=['*.tests']),
     version=__version__,
     description="bormeparser is a Python library for parsing BORME files",
     long_description=long_description,
