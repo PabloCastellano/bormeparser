@@ -14,6 +14,7 @@ import datetime
 import logging
 import json
 import os
+import six
 
 from collections import OrderedDict
 
@@ -61,7 +62,7 @@ class BormeActoTexto(BormeActo):
         self.name = name
 
     def _set_value(self, value):
-        if not isinstance(value, str):
+        if not isinstance(value, six.string_types):
             raise ValueError('value must be str: %s' % value)
         self.value = value
 

@@ -62,50 +62,50 @@ class ACTO:
 
     # Palabras clave con argumentos
     _arg_keywords = {
-        'Nombramientos': NOMBRAMIENTOS,
-        'Revocaciones': REVOCACIONES,
-        'Ceses/Dimisiones': CESES_DIMISIONES,
-        'Modificaciones estatutarias': MODIFICACIONES_ESTATUTARIAS,
-        'Cambio de objeto social': CAMBIO_DE_OBJETO_SOCIAL,
-        'Cambio de denominación social': CAMBIO_DE_DENOMINACION_SOCIAL,
-        'Cambio de domicilio social': CAMBIO_DE_DOMICILIO_SOCIAL,
-        'Ampliacion del objeto social': AMPLIACION_DEL_OBJETO_SOCIAL,
-        'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
-        'Disolución': DISOLUCION,
-        'Reelecciones': REELECCIONES,
-        'Constitución': CONSTITUCION,
-        'Articulo 378.5 del Reglamento del Registro Mercantil': ARTICULO_378_5_DEL_RRM,
-        'Otros conceptos': OTROS_CONCEPTOS,
-        'Ampliación de capital': AMPLIACION_DE_CAPITAL,
-        'Reducción de capital': REDUCCION_DE_CAPITAL,
-        'Situación concursal': SITUACION_CONCURSAL,
-        'Fusión por absorción': FUSION_POR_ABSORCION,
-        'Suspensión de pagos': SUSPENSION_DE_PAGOS,
-        'Transformación de sociedad': TRANSFORMACION_DE_SOCIEDAD,
-        'Cancelaciones de oficio de nombramientos': CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS,
-        'Desembolso de dividendos pasivos': DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
-        'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
-        'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA
+        u'Nombramientos': NOMBRAMIENTOS,
+        u'Revocaciones': REVOCACIONES,
+        u'Ceses/Dimisiones': CESES_DIMISIONES,
+        u'Modificaciones estatutarias': MODIFICACIONES_ESTATUTARIAS,
+        u'Cambio de objeto social': CAMBIO_DE_OBJETO_SOCIAL,
+        u'Cambio de denominación social': CAMBIO_DE_DENOMINACION_SOCIAL,
+        u'Cambio de domicilio social': CAMBIO_DE_DOMICILIO_SOCIAL,
+        u'Ampliacion del objeto social': AMPLIACION_DEL_OBJETO_SOCIAL,
+        u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
+        u'Disolución': DISOLUCION,
+        u'Reelecciones': REELECCIONES,
+        u'Constitución': CONSTITUCION,
+        u'Articulo 378.5 del Reglamento del Registro Mercantil': ARTICULO_378_5_DEL_RRM,
+        u'Otros conceptos': OTROS_CONCEPTOS,
+        u'Ampliación de capital': AMPLIACION_DE_CAPITAL,
+        u'Reducción de capital': REDUCCION_DE_CAPITAL,
+        u'Situación concursal': SITUACION_CONCURSAL,
+        u'Fusión por absorción': FUSION_POR_ABSORCION,
+        u'Suspensión de pagos': SUSPENSION_DE_PAGOS,
+        u'Transformación de sociedad': TRANSFORMACION_DE_SOCIEDAD,
+        u'Cancelaciones de oficio de nombramientos': CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS,
+        u'Desembolso de dividendos pasivos': DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
+        u'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
+        u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA
     }
 
     # Palabras clave sin argumentos
     _noarg_keywords = {
-        'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
-        'Extinción': EXTINCION,
-        'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD,
-        'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
-        'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
-        'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
-        'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_HOJA_REGISTRAL_POR_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
-        'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_DE_LA_HOJA_REGISTRAL_POR_REVOCACION_DEL_NIF,
-        'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD
+        u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
+        u'Extinción': EXTINCION,
+        u'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD,
+        u'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
+        u'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
+        u'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
+        u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_HOJA_REGISTRAL_POR_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
+        u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_DE_LA_HOJA_REGISTRAL_POR_REVOCACION_DEL_NIF,
+        u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD
     }
 
     # Palabras clave seguidas por :
     _colon_keywords = {
-        'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
-        'Fe de erratas': FE_DE_ERRATAS,
-        'Socio único': SOCIO_UNICO
+        u'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
+        u'Fe de erratas': FE_DE_ERRATAS,
+        u'Socio único': SOCIO_UNICO
     }
 
     # Palabra clave
