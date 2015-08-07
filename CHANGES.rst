@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.1.3 [2015-08-08]
+------------------------
+
+- Fixed missing packages that weren't distributed
+
 Version 0.1.2 [2015-08-07]
 ------------------------
 
