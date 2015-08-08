@@ -10,6 +10,7 @@ bormeparser
 [![Downloads bormeparser](https://img.shields.io/pypi/dm/bormeparser.svg)](https://pypi.python.org/pypi/bormeparser)
 [![Coverage Status](https://coveralls.io/repos/PabloCastellano/bormeparser/badge.svg)](https://coveralls.io/r/PabloCastellano/bormeparser)
 [![Documentation Status](https://readthedocs.org/projects/bormeparser/badge/?version=latest)](https://readthedocs.org/projects/bormeparser/?badge=latest)
+[![Requirements Status](https://requires.io/github/PabloCastellano/bormeparser/requirements.svg?branch=master)](https://requires.io/github/PabloCastellano/bormeparser/requirements/?branch=master)
 
 Qué es BORME
 ============
