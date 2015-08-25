@@ -207,7 +207,30 @@ class Borme(object):
             self.filename = filename
         return downloaded
 
-    def _to_json(self, filename):
+    def _to_dict(self):
+        doc = OrderedDict()
+        doc['cve'] = self.cve
+        doc['date'] = self.date.isoformat()
+        doc['seccion'] = self.seccion
+        doc['provincia'] = self.provincia
+        doc['num'] = self.num
+        doc['url'] = self.url
+        doc['filename'] = self.filename
+        doc['info'] = self.info
+        doc['anuncios'] = {}
+
+        for id, anuncio in self.anuncios.items():
+            doc['anuncios'][anuncio.id] = OrderedDict()
+            doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
+            doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
+            doc['anuncios'][anuncio.id]['actos'] = {}
+            for acto in anuncio.actos:
+                doc['anuncios'][anuncio.id]['actos'][acto.name] = acto.value
+
+        logger.debug(doc)
+        return doc
+
+    def to_json(self, filename, overwrite=True, pretty=True):
         def set_default(obj):
             """ serialize Python sets as lists
                 http://stackoverflow.com/a/22281062
@@ -218,34 +241,13 @@ class Borme(object):
                 return str(obj)
             raise TypeError(type(obj))
 
-        d = OrderedDict()
-        d['cve'] = self.cve
-        d['date'] = self.date.isoformat()
-        d['seccion'] = self.seccion
-        d['provincia'] = self.provincia
-        d['num'] = self.num
-        d['url'] = self.url
-        d['filename'] = self.filename
-        d['info'] = self.info
-        d['anuncios'] = {}
-
-        for id, anuncio in self.anuncios.items():
-            d['anuncios'][anuncio.id] = OrderedDict()
-            d['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
-            d['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
-            d['anuncios'][anuncio.id]['actos'] = {}
-            for acto in anuncio.actos:
-                d['anuncios'][anuncio.id]['actos'][acto.name] = acto.value
-
-        logger.debug(d)
-        with open(filename, 'w') as fp:
-            fp.write(json.dumps(d, default=set_default, indent=2))
-
-    def to_json(self, filename, overwrite=True):
         if os.path.isfile(filename) and not overwrite:
             return False
 
-        self._to_json(filename)
+        doc = self._to_dict()
+        indent = 2 if pretty else None
+        with open(filename, 'w') as fp:
+            fp.write(json.dumps(doc, default=set_default, indent=indent))
         return True
 
     @classmethod
