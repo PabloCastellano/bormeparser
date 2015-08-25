@@ -78,7 +78,8 @@ def is_acto_cargo_entrante(data):
 # TODO: Comprobar que son todos
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
-    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones']
+    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones',
+             'Declaración de unipersonalidad']
     return data in actos
 
 

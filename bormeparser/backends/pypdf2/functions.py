@@ -117,7 +117,7 @@ def parse_file(filename):
                     # Check Declaracion de unip... in data
                     if 'Declaración de unipersonalidad' in data:
                         socio_unico, nombreacto = regex_declaracion(data)
-                        actos['Declaración de unipersonalidad'] = socio_unico
+                        actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
                         logger.debug('  nombreacto1: %s' % nombreacto)
                         logger.debug('  data: %s' % data)
 
@@ -156,13 +156,6 @@ def parse_file(filename):
                 # FIXME: (223238) Sociedad unipersonal. Cambio de identidad del socio único: MORENO NAVAS CARLOS.
                 # HACK
                 """
-                if nombreacto and 'Declaración de unipersonalidad' in nombreacto:
-                    nombreacto = clean_data(data)[:-1]
-                    f = nombreacto.rfind('.')
-                    data = nombreacto[f+1:]
-                    nombreacto = nombreacto[:f+1]
-                    actos[nombreacto] = 'X'
-
                 if 'Extinción' in nombreacto or 'Declaración de unipersonalidad' in nombreacto:
                     pass
 
@@ -171,15 +164,14 @@ def parse_file(filename):
                     nombreacto = clean_data(nombreacto.rsplit('.', 1)[1])
                 """
 
-                """
-                if 'Declaración de unipersonalidad' in nombreacto:
-                    socio_unico, acto = regex_declaracion(nombreacto)
-                    actos['Declaración de unipersonalidad'] = socio_unico
-                    nombreacto = acto
-                """
-
                 # Capturar lo necesario y dejar el resto en nombramientos, clean_data doblemente.
                 nombreacto = clean_data(data)[:-1]
+                if 'Declaración de unipersonalidad' in nombreacto:
+                    socio_unico, nombreacto = regex_declaracion(nombreacto)
+                    actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
+                    logger.debug('  Declaración de unipersonalidad')
+                    logger.debug('  data: %s' % socio_unico)
+
                 logger.debug('  nombreacto2: %s' % nombreacto)
                 logger.debug('  data: %s' % data)
                 data = ""
