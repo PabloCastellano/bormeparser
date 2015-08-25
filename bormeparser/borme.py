@@ -9,7 +9,7 @@ from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound
 from .regex import is_acto_cargo
 #from .parser import parse as parse_borme
 #from .seccion import SECCION
-#from .provincia import PROVINCIA
+from .provincia import Provincia
 import datetime
 import logging
 import json
@@ -214,7 +214,9 @@ class Borme(object):
             """
             if isinstance(obj, set):
                 return list(obj)
-            raise TypeError
+            elif isinstance(obj, Provincia):
+                return str(obj)
+            raise TypeError(type(obj))
 
         d = OrderedDict()
         d['cve'] = self.cve
