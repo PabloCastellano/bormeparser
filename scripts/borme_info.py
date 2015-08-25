@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import bormeparser
 import bormeparser.borme
+import bormeparser.backends.pypdf2.functions
 import logging
 import sys
 
@@ -10,6 +11,7 @@ if __name__ == '__main__':
     # set logger DEBUG
     if len(sys.argv) == 3 and sys.argv[2] == '--debug':
         bormeparser.borme.logger.setLevel(logging.DEBUG)
+        bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
     borme = bormeparser.parse(sys.argv[1])
 
@@ -20,6 +22,8 @@ if __name__ == '__main__':
         for acto, valor in anuncio.get_actos():
             print('  %s' % acto)
             print('    %s' % valor)
+        print('  Datos registrales')
+        print('    %s' % anuncio.datos_registrales)
         print()
 
     print('Otros')

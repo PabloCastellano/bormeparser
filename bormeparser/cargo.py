@@ -72,7 +72,7 @@ class CARGO:
                  'Apoderado': APODERADO,
                  'Apo.Man.Soli': APO_MAN_SOLI,
                  'Apo.Manc': APO_MANC,
-                 'Apo.Sol': APO_SOL,
+                 'Apo.Sol.': APO_SOL,
                  'APODERAD.SOL': APODERADO_SOL,
                  'APOD.SOL/MAN': APOD_SOL_MAN,
                  'Soc.Prof': SOC_PROF,
