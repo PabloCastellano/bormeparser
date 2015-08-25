@@ -75,6 +75,8 @@ Tests
 Este paquete contiene tests unitarios. Puedes ejecutarlos escribiendo alguna de estas órdenes:
 
     python setup.py test
+    python -m unittest bormeparser.tests.test_borme
+    python -m unittest bormeparser.tests.test_bormeparser
     python -m unittest bormeparser.tests.test_bormeregex
 
 
