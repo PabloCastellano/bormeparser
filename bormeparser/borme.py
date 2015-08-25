@@ -6,7 +6,7 @@ from .acto import ACTO
 from .download import get_url_pdf
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound
-from .regex import is_acto_cargo
+from .regex import is_acto_cargo, is_acto_noarg
 #from .parser import parse as parse_borme
 #from .seccion import SECCION
 from .provincia import Provincia
@@ -95,6 +95,19 @@ class BormeActoCargo(BormeActo):
         return list(self.value.keys())
 
 
+class BormeActoFact(BormeActo):
+
+    def _set_name(self, name):
+        if not is_acto_noarg(name):
+            raise ValueError
+        self.name = name
+
+    def _set_value(self, value):
+        if value != True:
+            raise ValueError('value must be True: %s' % value)
+        self.value = value
+
+
 class BormeAnuncio(object):
     """
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
@@ -118,6 +131,9 @@ class BormeAnuncio(object):
             if is_acto_cargo(acto_nombre):
                 a = BormeActoCargo(acto_nombre, valor)
                 self.actos.append(a)
+            elif is_acto_noarg(acto_nombre):
+                a = BormeActoFact(acto_nombre, valor)
+                self.actos.append(a)
             else:
                 a = BormeActoTexto(acto_nombre, valor)
                 self.actos.append(a)
@@ -132,10 +148,7 @@ class BormeAnuncio(object):
 
     def get_actos(self):
         for acto in self.actos:
-            if isinstance(acto, BormeActoTexto):
-                yield acto.name, acto.value
-            else:
-                yield acto.name, acto.cargos
+            yield acto.name, acto.value
 
     def __repr__(self):
         return "<BormeAnuncio(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))

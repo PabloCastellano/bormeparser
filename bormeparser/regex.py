@@ -8,8 +8,9 @@ from bormeparser.cargo import CARGO
 
 esc_arg_keywords = [x.replace('.', '\.') for x in ACTO.ALL_KEYWORDS]
 esc_colon_keywords = [x.replace('.', '\.') for x in ACTO.COLON_KEYWORDS]
-esc_noarg_keywords = [x.replace('.', '\.') for x in ACTO.NOARG_KEYWORDS]
+esc_noarg_keywords = [x.replace('.', '\.').replace('(', '\(').replace(')', '\)') for x in ACTO.NOARG_KEYWORDS]
 esc_ending_keywords = [x.replace('.', '\.') for x in ACTO.ENDING_KEYWORDS]
+
 
 # -- ACTOS --
 # OR de las palabras clave con argumentos
@@ -39,6 +40,8 @@ REGEX3 = re.compile(RE_COLON_KEYWORDS + ':\s+(.*?)\.\s*' + RE_ALL_KEYWORDS_NG)
 REGEX4 = re.compile(RE_ENDING_KEYWORD + '\.\s+(.*)\.\s*')
 REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 """
+
+REGEX_NOARG = re.compile('\s*' + RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)\.$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
@@ -83,6 +86,11 @@ def is_acto_cargo(data):
     return data in actos
 
 
+def is_acto_noarg(data):
+    """ Comprueba si es un acto que no tiene parametros """
+    return data in ACTO.NOARG_KEYWORDS
+
+
 # TODO: Añadir otras sociedades menos usuales
 def is_company(data):
     """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
@@ -91,6 +99,9 @@ def is_company(data):
     siglas = list(map(lambda x: ' %s' % x, siglas))
     return any(data.endswith(s) for s in siglas)
 
+def regex_noarg(data):
+    nombreacto, siguiente_acto = REGEX_NOARG.match(data).groups()
+    return nombreacto, siguiente_acto
 
 def regex_empresa(data):
     """ Captura el número de acto y el nombre de la empresa """

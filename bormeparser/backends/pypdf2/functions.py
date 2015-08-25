@@ -5,7 +5,7 @@ import logging
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_declaracion, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
+from bormeparser.regex import regex_cargos, regex_empresa, regex_declaracion, regex_noarg, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 from bormeparser.acto import ACTO
 
 logger = logging.getLogger(__name__)
@@ -115,10 +115,16 @@ def parse_file(filename):
                     texto = False
 
                     # Check Declaracion de unip... in data
-                    if 'Declaración de unipersonalidad' in data:
+                    if 'Declaración de unipersonalidad.' in data:
                         socio_unico, nombreacto = regex_declaracion(data)
                         actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
                         logger.debug('  nombreacto1: %s' % nombreacto)
+                        logger.debug('  data: %s' % data)
+                    # Check noarg
+                    elif any(kw+'.' in data for kw in ACTO.NOARG_KEYWORDS):
+                        acto_noarg, nombreacto = regex_noarg(data)
+                        actos[acto_noarg] = True
+                        logger.debug('  acto_noarg: %s' % acto_noarg)
                         logger.debug('  data: %s' % data)
 
                     if nombreacto:
@@ -138,9 +144,8 @@ def parse_file(filename):
                 logger.debug('START: font bold')
                 if nombreacto:
                     logger.debug('  nombreacto: %s' % nombreacto)
-                    logger.debug('  data: %s' % data)
                     data = clean_data(data)
-                    logger.debug('  data_1: %s' % data)
+                    logger.debug('  data: %s' % data)
                     if nombreacto in ACTO.CARGOS_KEYWORDS:
                         data = regex_cargos(data)
                     logger.debug('  data_2: %s' % data)
@@ -151,26 +156,21 @@ def parse_file(filename):
             if line == '/F2 8 Tf':
                 # Font 2: normal
                 logger.debug('START: font normal')
-                # FIXME: Declaración de unipersonalidad. Socio único: GARCIA FUENTES JUAN CARLOS. Nombramientos
-                # FIXME: (223969) Extinción. Datos registrales. T 4889, L 3797, F 13, S 8, H MA109474, I/A 2 (21.05.15).
                 # FIXME: (223238) Sociedad unipersonal. Cambio de identidad del socio único: MORENO NAVAS CARLOS.
                 # HACK
-                """
-                if 'Extinción' in nombreacto or 'Declaración de unipersonalidad' in nombreacto:
-                    pass
-
-                if nombreacto.startswith('Declaración de unipersonalidad'):
-                    actos['Declaración de unipersonalidad'] = nombreacto.rsplit('.', 1)[0][32:]
-                    nombreacto = clean_data(nombreacto.rsplit('.', 1)[1])
-                """
 
                 # Capturar lo necesario y dejar el resto en nombramientos, clean_data doblemente.
                 nombreacto = clean_data(data)[:-1]
-                if 'Declaración de unipersonalidad' in nombreacto:
+                if 'Declaración de unipersonalidad.' in nombreacto:
                     socio_unico, nombreacto = regex_declaracion(nombreacto)
                     actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
                     logger.debug('  Declaración de unipersonalidad')
                     logger.debug('  data: %s' % socio_unico)
+                elif any(kw+'.' in nombreacto for kw in ACTO.NOARG_KEYWORDS):
+                        acto_noarg, nombreacto = regex_noarg(nombreacto)
+                        actos[acto_noarg] = True
+                        logger.debug('  acto_noarg: %s' % acto_noarg)
+                        logger.debug('  data: %s' % data)
 
                 logger.debug('  nombreacto2: %s' % nombreacto)
                 logger.debug('  data: %s' % data)

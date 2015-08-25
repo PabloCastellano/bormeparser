@@ -85,14 +85,14 @@ class ACTO:
         u'Cancelaciones de oficio de nombramientos': CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS,
         u'Desembolso de dividendos pasivos': DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
         u'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
-        u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA
+        u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
+        u'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD
     }
 
     # Palabras clave sin argumentos
     _noarg_keywords = {
         u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
         u'Extinción': EXTINCION,
-        u'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD,
         u'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
         u'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
         u'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
