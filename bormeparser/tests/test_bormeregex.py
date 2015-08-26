@@ -43,8 +43,13 @@ class BormeparserIsCompanyTestCase(unittest.TestCase):
 
 class BormeparserRegexEmpresaTestCase(unittest.TestCase):
     acto1 = '57344 - ALDARA CATERING SL.'
+    acto2 = '57344 - ALDARA CATERING SL'
 
     def test_regex_empresa(self):
+        acto_id, empresa = regex_empresa(self.acto1)
+        self.assertEqual(acto_id, 57344)
+        self.assertEqual(empresa, 'ALDARA CATERING SL')
+
         acto_id, empresa = regex_empresa(self.acto1)
         self.assertEqual(acto_id, 57344)
         self.assertEqual(empresa, 'ALDARA CATERING SL')

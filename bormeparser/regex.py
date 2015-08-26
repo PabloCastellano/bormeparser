@@ -44,7 +44,7 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': ([\w+ ]+)+\.\s*(.*)', re.UNICODE)
 
-REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)\.$')
+REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*?)(?:\.$|$)')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
