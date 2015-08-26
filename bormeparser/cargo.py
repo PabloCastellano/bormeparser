@@ -56,6 +56,8 @@ class CARGO:
     REP_ADM_CONC = 33
     AUD_SUPL = 34
     ADM_CONJUNTO = 35
+    ENT_REG_CONT = 36
+    ENTIDAD_DEPOSITARIA = 37
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -99,6 +101,8 @@ class CARGO:
                  'Auditor': AUDITOR,
                  'Aud.C.Con.': AUD_C_CON,
                  'Aud.Supl.': AUD_SUPL,
+                 'Ent.Reg.Cont': ENT_REG_CONT,
+                 'EntidDeposit': ENTIDAD_DEPOSITARIA,
                  'REP.ADM.CONC': REP_ADM_CONC
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
