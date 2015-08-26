@@ -55,6 +55,7 @@ class CARGO:
     ADM_CONCURS = 32
     REP_ADM_CONC = 33
     AUD_SUPL = 34
+    ADM_CONJUNTO = 35
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -66,17 +67,22 @@ class CARGO:
                  'Pre.Cons.Rec': PRE_CONS_REC,
                  'Sec.Cons.Rec': SEC_CONS_REC,
                  'Adm. Unico': ADM_UNICO,
+                 'ADM.UNICO': ADM_UNICO,
                  'Adm. Solid.': ADM_SOLID,
+                 'ADM.SOLIDAR.': ADM_SOLID,
                  'ADM.CONCURS': ADM_CONCURS,
                  'Adm. Mancom': ADM_MANCOM,
+                 'ADM.CONJUNTO': ADM_CONJUNTO,
                  'Apoderado': APODERADO,
+                 'APODERADO': APODERADO,
                  'Apo.Man.Soli': APO_MAN_SOLI,
                  'Apo.Manc': APO_MANC,
+                 'APOD.MANCOMU': APO_MANC,
                  'Adm. Mancom.': APO_MANC,
                  'Apo.Sol.': APO_SOL,
                  'APODERAD.SOL': APODERADO_SOL,
                  'APOD.SOL/MAN': APOD_SOL_MAN,
-                 'Soc.Prof': SOC_PROF,
+                 'Soc.Prof.': SOC_PROF,
                  'Co.De.Ma.So': CO_DE_MA_SO,
                  'Cons.Del.Sol': CONS_DEL_SOL,
                  'Representan': REPRESENTANTE,
