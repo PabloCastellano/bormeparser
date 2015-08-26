@@ -40,16 +40,14 @@ REGEX4 = re.compile(RE_ENDING_KEYWORD + '\.\s+(.*)\.\s*')
 REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 """
 
-REGEX_NOARG = re.compile('\s*' + RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
+REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
+REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': ([\w+ ]+)+\.\s*(.*)', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*)\.$')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
 REGEX_BORME_CVE = re.compile('^cve: (.*)$')
-
-# Hacks
-REGEX_DECLARACION = re.compile('\s*Declaración de unipersonalidad. Socio único: ([\w+ ]+)+\.\s*(.*)', re.UNICODE)
 
 MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6, 'julio': 7,
          'agosto': 8, 'septiembre': 9, 'octubre': 10, 'noviembre': 11, 'diciembre': 12}
@@ -81,7 +79,7 @@ def is_acto_cargo_entrante(data):
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
     actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones',
-             'Declaración de unipersonalidad']
+             'Declaración de unipersonalidad. Socio único']
     return data in actos
 
 
@@ -98,9 +96,16 @@ def is_company(data):
     siglas = list(map(lambda x: ' %s' % x, siglas))
     return any(data.endswith(s) for s in siglas)
 
+
+def regex_argcolon(data):
+    acto_colon, arg_colon, nombreacto = REGEX_ARGCOLON.match(data).groups()
+    return acto_colon, arg_colon, nombreacto
+
+
 def regex_noarg(data):
     nombreacto, siguiente_acto = REGEX_NOARG.match(data).groups()
     return nombreacto, siguiente_acto
+
 
 def regex_empresa(data):
     """ Captura el número de acto y el nombre de la empresa """
@@ -108,12 +113,6 @@ def regex_empresa(data):
     acto_id = int(m.group(1))
     empresa = m.group(2)
     return (acto_id, empresa)
-
-
-def regex_declaracion(data):
-    """ Declaración de unipersonalidad. Socio Único: XXX. Nombramientos """
-    socio_unico, acto = REGEX_DECLARACION.match(data).groups()
-    return socio_unico, acto
 
 
 def regex_cargos(data):

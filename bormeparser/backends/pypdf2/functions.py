@@ -5,7 +5,7 @@ import logging
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_declaracion, regex_noarg, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
+from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 from bormeparser.acto import ACTO
 
 logger = logging.getLogger(__name__)
@@ -148,19 +148,26 @@ def parse_file(filename):
             if line == '/F2 8 Tf':
                 # Font 2: normal
                 # FIXME: (223238) Sociedad unipersonal. Cambio de identidad del socio único: MORENO NAVAS CARLOS.
+                # FIXME: Varios a la vez: Extincion, Sociedad Unip, ...
                 # HACK
 
                 # Capturar lo necesario y dejar el resto en nombramientos, clean_data doblemente.
                 nombreacto = clean_data(data)[:-1]
-                if 'Declaración de unipersonalidad.' in nombreacto:
-                    socio_unico, nombreacto = regex_declaracion(nombreacto)
-                    actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
-                    logger.debug('  nombreacto2 Declaración de unipersonalidad')
-                    logger.debug('  data: %s' % socio_unico)
-                elif any(kw+'.' in nombreacto for kw in ACTO.NOARG_KEYWORDS):
+
+                if REGEX_ARGCOLON.match(nombreacto):
+                    acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
+                    if acto_colon == 'Fe de erratas':  # FIXME: check
+                        actos[acto_colon] = arg_colon
+                    else:
+                        actos[acto_colon] = {'Socio Único': {arg_colon}}
+
+                    logger.debug('  nombreacto2: %s -- %s' % (acto_colon, arg_colon))
+                    logger.debug('  data: %s' % data)
+
+                elif REGEX_NOARG.match(nombreacto):
                     acto_noarg, nombreacto = regex_noarg(nombreacto)
                     actos[acto_noarg] = True
-                    logger.debug('  acto_noarg2: %s' % acto_noarg)
+                    logger.debug('  acto_noarg: %s' % acto_noarg)
                     logger.debug('  data: %s' % data)
 
                 logger.debug('  nombreacto2: %s' % nombreacto)

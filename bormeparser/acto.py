@@ -86,7 +86,6 @@ class ACTO:
         u'Desembolso de dividendos pasivos': DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
         u'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
         u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
-        u'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD
     }
 
     # Palabras clave sin argumentos
@@ -103,9 +102,9 @@ class ACTO:
 
     # Palabras clave seguidas por :
     _colon_keywords = {
+        u'Declaración de unipersonalidad. Socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
         u'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
         u'Fe de erratas': FE_DE_ERRATAS,
-        u'Socio único': SOCIO_UNICO
     }
 
     # Palabra clave
