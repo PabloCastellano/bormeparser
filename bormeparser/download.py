@@ -56,7 +56,6 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
     if downloaded:
         logger.debug('Downloaded %s' % filename)
     else:
-        logger.error('Error downloading %s' % url)
         return False
 
     if parse:
@@ -158,13 +157,14 @@ def get_url_xml(date):
 
 # TODO: FileExistsError (subclass de OSError)
 def download_url(url, filename, timeout=TIMEOUT):
+    logger.info('Downloading URL: %s' % url)
     if os.path.exists(filename):
+        logger.warning('%s already exists!' % os.path.basename(filename))
         return False
 
-    logger.info('Downloading URL: %s' % url)
     r = requests.get(url, stream=True, timeout=timeout)
     cl = r.headers.get('content-length')
-    logger.info("%.2f KB" % (int(cl) / 1024.0))
+    logger.debug("%.2f KB" % (int(cl) / 1024.0))
 
     with open(filename, 'wb') as fd:
         for chunk in r.iter_content(8192):
@@ -183,9 +183,7 @@ def download_urls(urls, path):
 
         if downloaded:
             files.append(full_path)
-            logger.debug('Downloaded %s' % filename)
-        else:
-            logger.error('Error downloading %s' % url)
+            logger.info('Downloaded %s' % filename)
 
         #assert os.path.exists(filepdf)
         #assert os.path.getsize(filepdf) == int(url.attrib['szBytes'])
