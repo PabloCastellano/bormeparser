@@ -60,7 +60,8 @@ class ACTO:
     SOCIO_UNICO = 35
     DATOS_REGISTRALES = 36
     CREDITO_INCOBRABLE = 37
-
+    EMPRESARIO_INDIVIDUAL = 38
+    
     # Palabras clave con argumentos
     _arg_keywords = {
         u'Nombramientos': NOMBRAMIENTOS,
@@ -75,6 +76,7 @@ class ACTO:
         u'Disolución': DISOLUCION,
         u'Reelecciones': REELECCIONES,
         u'Constitución': CONSTITUCION,
+        u'Empresario Individual': EMPRESARIO_INDIVIDUAL,
         u'Articulo 378.5 del Reglamento del Registro Mercantil': ARTICULO_378_5_DEL_RRM,
         u'Otros conceptos': OTROS_CONCEPTOS,
         u'Ampliación de capital': AMPLIACION_DE_CAPITAL,
