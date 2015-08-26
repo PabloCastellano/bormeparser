@@ -65,6 +65,7 @@ class CARGO:
     PRES_COM_CTR = 42
     SECR_COM_CTR = 43
     RLC_PERMA = 44
+    LIQUIDADOR_M = 45
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -100,6 +101,7 @@ class CARGO:
                  'Liquidador': LIQUIDADOR,
                  'LiquiSoli': LIQUISOLI,
                  'LiqSolid': LIQUISOLI,
+                 'Liquidador M': LIQUIDADOR_M,
                  'REPR.143 RRM': REPR_143_RRM,
                  'CONSEJERO': CONSEJERO,
                  'CONS.DEL.M/S': CONS_DEL_M_S,
