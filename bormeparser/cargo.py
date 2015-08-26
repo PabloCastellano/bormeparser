@@ -58,10 +58,15 @@ class CARGO:
     ADM_CONJUNTO = 35
     ENT_REG_CONT = 36
     ENTIDAD_DEPOSITARIA = 37
+    CONSEJERO_DOMINI = 38
+    M_COMIT_AUD = 39
+    SEC_COMIT_AUD = 40
+    PTE_COMIT_AUD = 41
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
                  'Consejero': CONSEJERO,
+                 'Consj.Domini': CONSEJERO_DOMINI,
                  'Secretario': SECRETARIO,
                  'Vicesecret': VICESECRETARIO,
                  'Cons.Del.Man': CONS_DEL_MAN,
@@ -78,7 +83,7 @@ class CARGO:
                  'Apoderado': APODERADO,
                  'APODERADO': APODERADO,
                  'Apo.Man.Soli': APO_MAN_SOLI,
-                 'Apo.Manc': APO_MANC,
+                 'Apo.Manc.': APO_MANC,
                  'APOD.MANCOMU': APO_MANC,
                  'Adm. Mancom.': APO_MANC,
                  'Apo.Sol.': APO_SOL,
@@ -103,6 +108,9 @@ class CARGO:
                  'Aud.Supl.': AUD_SUPL,
                  'Ent.Reg.Cont': ENT_REG_CONT,
                  'EntidDeposit': ENTIDAD_DEPOSITARIA,
+                 'M.Comit.Aud': M_COMIT_AUD,
+                 'Sec.Comit.Au': SEC_COMIT_AUD,
+                 'Pte.Comit.Au': PTE_COMIT_AUD,
                  'REP.ADM.CONC': REP_ADM_CONC
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
