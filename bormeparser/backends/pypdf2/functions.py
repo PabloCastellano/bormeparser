@@ -5,8 +5,7 @@ import logging
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
-from bormeparser.acto import ACTO
+from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 
 logger = logging.getLogger(__name__)
 #logger.setLevel(logging.DEBUG)
@@ -136,10 +135,10 @@ def parse_file(filename):
                 if nombreacto:
                     logger.debug('  nombreacto: %s' % nombreacto)
                     data = clean_data(data)
-                    logger.debug('  data: %s' % data)
-                    if nombreacto in ACTO.CARGOS_KEYWORDS:
+                    logger.debug('  data_3: %s' % data)
+                    if is_acto_cargo(nombreacto):
                         data = regex_cargos(data)
-                    logger.debug('  data_2: %s' % data)
+                        logger.debug('  data_4: %s' % data)
                     actos[nombreacto] = data
                     data = ""
                     nombreacto = None
