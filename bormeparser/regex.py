@@ -11,6 +11,7 @@ esc_colon_keywords = [x.replace('.', '\.') for x in ACTO.COLON_KEYWORDS]
 esc_noarg_keywords = [x.replace('.', '\.').replace('(', '\(').replace(')', '\)') for x in ACTO.NOARG_KEYWORDS]
 esc_ending_keywords = [x.replace('.', '\.') for x in ACTO.ENDING_KEYWORDS]
 
+esc_cargos_keywords = [x.replace('.', '\.') for x in CARGO.KEYWORDS]
 
 # -- ACTOS --
 # OR de las palabras clave con argumentos
@@ -26,9 +27,9 @@ RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 
 # -- CARGOS --
 # OR de las palabras clave
-RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(CARGO.KEYWORDS)
+RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(esc_cargos_keywords)
 # RE para capturar el cargo y los nombres
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+\. ;&-]+)+(?:\.$|\.\s)'
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ":\s([\w+\. ;&-\\\\']+)+(?:\.$|\.\s)"
 
 """
 DEPRECATED
