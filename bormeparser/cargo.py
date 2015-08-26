@@ -67,6 +67,7 @@ class CARGO:
     RLC_PERMA = 44
     LIQUIDADOR_M = 45
     MIEM_COM_CTR = 46
+    MIEM_COM_EJ = 47
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -120,6 +121,7 @@ class CARGO:
                  'Pres.Com.Ctr': PRES_COM_CTR,
                  'Secr.Com.Ctr': SECR_COM_CTR,
                  'Miem.Com.Ctr': MIEM_COM_CTR,
+                 'Miem.Com.Ej.': MIEM_COM_EJ,
                  'R.L.C.Perma.': RLC_PERMA,
                  'REP.ADM.CONC': REP_ADM_CONC
                  }
