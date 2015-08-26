@@ -8,7 +8,6 @@ from collections import OrderedDict
 from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 
 logger = logging.getLogger(__name__)
-#logger.setLevel(logging.DEBUG)
 logger.setLevel(logging.WARN)
 
 DATA = OrderedDict()
@@ -39,7 +38,7 @@ def parse_file(filename):
     for n in range(0, reader.getNumPages()):
         content = reader.getPage(n).getContents().getData()
         logger.debug('---- BEGIN OF PAGE ----')
-        
+
         # Python 3
         if isinstance(content, bytes):
             content = content.decode('unicode_escape')
@@ -119,12 +118,14 @@ def parse_file(filename):
 
                     if nombreacto:
                         data = clean_data(data)
+                        if is_acto_cargo(nombreacto):
+                            data = regex_cargos(data)
+                        logger.debug('  ET nombreactoW: %s' % nombreacto)
+                        logger.debug('  ET dataW: %s' % data)
                         actos[nombreacto] = data
-                        logger.debug('  nombreacto: %s' % nombreacto)
-                        logger.debug('  data: %s' % data)
                         DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
+                        data = ""  # FIXME: No siempre, ej: 223410
                         nombreacto = None
-                        data = ""
                 continue
 
             if not any([texto, cabecera, fecha, numero, seccion, subseccion, provincia, cve]):
@@ -133,12 +134,12 @@ def parse_file(filename):
             if line == '/F1 8 Tf':
                 # Font 1: bold
                 if nombreacto:
-                    logger.debug('  nombreacto: %s' % nombreacto)
                     data = clean_data(data)
                     logger.debug('  data_3: %s' % data)
                     if is_acto_cargo(nombreacto):
                         data = regex_cargos(data)
-                        logger.debug('  data_4: %s' % data)
+                    logger.debug('  F1 nombreactoW: %s' % nombreacto)
+                    logger.debug('  F1 dataW: %s' % data)
                     actos[nombreacto] = data
                     data = ""
                     nombreacto = None
@@ -160,14 +161,14 @@ def parse_file(filename):
                         else:
                             actos[acto_colon] = {'Socio Único': {arg_colon}}
 
-                        logger.debug('  nombreacto2: %s -- %s' % (acto_colon, arg_colon))
+                        logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
                         logger.debug('  data: %s' % data)
 
                     elif REGEX_NOARG.match(nombreacto):
                         end = False
                         acto_noarg, nombreacto = regex_noarg(nombreacto)
                         actos[acto_noarg] = True
-                        logger.debug('  acto_noarg: %s' % acto_noarg)
+                        logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
                         logger.debug('  data: %s' % data)
 
                     if end:
