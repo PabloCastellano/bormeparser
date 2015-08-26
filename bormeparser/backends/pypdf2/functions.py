@@ -60,7 +60,6 @@ def parse_file(filename):
                 logger.debug('  nombreacto: %s' % nombreacto)
                 logger.debug('  data: %s' % data)
                 texto = True
-                data = ""
                 continue
 
             if line.startswith('/Fecha'):
@@ -112,32 +111,20 @@ def parse_file(filename):
                     anuncio_id, empresa = regex_empresa(data)
                     logger.debug('  anuncio_id: %s' % anuncio_id)
                     logger.debug('  empresa: %s' % empresa)
+                    data = ""
                 if texto:
                     logger.debug('END: texto')
                     texto = False
                     logger.debug('  nombreacto: %s' % nombreacto)
                     logger.debug('  data: %s' % data)
 
-                    # Check Declaracion de unip... in data
-                    if 'Declaración de unipersonalidad.' in data:
-                        socio_unico, nombreacto = regex_declaracion(data)
-                        actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
-                        logger.debug('  nombreacto1: %s' % nombreacto)
-                        logger.debug('  data: %s' % data)
-                    # Check noarg
-                    elif any(kw+'.' in data for kw in ACTO.NOARG_KEYWORDS):
-                        acto_noarg, nombreacto = regex_noarg(data)
-                        actos[acto_noarg] = True
-                        logger.debug('  acto_noarg: %s' % acto_noarg)
-                        logger.debug('  data: %s' % data)
-
                     if nombreacto:
                         data = clean_data(data)
                         actos[nombreacto] = data
                         logger.debug('  nombreacto: %s' % nombreacto)
                         logger.debug('  data: %s' % data)
-                    DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
-                    nombreacto = None
+                        DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
+                        nombreacto = None
                 continue
 
             if not any([texto, cabecera, fecha, numero, seccion, subseccion, provincia, cve]):
@@ -154,6 +141,8 @@ def parse_file(filename):
                     logger.debug('  data_2: %s' % data)
                     actos[nombreacto] = data
                     data = ""
+                    nombreacto = None
+                logger.debug('START: font bold')
                 continue
 
             if line == '/F2 8 Tf':
