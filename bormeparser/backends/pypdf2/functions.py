@@ -147,28 +147,31 @@ def parse_file(filename):
 
             if line == '/F2 8 Tf':
                 # Font 2: normal
-                # FIXME: (223238) Sociedad unipersonal. Cambio de identidad del socio único: MORENO NAVAS CARLOS.
-                # FIXME: Varios a la vez: Extincion, Sociedad Unip, ...
-                # HACK
-
-                # Capturar lo necesario y dejar el resto en nombramientos, clean_data doblemente.
                 nombreacto = clean_data(data)[:-1]
 
-                if REGEX_ARGCOLON.match(nombreacto):
-                    acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
-                    if acto_colon == 'Fe de erratas':  # FIXME: check
-                        actos[acto_colon] = arg_colon
-                    else:
-                        actos[acto_colon] = {'Socio Único': {arg_colon}}
+                while True:
+                    end = True
 
-                    logger.debug('  nombreacto2: %s -- %s' % (acto_colon, arg_colon))
-                    logger.debug('  data: %s' % data)
+                    if REGEX_ARGCOLON.match(nombreacto):
+                        end = False
+                        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
+                        if acto_colon == 'Fe de erratas':  # FIXME: check
+                            actos[acto_colon] = arg_colon
+                        else:
+                            actos[acto_colon] = {'Socio Único': {arg_colon}}
 
-                elif REGEX_NOARG.match(nombreacto):
-                    acto_noarg, nombreacto = regex_noarg(nombreacto)
-                    actos[acto_noarg] = True
-                    logger.debug('  acto_noarg: %s' % acto_noarg)
-                    logger.debug('  data: %s' % data)
+                        logger.debug('  nombreacto2: %s -- %s' % (acto_colon, arg_colon))
+                        logger.debug('  data: %s' % data)
+
+                    elif REGEX_NOARG.match(nombreacto):
+                        end = False
+                        acto_noarg, nombreacto = regex_noarg(nombreacto)
+                        actos[acto_noarg] = True
+                        logger.debug('  acto_noarg: %s' % acto_noarg)
+                        logger.debug('  data: %s' % data)
+
+                    if end:
+                        break
 
                 logger.debug('  nombreacto2: %s' % nombreacto)
                 logger.debug('  data: %s' % data)
