@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from bormeparser.utils import remove_accents
-
+import six
 
 class Provincia:
     def __init__(self, name, code):
@@ -35,6 +35,14 @@ class Provincia:
     def __repr__(self):
         return '%s: %s' % (self.__class__, self.name)
 
+    def __eq__(self, other):
+        """ Hace posible comparar la clase con una cadena (nombre de provincia) """
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        elif isinstance(other, six.string_types):
+            return self.name.upper() == other.upper()
+        else:
+            return False
 
 class PROVINCIA:
     ALAVA = Provincia('Álava', 1)
