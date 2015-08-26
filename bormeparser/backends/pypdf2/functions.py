@@ -164,13 +164,13 @@ def parse_file(filename):
                 if 'Declaración de unipersonalidad.' in nombreacto:
                     socio_unico, nombreacto = regex_declaracion(nombreacto)
                     actos['Declaración de unipersonalidad'] = {'Socio Único': {socio_unico}}
-                    logger.debug('  Declaración de unipersonalidad')
+                    logger.debug('  nombreacto2 Declaración de unipersonalidad')
                     logger.debug('  data: %s' % socio_unico)
                 elif any(kw+'.' in nombreacto for kw in ACTO.NOARG_KEYWORDS):
-                        acto_noarg, nombreacto = regex_noarg(nombreacto)
-                        actos[acto_noarg] = True
-                        logger.debug('  acto_noarg: %s' % acto_noarg)
-                        logger.debug('  data: %s' % data)
+                    acto_noarg, nombreacto = regex_noarg(nombreacto)
+                    actos[acto_noarg] = True
+                    logger.debug('  acto_noarg2: %s' % acto_noarg)
+                    logger.debug('  data: %s' % data)
 
                 logger.debug('  nombreacto2: %s' % nombreacto)
                 logger.debug('  data: %s' % data)

@@ -28,8 +28,7 @@ RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 # OR de las palabras clave
 RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(CARGO.KEYWORDS)
 # RE para capturar el cargo y los nombres
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+\. ;&]+)+(?:\.$|\.\s)'
-# FIXME: algunos nombres pueden contener caracteres raros como &
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ':\s([\w+\. ;&-]+)+(?:\.$|\.\s)'
 
 """
 DEPRECATED
