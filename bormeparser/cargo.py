@@ -62,6 +62,8 @@ class CARGO:
     M_COMIT_AUD = 39
     SEC_COMIT_AUD = 40
     PTE_COMIT_AUD = 41
+    PRES_COM_CTR = 42
+    SECR_COM_CTR = 43
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -111,6 +113,8 @@ class CARGO:
                  'M.Comit.Aud': M_COMIT_AUD,
                  'Sec.Comit.Au': SEC_COMIT_AUD,
                  'Pte.Comit.Au': PTE_COMIT_AUD,
+                 'Pres.Com.Ctr': PRES_COM_CTR,
+                 'Secr.Com.Ctr': SECR_COM_CTR,
                  'REP.ADM.CONC': REP_ADM_CONC
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
