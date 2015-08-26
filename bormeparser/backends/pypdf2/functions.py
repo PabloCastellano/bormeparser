@@ -125,6 +125,7 @@ def parse_file(filename):
                         logger.debug('  data: %s' % data)
                         DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
                         nombreacto = None
+                        data = ""
                 continue
 
             if not any([texto, cabecera, fecha, numero, seccion, subseccion, provincia, cve]):
