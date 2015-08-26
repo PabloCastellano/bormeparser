@@ -59,6 +59,7 @@ class ACTO:
     FE_DE_ERRATAS = 34
     SOCIO_UNICO = 35
     DATOS_REGISTRALES = 36
+    CREDITO_INCOBRABLE = 37
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -90,6 +91,7 @@ class ACTO:
 
     # Palabras clave sin argumentos
     _noarg_keywords = {
+        u'Crédito incobrable': CREDITO_INCOBRABLE,
         u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
         u'Extinción': EXTINCION,
         u'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
