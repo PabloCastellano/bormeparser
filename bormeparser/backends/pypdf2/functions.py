@@ -57,43 +57,45 @@ def parse_file(filename):
 
             if line.startswith('/Texto_acto'):
                 logger.debug('START: texto')
+                logger.debug('  nombreacto: %s' % nombreacto)
+                logger.debug('  data: %s' % data)
                 texto = True
                 data = ""
                 continue
 
             if line.startswith('/Fecha'):
-                logger.debug('START: fecha')
                 if not DATA['borme_fecha']:
+                    logger.debug('START: fecha')
                     fecha = True
                 continue
 
             if line.startswith('/Numero_BORME'):
-                logger.debug('START: numero')
                 if not DATA['borme_num']:
+                    logger.debug('START: numero')
                     numero = True
                 continue
 
             if line.startswith('/Seccion'):
-                logger.debug('START: seccion')
                 if not DATA['borme_seccion']:
+                    logger.debug('START: seccion')
                     seccion = True
                 continue
 
             if line.startswith('/Subseccion'):
-                logger.debug('START: subseccion')
                 if not DATA['borme_subseccion']:
+                    logger.debug('START: subseccion')
                     subseccion = True
                 continue
 
             if line.startswith('/Provincia'):
-                logger.debug('START: provincia')
                 if not DATA['borme_provincia']:
+                    logger.debug('START: provincia')
                     provincia = True
                 continue
 
             if line.startswith('/Codigo_verificacion'):
-                logger.debug('START: cve')
                 if not DATA['borme_cve']:
+                    logger.debug('START: cve')
                     cve = True
                 continue
 
@@ -113,6 +115,8 @@ def parse_file(filename):
                 if texto:
                     logger.debug('END: texto')
                     texto = False
+                    logger.debug('  nombreacto: %s' % nombreacto)
+                    logger.debug('  data: %s' % data)
 
                     # Check Declaracion de unip... in data
                     if 'Declaración de unipersonalidad.' in data:
@@ -130,7 +134,7 @@ def parse_file(filename):
                     if nombreacto:
                         data = clean_data(data)
                         actos[nombreacto] = data
-                        logger.debug('  nombreacto1: %s' % nombreacto)
+                        logger.debug('  nombreacto: %s' % nombreacto)
                         logger.debug('  data: %s' % data)
                     DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
                     nombreacto = None
@@ -141,7 +145,6 @@ def parse_file(filename):
 
             if line == '/F1 8 Tf':
                 # Font 1: bold
-                logger.debug('START: font bold')
                 if nombreacto:
                     logger.debug('  nombreacto: %s' % nombreacto)
                     data = clean_data(data)
@@ -155,7 +158,6 @@ def parse_file(filename):
 
             if line == '/F2 8 Tf':
                 # Font 2: normal
-                logger.debug('START: font normal')
                 # FIXME: (223238) Sociedad unipersonal. Cambio de identidad del socio único: MORENO NAVAS CARLOS.
                 # HACK
 
@@ -176,6 +178,7 @@ def parse_file(filename):
                 logger.debug('  data: %s' % data)
                 data = ""
                 logger.debug('  data_1: %s' % data)
+                logger.debug('START: font normal')
                 continue
 
             m = REGEX_TEXT.match(line)
@@ -211,10 +214,6 @@ def parse_file(filename):
                 #logger.debug('MORE DATA')
                 logger.debug('TOTAL DATA: %s' % data)
 
-        # final de pagina, guardar lo que haya en data
         logger.debug('---- END OF PAGE ----')
-        """
-        import pdb
-        pdb.set_trace()
-        """
+
     return DATA
