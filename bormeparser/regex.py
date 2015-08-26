@@ -98,22 +98,24 @@ def is_company(data):
     return any(data.endswith(s) for s in siglas)
 
 
+# HACK
 def regex_argcolon(data):
+    """ Captura el acto y su argumento y el siguiente acto """
     acto_colon, arg_colon, nombreacto = REGEX_ARGCOLON.match(data).groups()
     return acto_colon, arg_colon, nombreacto
 
 
+# HACK
 def regex_noarg(data):
+    """ Captura el acto sin argumento y el siguiente acto """
     nombreacto, siguiente_acto = REGEX_NOARG.match(data).groups()
     return nombreacto, siguiente_acto
 
 
 def regex_empresa(data):
     """ Captura el número de acto y el nombre de la empresa """
-    m = REGEX_EMPRESA.match(data)
-    acto_id = int(m.group(1))
-    empresa = m.group(2)
-    return (acto_id, empresa)
+    acto_id, empresa = REGEX_EMPRESA.match(data).groups()
+    return int(acto_id), empresa
 
 
 def regex_cargos(data):
