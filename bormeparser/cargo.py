@@ -68,6 +68,10 @@ class CARGO:
     LIQUIDADOR_M = 45
     MIEM_COM_CTR = 46
     MIEM_COM_EJ = 47
+    SEC_JGPV = 48
+    MIEM_JGPV = 49
+    PRES_JGPV = 50
+    TESORERO = 51
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -123,6 +127,10 @@ class CARGO:
                  'Miem.Com.Ctr': MIEM_COM_CTR,
                  'Miem.Com.Ej.': MIEM_COM_EJ,
                  'R.L.C.Perma.': RLC_PERMA,
+                 'Sec.J.G.P.V': SEC_JGPV,
+                 'Miem.J.G.P.V': MIEM_JGPV,
+                 'Pres.J.G.P.V': PRES_JGPV,
+                 'Tesorero': TESORERO,
                  'REP.ADM.CONC': REP_ADM_CONC
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
