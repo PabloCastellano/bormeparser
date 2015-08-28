@@ -19,7 +19,7 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa, is_company
+from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, is_company
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -69,6 +69,23 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
 
         cargos3 = regex_cargos(self.nombramientos3)
         self.assertEqual(cargos3, DATA['fake3'])
+
+
+class BormeparserRegexArgColonTestCase(unittest.TestCase):
+    string1 = 'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
+    string2 = 'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
+
+    def test_regex_nombramientos(self):
+        acto_colon, arg_colon, nombreacto = regex_argcolon(self.string1)
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad. Socio único')
+        self.assertEqual(arg_colon, 'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L')
+        self.assertEqual(nombreacto, 'Nombramientos')
+
+        acto_colon, arg_colon, nombreacto = regex_argcolon(self.string2)
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad. Socio único')
+        self.assertEqual(arg_colon, 'JOHN DOE')
+        self.assertEqual(nombreacto, 'Datos registrales')
+
 
 if __name__ == '__main__':
     unittest.main()

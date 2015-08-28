@@ -42,7 +42,7 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 """
 
 REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
-REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': ([\w+ ]+)+\.\s*(.*)', re.UNICODE)
+REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*?)(?:\.$|$)')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
