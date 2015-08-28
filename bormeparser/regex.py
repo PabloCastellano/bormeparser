@@ -80,7 +80,8 @@ def is_acto_cargo_entrante(data):
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
     actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones',
-             u'Declaración de unipersonalidad. Socio único', u'Cambio de identidad del socio único']
+             u'Declaración de unipersonalidad. Socio único', u'Cambio de identidad del socio único',
+             u'Emisión de obligaciones']
     return data in actos
 
 

@@ -61,7 +61,8 @@ class ACTO:
     DATOS_REGISTRALES = 36
     CREDITO_INCOBRABLE = 37
     EMPRESARIO_INDIVIDUAL = 38
-    
+    EMISION_OBLIGACIONES = 39
+
     # Palabras clave con argumentos
     _arg_keywords = {
         u'Nombramientos': NOMBRAMIENTOS,
@@ -89,6 +90,7 @@ class ACTO:
         u'Desembolso de dividendos pasivos': DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
         u'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
         u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
+        u'Emisión de obligaciones': EMISION_OBLIGACIONES,
     }
 
     # Palabras clave sin argumentos
