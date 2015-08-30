@@ -61,6 +61,7 @@ class ACTO:
     CREDITO_INCOBRABLE = 36
     EMPRESARIO_INDIVIDUAL = 37
     EMISION_OBLIGACIONES = 38
+    MODIFICACION_PODERES = 39
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -90,6 +91,7 @@ class ACTO:
         u'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
         u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
         u'Emisión de obligaciones': EMISION_OBLIGACIONES,
+        u'Modificación de poderes': MODIFICACION_PODERES,
     }
 
     # Palabras clave sin argumentos
