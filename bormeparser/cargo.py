@@ -73,6 +73,7 @@ class CARGO:
     PRES_JGPV = 50
     TESORERO = 51
     COMISARIO = 52
+    SOCIO_UNICO = 53
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -134,6 +135,7 @@ class CARGO:
                  'Tesorero': TESORERO,
                  'REP.ADM.CONC': REP_ADM_CONC,
                  'Comisario': COMISARIO,
+                 'Socio único': SOCIO_UNICO,
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
 
