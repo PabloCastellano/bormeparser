@@ -23,7 +23,7 @@ def parse_file(filename):
     cabecera = False
     texto = False
     data = ""
-    actos = {}
+    actos = OrderedDict()
     nombreacto = None
     anuncio_id = None
     empresa = None
@@ -68,7 +68,7 @@ def parse_file(filename):
                     nombreacto = None
 
                 data = ""
-                actos = {}
+                actos = OrderedDict()
                 continue
 
             if line.startswith('/Texto_acto'):
