@@ -34,6 +34,7 @@ def parse_file(filename):
     provincia = False
     cve = False
     changing_page = False
+    last_font = 0
 
     reader = PdfFileReader(open(filename, 'rb'))
     for n in range(0, reader.getNumPages()):
@@ -140,9 +141,19 @@ def parse_file(filename):
 
             if line == '/F1 8 Tf':
                 # Font 1: bold
-                logger.debug('START: font bold')
+                logger.debug('START: font bold. %s %s' % (changing_page, last_font))
                 if changing_page:
                     # FIXME: Estoy suponiendo que una cabecera no se queda partida entre dos paginas
+                    if nombreacto and last_font == 2:
+                        data = clean_data(data)
+                        logger.debug('  data_4: %s' % data)
+                        if is_acto_cargo(nombreacto):
+                            data = regex_cargos(data)
+                        logger.debug('  F1 nombreactoW_1: %s' % nombreacto)
+                        logger.debug('  F1 dataW_1: %s' % data)
+                        actos[nombreacto] = data
+                        data = ""
+                        nombreacto = None
                     changing_page = False
                 else:
                     if nombreacto:
@@ -158,6 +169,7 @@ def parse_file(filename):
 
                 logger.debug('  nombreacto: %s' % nombreacto)
                 logger.debug('  data: %s' % data)
+                last_font = 1
                 continue
 
             if line == '/F2 8 Tf':
@@ -168,6 +180,8 @@ def parse_file(filename):
 
                 if changing_page:
                     changing_page = False
+                    if not nombreacto:
+                        nombreacto = clean_data(data)[:-1]
                     continue
                 nombreacto = clean_data(data)[:-1]
 
@@ -197,7 +211,7 @@ def parse_file(filename):
 
                 data = ""
                 logger.debug('  data_1: %s' % data)
-
+                last_font = 2
                 continue
 
             m = REGEX_TEXT.match(line)
