@@ -72,17 +72,17 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
 
 
 class BormeparserRegexArgColonTestCase(unittest.TestCase):
-    string1 = 'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
-    string2 = 'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
+    string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
+    string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
 
     def test_regex_nombramientos(self):
         acto_colon, arg_colon, nombreacto = regex_argcolon(self.string1)
-        self.assertEqual(acto_colon, 'Declaración de unipersonalidad. Socio único')
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad. Socio único')
         self.assertEqual(arg_colon, 'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L')
         self.assertEqual(nombreacto, 'Nombramientos')
 
         acto_colon, arg_colon, nombreacto = regex_argcolon(self.string2)
-        self.assertEqual(acto_colon, 'Declaración de unipersonalidad. Socio único')
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad. Socio único')
         self.assertEqual(arg_colon, 'JOHN DOE')
         self.assertEqual(nombreacto, 'Datos registrales')
 
