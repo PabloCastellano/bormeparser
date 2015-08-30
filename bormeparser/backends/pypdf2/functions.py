@@ -159,7 +159,15 @@ def parse_file(filename):
                     if nombreacto:
                         data = clean_data(data)
                         logger.debug('  data_3: %s' % data)
-                        if is_acto_cargo(nombreacto):
+                        if nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
+                            # TODO: Mejorar parser. Empresas separadas por . y punto final
+                            companies = data.split('. ')
+                            data = {'Sociedades beneficiarias': set(companies)}
+                        elif nombreacto == u'Escisión parcial':
+                            # TODO: Mejorar parser.
+                            companies = data.split(': ')[1:]
+                            data = {'Sociedades beneficiarias': set(companies)}
+                        elif is_acto_cargo(nombreacto):
                             data = regex_cargos(data)
                         logger.debug('  F1 nombreactoW: %s' % nombreacto)
                         logger.debug('  F1 dataW: %s' % data)

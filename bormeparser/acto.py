@@ -62,6 +62,9 @@ class ACTO:
     EMPRESARIO_INDIVIDUAL = 37
     EMISION_OBLIGACIONES = 38
     MODIFICACION_PODERES = 39
+    ESCISION_PARCIAL = 40
+    ESCISION_TOTAL = 41
+
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -92,6 +95,7 @@ class ACTO:
         u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
         u'Emisión de obligaciones': EMISION_OBLIGACIONES,
         u'Modificación de poderes': MODIFICACION_PODERES,
+        u'Escisión parcial': ESCISION_PARCIAL,
     }
 
     # Palabras clave sin argumentos
@@ -111,6 +115,7 @@ class ACTO:
     _colon_keywords = {
         u'Declaración de unipersonalidad. Socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
         u'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
+        u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
         u'Fe de erratas': FE_DE_ERRATAS,
     }
 

@@ -74,6 +74,7 @@ class CARGO:
     TESORERO = 51
     COMISARIO = 52
     SOCIO_UNICO = 53
+    SOCIEDADES_BENEFICIARIAS = 54
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -136,6 +137,9 @@ class CARGO:
                  'REP.ADM.CONC': REP_ADM_CONC,
                  'Comisario': COMISARIO,
                  'Socio único': SOCIO_UNICO,
+
+                 # hack
+                 'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
 
