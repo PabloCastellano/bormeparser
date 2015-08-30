@@ -33,6 +33,7 @@ def parse_file(filename):
     subseccion = False
     provincia = False
     cve = False
+    changing_page = False
 
     reader = PdfFileReader(open(filename, 'rb'))
     for n in range(0, reader.getNumPages()):
@@ -49,6 +50,23 @@ def parse_file(filename):
             if line.startswith('/Cabecera_acto'):
                 logger.debug('START: cabecera')
                 cabecera = True
+
+                if changing_page:
+                    changing_page = False
+
+                logger.debug('  BT nombreacto: %s' % nombreacto)
+                logger.debug('  BT data: %s' % data)
+
+                if nombreacto:
+                    data = clean_data(data)
+                    if is_acto_cargo(nombreacto):
+                        data = regex_cargos(data)
+                    logger.debug('  BT nombreactoW: %s' % nombreacto)
+                    logger.debug('  BT dataW: %s' % data)
+                    actos[nombreacto] = data
+                    DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
+                    nombreacto = None
+
                 data = ""
                 actos = {}
                 continue
@@ -115,17 +133,6 @@ def parse_file(filename):
                     texto = False
                     logger.debug('  nombreacto: %s' % nombreacto)
                     logger.debug('  data: %s' % data)
-
-                    if nombreacto:
-                        data = clean_data(data)
-                        if is_acto_cargo(nombreacto):
-                            data = regex_cargos(data)
-                        logger.debug('  ET nombreactoW: %s' % nombreacto)
-                        logger.debug('  ET dataW: %s' % data)
-                        actos[nombreacto] = data
-                        DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
-                        data = ""  # FIXME: No siempre, ej: 223410
-                        nombreacto = None
                 continue
 
             if not any([texto, cabecera, fecha, numero, seccion, subseccion, provincia, cve]):
@@ -133,21 +140,35 @@ def parse_file(filename):
 
             if line == '/F1 8 Tf':
                 # Font 1: bold
-                if nombreacto:
-                    data = clean_data(data)
-                    logger.debug('  data_3: %s' % data)
-                    if is_acto_cargo(nombreacto):
-                        data = regex_cargos(data)
-                    logger.debug('  F1 nombreactoW: %s' % nombreacto)
-                    logger.debug('  F1 dataW: %s' % data)
-                    actos[nombreacto] = data
-                    data = ""
-                    nombreacto = None
                 logger.debug('START: font bold')
+                if changing_page:
+                    # FIXME: Estoy suponiendo que una cabecera no se queda partida entre dos paginas
+                    changing_page = False
+                else:
+                    if nombreacto:
+                        data = clean_data(data)
+                        logger.debug('  data_3: %s' % data)
+                        if is_acto_cargo(nombreacto):
+                            data = regex_cargos(data)
+                        logger.debug('  F1 nombreactoW: %s' % nombreacto)
+                        logger.debug('  F1 dataW: %s' % data)
+                        actos[nombreacto] = data
+                        data = ""
+                        nombreacto = None
+
+                logger.debug('  nombreacto: %s' % nombreacto)
+                logger.debug('  data: %s' % data)
                 continue
 
             if line == '/F2 8 Tf':
                 # Font 2: normal
+                logger.debug('START: font normal')
+                logger.debug('  nombreacto2: %s' % nombreacto)
+                logger.debug('  data: %s' % data)
+
+                if changing_page:
+                    changing_page = False
+                    continue
                 nombreacto = clean_data(data)[:-1]
 
                 while True:
@@ -174,11 +195,9 @@ def parse_file(filename):
                     if end:
                         break
 
-                logger.debug('  nombreacto2: %s' % nombreacto)
-                logger.debug('  data: %s' % data)
                 data = ""
                 logger.debug('  data_1: %s' % data)
-                logger.debug('START: font normal')
+
                 continue
 
             m = REGEX_TEXT.match(line)
@@ -215,5 +234,15 @@ def parse_file(filename):
                 logger.debug('TOTAL DATA: %s' % data)
 
         logger.debug('---- END OF PAGE ----')
+        changing_page = True
+
+    if nombreacto:
+        data = clean_data(data)
+        if is_acto_cargo(nombreacto):
+            data = regex_cargos(data)
+        logger.debug('  END nombreactoW: %s' % nombreacto)
+        logger.debug('  END dataW: %s' % data)
+        actos[nombreacto] = data
+        DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
 
     return DATA
