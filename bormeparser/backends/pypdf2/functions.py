@@ -186,8 +186,6 @@ def parse_file(filename):
                 nombreacto = clean_data(data)[:-1]
 
                 while True:
-                    end = True
-
                     if REGEX_ARGCOLON.match(nombreacto):
                         end = False
                         acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
@@ -198,13 +196,14 @@ def parse_file(filename):
 
                         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
                         logger.debug('  data: %s' % data)
-
                     elif REGEX_NOARG.match(nombreacto):
                         end = False
                         acto_noarg, nombreacto = regex_noarg(nombreacto)
                         actos[acto_noarg] = True
                         logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
                         logger.debug('  data: %s' % data)
+                    else:
+                        end = True
 
                     if end:
                         break
