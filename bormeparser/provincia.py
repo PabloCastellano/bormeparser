@@ -113,6 +113,8 @@ class PROVINCIA:
     @staticmethod
     def from_title(title):
         try:
+            if title == u'ARABA/ÁLAVA':
+                return PROVINCIA.ALAVA
             title = remove_accents(title).replace(' ', '_')
             return getattr(PROVINCIA, title)
         except AttributeError:
