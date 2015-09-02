@@ -157,7 +157,7 @@ class BormeXML(object):
 # TODO: Create instance directly from filename
 class Borme(object):
 
-    def __init__(self, date, seccion, provincia, num, cve, anuncios=None, filename=None):
+    def __init__(self, date, seccion, provincia, num, cve, anuncios=None, filename=None, lazy=True):
         if isinstance(date, tuple):
             date = datetime.date(year=date[0], month=date[1], day=date[2])
         self.date = date
@@ -169,7 +169,9 @@ class Borme(object):
         self._parsed = False
         self.info = {}
         self._set_anuncios(anuncios)
-        self._set_url()
+        self._url = None
+        if not lazy:
+            self._set_url()
 
     @classmethod
     def from_file(cls, filename):
@@ -181,7 +183,13 @@ class Borme(object):
             self.anuncios[anuncio.id] = anuncio
 
     def _set_url(self):
-        self.url = get_url_pdf(self.date, self.seccion, self.provincia)
+        self._url = get_url_pdf(self.date, self.seccion, self.provincia)
+
+    @property
+    def url(self):
+        if not self._url:
+            self._set_url()
+        return self._url
 
     def get_info(self):
         #borme['info'] = {'pages': 5, 'anuncios': 38, 'fromanuncio': 12222, 'toanuncio': 12260}
@@ -221,7 +229,7 @@ class Borme(object):
         doc['seccion'] = self.seccion
         doc['provincia'] = self.provincia
         doc['num'] = self.num
-        doc['url'] = self.url
+        doc['url'] = self._url
         doc['filename'] = self.filename
         doc['info'] = self.info
         doc['anuncios'] = {}
