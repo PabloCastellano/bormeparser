@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
 DATA = OrderedDict()
+actos = OrderedDict()
 for key in ('borme_fecha', 'borme_num', 'borme_seccion', 'borme_subseccion', 'borme_provincia', 'borme_cve'):
     DATA[key] = None
 
@@ -19,11 +20,29 @@ def clean_data(data):
     return data.replace('\(', '(').replace('\)', ')').replace('  ', ' ').strip()
 
 
+def parse_acto(nombreacto, data, prefix=''):
+    data = clean_data(data)
+    if is_acto_cargo(nombreacto):
+        data = regex_cargos(data)
+    elif nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
+        # TODO: Mejorar parser. Empresas separadas por . y punto final
+        companies = data.split('. ')
+        data = {'Sociedades beneficiarias': set(companies)}
+    elif nombreacto == u'Escisión parcial':
+        # TODO: Mejorar parser.
+        companies = data.split(': ')[1:]
+        data = {'Sociedades beneficiarias': set(companies)}
+    logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
+    logger.debug('  %s dataW: %s' % (prefix, data))
+    actos[nombreacto] = data
+    nombreacto = None
+
+
 def parse_file(filename):
+    global actos
     cabecera = False
     texto = False
     data = ""
-    actos = OrderedDict()
     nombreacto = None
     anuncio_id = None
     empresa = None
@@ -59,14 +78,8 @@ def parse_file(filename):
                 logger.debug('  BT data: %s' % data)
 
                 if nombreacto:
-                    data = clean_data(data)
-                    if is_acto_cargo(nombreacto):
-                        data = regex_cargos(data)
-                    logger.debug('  BT nombreactoW: %s' % nombreacto)
-                    logger.debug('  BT dataW: %s' % data)
-                    actos[nombreacto] = data
+                    parse_acto(nombreacto, data, prefix='BT')
                     DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
-                    nombreacto = None
 
                 data = ""
                 actos = OrderedDict()
@@ -145,35 +158,13 @@ def parse_file(filename):
                 if changing_page:
                     # FIXME: Estoy suponiendo que una cabecera no se queda partida entre dos paginas
                     if nombreacto and last_font == 2:
-                        data = clean_data(data)
-                        logger.debug('  data_4: %s' % data)
-                        if is_acto_cargo(nombreacto):
-                            data = regex_cargos(data)
-                        logger.debug('  F1 nombreactoW_1: %s' % nombreacto)
-                        logger.debug('  F1 dataW_1: %s' % data)
-                        actos[nombreacto] = data
+                        parse_acto(nombreacto, data, prefix='F1')
                         data = ""
-                        nombreacto = None
                     changing_page = False
                 else:
                     if nombreacto:
-                        data = clean_data(data)
-                        logger.debug('  data_3: %s' % data)
-                        if nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
-                            # TODO: Mejorar parser. Empresas separadas por . y punto final
-                            companies = data.split('. ')
-                            data = {'Sociedades beneficiarias': set(companies)}
-                        elif nombreacto == u'Escisión parcial':
-                            # TODO: Mejorar parser.
-                            companies = data.split(': ')[1:]
-                            data = {'Sociedades beneficiarias': set(companies)}
-                        elif is_acto_cargo(nombreacto):
-                            data = regex_cargos(data)
-                        logger.debug('  F1 nombreactoW: %s' % nombreacto)
-                        logger.debug('  F1 dataW: %s' % data)
-                        actos[nombreacto] = data
+                        parse_acto(nombreacto, data, prefix='F1')
                         data = ""
-                        nombreacto = None
 
                 logger.debug('  nombreacto: %s' % nombreacto)
                 logger.debug('  data: %s' % data)
@@ -194,25 +185,7 @@ def parse_file(filename):
                 nombreacto = clean_data(data)[:-1]
 
                 while True:
-                    if REGEX_ARGCOLON.match(nombreacto):
-                        end = False
-                        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
-                        if acto_colon == 'Fe de erratas':  # FIXME: check
-                            actos[acto_colon] = arg_colon
-                        else:
-                            actos[acto_colon] = {'Socio Único': {arg_colon}}
-
-                        logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
-                        logger.debug('  data: %s' % data)
-                    elif REGEX_NOARG.match(nombreacto):
-                        end = False
-                        acto_noarg, nombreacto = regex_noarg(nombreacto)
-                        actos[acto_noarg] = True
-                        logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
-                        logger.debug('  data: %s' % data)
-                    else:
-                        end = True
-
+                    end, nombreacto = parse_acto_bold(nombreacto, data)
                     if end:
                         break
 
@@ -258,12 +231,29 @@ def parse_file(filename):
         changing_page = True
 
     if nombreacto:
-        data = clean_data(data)
-        if is_acto_cargo(nombreacto):
-            data = regex_cargos(data)
-        logger.debug('  END nombreactoW: %s' % nombreacto)
-        logger.debug('  END dataW: %s' % data)
-        actos[nombreacto] = data
+        parse_acto(nombreacto, data, prefix='END')
         DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
 
     return DATA
+
+
+def parse_acto_bold(nombreacto, data):
+    global actos
+    end = False
+    if REGEX_ARGCOLON.match(nombreacto):
+        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
+        if acto_colon == 'Fe de erratas':  # FIXME: check
+            actos[acto_colon] = arg_colon
+        else:
+            actos[acto_colon] = {'Socio Único': {arg_colon}}
+
+        logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
+        logger.debug('  data: %s' % data)
+    elif REGEX_NOARG.match(nombreacto):
+        acto_noarg, nombreacto = regex_noarg(nombreacto)
+        actos[acto_noarg] = True
+        logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
+        logger.debug('  data: %s' % data)
+    else:
+        end = True
+    return end, nombreacto
