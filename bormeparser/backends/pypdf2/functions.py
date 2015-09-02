@@ -17,6 +17,7 @@ for key in ('borme_fecha', 'borme_num', 'borme_seccion', 'borme_subseccion', 'bo
 
 
 def clean_data(data):
+    """ Unscape parenthesis and removes double spaces """
     return data.replace('\(', '(').replace('\)', ')').replace('  ', ' ').strip()
 
 
@@ -38,22 +39,44 @@ def parse_acto(nombreacto, data, prefix=''):
     nombreacto = None
 
 
+def parse_acto_bold(nombreacto, data):
+    global actos
+    end = False
+    if REGEX_ARGCOLON.match(nombreacto):
+        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
+        if acto_colon == 'Fe de erratas':  # FIXME: check
+            actos[acto_colon] = arg_colon
+        else:
+            actos[acto_colon] = {'Socio Único': {arg_colon}}
+
+        logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
+        logger.debug('  data: %s' % data)
+    elif REGEX_NOARG.match(nombreacto):
+        acto_noarg, nombreacto = regex_noarg(nombreacto)
+        actos[acto_noarg] = True
+        logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
+        logger.debug('  data: %s' % data)
+    else:
+        end = True
+    return end, nombreacto
+
+
 def parse_file(filename):
     global actos
-    cabecera = False
-    texto = False
-    data = ""
-    nombreacto = None
     anuncio_id = None
+    cabecera = False
+    changing_page = False
+    cve = False
+    data = ""
     empresa = None
     fecha = False
+    last_font = 0
+    nombreacto = None
     numero = False
+    provincia = False
     seccion = False
     subseccion = False
-    provincia = False
-    cve = False
-    changing_page = False
-    last_font = 0
+    texto = False
 
     reader = PdfFileReader(open(filename, 'rb'))
     for n in range(0, reader.getNumPages()):
@@ -63,7 +86,6 @@ def parse_file(filename):
         # Python 3
         if isinstance(content, bytes):
             content = content.decode('unicode_escape')
-        #logger.debug(content)
 
         for line in content.split('\n'):
             logger.debug('### LINE: %s' % line)
@@ -222,9 +244,7 @@ def parse_file(filename):
                     DATA['borme_cve'] = REGEX_BORME_CVE.match(text).group(1)
                     cve = False
                     logger.debug('cve: %s' % DATA['borme_cve'])
-                #logger.debug(m.group(1))
                 data += ' ' + m.group(1)
-                #logger.debug('MORE DATA')
                 logger.debug('TOTAL DATA: %s' % data)
 
         logger.debug('---- END OF PAGE ----')
@@ -235,25 +255,3 @@ def parse_file(filename):
         DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
 
     return DATA
-
-
-def parse_acto_bold(nombreacto, data):
-    global actos
-    end = False
-    if REGEX_ARGCOLON.match(nombreacto):
-        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
-        if acto_colon == 'Fe de erratas':  # FIXME: check
-            actos[acto_colon] = arg_colon
-        else:
-            actos[acto_colon] = {'Socio Único': {arg_colon}}
-
-        logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
-        logger.debug('  data: %s' % data)
-    elif REGEX_NOARG.match(nombreacto):
-        acto_noarg, nombreacto = regex_noarg(nombreacto)
-        actos[acto_noarg] = True
-        logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
-        logger.debug('  data: %s' % data)
-    else:
-        end = True
-    return end, nombreacto

@@ -113,7 +113,6 @@ class BormeAnuncio(object):
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
-    # TODO: Hay que copiar (copy()) mas atributos?? :|
     def __init__(self, id, empresa, actos):
         logger.debug('new BormeAnuncio(%s) %s' % (id, empresa))
         self.id = id
