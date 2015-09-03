@@ -36,7 +36,6 @@ def parse_acto(nombreacto, data, prefix=''):
     logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
     logger.debug('  %s dataW: %s' % (prefix, data))
     actos[nombreacto] = data
-    nombreacto = None
 
 
 def parse_acto_bold(nombreacto, data):
@@ -101,6 +100,7 @@ def parse_file(filename):
 
                 if nombreacto:
                     parse_acto(nombreacto, data, prefix='BT')
+                    nombreacto = None
                     DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
 
                 data = ""
@@ -181,11 +181,13 @@ def parse_file(filename):
                     # FIXME: Estoy suponiendo que una cabecera no se queda partida entre dos paginas
                     if nombreacto and last_font == 2:
                         parse_acto(nombreacto, data, prefix='F1')
+                        nombreacto = None
                         data = ""
                     changing_page = False
                 else:
                     if nombreacto:
                         parse_acto(nombreacto, data, prefix='F1')
+                        nombreacto = None
                         data = ""
 
                 logger.debug('  nombreacto: %s' % nombreacto)
