@@ -6,7 +6,7 @@ from .acto import ACTO
 from .download import get_url_pdf
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound
-from .regex import is_acto_cargo, is_acto_noarg
+from .regex import is_acto_cargo, is_acto_noarg, is_acto_decl_unip, is_acto_rare_cargo
 #from .parser import parse as parse_borme
 #from .seccion import SECCION
 from .provincia import Provincia
@@ -74,7 +74,7 @@ class BormeActoCargo(BormeActo):
 
     def _set_name(self, name):
         if not is_acto_cargo(name):
-            raise ValueError
+            raise ValueError(name)
         self.name = name
 
     def _set_value(self, value):
@@ -126,7 +126,8 @@ class BormeAnuncio(object):
         del actos['Datos registrales']
 
         for acto_nombre, valor in actos.items():
-            if is_acto_cargo(acto_nombre):
+            #if is_acto_cargo(acto_nombre) or is_acto_decl_unip(acto_nombre):
+            if is_acto_cargo(acto_nombre) or is_acto_rare_cargo(acto_nombre):
                 a = BormeActoCargo(acto_nombre, valor)
                 self.actos.append(a)
             elif is_acto_noarg(acto_nombre):

@@ -5,7 +5,8 @@ import logging
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
+from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_decl_unip,\
+                              regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
@@ -20,11 +21,12 @@ def clean_data(data):
     """ Unscape parenthesis and removes double spaces """
     return data.replace('\(', '(').replace('\)', ')').replace('  ', ' ').strip()
 
-
 def parse_acto(nombreacto, data, prefix=''):
     data = clean_data(data)
     if is_acto_cargo(nombreacto):
         data = regex_cargos(data)
+    elif is_acto_decl_unip(nombreacto):
+        data = regex_decl_unip(data)
     elif nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
         # TODO: Mejorar parser. Empresas separadas por . y punto final
         companies = data.split('. ')
@@ -41,19 +43,27 @@ def parse_acto(nombreacto, data, prefix=''):
 def parse_acto_bold(nombreacto, data):
     global actos
     end = False
-    if REGEX_ARGCOLON.match(nombreacto):
-        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
-        if acto_colon == 'Fe de erratas':  # FIXME: check
-            actos[acto_colon] = arg_colon
-        else:
-            actos[acto_colon] = {'Socio Único': {arg_colon}}
+
+    if is_acto_decl_unip(nombreacto):
+        acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
+        actos[acto_colon] = arg_colon
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
+        logger.debug('  nombreacto: %s' % nombreacto)
+        logger.debug('  data: %s' % data)
+    elif REGEX_ARGCOLON.match(nombreacto):
+        acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
+        # FIXME: check
+        actos[acto_colon] = arg_colon
+
+        logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
+        logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)
     elif REGEX_NOARG.match(nombreacto):
         acto_noarg, nombreacto = regex_noarg(nombreacto)
         actos[acto_noarg] = True
         logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
+        logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)
     else:
         end = True

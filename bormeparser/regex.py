@@ -8,6 +8,7 @@ from bormeparser.cargo import CARGO
 
 esc_arg_keywords = [x.replace('.', '\.') for x in ACTO.ALL_KEYWORDS]
 esc_colon_keywords = [x.replace('.', '\.') for x in ACTO.COLON_KEYWORDS]
+esc_rare_keywords = [x.replace('.', '\.') for x in ACTO.RARE_KEYWORDS]
 esc_noarg_keywords = [x.replace('.', '\.').replace('(', '\(').replace(')', '\)') for x in ACTO.NOARG_KEYWORDS]
 esc_ending_keywords = [x.replace('.', '\.') for x in ACTO.ENDING_KEYWORDS]
 
@@ -16,6 +17,8 @@ esc_cargos_keywords = [x.replace('.', '\.') for x in CARGO.KEYWORDS]
 # -- ACTOS --
 # OR de las palabras clave con argumentos
 RE_ARG_KEYWORDS = '(%s)' % '|'.join(esc_arg_keywords)
+RE_ALL_KEYWORDS = '(%s|%s|%s|%s)' % ('|'.join(esc_arg_keywords), '|'.join(esc_colon_keywords),
+                                          '|'.join(esc_noarg_keywords), esc_ending_keywords[0])
 # OR de las palabras clave, "non grouping"
 RE_ALL_KEYWORDS_NG = '(?:%s|%s|%s|%s)' % ('|'.join(esc_arg_keywords), '|'.join(esc_colon_keywords),
                                           '|'.join(esc_noarg_keywords), esc_ending_keywords[0])
@@ -23,6 +26,7 @@ RE_ALL_KEYWORDS_NG = '(?:%s|%s|%s|%s)' % ('|'.join(esc_arg_keywords), '|'.join(e
 RE_NOARG_KEYWORDS = '(%s)' % '|'.join(esc_noarg_keywords)
 # OR de las palabras clave con argumentos seguidas por :
 RE_COLON_KEYWORDS = '(%s)' % '|'.join(esc_colon_keywords)
+RE_RARE_KEYWORDS = '(%s)' % '|'.join(esc_rare_keywords)
 RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 
 # -- CARGOS --
@@ -43,6 +47,8 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
 REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
+#REGEX_RARE = re.compile(RE_RARE_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
+REGEX_RARE = re.compile(RE_RARE_KEYWORDS + ': (.*?)(?:\.\s+)' + RE_ARG_KEYWORDS + '(.*)', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*?)(?:\.$|$)')
 REGEX_TEXT = re.compile('^\((.*)\)Tj$')
@@ -80,8 +86,8 @@ def is_acto_cargo_entrante(data):
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
     actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones',
-             u'Declaración de unipersonalidad. Socio único', u'Cambio de identidad del socio único',
              u'Emisión de obligaciones', u'Modificación de poderes',
+             u'Declaración de unipersonalidad', u'Cambio de identidad del socio único',
              u'Escisión total. Sociedades beneficiarias de la escisión', u'Escisión parcial']
     return data in actos
 
@@ -89,6 +95,19 @@ def is_acto_cargo(data):
 def is_acto_noarg(data):
     """ Comprueba si es un acto que no tiene parametros """
     return data in ACTO.NOARG_KEYWORDS
+
+
+# TODO: Meter aqui Escision
+# arregla 225377 y 224832 y 224269?
+def is_acto_rare_cargo(data):
+    return data == u'Declaración de unipersonalidad'
+
+
+def is_acto_decl_unip(data):
+    for acto in ACTO.RARE_KEYWORDS:
+        if data.startswith(acto):
+            return True
+    return False
 
 
 # TODO: Añadir otras sociedades menos usuales
@@ -135,6 +154,26 @@ def regex_cargos(data):
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
         cargos[cargo[0]] = set(cargo[1].split(';'))
     return cargos
+
+
+def regex_decl_unip(data):
+    """
+    data: "Declaración de unipersonalidad. Socio único: BRENNAN KEVIN LIONEL. Nombramientos."
+          "Cambio de identidad del socio único: OLSZEWSKI GRZEGORZ. Ceses/Dimisiones."
+    """
+    acto_colon, arg_colon, nombreacto, _, nombreacto2 = REGEX_RARE.match(data).groups()  # FIXME: ultimo valor None
+    if acto_colon == u'Declaración de unipersonalidad. Socio único':
+        acto_colon = u'Declaración de unipersonalidad'
+    arg_colon = {'Socio Único': {arg_colon}}
+    nombreacto += nombreacto2
+    return acto_colon, arg_colon, nombreacto
+
+# TODO:
+def regex_escision_parcial(data):
+    """
+    data: "Escisión parcial. Sociedades beneficiarias de la escisión: AGROCASARRO SL."
+    """
+    raise NotImplementedError
 
 
 # This is a way not to use datetime.strftime, which requires es_ES.utf8 locale generated.

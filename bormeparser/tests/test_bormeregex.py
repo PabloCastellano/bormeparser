@@ -19,7 +19,7 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, is_company
+from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -74,17 +74,23 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
 class BormeparserRegexArgColonTestCase(unittest.TestCase):
     string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
     string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
+    string3 = u'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
 
     def test_regex_nombramientos(self):
-        acto_colon, arg_colon, nombreacto = regex_argcolon(self.string1)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad. Socio único')
-        self.assertEqual(arg_colon, 'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L')
+        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string1)
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, {'Socio Único': {'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L'}})
         self.assertEqual(nombreacto, 'Nombramientos')
 
-        acto_colon, arg_colon, nombreacto = regex_argcolon(self.string2)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad. Socio único')
-        self.assertEqual(arg_colon, 'JOHN DOE')
+        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string2)
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, {'Socio Único': {'JOHN DOE'}})
         self.assertEqual(nombreacto, 'Datos registrales')
+
+        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string3)
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, {'Socio Único': {'FOO DOE'}})
+        self.assertEqual(nombreacto, 'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
 
 
 if __name__ == '__main__':
