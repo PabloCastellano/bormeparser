@@ -30,19 +30,6 @@ Desgraciadamente debido al acuerdo actual con el Registro Mercantil, no pueden p
 Puedes leer más sobre ello en:
 - Wikipedia: https://es.wikipedia.org/wiki/Boletín_Oficial_del_Registro_Mercantil
 
-Compilar
-=========
-
-El paquete lxml tiene una parte que necesita ser compilada y requiere las siguientes dependencias:
-
-Para Python 2:
-
-    sudo apt-get install python-dev libxslt1-dev
-
-Para Python 3:
-
-    sudo apt-get install python3-dev libxslt1-dev
-
 
 Documentación y uso
 ===================
@@ -58,16 +45,33 @@ Si quieres generarla para otro idioma (inglés en este caso):
 Puedes consultar la versión online en http://bormeparser.readthedocs.org/es/latest/.
 
 
-Instalación
-===========
+Instalación desde Git
+=====================
 
 Puedes instalar bormeparser descargándolo y ejecutando:
 
+    git clone https://github.com/PabloCastellano/bormeparser.git
+    cd bormeparser
     python setup.py install
 
-o puedes obtenerlo desde PyPI así:
+Por último instala las dependencias de Python. Algunas de ellas contienen partes que necesitan ser compiladas:
+
+Para Python 2:
+
+    sudo apt-get install python-dev libxslt1-dev libffi-dev
+    pip install -r requirements/python2.txt
+
+Para Python 3:
+
+    sudo apt-get install python3-dev libxslt1-dev libffi-dev
+    pip install -r requirements/python3.txt
+
+
+Instalación desde Pip
+=====================
 
     pip install bormeparser
+
 
 Tests
 =====
