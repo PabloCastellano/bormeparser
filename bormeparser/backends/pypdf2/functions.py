@@ -5,8 +5,9 @@ import logging
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_decl_unip,\
-                              regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE
+from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_rare,\
+                              regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
+                              is_acto_escision, regex_escision
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
@@ -25,16 +26,9 @@ def parse_acto(nombreacto, data, prefix=''):
     data = clean_data(data)
     if is_acto_cargo(nombreacto):
         data = regex_cargos(data)
-    elif is_acto_decl_unip(nombreacto):
-        data = regex_decl_unip(data)
-    elif nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
-        # TODO: Mejorar parser. Empresas separadas por . y punto final
-        companies = data.split('. ')
-        data = {'Sociedades beneficiarias': set(companies)}
-    elif nombreacto == u'Escisión parcial':
-        # TODO: Mejorar parser.
-        companies = data.split(': ')[1:]
-        data = {'Sociedades beneficiarias': set(companies)}
+    elif is_acto_escision(nombreacto):
+        nombreacto, data = regex_escision(nombreacto, data)
+
     logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
     logger.debug('  %s dataW: %s' % (prefix, data))
     actos[nombreacto] = data
@@ -44,7 +38,7 @@ def parse_acto_bold(nombreacto, data):
     global actos
     end = False
 
-    if is_acto_decl_unip(nombreacto):
+    if is_acto_rare(nombreacto):
         acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
         actos[acto_colon] = arg_colon
 

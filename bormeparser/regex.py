@@ -82,13 +82,10 @@ def is_acto_cargo_entrante(data):
     return data in ['Reelecciones', 'Nombramientos']
 
 
-# TODO: Comprobar que son todos
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
     actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos', 'Ceses/Dimisiones',
-             u'Emisión de obligaciones', u'Modificación de poderes',
-             u'Declaración de unipersonalidad', u'Cambio de identidad del socio único',
-             u'Escisión total. Sociedades beneficiarias de la escisión', u'Escisión parcial']
+             u'Emisión de obligaciones', u'Modificación de poderes']
     return data in actos
 
 
@@ -97,26 +94,30 @@ def is_acto_noarg(data):
     return data in ACTO.NOARG_KEYWORDS
 
 
-# TODO: Meter aqui Escision
-# arregla 225377 y 224832 y 224269?
 def is_acto_rare_cargo(data):
-    return data == u'Declaración de unipersonalidad'
+    """ Como is_acto_cargo pero se parsean de forma distinta """
+    actos = (u'Declaración de unipersonalidad', u'Cambio de identidad del socio único',
+             u'Escisión parcial', u'Escisión total')
+    return data in actos
 
 
-def is_acto_decl_unip(data):
+def is_acto_rare(data):
     for acto in ACTO.RARE_KEYWORDS:
         if data.startswith(acto):
             return True
     return False
 
 
-# TODO: Añadir otras sociedades menos usuales
 def is_company(data):
     """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
     siglas = list(SOCIEDADES.keys())
     siglas.extend(['SOCIEDAD LIMITADA', 'SOCIEDAD ANONIMA'])
     siglas = list(map(lambda x: ' %s' % x, siglas))
     return any(data.endswith(s) for s in siglas)
+
+
+def is_acto_escision(nombreacto):
+    return nombreacto in (u'Escisión total. Sociedades beneficiarias de la escisión', u'Escisión parcial')
 
 
 # HACK
@@ -161,19 +162,28 @@ def regex_decl_unip(data):
     data: "Declaración de unipersonalidad. Socio único: BRENNAN KEVIN LIONEL. Nombramientos."
           "Cambio de identidad del socio único: OLSZEWSKI GRZEGORZ. Ceses/Dimisiones."
     """
-    acto_colon, arg_colon, nombreacto, _, nombreacto2 = REGEX_RARE.match(data).groups()  # FIXME: ultimo valor None
+    acto_colon, arg_colon, nombreacto, _, nombreacto2 = REGEX_RARE.match(data).groups()  # FIXME: 4er valor None
     if acto_colon == u'Declaración de unipersonalidad. Socio único':
         acto_colon = u'Declaración de unipersonalidad'
     arg_colon = {'Socio Único': {arg_colon}}
     nombreacto += nombreacto2
     return acto_colon, arg_colon, nombreacto
 
-# TODO:
-def regex_escision_parcial(data):
+
+# TODO: Parser
+def regex_escision(nombreacto, data):
     """
-    data: "Escisión parcial. Sociedades beneficiarias de la escisión: AGROCASARRO SL."
+    data: "Escisión parcial. Sociedades beneficiarias de la escisión: JUAN SL."
+    data: "Escisión total. Sociedades beneficiarias de la escisión: PEDRO ANTONIO 2001 SOCIEDAD LIMITADA. PEDRO ANTONIO EXPLOTACIONES SL."
     """
-    raise NotImplementedError
+    if nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
+        nombreacto = u'Escisión total'
+    else:
+        data = data.split('Sociedades beneficiarias de la escisión: ', 1)[1]
+    companies = data.split('. ')
+    companies[-1] = companies[-1][:-1]  # Punto final
+    beneficiarias = {'Sociedades beneficiarias': set(companies)}
+    return nombreacto, beneficiarias
 
 
 # This is a way not to use datetime.strftime, which requires es_ES.utf8 locale generated.

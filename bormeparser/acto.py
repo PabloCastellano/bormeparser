@@ -96,6 +96,7 @@ class ACTO:
         u'Emisión de obligaciones': EMISION_OBLIGACIONES,
         u'Modificación de poderes': MODIFICACION_PODERES,
         u'Escisión parcial': ESCISION_PARCIAL,
+        u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
     }
 
     # Palabras clave sin argumentos
@@ -113,7 +114,6 @@ class ACTO:
 
     # Palabras clave seguidas por :
     _colon_keywords = {
-        u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
         u'Fe de erratas': FE_DE_ERRATAS,
     }
 
@@ -123,7 +123,8 @@ class ACTO:
     }
 
     _other_keywords = {
-        u'Declaración de unipersonalidad': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO
+        u'Declaración de unipersonalidad': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
+        u'Escisión total': ESCISION_TOTAL,
     }
 
     # Palabra clave

@@ -19,7 +19,7 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company
+from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -71,12 +71,15 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
         self.assertEqual(cargos3, DATA['fake3'])
 
 
-class BormeparserRegexArgColonTestCase(unittest.TestCase):
+class BormeparserRegexRareTestCase(unittest.TestCase):
     string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
     string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
     string3 = u'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
 
-    def test_regex_nombramientos(self):
+    string4 = u'Sociedades beneficiarias de la escisión: PEPE SL.'
+    string5 = u'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA. PEDRO ANTONIO EXPLOTACIONES SL.'
+
+    def test_regex_decl_unip(self):
         acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string1)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
         self.assertEqual(arg_colon, {'Socio Único': {'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L'}})
@@ -92,6 +95,14 @@ class BormeparserRegexArgColonTestCase(unittest.TestCase):
         self.assertEqual(arg_colon, {'Socio Único': {'FOO DOE'}})
         self.assertEqual(nombreacto, 'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
 
+    def test_regex_escision(self):
+        nombreacto, beneficiarias = regex_escision(u'Escisión parcial', self.string4)
+        self.assertEqual(nombreacto, u'Escisión parcial')
+        self.assertEqual(beneficiarias, {'Sociedades beneficiarias': {'PEPE SL'}})
+
+        nombreacto, beneficiarias = regex_escision(u'Escisión total. Sociedades beneficiarias de la escisión', self.string5)
+        self.assertEqual(nombreacto, u'Escisión total')
+        self.assertEqual(beneficiarias, {'Sociedades beneficiarias': {'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA', 'PEDRO ANTONIO EXPLOTACIONES SL'}})
 
 if __name__ == '__main__':
     unittest.main()
