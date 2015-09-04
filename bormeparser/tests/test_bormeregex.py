@@ -82,18 +82,18 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
     def test_regex_decl_unip(self):
         acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string1)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {'Socio Único': {'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L'}})
+        self.assertEqual(arg_colon, {u'Socio Único': {'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L'}})
         self.assertEqual(nombreacto, 'Nombramientos')
 
         acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string2)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {'Socio Único': {'JOHN DOE'}})
+        self.assertEqual(arg_colon, {u'Socio Único': {'JOHN DOE'}})
         self.assertEqual(nombreacto, 'Datos registrales')
 
         acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string3)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {'Socio Único': {'FOO DOE'}})
-        self.assertEqual(nombreacto, 'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
+        self.assertEqual(arg_colon, {u'Socio Único': {'FOO DOE'}})
+        self.assertEqual(nombreacto, u'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
 
     def test_regex_escision(self):
         nombreacto, beneficiarias = regex_escision(u'Escisión parcial', self.string4)

@@ -162,10 +162,10 @@ def regex_decl_unip(data):
     data: "Declaración de unipersonalidad. Socio único: BRENNAN KEVIN LIONEL. Nombramientos."
           "Cambio de identidad del socio único: OLSZEWSKI GRZEGORZ. Ceses/Dimisiones."
     """
-    acto_colon, arg_colon, nombreacto, _, nombreacto2 = REGEX_RARE.match(data).groups()  # FIXME: 4er valor None
+    acto_colon, arg_colon, nombreacto, _, nombreacto2 = REGEX_RARE.match(data).groups()  # FIXME: 4º valor None
     if acto_colon == u'Declaración de unipersonalidad. Socio único':
         acto_colon = u'Declaración de unipersonalidad'
-    arg_colon = {'Socio Único': {arg_colon}}
+    arg_colon = {u'Socio Único': {arg_colon}}
     nombreacto += nombreacto2
     return acto_colon, arg_colon, nombreacto
 
@@ -179,7 +179,7 @@ def regex_escision(nombreacto, data):
     if nombreacto == u'Escisión total. Sociedades beneficiarias de la escisión':
         nombreacto = u'Escisión total'
     else:
-        data = data.split('Sociedades beneficiarias de la escisión: ', 1)[1]
+        data = data.split(u'Sociedades beneficiarias de la escisión: ', 1)[1]
     companies = data.split('. ')
     companies[-1] = companies[-1][:-1]  # Punto final
     beneficiarias = {'Sociedades beneficiarias': set(companies)}
