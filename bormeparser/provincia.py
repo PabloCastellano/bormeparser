@@ -74,6 +74,7 @@ class PROVINCIA:
     GRANADA = Provincia('Granada', 18)
     GUADALAJARA = Provincia('Guadalajara', 19)
     GUIPUZCOA = Provincia('Guipúzcoa', 20)
+    GIPUZKOA = GUIPUZCOA
     HUELVA = Provincia('Huelva', 21)
     HUESCA = Provincia('Huesca', 22)
     JAEN = Provincia('Jaén', 23)
