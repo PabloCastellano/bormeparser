@@ -65,6 +65,7 @@ class ACTO:
     ESCISION_PARCIAL = 40
     ESCISION_TOTAL = 41
     FUSION_UNION = 42
+    ADAPTACION_DE_LA_SOCIEDAD = 43
 
 
     # Palabras clave con argumentos
@@ -111,7 +112,8 @@ class ACTO:
         u'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
         u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_HOJA_REGISTRAL_POR_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
         u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_DE_LA_HOJA_REGISTRAL_POR_REVOCACION_DEL_NIF,
-        u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD
+        u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD,
+        u'Adaptación de sociedad': ADAPTACION_DE_LA_SOCIEDAD,
     }
 
     # Palabras clave seguidas por :
