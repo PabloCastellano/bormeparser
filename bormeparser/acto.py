@@ -64,6 +64,7 @@ class ACTO:
     MODIFICACION_PODERES = 39
     ESCISION_PARCIAL = 40
     ESCISION_TOTAL = 41
+    FUSION_UNION = 42
 
 
     # Palabras clave con argumentos
@@ -97,6 +98,7 @@ class ACTO:
         u'Modificación de poderes': MODIFICACION_PODERES,
         u'Escisión parcial': ESCISION_PARCIAL,
         u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
+        u'Fusión por unión': FUSION_UNION,
     }
 
     # Palabras clave sin argumentos

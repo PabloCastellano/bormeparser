@@ -120,6 +120,10 @@ def is_acto_escision(nombreacto):
     return nombreacto in (u'Escisión total. Sociedades beneficiarias de la escisión', u'Escisión parcial')
 
 
+def is_acto_fusion(nombreacto):
+    return nombreacto == u'Fusión por unión'
+
+
 # HACK
 def regex_argcolon(data):
     """ Captura el acto y su argumento y el siguiente acto """
@@ -184,6 +188,17 @@ def regex_escision(nombreacto, data):
     companies[-1] = companies[-1][:-1]  # Punto final
     beneficiarias = {'Sociedades beneficiarias': set(companies)}
     return nombreacto, beneficiarias
+
+
+def regex_fusion(data):
+    """
+    acto: Fusión por unión.
+    data: "Sociedades que se fusiónan: YOLO SOCIEDAD ANONIMA."
+    """
+    if not data.startswith('Sociedades que se fusiónan: '):  # SIC
+        raise ValueError(data)
+    company = data.split('Sociedades que se fusiónan: ', 1)[1][:-1]
+    return {'Sociedades fusionadas': set([company])}
 
 
 # This is a way not to use datetime.strftime, which requires es_ES.utf8 locale generated.

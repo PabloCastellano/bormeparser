@@ -19,7 +19,7 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision
+from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision, regex_fusion
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -78,6 +78,7 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
 
     string4 = u'Sociedades beneficiarias de la escisión: PEPE SL.'
     string5 = u'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA. PEDRO ANTONIO EXPLOTACIONES SL.'
+    string6 = u'Sociedades que se fusiónan: YOLO SOCIEDAD ANONIMA.'
 
     def test_regex_decl_unip(self):
         acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string1)
@@ -103,6 +104,11 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
         nombreacto, beneficiarias = regex_escision(u'Escisión total. Sociedades beneficiarias de la escisión', self.string5)
         self.assertEqual(nombreacto, u'Escisión total')
         self.assertEqual(beneficiarias, {'Sociedades beneficiarias': {'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA', 'PEDRO ANTONIO EXPLOTACIONES SL'}})
+
+    def test_regex_fusion(self):
+        sociedad = regex_fusion(self.string6)
+        self.assertEqual(sociedad, {'Sociedades fusionadas': {'YOLO SOCIEDAD ANONIMA'}})
+
 
 if __name__ == '__main__':
     unittest.main()

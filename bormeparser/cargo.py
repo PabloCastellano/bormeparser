@@ -75,6 +75,7 @@ class CARGO:
     COMISARIO = 52
     SOCIO_UNICO = 53
     SOCIEDADES_BENEFICIARIAS = 54
+    SOCIEDADES_FUSIONADAS = 55
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -140,6 +141,7 @@ class CARGO:
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
+                 'Sociedades fusionadas': SOCIEDADES_FUSIONADAS,
                  }
     KEYWORDS = list(six.viewkeys(_keywords))
 

@@ -7,7 +7,7 @@ from collections import OrderedDict
 
 from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_rare,\
                               regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
-                              is_acto_escision, regex_escision
+                              is_acto_escision, regex_escision, regex_fusion, is_acto_fusion
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
@@ -28,6 +28,8 @@ def parse_acto(nombreacto, data, prefix=''):
         data = regex_cargos(data)
     elif is_acto_escision(nombreacto):
         nombreacto, data = regex_escision(nombreacto, data)
+    elif is_acto_fusion(nombreacto):
+        data = regex_fusion(data)
 
     logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
     logger.debug('  %s dataW: %s' % (prefix, data))
