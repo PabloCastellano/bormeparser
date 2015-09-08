@@ -66,6 +66,8 @@ class ACTO:
     ESCISION_TOTAL = 41
     FUSION_UNION = 42
     ADAPTACION_DE_LA_SOCIEDAD = 43
+    QUIEBRA = 44
+    SUCURSAL = 45
 
 
     # Palabras clave con argumentos
@@ -100,6 +102,8 @@ class ACTO:
         u'Escisión parcial': ESCISION_PARCIAL,
         u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
         u'Fusión por unión': FUSION_UNION,
+        u'Quiebra': QUIEBRA,
+        u'Sucursal': SUCURSAL,
     }
 
     # Palabras clave sin argumentos
