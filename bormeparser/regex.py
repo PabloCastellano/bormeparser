@@ -195,9 +195,9 @@ def regex_fusion(data):
     acto: Fusión por unión.
     data: "Sociedades que se fusiónan: YOLO SOCIEDAD ANONIMA."
     """
-    if not data.startswith('Sociedades que se fusiónan: '):  # SIC
+    if not data.startswith(u'Sociedades que se fusiónan: '):  # SIC
         raise ValueError(data)
-    company = data.split('Sociedades que se fusiónan: ', 1)[1][:-1]
+    company = data.split(u'Sociedades que se fusiónan: ', 1)[1][:-1]
     return {'Sociedades fusionadas': set([company])}
 
 
