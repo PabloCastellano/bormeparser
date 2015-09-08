@@ -68,6 +68,11 @@ class ACTO:
     ADAPTACION_DE_LA_SOCIEDAD = 43
     QUIEBRA = 44
     SUCURSAL = 45
+    CESION_GLOBAL_ACTIVO_PASIVO = 46
+    SEGREGACION = 47
+    ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR = 48
+    MODIFICACION_DE_DURACION = 49
+    APERTURA_DE_SUCURSAL = 50
 
 
     # Palabras clave con argumentos
@@ -84,6 +89,7 @@ class ACTO:
         u'Disolución': DISOLUCION,
         u'Reelecciones': REELECCIONES,
         u'Constitución': CONSTITUCION,
+        u'Apertura de sucursal': APERTURA_DE_SUCURSAL,
         u'Empresario Individual': EMPRESARIO_INDIVIDUAL,
         u'Articulo 378.5 del Reglamento del Registro Mercantil': ARTICULO_378_5_DEL_RRM,
         u'Otros conceptos': OTROS_CONCEPTOS,
@@ -104,6 +110,8 @@ class ACTO:
         u'Fusión por unión': FUSION_UNION,
         u'Quiebra': QUIEBRA,
         u'Sucursal': SUCURSAL,
+        u'Cesión global de activo y pasivo': CESION_GLOBAL_ACTIVO_PASIVO,
+        u'Segregación': SEGREGACION,
     }
 
     # Palabras clave sin argumentos
@@ -122,12 +130,14 @@ class ACTO:
 
     # Palabras clave seguidas por :
     _colon_keywords = {
+        u'Modificación de duración': MODIFICACION_DE_DURACION,
         u'Fe de erratas': FE_DE_ERRATAS,
     }
 
     _rare_keywords = {
         u'Declaración de unipersonalidad. Socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
         u'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
+        u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo': ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR,
     }
 
     _other_keywords = {
