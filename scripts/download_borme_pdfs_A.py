@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import bormeparser.download
 import bormeparser
+from bormeparser.exceptions import BormeDoesntExistException
 import logging
 import os
 import sys
@@ -24,6 +25,10 @@ if __name__ == '__main__':
 
     print('PATH: %s\nDATE: %s\nSECCION: %s\n' % (path, sys.argv[1], seccion))
 
-    dl, files = bormeparser.download_pdfs(date, path, seccion=seccion)
-    msg = 'SUCCESS' if dl else 'ERROR'
-    print('\n%s (%d files downloaded): %s' % (msg, len(files), files))
+    try:
+        dl, files = bormeparser.download_pdfs(date, path, seccion=seccion)
+        msg = 'SUCCESS' if dl else 'ERROR'
+        print('\n%s (%d files downloaded): %s' % (msg, len(files), files))
+    except BormeDoesntExistException:
+        print('It seems that no BORMEs exist for this date. Nothing was downloaded')
+        os.rmdir(path)  # ugly
