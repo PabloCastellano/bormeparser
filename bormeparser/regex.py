@@ -97,7 +97,7 @@ def is_acto_noarg(data):
 def is_acto_rare_cargo(data):
     """ Como is_acto_cargo pero se parsean de forma distinta """
     actos = (u'Declaración de unipersonalidad', u'Cambio de identidad del socio único',
-             u'Escisión parcial', u'Escisión total')
+             u'Escisión parcial', u'Escisión total', u'Fusión por unión')
     return data in actos
 
 
