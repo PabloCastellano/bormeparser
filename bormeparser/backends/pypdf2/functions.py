@@ -22,6 +22,7 @@ def clean_data(data):
     """ Unscape parenthesis and removes double spaces """
     return data.replace('\(', '(').replace('\)', ')').replace('  ', ' ').strip()
 
+
 def parse_acto(nombreacto, data, prefix=''):
     data = clean_data(data)
     if is_acto_cargo(nombreacto):
@@ -203,7 +204,7 @@ def parse_file(filename):
 
             if line == '/F2 8 Tf':
                 # Font 2: normal
-                logger.debug('START: font normal')
+                logger.debug('START: font normal. %s %s' % (changing_page, last_font))
                 logger.debug('  nombreacto2: %s' % nombreacto)
                 logger.debug('  data: %s' % data)
 
@@ -211,7 +212,9 @@ def parse_file(filename):
                     changing_page = False
                     if not nombreacto:
                         nombreacto = clean_data(data)[:-1]
-                    continue
+                    if last_font != 1:
+                        last_font = 2
+                        continue
                 nombreacto = clean_data(data)[:-1]
 
                 while True:
