@@ -180,6 +180,7 @@ class Borme(object):
         self.anuncios = OrderedDict()
         for anuncio in anuncios:
             self.anuncios[anuncio.id] = anuncio
+        self.anuncios_rango = (anuncios[0].id, anuncios[-1].id)
 
     def _set_url(self):
         self._url = get_url_pdf(self.date, self.seccion, self.provincia)

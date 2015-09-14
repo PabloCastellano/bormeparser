@@ -35,3 +35,4 @@ if __name__ == '__main__':
     print('  Provincia: %s' % borme.provincia)
     print('  Seccion: %s' % borme.seccion)
     print('  Anuncios incluidos: %d' % len(borme.get_anuncios()))
+    print('  Rango de anuncios: %d-%d' % (borme.anuncios_rango[0], borme.anuncios_rango[1]))
