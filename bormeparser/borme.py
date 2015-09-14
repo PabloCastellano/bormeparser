@@ -177,7 +177,7 @@ class Borme(object):
         raise NotImplementedError
 
     def _set_anuncios(self, anuncios):
-        self.anuncios = {}
+        self.anuncios = OrderedDict()
         for anuncio in anuncios:
             self.anuncios[anuncio.id] = anuncio
 
