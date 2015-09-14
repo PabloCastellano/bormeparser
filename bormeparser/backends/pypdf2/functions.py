@@ -12,11 +12,7 @@ from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
-DATA = OrderedDict()
 actos = OrderedDict()
-for key in ('borme_fecha', 'borme_num', 'borme_seccion', 'borme_subseccion', 'borme_provincia', 'borme_cve'):
-    DATA[key] = None
-
 
 def clean_data(data):
     """ Unscape parenthesis and removes double spaces """
@@ -83,6 +79,11 @@ def parse_file(filename):
     seccion = False
     subseccion = False
     texto = False
+
+    DATA = OrderedDict()
+    for key in ('borme_fecha', 'borme_num', 'borme_seccion', 'borme_subseccion', 'borme_provincia', 'borme_cve'):
+        DATA[key] = None
+    actos.clear()
 
     reader = PdfFileReader(open(filename, 'rb'))
     for n in range(0, reader.getNumPages()):
