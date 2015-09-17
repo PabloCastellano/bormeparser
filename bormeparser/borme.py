@@ -269,5 +269,8 @@ class Borme(object):
     def from_json(self, filename):
         raise NotImplementedError
 
+    def __lt__(self, other):
+        return self.anuncios_rango[1] < other.anuncios_rango[0]
+
     def __repr__(self):
         return "<Borme(%s) seccion:%s provincia:%s>" % (self.date, self.seccion, self.provincia)
