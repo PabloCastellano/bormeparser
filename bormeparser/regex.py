@@ -77,7 +77,7 @@ SOCIEDADES = {'SA': 'Sociedad Anónima',
 def is_acto_cargo_entrante(data):
     """ Comprueba si es un acto que aporta nuevos cargos """
 
-    if not is_acto_cargo(data):
+    if not is_acto_cargo(data) and not is_acto_rare_cargo(data):
         raise ValueError('No es un acto con cargos: %s' % data)
     return data in ['Reelecciones', 'Nombramientos']
 

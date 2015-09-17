@@ -47,8 +47,7 @@ if __name__ == '__main__':
     elif len(date) == 2:  # 2015-06
         _, lastday = calendar.monthrange(*date)
         for day in range(1, lastday+1):
-            fulldate = date + (day
-                               ,)
+            fulldate = date + (day,)
             download(fulldate)
     elif len(date) == 1:  # 2015-06-02
         for month in range(1, 13):
