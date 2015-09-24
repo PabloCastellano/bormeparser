@@ -82,7 +82,7 @@ class CARGO:
                  'Consejero': CONSEJERO,
                  'Consj.Domini': CONSEJERO_DOMINI,
                  'Secretario': SECRETARIO,
-                 'Vicesecret': VICESECRETARIO,
+                 'Vicesecret.': VICESECRETARIO,
                  'Cons.Del.Man': CONS_DEL_MAN,
                  'Mie.Cons.Rec': MIE_CONS_REC,
                  'Pre.Cons.Rec': PRE_CONS_REC,
