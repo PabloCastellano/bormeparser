@@ -1,6 +1,21 @@
 Changelog
 =========
 
+Version 0.1.4 [2015-09-24]
+------------------------
+
+- Grandes mejoras en el parser en general
+- Añadidos cargos y actos nuevos
+- Mejoras en las expresiones regulares
+- Los objetos Provincia ahora son comparables
+- download_pdfs() ahora admite los parámetros seccion y provincia
+- Nuevos scripts: borme_to_json, download_borme_pdfs_A, borme_sort, xml_poller
+- Uso de OrderedDict en lugar de dict
+- Uso de OrderedDict en lugar de dict
+- Usar la librería logging
+- Más tests
+- Actualización de los requisitos
+
 Version 0.1.3 [2015-08-08]
 ------------------------
 
