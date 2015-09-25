@@ -77,6 +77,7 @@ class CARGO:
     SOCIEDADES_BENEFICIARIAS = 54
     SOCIEDADES_FUSIONADAS = 55
     GERENTE = 56
+    LIQUIDADOR_UNICO = 57
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -140,6 +141,7 @@ class CARGO:
                  'Comisario': COMISARIO,
                  'Socio único': SOCIO_UNICO,
                  'Gerente': GERENTE,
+                 'LiqUnico': LIQUIDADOR_UNICO,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
