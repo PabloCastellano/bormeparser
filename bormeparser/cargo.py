@@ -76,6 +76,7 @@ class CARGO:
     SOCIO_UNICO = 53
     SOCIEDADES_BENEFICIARIAS = 54
     SOCIEDADES_FUSIONADAS = 55
+    GERENTE = 56
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid': VICEPRESIDENTE,
@@ -138,6 +139,7 @@ class CARGO:
                  'REP.ADM.CONC': REP_ADM_CONC,
                  'Comisario': COMISARIO,
                  'Socio único': SOCIO_UNICO,
+                 'Gerente': GERENTE,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
