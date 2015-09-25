@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.1.5 [2015-09-25]
+
+- Añadidos nuevos cargos
+- Mejoras en setuptools
+
 Version 0.1.4 [2015-09-24]
 ------------------------
 
