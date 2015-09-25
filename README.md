@@ -50,21 +50,12 @@ Instalación desde Git
 
 Puedes instalar bormeparser descargándolo y ejecutando:
 
+    sudo apt-get install python3-dev libxslt1-dev libffi-dev
     git clone https://github.com/PabloCastellano/bormeparser.git
     cd bormeparser
     python setup.py install
 
-Por último instala las dependencias de Python. Algunas de ellas contienen partes que necesitan ser compiladas:
-
-Para Python 2:
-
-    sudo apt-get install python-dev libxslt1-dev libffi-dev
-    pip install -r requirements/python2.txt
-
-Para Python 3:
-
-    sudo apt-get install python3-dev libxslt1-dev libffi-dev
-    pip install -r requirements/python3.txt
+Para Python 2, cambiar python3-dev por python-dev.
 
 
 Instalación desde Pip
