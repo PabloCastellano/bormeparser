@@ -73,8 +73,18 @@ if __name__ == '__main__':
                     download_range(begin_date, end_date)
 
         elif len(date) == 1:  # 2015
-            begin_date = datetime.date(date[0], 1, 1)
-            end_date = datetime.date(date[0], 12, 31)
-            download_range(begin_date, end_date)
+            try:
+                begin_date = datetime.date(date[0], 1, 1)
+                end_date = datetime.date(date[0], 12, 31)
+                download_range(begin_date, end_date)
+            except BormeDoesntExistException:
+                try:
+                    begin_date = datetime.date(date[0], 1, 2)
+                    end_date = datetime.date(date[0], 12, 31)
+                    download_range(begin_date, end_date)
+                except BormeDoesntExistException:
+                    begin_date = datetime.date(date[0], 1, 3)
+                    end_date = datetime.date(date[0], 12, 31)
+                    download_range(begin_date, end_date)
         else:
             print_invalid_date()
