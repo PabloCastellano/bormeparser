@@ -15,6 +15,7 @@ FIRST_BORME = datetime.date(2009, 1, 2)
 # python scripts/download_borme_pdfs_A.py 2015-06-02 [--debug]
 
 
+# IMPROVEMENT: Threads downloading xml
 def download_range(begin, end):
     next_date = begin
     seccion = bormeparser.SECCION.A

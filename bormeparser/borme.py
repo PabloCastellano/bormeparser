@@ -3,7 +3,7 @@
 
 from .acto import ACTO
 #from .download import download_pdf
-from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls
+from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls_multi
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
 from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
@@ -243,7 +243,7 @@ class BormeXML(object):
     def download_pdfs(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
         urls = self.get_url_pdfs(self.date, provincia=provincia, seccion=seccion)
-        files = download_urls(urls, path)
+        files = download_urls_multi(urls, path)
         return True, files
 
     def download_pdf(self, filename, seccion, provincia):

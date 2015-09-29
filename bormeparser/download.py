@@ -8,6 +8,13 @@ from lxml import etree
 
 from .exceptions import BormeDoesntExistException
 from .parser import parse as parse_borme
+from threading import Thread
+
+try:
+    # Python 3
+    from queue import Queue
+except ImportError:
+    from Queue import Queue
 
 import logging
 logger = logging.getLogger(__name__)
@@ -28,6 +35,8 @@ URL_BASE = 'http://www.boe.es'
 
 # http request timeout, default is 5 seconds
 TIMEOUT = 5
+# Download threads
+THREADS = 4
 
 
 # date = (year, month, date) or datetime.date
@@ -188,3 +197,42 @@ def download_urls(urls, path):
         #assert os.path.exists(filepdf)
         #assert os.path.getsize(filepdf) == int(url.attrib['szBytes'])
     return files
+
+
+def download_urls_multi(urls, path, threads=THREADS):
+    """ Descarga las urls a path indicado (verisón multihilo) """
+
+    q = Queue()
+    files = []
+
+    for i in range(THREADS):
+        t = ThreadDownloadUrl(i, q, files)
+        t.setDaemon(True)
+        t.start()
+
+    for url in urls.values():
+        filename = url.split('/')[-1]
+        full_path = os.path.join(path, filename)
+        q.put((url, full_path))
+
+    q.join()
+    return files
+
+class ThreadDownloadUrl(Thread):
+    """Threaded Url Grab"""
+    def __init__(self, thread_id, queue, files):
+        super(ThreadDownloadUrl, self).__init__()
+        self.thread_id = thread_id
+        self.queue = queue
+        self.files = files
+
+    def run(self):
+        while True:
+            url, full_path = self.queue.get()
+            downloaded = download_url(url, full_path)
+
+            if downloaded:
+                self.files.append(full_path)
+                logger.info('Downloaded %s' % os.path.basename(full_path))
+
+            self.queue.task_done()
