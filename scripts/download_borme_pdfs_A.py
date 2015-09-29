@@ -20,7 +20,7 @@ def download_range(begin, end):
     seccion = bormeparser.SECCION.A
 
     while next_date and next_date <= end:
-        bxml = BormeXML.from_date(begin)
+        bxml = BormeXML.from_date(next_date)
         path = os.path.expanduser('~/.bormes/pdf/%02d/%02d/%02d' % (bxml.date.year, bxml.date.month, bxml.date.day))
         os.makedirs(path, exist_ok=True)
 
