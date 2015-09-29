@@ -80,7 +80,7 @@ class CARGO:
     LIQUIDADOR_UNICO = 57
 
     _keywords = {'Presidente': PRESIDENTE,
-                 'Vicepresid': VICEPRESIDENTE,
+                 'Vicepresid.': VICEPRESIDENTE,
                  'Consejero': CONSEJERO,
                  'Consj.Domini': CONSEJERO_DOMINI,
                  'Secretario': SECRETARIO,
