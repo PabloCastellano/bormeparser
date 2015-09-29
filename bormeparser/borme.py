@@ -168,7 +168,8 @@ class BormeXML(object):
         self.date = parse_date(self.xml.xpath('//sumario/meta/fecha')[0].text)
         self.nbo = int(self.xml.xpath('//sumario/diario')[0].attrib['nbo'])  # Número de Boletín Oficial
         self.prev_borme = parse_date(self.xml.xpath('//sumario/meta/fechaAnt')[0].text)
-        self.next_borme = parse_date(self.xml.xpath('//sumario/meta/fechaSig')[0].text)
+        next_borme = self.xml.xpath('//sumario/meta/fechaSig')[0].text
+        self.next_borme = parse_date(next_borme) if next_borme else None
 
     @property
     def url(self):
