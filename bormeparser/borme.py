@@ -3,9 +3,9 @@
 
 from .acto import ACTO
 #from .download import download_pdf
-from .download import get_url_pdf
+from .download import get_url_pdf, BORME_PDF_URL, get_url_xml
 #from .exceptions import BormeInvalidActoException
-from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound
+from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
 from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
 #from .parser import parse as parse_borme
 #from .seccion import SECCION
@@ -16,6 +16,7 @@ import json
 import os
 import six
 
+from lxml import etree
 from collections import OrderedDict
 
 logger = logging.getLogger(__name__)
@@ -148,7 +149,55 @@ class BormeAnuncio(object):
 
 
 class BormeXML(object):
-    pass
+
+    def __init__(self):
+        self._url = None
+        self.date = None
+        self.filename = None
+
+    def _load(self, source):
+        def parse_date(fecha):
+            return datetime.datetime.strptime(fecha, '%d/%m/%Y').date()
+
+        self.xml = etree.parse(source)
+        if self.xml.getroot().tag != 'sumario':
+            raise BormeDoesntExistException
+
+        self.date = parse_date(self.xml.xpath('//sumario/meta/fecha')[0].text)
+        self.nbo = int(self.xml.xpath('//sumario/diario')[0].attrib['nbo'])  # Número de Boletín Oficial
+        self.prev_borme = parse_date(self.xml.xpath('//sumario/meta/fechaAnt')[0].text)
+        self.next_borme = parse_date(self.xml.xpath('//sumario/meta/fechaSig')[0].text)
+
+    @property
+    def url(self):
+        if not self._url:
+            self._url = get_url_xml(self.date)
+        return self._url
+
+    @staticmethod
+    def from_file(path):
+        bxml = BormeXML()
+
+        if not path.startswith('http'):
+            if not os.path.exists(path):
+                raise ValueError('File not found: %s' % path)
+            bxml.filename = path
+
+        bxml._load(path)
+        return bxml
+
+    @staticmethod
+    def from_date(date):
+        if isinstance(date, tuple):
+            date = datetime.date(year=date[0], month=date[1], day=date[2])
+
+        url = get_url_xml(date)
+        bxml = BormeXML()
+        bxml._url = url
+        bxml._load(url)
+        assert(date == bxml.date)
+        return bxml
+
 
 
 # TODO: Iterador de anuncios
