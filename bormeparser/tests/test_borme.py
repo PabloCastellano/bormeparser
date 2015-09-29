@@ -24,6 +24,7 @@ import unittest
 
 from bormeparser.borme import Borme, BormeActoCargo, BormeActoTexto, BormeAnuncio, BormeXML
 from bormeparser.download import download_xml
+from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.seccion import SECCION
 from bormeparser.provincia import PROVINCIA
 
@@ -163,6 +164,9 @@ class BormeXMLTestCase(unittest.TestCase):
         self.assertEqual(bxml.nbo, self.nbo)
         self.assertEqual(bxml.prev_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] - 1))
         self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
+
+        # Exceptions
+        self.assertRaises(BormeDoesntExistException, BormeXML.from_date, (2015, 9, 26))
 
 
 if __name__ == '__main__':
