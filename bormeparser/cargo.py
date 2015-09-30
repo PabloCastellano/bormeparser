@@ -78,6 +78,8 @@ class CARGO:
     SOCIEDADES_FUSIONADAS = 55
     GERENTE = 56
     LIQUIDADOR_UNICO = 57
+    CONS_DEL_C_R = 58
+    ENTIDAD_GESTORA = 59
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -142,6 +144,8 @@ class CARGO:
                  'Socio único': SOCIO_UNICO,
                  'Gerente': GERENTE,
                  'LiqUnico': LIQUIDADOR_UNICO,
+                 'Cons.Del.C.R': CONS_DEL_C_R,
+                 'Ent. Gestora': ENTIDAD_GESTORA,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,

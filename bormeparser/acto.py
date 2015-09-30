@@ -52,8 +52,8 @@ class ACTO:
     PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD = 28
     REAPERTURA_HOJA_REGISTRAL = 29
     ADAPTACION_LEY_2_95 = 30
-    CIERRE_PROVISIONAL_HOJA_REGISTRAL_POR_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS = 31
-    CIERRE_PROVISIONAL_DE_LA_HOJA_REGISTRAL_POR_REVOCACION_DEL_NIF = 32
+    CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS = 31
+    CIERRE_PROVISIONAL_REVOCACION_NIF = 32
     REACTIVACION_DE_LA_SOCIEDAD = 32
     CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO = 33
     FE_DE_ERRATAS = 34
@@ -73,6 +73,7 @@ class ACTO:
     ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR = 48
     MODIFICACION_DE_DURACION = 49
     APERTURA_DE_SUCURSAL = 50
+    CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES = 51
 
 
     # Palabras clave con argumentos
@@ -122,8 +123,9 @@ class ACTO:
         u'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
         u'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
         u'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
-        u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_HOJA_REGISTRAL_POR_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
-        u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_DE_LA_HOJA_REGISTRAL_POR_REVOCACION_DEL_NIF,
+        u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
+        u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_REVOCACION_NIF,
+        u'Cierre provisional hoja registral art. 137.2 Ley 43/1995 Impuesto de Sociedades': CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES,
         u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD,
         u'Adaptación de sociedad': ADAPTACION_DE_LA_SOCIEDAD,
     }
