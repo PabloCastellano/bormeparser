@@ -75,6 +75,7 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
     string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
     string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
     string3 = u'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
+    string7 = u'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B32621471.Ceses/Dimisiones.'
 
     string4 = u'Sociedades beneficiarias de la escisión: PEPE SL.'
     string5 = u'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA. PEDRO ANTONIO EXPLOTACIONES SL.'
@@ -95,6 +96,11 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
         self.assertEqual(arg_colon, {u'Socio Único': {'FOO DOE'}})
         self.assertEqual(nombreacto, u'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
+
+        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string7)
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, {u'Socio Único': {'CORPOREISHON BLA BLA. Cif:B32621471'}})
+        self.assertEqual(nombreacto, u'Ceses/Dimisiones.')
 
     def test_regex_escision(self):
         nombreacto, beneficiarias = regex_escision(u'Escisión parcial', self.string4)
