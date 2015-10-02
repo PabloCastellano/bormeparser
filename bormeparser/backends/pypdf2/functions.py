@@ -6,7 +6,7 @@ from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
 from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_rare,\
-                              regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
+                              regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_PDF_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
                               is_acto_escision, regex_escision, regex_fusion, is_acto_fusion
 
 logger = logging.getLogger(__name__)
@@ -228,7 +228,7 @@ def parse_file(filename):
                 last_font = 2
                 continue
 
-            m = REGEX_TEXT.match(line)
+            m = REGEX_PDF_TEXT.match(line)
             if m:
                 if fecha:
                     DATA['borme_fecha'] = m.group(1)

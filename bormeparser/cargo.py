@@ -62,11 +62,11 @@ class CARGO:
     M_COMIT_AUD = 39
     SEC_COMIT_AUD = 40
     PTE_COMIT_AUD = 41
-    PRES_COM_CTR = 42
-    SECR_COM_CTR = 43
+    PRESIDENTE_COMISION_CONTROL = 42
+    SECRETARIO_COMISION_CONTROL = 43
     RLC_PERMA = 44
     LIQUIDADOR_M = 45
-    MIEM_COM_CTR = 46
+    MIEMBRO_COMISION_CONTROL = 46
     MIEM_COM_EJ = 47
     SEC_JGPV = 48
     MIEM_JGPV = 49
@@ -81,6 +81,11 @@ class CARGO:
     CONS_DEL_C_R = 58
     ENTIDAD_GESTORA = 59
     AUDITOR_TITU = 60
+    AUDITOR_CUENTAS = 61
+    DIRECTOR_GENERAL = 62
+    MIEMBRO_JUNTA_DIRECTIVA = 63
+    SECRETARIO_JUNTA_DIRECTIVA = 64
+    SOCIO = 65
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -96,6 +101,7 @@ class CARGO:
                  'ADM.UNICO': ADM_UNICO,
                  'Adm. Solid.': ADM_SOLID,
                  'ADM.SOLIDAR.': ADM_SOLID,
+                 'Admin.Solid': ADM_SOLID,
                  'ADM.CONCURS': ADM_CONCURS,
                  'Adm. Mancom': ADM_MANCOM,
                  'ADM.CONJUNTO': ADM_CONJUNTO,
@@ -131,9 +137,9 @@ class CARGO:
                  'M.Comit.Aud': M_COMIT_AUD,
                  'Sec.Comit.Au': SEC_COMIT_AUD,
                  'Pte.Comit.Au': PTE_COMIT_AUD,
-                 'Pres.Com.Ctr': PRES_COM_CTR,
-                 'Secr.Com.Ctr': SECR_COM_CTR,
-                 'Miem.Com.Ctr': MIEM_COM_CTR,
+                 'Pres.Com.Ctr': PRESIDENTE_COMISION_CONTROL,
+                 'Secr.Com.Ctr': SECRETARIO_COMISION_CONTROL,
+                 'Miem.Com.Ctr': MIEMBRO_COMISION_CONTROL,
                  'Miem.Com.Ej.': MIEM_COM_EJ,
                  'R.L.C.Perma.': RLC_PERMA,
                  'Sec.J.G.P.V': SEC_JGPV,
@@ -142,12 +148,18 @@ class CARGO:
                  'Tesorero': TESORERO,
                  'REP.ADM.CONC': REP_ADM_CONC,
                  'Comisario': COMISARIO,
+                 'Comis.Contro': COMISARIO,
                  'Socio único': SOCIO_UNICO,
                  'Gerente': GERENTE,
                  'LiqUnico': LIQUIDADOR_UNICO,
                  'Cons.Del.C.R': CONS_DEL_C_R,
                  'Ent. Gestora': ENTIDAD_GESTORA,
                  'Auditor Titu': AUDITOR_TITU,
+                 'AUDIT.CUENT.': AUDITOR_CUENTAS,
+                 'Dir. General': DIRECTOR_GENERAL,
+                 'Miem.J.Dir.': MIEMBRO_JUNTA_DIRECTIVA,
+                 'Scrt.J.Dir.': SECRETARIO_JUNTA_DIRECTIVA,
+                 'Socio': SOCIO,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,

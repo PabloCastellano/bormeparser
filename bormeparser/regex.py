@@ -50,7 +50,7 @@ REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICO
 REGEX_RARE = re.compile(RE_RARE_KEYWORDS + ': (.*?)\.\s*' + RE_ARG_KEYWORDS + '(.*)', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*?)(?:\.$|$)')
-REGEX_TEXT = re.compile('^\((.*)\)Tj$')
+REGEX_PDF_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
 REGEX_BORME_CVE = re.compile('^cve: (.*)$')
