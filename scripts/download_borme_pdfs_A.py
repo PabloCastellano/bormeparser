@@ -3,6 +3,7 @@ import bormeparser.download
 import bormeparser
 from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.borme import BormeXML
+from bormeparser.utils import FIRST_BORME
 
 import calendar
 import datetime
@@ -10,7 +11,6 @@ import logging
 import os
 import sys
 
-FIRST_BORME = datetime.date(2009, 1, 2)
 
 # python scripts/download_borme_pdfs_A.py 2015-06-02 [--debug]
 
