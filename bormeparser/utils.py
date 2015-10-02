@@ -18,7 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import unicodedata
+import datetime
 
+FIRST_BORME = datetime.date(2009, 1, 2)
 
 def remove_accents(string):
     try:
