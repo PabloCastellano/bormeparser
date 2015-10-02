@@ -80,6 +80,7 @@ class CARGO:
     LIQUIDADOR_UNICO = 57
     CONS_DEL_C_R = 58
     ENTIDAD_GESTORA = 59
+    AUDITOR_TITU = 60
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -146,6 +147,7 @@ class CARGO:
                  'LiqUnico': LIQUIDADOR_UNICO,
                  'Cons.Del.C.R': CONS_DEL_C_R,
                  'Ent. Gestora': ENTIDAD_GESTORA,
+                 'Auditor Titu': AUDITOR_TITU,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
