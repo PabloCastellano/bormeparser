@@ -105,7 +105,8 @@ class BormeActoFact(BormeActo):
 
     def _set_value(self, value):
         if value != True:
-            raise ValueError('value must be True: %s' % value)
+            logger.warning('value must be True: %s' % value)
+            #raise ValueError('value must be True: %s' % value)
         self.value = value
 
 
