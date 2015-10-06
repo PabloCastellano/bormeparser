@@ -33,7 +33,7 @@ RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 # OR de las palabras clave
 RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(esc_cargos_keywords)
 # RE para capturar el cargo y los nombres
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ":\s(.*?)(?:\.$|\. )"
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ":\s(.*?)(?:\.$|\. |\s*$)"
 
 """
 DEPRECATED
