@@ -123,6 +123,7 @@ class ACTO:
         u'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
         u'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
         u'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
+        u'Adaptada segun D.T. 2 apartado 2 Ley 2/95': ADAPTACION_LEY_2_95,
         u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
         u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_REVOCACION_NIF,
         u'Cierre provisional hoja registral art. 137.2 Ley 43/1995 Impuesto de Sociedades': CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES,

@@ -86,12 +86,24 @@ class CARGO:
     MIEMBRO_JUNTA_DIRECTIVA = 63
     SECRETARIO_JUNTA_DIRECTIVA = 64
     SOCIO = 65
+    COMS_DEL_INV = 66  # Comisario del inv...?
+    PRE_COMS_D_I = 67  # Presidente coms del inv...?
+    S_N_C_C_D_I = 68  # Secretario no consejero Coms del inv?
+    VS_N_C_C_D_I = 69  # Vicesecretario no consejero coms del inv?
+    NO_DEFINIDO = 70
+    LETRADO_ASESOR = 71
+    EXP_IND = 72  # Experto independiente?
+    MIEMBRO_COM_LIQ = 73
+    PRESIDENTE_COM_LIQ = 74
+    SECRETARIO_COM_LIQ = 75
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
+                 'VICEPRESIDEN': VICEPRESIDENTE,
                  'Consejero': CONSEJERO,
                  'Consj.Domini': CONSEJERO_DOMINI,
                  'Secretario': SECRETARIO,
+                 'SECRETARIO': SECRETARIO,
                  'Vicesecret.': VICESECRETARIO,
                  'Cons.Del.Man': CONS_DEL_MAN,
                  'Mie.Cons.Rec': MIE_CONS_REC,
@@ -119,6 +131,8 @@ class CARGO:
                  'Cons.Del.Sol': CONS_DEL_SOL,
                  'Representan': REPRESENTANTE,
                  'Con.Delegado': CONS_DELEGADO,
+                 'CONS. DELEG.': CONS_DELEGADO,
+                 'Cons.Delegad': CONS_DELEGADO,
                  'Liquidador': LIQUIDADOR,
                  'LiquiSoli': LIQUISOLI,
                  'LiqSolid': LIQUISOLI,
@@ -126,17 +140,20 @@ class CARGO:
                  'REPR.143 RRM': REPR_143_RRM,
                  'CONSEJERO': CONSEJERO,
                  'CONS.DEL.M/S': CONS_DEL_M_S,
-                 'CONS. DELEG.': CONS_DELEGADO,
                  'SecreNoConsj': SECRE_NO_CONSEJ,
+                 'SECR.NO CONS': SECRE_NO_CONSEJ,
                  'VsecrNoConsj': VSECR_NO_CONSJ,
+                 'V-SEC NO CON': VSECR_NO_CONSJ,
                  'Auditor': AUDITOR,
                  'Aud.C.Con.': AUD_C_CON,
                  'Aud.Supl.': AUD_SUPL,
                  'Ent.Reg.Cont': ENT_REG_CONT,
                  'EntidDeposit': ENTIDAD_DEPOSITARIA,
+                 'ENT.DEPOSIT.': ENTIDAD_DEPOSITARIA,
                  'M.Comit.Aud': M_COMIT_AUD,
                  'Sec.Comit.Au': SEC_COMIT_AUD,
                  'Pte.Comit.Au': PTE_COMIT_AUD,
+                 'Pte. C. Aud.': PTE_COMIT_AUD,
                  'Pres.Com.Ctr': PRESIDENTE_COMISION_CONTROL,
                  'Secr.Com.Ctr': SECRETARIO_COMISION_CONTROL,
                  'Miem.Com.Ctr': MIEMBRO_COMISION_CONTROL,
@@ -154,12 +171,23 @@ class CARGO:
                  'LiqUnico': LIQUIDADOR_UNICO,
                  'Cons.Del.C.R': CONS_DEL_C_R,
                  'Ent. Gestora': ENTIDAD_GESTORA,
+                 'ENTI.GESTORA': ENTIDAD_GESTORA,
                  'Auditor Titu': AUDITOR_TITU,
                  'AUDIT.CUENT.': AUDITOR_CUENTAS,
                  'Dir. General': DIRECTOR_GENERAL,
                  'Miem.J.Dir.': MIEMBRO_JUNTA_DIRECTIVA,
                  'Scrt.J.Dir.': SECRETARIO_JUNTA_DIRECTIVA,
                  'Socio': SOCIO,
+                 'COMS.DEL.INV': COMS_DEL_INV,
+                 'PRE.COMS.D.I': PRE_COMS_D_I,
+                 'S.N.C.C.D.I.': S_N_C_C_D_I,
+                 'VS.N.C.C.D.I': VS_N_C_C_D_I,
+                 'No definido:': NO_DEFINIDO,  #
+                 'L. Asesor': LETRADO_ASESOR,
+                 'Exp.Ind.': EXP_IND,
+                 'Mmbr.Com.Liq': MIEMBRO_COM_LIQ,
+                 'Pres.Com.Liq': PRESIDENTE_COM_LIQ,
+                 'Secr.Com.Liq': SECRETARIO_COM_LIQ,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
