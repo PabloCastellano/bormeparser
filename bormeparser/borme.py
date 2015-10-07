@@ -253,6 +253,19 @@ class BormeXML(object):
         downloaded = download_url(url, filename)
         return downloaded
 
+    def save_to_file(self, path):
+        # El archivo generado es diferente:
+        #   en la cabecera XML usa " en lugar de '
+        #   <fechaSig/> en lugar de <fechaSig></fechaSig>
+        # Se corrige manualmente
+        self.xml.write(path, encoding='iso-8859-1', pretty_print=True)
+        with open(path, 'r', encoding='iso-8859-1') as fp:
+            content = fp.read()
+        content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
+        content = content.replace("<fechaSig/>", '<fechaSig></fechaSig>')
+        with open(path, 'w', encoding='iso-8859-1') as fp:
+            fp.write(content)
+        return True
 
 
 # TODO: Iterador de anuncios
