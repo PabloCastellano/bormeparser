@@ -176,7 +176,13 @@ class BormeXML(object):
         self.nbo = int(self.xml.xpath('//sumario/diario')[0].attrib['nbo'])  # Número de Boletín Oficial
         self.prev_borme = parse_date(self.xml.xpath('//sumario/meta/fechaAnt')[0].text)
         next_borme = self.xml.xpath('//sumario/meta/fechaSig')[0].text
-        self.next_borme = parse_date(next_borme) if next_borme else None
+        if next_borme:
+            self.next_borme = parse_date(next_borme)
+            self.is_final = True
+        else:
+            self.next_borme = None
+            self.is_final = False
+            logger.warning('Está accediendo un archivo BORME XML no definitivo')
 
     @property
     def url(self):
@@ -270,7 +276,7 @@ class BormeXML(object):
             content = fp.read()
 
         content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
-        if not self.next_borme:
+        if not self.is_final:
             logger.warning('Está guardando un archivo no definitivo')
             content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
 
