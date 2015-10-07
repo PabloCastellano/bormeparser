@@ -22,6 +22,6 @@ def parse(data):
         borme = parser(data).parse()
         #actos = parser.parse_actos()
     else:
-        raise ValueError('File not found: %s' % data)
+        raise FileNotFoundError(data)
 
     return borme

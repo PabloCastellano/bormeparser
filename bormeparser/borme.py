@@ -19,6 +19,7 @@ import six
 from lxml import etree
 from collections import OrderedDict
 
+
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
 logger.addHandler(ch)
@@ -104,7 +105,7 @@ class BormeActoFact(BormeActo):
         self.name = name
 
     def _set_value(self, value):
-        if value != True:
+        if value is not True:
             logger.warning('value must be True: %s' % value)
             #raise ValueError('value must be True: %s' % value)
         self.value = value
@@ -184,7 +185,7 @@ class BormeXML(object):
 
         if not path.startswith('http'):
             if not os.path.exists(path):
-                raise ValueError('File not found: %s' % path)
+                raise FileNotFoundError(path)
             bxml.filename = path
 
         bxml._load(path)
@@ -228,7 +229,6 @@ class BormeXML(object):
 
         return self._urls_provincia
 
-
     def _get_url_pdfs_seccion(self, seccion):
         """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
 
@@ -253,16 +253,20 @@ class BormeXML(object):
         downloaded = download_url(url, filename)
         return downloaded
 
+    # TODO: Obtener versión definitiva si ya ha sido publicado el próximo BORME
     def save_to_file(self, path):
+        """ Guarda el archivo XML en disco. Útil cuando se genera el XML a partir de una fecha. """
         # El archivo generado es diferente:
         #   en la cabecera XML usa " en lugar de '
         #   <fechaSig/> en lugar de <fechaSig></fechaSig>
         # Se corrige manualmente
+        if self.date == datetime.date.today():
+            logger.warning('Está guardando un archivo no definitivo')
         self.xml.write(path, encoding='iso-8859-1', pretty_print=True)
         with open(path, 'r', encoding='iso-8859-1') as fp:
             content = fp.read()
         content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
-        content = content.replace("<fechaSig/>", '<fechaSig></fechaSig>')
+        content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
         with open(path, 'w', encoding='iso-8859-1') as fp:
             fp.write(content)
         return True

@@ -21,7 +21,16 @@ def download_range(begin, end):
     seccion = bormeparser.SECCION.A
 
     while next_date and next_date <= end:
-        bxml = BormeXML.from_date(next_date)
+        xml_path = os.path.expanduser('~/.bormes/xml/{year}/{month}/BORME-S-{year}{month}{day}.xml'.format(year=next_date.year, month=next_date.month, day=next_date.day))
+        try:
+            bxml = BormeXML.from_file(xml_path)
+            print('%s already exists!' % os.path.basename(xml_path))
+        except FileNotFoundError:
+            print('Downloading %s ' % os.path.basename(xml_path))
+            bxml = BormeXML.from_date(next_date)
+            os.makedirs(os.path.dirname(xml_path), exist_ok=True)
+            bxml.save_to_file(xml_path)
+
         path = os.path.expanduser('~/.bormes/pdf/%02d/%02d/%02d' % (bxml.date.year, bxml.date.month, bxml.date.day))
         os.makedirs(path, exist_ok=True)
 
