@@ -19,6 +19,11 @@ import six
 from lxml import etree
 from collections import OrderedDict
 
+try:
+    FileNotFoundError
+except NameError:
+    # Python 2
+    FileNotFoundError = IOError
 
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
@@ -256,17 +261,19 @@ class BormeXML(object):
     # TODO: Obtener versión definitiva si ya ha sido publicado el próximo BORME
     def save_to_file(self, path):
         """ Guarda el archivo XML en disco. Útil cuando se genera el XML a partir de una fecha. """
-        # El archivo generado es diferente:
+        # El archivo generado es diferente. Se corrige manualmente:
         #   en la cabecera XML usa " en lugar de '
         #   <fechaSig/> en lugar de <fechaSig></fechaSig>
-        # Se corrige manualmente
-        if self.date == datetime.date.today():
-            logger.warning('Está guardando un archivo no definitivo')
+
         self.xml.write(path, encoding='iso-8859-1', pretty_print=True)
         with open(path, 'r', encoding='iso-8859-1') as fp:
             content = fp.read()
+
         content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
-        content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
+        if not self.next_borme:
+            logger.warning('Está guardando un archivo no definitivo')
+            content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
+
         with open(path, 'w', encoding='iso-8859-1') as fp:
             fp.write(content)
         return True
