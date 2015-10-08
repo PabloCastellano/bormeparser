@@ -14,6 +14,12 @@ import sys
 
 # python scripts/download_borme_pdfs_A.py 2015-06-02 [--debug]
 
+def get_borme_xml_filepath(date):
+    month = '%02d' % date.month
+    day = '%02d' % date.day
+    filename = 'BORME-S-%d%s%s.xml' % (date.year, month, day)
+    return os.path.expanduser('~/.bormes/xml/%d/%s/%s' % (date.year, month, filename))
+
 
 # IMPROVEMENT: Threads downloading xml
 def download_range(begin, end):
@@ -21,7 +27,7 @@ def download_range(begin, end):
     seccion = bormeparser.SECCION.A
 
     while next_date and next_date <= end:
-        xml_path = os.path.expanduser('~/.bormes/xml/{year}/{month}/BORME-S-{year}{month}{day}.xml'.format(year=next_date.year, month=next_date.month, day=next_date.day))
+        xml_path = get_borme_xml_filepath(next_date)
         try:
             bxml = BormeXML.from_file(xml_path)
             print('%s already exists!' % os.path.basename(xml_path))
