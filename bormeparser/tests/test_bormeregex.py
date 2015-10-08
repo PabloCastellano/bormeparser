@@ -25,7 +25,8 @@ DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOS
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
         'fake3': {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {u'CUEVAS MUÑOZ SILVIA MARIA'}},
         'fake4': {'Adm. Mancom.': {'PEREZ', 'HILARIO'}},
-        'fake5': {'Auditor': {'A.T.A AUDITORES SL'}, 'Adm. Mancom.': {'PEREZ', 'HILARIO'}}}
+        'fake5': {'Auditor': {'A.T.A AUDITORES SL'}, 'Adm. Mancom.': {'PEREZ', 'HILARIO'}},
+        'fake6': {'Adm. Solid.': {'ASDFG INVERSIONES S.L'}, 'Adm. Mancom.': {'ASDFG INVERSIONES S.L', 'PEDRO PEREZ'}}}
 
 
 class BormeparserIsCompanyTestCase(unittest.TestCase):
@@ -61,6 +62,7 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
     nombramientos1 = 'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
     nombramientos2 = u'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
     nombramientos3 = u'Auditor: A.T.A AUDITORES SL. Aud.Supl.: CUEVAS MUÑOZ SILVIA MARIA.'
+    nombramientos4 = u'Adm. Solid.: ASDFG INVERSIONES S.L. Adm. Mancom.: ASDFG INVERSIONES S.L.;PEDRO PEREZ'
     ceses1 = u'Adm. Mancom.: PEREZ;HILARIO'
     ceses2 = u'Auditor: A.T.A AUDITORES SL. Adm. Mancom.: PEREZ;HILARIO'
 
@@ -73,6 +75,9 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
 
         cargos3 = regex_cargos(self.nombramientos3)
         self.assertEqual(cargos3, DATA['fake3'])
+
+        cargos4 = regex_cargos(self.nombramientos4)
+        self.assertEqual(cargos4, DATA['fake6'])
 
         ceses1 = regex_cargos(self.ceses1)
         self.assertEqual(ceses1, DATA['fake4'])

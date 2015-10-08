@@ -155,6 +155,7 @@ class BormeAnuncio(object):
         return "<BormeAnuncio(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))
 
 
+# TODO: guardar self.filepath si from_file, y si from_date y luego save_to_file tb
 class BormeXML(object):
 
     def __init__(self):
