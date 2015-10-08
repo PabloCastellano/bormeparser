@@ -26,7 +26,7 @@ DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOS
         'fake3': {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {u'CUEVAS MUÑOZ SILVIA MARIA'}},
         'fake4': {'Adm. Mancom.': {'PEREZ', 'HILARIO'}},
         'fake5': {'Auditor': {'A.T.A AUDITORES SL'}, 'Adm. Mancom.': {'PEREZ', 'HILARIO'}},
-        'fake6': {'Adm. Solid.': {'ASDFG INVERSIONES S.L'}, 'Adm. Mancom.': {'ASDFG INVERSIONES S.L', 'PEDRO PEREZ'}}}
+        'fake6': {'Adm. Solid.': {'ASDFG INVERSIONES SL'}, 'Adm. Mancom.': {'ASDFG INVERSIONES SL', 'PEDRO PEREZ'}}}
 
 
 class BormeparserIsCompanyTestCase(unittest.TestCase):
@@ -90,7 +90,7 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
     string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
     string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
     string3 = u'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
-    string7 = u'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B32621471.Ceses/Dimisiones.'
+    string7 = u'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B12345678.Ceses/Dimisiones.'
 
     string4 = u'Sociedades beneficiarias de la escisión: PEPE SL.'
     string5 = u'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA. PEDRO ANTONIO EXPLOTACIONES SL.'
@@ -114,7 +114,7 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
 
         acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string7)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {u'Socio Único': {'CORPOREISHON BLA BLA. Cif:B32621471'}})
+        self.assertEqual(arg_colon, {u'Socio Único': {'CORPOREISHON BLA BLA. Cif:B12345678'}})
         self.assertEqual(nombreacto, u'Ceses/Dimisiones.')
 
     def test_regex_escision(self):

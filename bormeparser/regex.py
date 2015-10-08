@@ -110,7 +110,6 @@ def is_acto_rare(data):
 def is_company(data):
     """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
     siglas = list(SOCIEDADES.keys())
-    siglas.extend(['SOCIEDAD LIMITADA', 'SOCIEDAD ANONIMA'])
     siglas = list(map(lambda x: ' %s' % x, siglas))
     return any(data.endswith(s) for s in siglas)
 
@@ -156,12 +155,18 @@ def regex_cargos(data):
     """
     cargos = {}
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
-        personas = set()
-        for person in cargo[1].split(';'):
-            if person.endswith('.'):
-                person = person[:-1]
-            personas.add(person)
-        cargos[cargo[0]] = personas
+        entidades = set()
+        for e in cargo[1].split(';'):
+            if e.endswith('.'):
+                e = e[:-1]
+            if e.endswith(' S.L'):
+                e = e[:-3]  + 'SL'
+            elif e.endswith(' SOCIEDAD LIMITADA'):
+                e = e[:-17]  + 'SL'
+            elif e.endswith(' SOCIEDAD ANONIMA'):
+                e = e[:-16]  + 'SA'
+            entidades.add(e)
+        cargos[cargo[0]] = entidades
     return cargos
 
 
