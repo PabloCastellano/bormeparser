@@ -96,7 +96,9 @@ class CARGO:
     MIEMBRO_COM_LIQ = 73
     PRESIDENTE_COM_LIQ = 74
     SECRETARIO_COM_LIQ = 75
+    GER_COM_GER = 76  #
 
+    
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
                  'VICEPRESIDEN': VICEPRESIDENTE,
@@ -188,6 +190,7 @@ class CARGO:
                  'Mmbr.Com.Liq': MIEMBRO_COM_LIQ,
                  'Pres.Com.Liq': PRESIDENTE_COM_LIQ,
                  'Secr.Com.Liq': SECRETARIO_COM_LIQ,
+                 'Ger.Com.Ger': GER_COM_GER,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
