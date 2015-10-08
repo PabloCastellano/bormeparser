@@ -98,7 +98,7 @@ class CARGO:
     SECRETARIO_COM_LIQ = 75
     GER_COM_GER = 76  #
 
-    
+
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
                  'VICEPRESIDEN': VICEPRESIDENTE,
@@ -113,11 +113,13 @@ class CARGO:
                  'Sec.Cons.Rec': SEC_CONS_REC,
                  'Adm. Unico': ADM_UNICO,
                  'ADM.UNICO': ADM_UNICO,
+                 'Admin.Unico': ADM_UNICO,
                  'Adm. Solid.': ADM_SOLID,
                  'ADM.SOLIDAR.': ADM_SOLID,
                  'Admin.Solid': ADM_SOLID,
                  'ADM.CONCURS': ADM_CONCURS,
                  'Adm. Mancom': ADM_MANCOM,
+                 'Admin.Manc': ADM_MANCOM,
                  'ADM.CONJUNTO': ADM_CONJUNTO,
                  'Apoderado': APODERADO,
                  'APODERADO': APODERADO,
