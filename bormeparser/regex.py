@@ -156,7 +156,12 @@ def regex_cargos(data):
     """
     cargos = {}
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
-        cargos[cargo[0]] = set(cargo[1].split(';'))
+        personas = set()
+        for person in cargo[1].split(';'):
+            if person.endswith('.'):
+                person = person[:-1]
+            personas.add(person)
+        cargos[cargo[0]] = personas
     return cargos
 
 
