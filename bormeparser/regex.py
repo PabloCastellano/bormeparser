@@ -60,16 +60,17 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 
 
 # https://es.wikipedia.org/wiki/Anexo:Tipos_de_sociedad_mercantil_en_Espa%C3%B1a
-SOCIEDADES = {'SA': 'Sociedad Anónima',
-              'SL': 'Sociedad Limitada',
-              'SLU': 'Sociedad Limitada Unipersonal',
-              'SLP': 'Sociedad Limitada Profesional',
-              'SRL': 'Sociedad de Responsabilidad Limitada',
-              'AIE': 'Agrupación de Interés Económico',
+SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'COOP': 'Cooperativa',
-              'SLL': 'Sociedad Limitada Laboral',
+              'SA': 'Sociedad Anónima',
               'SAL': 'Sociedad Anónima Laboral',
-              'SLNE': 'Sociedad Limitada Nueva Empresa'
+              'SCP': 'Sociedad Civil Profesional',
+              'SL': 'Sociedad Limitada',
+              'SLL': 'Sociedad Limitada Laboral',
+              'SLNE': 'Sociedad Limitada Nueva Empresa',
+              'SLP': 'Sociedad Limitada Profesional',
+              'SLU': 'Sociedad Limitada Unipersonal',
+              'SRL': 'Sociedad de Responsabilidad Limitada',
               }
 
 
@@ -167,6 +168,8 @@ def regex_cargos(data):
                 e = e[:-16]  + 'SA'
             elif e.endswith(' S.L.L'):
                 e = e[:-5]  + 'SLL'
+            elif e.endswith(' SOCIEDAD CIVIL PROFESIONAL'):
+                e = e[:-26]  + 'SCP'
             entidades.add(e)
         cargos[cargo[0]] = entidades
     return cargos
