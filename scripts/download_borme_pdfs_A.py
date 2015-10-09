@@ -11,18 +11,29 @@ import logging
 import os
 import sys
 
+BORMES_ROOT = '~/.bormes'
 
 # python scripts/download_borme_pdfs_A.py 2015-06-02 [--debug]
 
+
 def get_borme_xml_filepath(date):
+    year = str(date.year)
     month = '%02d' % date.month
     day = '%02d' % date.day
     filename = 'BORME-S-%d%s%s.xml' % (date.year, month, day)
-    return os.path.expanduser('~/.bormes/xml/%d/%s/%s' % (date.year, month, filename))
+    return os.path.join(os.path.expanduser(BORMES_ROOT), 'xml', year, month, filename)
 
 
-# IMPROVEMENT: Threads downloading xml
+def get_borme_pdf_path(date):
+    year = str(date.year)
+    month = '%02d' % date.month
+    day = '%02d' % date.day
+
+    return os.path.join(os.path.expanduser(BORMES_ROOT), 'pdf', year, month, day)
+
+
 def download_range(begin, end):
+    """ Downloads PDFs using threads """
     next_date = begin
     seccion = bormeparser.SECCION.A
 
@@ -37,7 +48,7 @@ def download_range(begin, end):
             os.makedirs(os.path.dirname(xml_path), exist_ok=True)
             bxml.save_to_file(xml_path)
 
-        path = os.path.expanduser('~/.bormes/pdf/%02d/%02d/%02d' % (bxml.date.year, bxml.date.month, bxml.date.day))
+        path = get_borme_pdf_path(bxml.date)
         os.makedirs(path, exist_ok=True)
 
         print('\nPATH: %s\nDATE: %s\nSECCION: %s\n' % (path, bxml.date, seccion))
