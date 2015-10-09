@@ -98,7 +98,11 @@ class CARGO:
     SECRETARIO_COM_LIQ = 75
     GER_COM_GER = 76  #
     ADMINISTRADOR = 77
-
+    VOCAL_JUNTA_DIRECTIVA = 78
+    VOCAL_SECUNDARIO_JUNTA_DIRECTIVA = 79
+    VICEPRESIDENTE_JUNTA_DIRECTIVA = 80
+    VICEPRESIDENTE_SEGUNDO_JUNTA_DIRECTIVA = 81
+    TESORERO_JUNTA_DIRECTIVA = 82
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -182,6 +186,7 @@ class CARGO:
                  'Dir. General': DIRECTOR_GENERAL,
                  'Miem.J.Dir.': MIEMBRO_JUNTA_DIRECTIVA,
                  'Scrt.J.Dir.': SECRETARIO_JUNTA_DIRECTIVA,
+                 'SEC.JTA.DIRE': SECRETARIO_JUNTA_DIRECTIVA,
                  'Socio': SOCIO,
                  'COMS.DEL.INV': COMS_DEL_INV,
                  'PRE.COMS.D.I': PRE_COMS_D_I,
@@ -195,6 +200,12 @@ class CARGO:
                  'Secr.Com.Liq': SECRETARIO_COM_LIQ,
                  'Ger.Com.Ger': GER_COM_GER,
                  'ADMINISTR.': ADMINISTRADOR,
+                 'VOCAL JTA.DI': VOCAL_JUNTA_DIRECTIVA,
+                 'VOC.S.JTA.DI': VOCAL_SECUNDARIO_JUNTA_DIRECTIVA,
+                 'V-PRE.JTA.DI': VICEPRESIDENTE_JUNTA_DIRECTIVA,
+                 'V-PR.S.JTA.D': VICEPRESIDENTE_SEGUNDO_JUNTA_DIRECTIVA,
+                 'TESOR.JTA.DI': TESORERO_JUNTA_DIRECTIVA,
+
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
