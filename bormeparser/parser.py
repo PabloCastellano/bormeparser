@@ -14,10 +14,9 @@ def parse(data):
     module = importlib.import_module(DEFAULT_PARSER[0])
     parser = getattr(module, DEFAULT_PARSER[1])
     if os.path.isfile(data):
-        # FIXME: pasar open(data)
         borme = parser(data).parse()
     elif data.startswith('http'):
-        # TODO
+        # TODO: from url
         content = requests.get(data).read()
         borme = parser(data).parse()
         #actos = parser.parse_actos()

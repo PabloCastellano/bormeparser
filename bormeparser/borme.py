@@ -286,9 +286,6 @@ class BormeXML(object):
         return True
 
 
-# TODO: Iterador de anuncios
-# TODO: Info
-# TODO: Create instance directly from filename
 class Borme(object):
 
     def __init__(self, date, seccion, provincia, num, cve, anuncios=None, filename=None, lazy=True):
@@ -301,7 +298,7 @@ class Borme(object):
         self.cve = cve
         self.filename = filename
         self._parsed = False
-        self.info = {}
+        self.info = {}  # TODO: Info
         self._set_anuncios(anuncios)
         self._url = None
         if not lazy:
@@ -309,6 +306,7 @@ class Borme(object):
 
     @classmethod
     def from_file(cls, filename):
+        # TODO: Create instance directly from filename
         raise NotImplementedError
 
     def _set_anuncios(self, anuncios):
