@@ -97,6 +97,7 @@ class CARGO:
     PRESIDENTE_COM_LIQ = 74
     SECRETARIO_COM_LIQ = 75
     GER_COM_GER = 76  #
+    ADMINISTRADOR = 77
 
 
     _keywords = {'Presidente': PRESIDENTE,
@@ -193,6 +194,7 @@ class CARGO:
                  'Pres.Com.Liq': PRESIDENTE_COM_LIQ,
                  'Secr.Com.Liq': SECRETARIO_COM_LIQ,
                  'Ger.Com.Ger': GER_COM_GER,
+                 'ADMINISTR.': ADMINISTRADOR,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
