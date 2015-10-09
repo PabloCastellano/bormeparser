@@ -165,6 +165,8 @@ def regex_cargos(data):
                 e = e[:-17]  + 'SL'
             elif e.endswith(' SOCIEDAD ANONIMA'):
                 e = e[:-16]  + 'SA'
+            elif e.endswith(' S.L.L'):
+                e = e[:-5]  + 'SLL'
             entidades.add(e)
         cargos[cargo[0]] = entidades
     return cargos
