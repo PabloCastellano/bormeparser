@@ -64,6 +64,8 @@ SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'COOP': 'Cooperativa',
               'SA': 'Sociedad Anónima',
               'SAL': 'Sociedad Anónima Laboral',
+              'SAP': 'Sociedad Anónima P?',
+              'SAU': 'Sociedad Anónima Unipersonal',
               'SCP': 'Sociedad Civil Profesional',
               'SL': 'Sociedad Limitada',
               'SLL': 'Sociedad Limitada Laboral',
@@ -160,6 +162,9 @@ def regex_cargos(data):
         for e in cargo[1].split(';'):
             if e.endswith('.'):
                 e = e[:-1]
+            if e.endswith(' EN LIQUIDACION'):
+                # TODO: en liquidación
+                e = e[:-15]
             if e.endswith(' S.L'):
                 e = e[:-3]  + 'SL'
             elif e.endswith(' SOCIEDAD LIMITADA'):
@@ -170,6 +175,12 @@ def regex_cargos(data):
                 e = e[:-5]  + 'SLL'
             elif e.endswith(' SOCIEDAD CIVIL PROFESIONAL'):
                 e = e[:-26]  + 'SCP'
+            elif e.endswith(' SA UNIPERSONAL'):
+                e = e[:-14]  + 'SAU'
+            elif e.endswith(' S.L UNIPERSONAL'):
+                e = e[:-15]  + 'SLU'
+            elif e.endswith(' SL UNIPERSONAL'):
+                e = e[:-14]  + 'SLU'
             entidades.add(e)
         cargos[cargo[0]] = entidades
     return cargos
