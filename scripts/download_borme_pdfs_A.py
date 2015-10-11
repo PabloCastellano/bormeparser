@@ -45,7 +45,7 @@ def download_range(begin, end):
         except FileNotFoundError:
             print('Downloading %s ' % os.path.basename(xml_path))
             bxml = BormeXML.from_date(next_date)
-            os.makedirs(os.path.dirname(xml_path), exist_ok=True)
+            os.makedirs(os.path.dirname(xml_path), exist_ok=True)  # TODO: Python 2
             bxml.save_to_file(xml_path)
 
         path = get_borme_pdf_path(bxml.date)

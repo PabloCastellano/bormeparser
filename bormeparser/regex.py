@@ -142,7 +142,31 @@ def regex_noarg(data):
 def regex_empresa(data):
     """ Captura el número de acto y el nombre de la empresa """
     acto_id, empresa = REGEX_EMPRESA.match(data).groups()
+    empresa = regex_nombre_empresa(empresa)
     return int(acto_id), empresa
+
+
+def regex_nombre_empresa(nombre):
+    if nombre.endswith(' EN LIQUIDACION'):
+        # TODO: en liquidación
+        nombre = nombre[:-15]
+    if nombre.endswith(' S.L'):
+        nombre = nombre[:-3]  + 'SL'
+    elif nombre.endswith(' SOCIEDAD LIMITADA'):
+        nombre = nombre[:-17]  + 'SL'
+    elif nombre.endswith(' SOCIEDAD ANONIMA'):
+        nombre = nombre[:-16]  + 'SA'
+    elif nombre.endswith(' S.L.L'):
+        nombre = nombre[:-5]  + 'SLL'
+    elif nombre.endswith(' SOCIEDAD CIVIL PROFESIONAL'):
+        nombre = nombre[:-26]  + 'SCP'
+    elif nombre.endswith(' SA UNIPERSONAL'):
+        nombre = nombre[:-14]  + 'SAU'
+    elif nombre.endswith(' S.L UNIPERSONAL'):
+        nombre = nombre[:-15]  + 'SLU'
+    elif nombre.endswith(' SL UNIPERSONAL'):
+        nombre = nombre[:-14]  + 'SLU'
+    return nombre
 
 
 def regex_cargos(data):
@@ -162,25 +186,7 @@ def regex_cargos(data):
         for e in cargo[1].split(';'):
             if e.endswith('.'):
                 e = e[:-1]
-            if e.endswith(' EN LIQUIDACION'):
-                # TODO: en liquidación
-                e = e[:-15]
-            if e.endswith(' S.L'):
-                e = e[:-3]  + 'SL'
-            elif e.endswith(' SOCIEDAD LIMITADA'):
-                e = e[:-17]  + 'SL'
-            elif e.endswith(' SOCIEDAD ANONIMA'):
-                e = e[:-16]  + 'SA'
-            elif e.endswith(' S.L.L'):
-                e = e[:-5]  + 'SLL'
-            elif e.endswith(' SOCIEDAD CIVIL PROFESIONAL'):
-                e = e[:-26]  + 'SCP'
-            elif e.endswith(' SA UNIPERSONAL'):
-                e = e[:-14]  + 'SAU'
-            elif e.endswith(' S.L UNIPERSONAL'):
-                e = e[:-15]  + 'SLU'
-            elif e.endswith(' SL UNIPERSONAL'):
-                e = e[:-14]  + 'SLU'
+            e = regex_nombre_empresa(e)
             entidades.add(e)
         cargos[cargo[0]] = entidades
     return cargos
