@@ -20,7 +20,14 @@
 import unicodedata
 import datetime
 
-FIRST_BORME = datetime.date(2009, 1, 2)
+FIRST_BORME = {2009: datetime.date(2009, 1, 2),
+               2010: datetime.date(2010, 1, 4),
+               2011: datetime.date(2011, 1, 3),
+               2012: datetime.date(2012, 1, 2),
+               2013: datetime.date(2013, 1, 2),
+               2014: datetime.date(2014, 1, 2),
+               2015: datetime.date(2015, 1, 2)}
+
 
 def remove_accents(string):
     try:

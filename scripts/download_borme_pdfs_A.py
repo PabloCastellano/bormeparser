@@ -69,7 +69,7 @@ if __name__ == '__main__':
         bormeparser.download.logger.setLevel(logging.INFO)
 
     if sys.argv[1] == '--init':
-        download_range(FIRST_BORME, datetime.date.today())
+        download_range(FIRST_BORME[2009], datetime.date.today())
     else:
         try:
             date = tuple(map(int, sys.argv[1].split('-')))
@@ -99,18 +99,8 @@ if __name__ == '__main__':
                     download_range(begin_date, end_date)
 
         elif len(date) == 1:  # 2015
-            try:
-                begin_date = datetime.date(date[0], 1, 1)
-                end_date = datetime.date(date[0], 12, 31)
-                download_range(begin_date, end_date)
-            except BormeDoesntExistException:
-                try:
-                    begin_date = datetime.date(date[0], 1, 2)
-                    end_date = datetime.date(date[0], 12, 31)
-                    download_range(begin_date, end_date)
-                except BormeDoesntExistException:
-                    begin_date = datetime.date(date[0], 1, 3)
-                    end_date = datetime.date(date[0], 12, 31)
-                    download_range(begin_date, end_date)
+            begin_date = FIRST_BORME[date[0]]
+            end_date = datetime.date(date[0], 12, 31)
+            download_range(begin_date, end_date)
         else:
             print_invalid_date()
