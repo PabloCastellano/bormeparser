@@ -73,8 +73,11 @@ SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'SLP': 'Sociedad Limitada Profesional',
               'SLU': 'Sociedad Limitada Unipersonal',
               'SRL': 'Sociedad de Responsabilidad Limitada',
+              'SRLL': 'Sociedad de Responsabilidad Limitada Laboral',
+              'SRLP': 'Sociedad de Responsabilidad Limitada Profesional',
               }
-
+# SOCIEDAD COOPERATIVA DE CREDITO
+# FONDOS DE PENSIONES
 
 def is_acto_cargo_entrante(data):
     """ Comprueba si es un acto que aporta nuevos cargos """
@@ -147,6 +150,18 @@ def regex_empresa(data):
 
 
 def regex_nombre_empresa(nombre):
+    if nombre.endswith('(R.M. PALMA DE MALLORCA)'):
+        nombre= nombre[:-24]
+    if nombre.endswith('(R.M. PUERTO DE ARRECIFE)'):
+        nombre= nombre[:-25]
+    if nombre.endswith(' (R.M. PUERTO DEL ROSARIO)'):
+        nombre= nombre[:-25]
+    if nombre.endswith('(R.M. SANTIAGO DE COMPOSTELA)'):
+        nombre= nombre[:-29]
+    if nombre.endswith(' (R.M. SANTA CRUZ DE TENERIFE)'):
+        nombre= nombre[:-29]
+    if nombre.endswith(' (R.M. EIVISSA)'):
+        nombre= nombre[:-14]
     if nombre.endswith(' EN LIQUIDACION'):
         # TODO: en liquidación
         nombre = nombre[:-15]
@@ -154,18 +169,32 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-3]  + 'SL'
     elif nombre.endswith(' SOCIEDAD LIMITADA'):
         nombre = nombre[:-17]  + 'SL'
+    elif nombre.endswith(' S.A'):
+        nombre = nombre[:-3]  + 'SA'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
         nombre = nombre[:-16]  + 'SA'
     elif nombre.endswith(' S.L.L'):
         nombre = nombre[:-5]  + 'SLL'
+    elif nombre.endswith(' SOCIEDAD LIMITADA LABORAL'):
+        nombre = nombre[:-25]  + 'SLL'
     elif nombre.endswith(' SOCIEDAD CIVIL PROFESIONAL'):
         nombre = nombre[:-26]  + 'SCP'
+    elif nombre.endswith(' SOCIEDAD LIMITADA PROFESIONAL'):
+        nombre = nombre[:-29]  + 'SLP'
     elif nombre.endswith(' SA UNIPERSONAL'):
         nombre = nombre[:-14]  + 'SAU'
     elif nombre.endswith(' S.L UNIPERSONAL'):
         nombre = nombre[:-15]  + 'SLU'
     elif nombre.endswith(' SL UNIPERSONAL'):
         nombre = nombre[:-14]  + 'SLU'
+    elif nombre.endswith(' S.L.N.E'):
+        nombre = nombre[:-7]  + 'SLNE'
+    elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA'):
+        nombre = nombre[:-36]  + 'SRL'
+    elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA LABORAL'):
+        nombre = nombre[:-44]  + 'SRLL'
+    elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA PROFESIONAL'):
+        nombre = nombre[:-48]  + 'SRLP'
     return nombre
 
 
