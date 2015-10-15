@@ -84,19 +84,21 @@ if __name__ == '__main__':
                 print('It looks like there is no BORME for this date. Nothing was downloaded')
         elif len(date) == 2:  # 2015-06
             _, lastday = calendar.monthrange(*date)
+            end_date = datetime.date(date[0], date[1], lastday)
             try:
                 begin_date = datetime.date(date[0], date[1], 1)
-                end_date = datetime.date(date[0], date[1], lastday)
                 download_range(begin_date, end_date)
             except BormeDoesntExistException:
                 try:
                     begin_date = datetime.date(date[0], date[1], 2)
-                    end_date = datetime.date(date[0], date[1], lastday)
                     download_range(begin_date, end_date)
                 except BormeDoesntExistException:
-                    begin_date = datetime.date(date[0], date[1], 3)
-                    end_date = datetime.date(date[0], date[1], lastday)
-                    download_range(begin_date, end_date)
+                    try:
+                        begin_date = datetime.date(date[0], date[1], 3)
+                        download_range(begin_date, end_date)
+                    except BormeDoesntExistException:
+                        begin_date = datetime.date(date[0], date[1], 4)
+                        download_range(begin_date, end_date)
 
         elif len(date) == 1:  # 2015
             begin_date = FIRST_BORME[date[0]]
