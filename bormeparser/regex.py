@@ -79,6 +79,7 @@ SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
 # SOCIEDAD COOPERATIVA DE CREDITO
 # FONDOS DE PENSIONES
 
+
 def is_acto_cargo_entrante(data):
     """ Comprueba si es un acto que aporta nuevos cargos """
 
@@ -213,8 +214,8 @@ def regex_cargos(data):
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
         entidades = set()
         for e in cargo[1].split(';'):
-            if e.endswith('.'):
-                e = e[:-1]
+            e = e.rstrip('.')
+            e = e.strip()
             e = regex_nombre_empresa(e)
             entidades.add(e)
         cargos[cargo[0]] = entidades
