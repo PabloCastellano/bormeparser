@@ -87,22 +87,52 @@ class CARGO:
     SECRETARIO_JUNTA_DIRECTIVA = 64
     SOCIO = 65
     COMS_DEL_INV = 66  # Comisario del inv...?
-    PRE_COMS_D_I = 67  # Presidente coms del inv...?
+    PRESIDENTE_COMS_D_I = 67  # Presidente coms del inv...?
     S_N_C_C_D_I = 68  # Secretario no consejero Coms del inv?
     VS_N_C_C_D_I = 69  # Vicesecretario no consejero coms del inv?
-    NO_DEFINIDO = 70
+    NO_DEFINIDO = 70  # ?
     LETRADO_ASESOR = 71
     EXP_IND = 72  # Experto independiente?
     MIEMBRO_COM_LIQ = 73
     PRESIDENTE_COM_LIQ = 74
     SECRETARIO_COM_LIQ = 75
-    GER_COM_GER = 76  #
+    GER_COM_GER = 76  # ?
     ADMINISTRADOR = 77
     VOCAL_JUNTA_DIRECTIVA = 78
     VOCAL_SECUNDARIO_JUNTA_DIRECTIVA = 79
     VICEPRESIDENTE_JUNTA_DIRECTIVA = 80
     VICEPRESIDENTE_SEGUNDO_JUNTA_DIRECTIVA = 81
     TESORERO_JUNTA_DIRECTIVA = 82
+    DIRECTOR = 83
+    DEF_PARTICIP = 84  # ?
+    ADM_JUDICIAL = 85
+    ADM_SUPL = 86
+    APODERADO_D_GENERAL = 87
+    MIEMBRO_COMITE_INV = 88
+    APOD_D_GENERAL = 89
+    COM_AUDIT = 90  # Miem. Com. Audit.
+    REPR_PERMAN = 91
+    GERENTE_UNI = 92
+    DIRECTOR_TECNICO = 93
+    MIEMBRO_JUNTA_RECTORA = 94
+    SECRETARIO_JUNTA_RECTORA = 95
+    PRESIDENTE_JUNTA_RECTORA = 96
+    VICEPRESIDENTE_JUNTA_RECTORA = 97
+    LIQUIDADOR_JUDICIAL = 98
+    RLC_PER_S = 99  # Representante
+    VICEPRESIDENTE_CONSEJO_RECTOR = 100
+    COMITE_EJECUTIVO = 101
+    AUDITOR_GRUPO = 102
+    PRESIDENTE_COMISION_EJECUTIVA = 103
+    VICEPRESIDENTE_COMISION_EJECUTIVA = 104
+    VICEPRESIDENTE_PRIMERO = 105
+    AUDITOR_SU_C_CON = 106
+    MIEMBRO_CONSEJO_DIRECTIVO = 107
+    PRESIDENTE_CONSEJO_DIRECTIVO = 108
+    VICEPRESIDENTE_CONSEJO_DIRECTIVO = 109
+    COMI_SIN_OBLI = 110  # ?
+    CON_DEL_MANC = 111  # ?
+    MIEMBRO_COMISION_NOM_RE = 112  # ?
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -198,16 +228,45 @@ class CARGO:
                  'L. Asesor': LETRADO_ASESOR,
                  'Exp.Ind.': EXP_IND,
                  'Mmbr.Com.Liq': MIEMBRO_COM_LIQ,
+                 'Miem.Com.Liq': MIEMBRO_COM_LIQ,
                  'Pres.Com.Liq': PRESIDENTE_COM_LIQ,
                  'Secr.Com.Liq': SECRETARIO_COM_LIQ,
                  'Ger.Com.Ger': GER_COM_GER,
                  'ADMINISTR.': ADMINISTRADOR,
+                 'Administrad': ADMINISTRADOR,
                  'VOCAL JTA.DI': VOCAL_JUNTA_DIRECTIVA,
                  'VOC.S.JTA.DI': VOCAL_SECUNDARIO_JUNTA_DIRECTIVA,
                  'V-PRE.JTA.DI': VICEPRESIDENTE_JUNTA_DIRECTIVA,
                  'V-PR.S.JTA.D': VICEPRESIDENTE_SEGUNDO_JUNTA_DIRECTIVA,
                  'TESOR.JTA.DI': TESORERO_JUNTA_DIRECTIVA,
-
+                 'Director': DIRECTOR,
+                 'Def.Particip': DEF_PARTICIP,
+                 'Adm.Judicial': ADM_JUDICIAL,
+                 'Adm.Supl.': ADM_SUPL,
+                 'Apod.D.Gral.': APOD_D_GENERAL,
+                 'Com. Audit.': COM_AUDIT,
+                 'REPR.PERMAN.': REPR_PERMAN,
+                 'Gerente Uni.': GERENTE_UNI,
+                 'Dir. Técnico': DIRECTOR_TECNICO,
+                 'Aud.Su.C.Con': AUDITOR_SU_C_CON,
+                 'Miem.J.Rec': MIEMBRO_JUNTA_RECTORA,
+                 'Pres.J.Rec': PRESIDENTE_JUNTA_RECTORA,
+                 'Sec.J.Rec': SECRETARIO_JUNTA_RECTORA,
+                 'Vic.Junt.Rec': VICEPRESIDENTE_JUNTA_RECTORA,
+                 'Liq.Judicial': LIQUIDADOR_JUDICIAL,
+                 'Miem.Con.Dir': MIEMBRO_CONSEJO_DIRECTIVO,
+                 'Pres.Con.Dir': PRESIDENTE_CONSEJO_DIRECTIVO,
+                 'Vpre.Con.Dir': VICEPRESIDENTE_CONSEJO_DIRECTIVO,
+                 'ComiSinObli': COMI_SIN_OBLI,
+                 'Con.Del.manc': CON_DEL_MANC,
+                 'M.COM.NOM.RE': MIEMBRO_COMISION_NOM_RE,
+                 'Pres.Com.Ej.': PRESIDENTE_COMISION_EJECUTIVA,
+                 'Pr.Com.Ejecu': PRESIDENTE_COMISION_EJECUTIVA,
+                 'Vpr.Com.Ejec': VICEPRESIDENTE_COMISION_EJECUTIVA,
+                 'Com.Ejecutiv': COMITE_EJECUTIVO,
+                 'Vicepresi.1º': VICEPRESIDENTE_PRIMERO,
+                 'Vcp.Cons.Rec': VICEPRESIDENTE_CONSEJO_RECTOR,
+                 'Auditor Grup': AUDITOR_GRUPO,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
