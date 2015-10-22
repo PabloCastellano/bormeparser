@@ -26,7 +26,7 @@ class CARGO:
     CONSEJERO = 3
     SECRETARIO = 4
     VICESECRETARIO = 5
-    CONS_DEL_MAN = 6
+    CONSEJERO_DELEGADO_MANCOMUNADO = 6
     ADM_UNICO = 7
     MIEMBRO_CONSEJO_RECTOR = 8
     PRESIDENTE_CONSEJO_RECTOR = 9
@@ -133,6 +133,17 @@ class CARGO:
     COMI_SIN_OBLI = 110  # ?
     CON_DEL_MANC = 111  # ?
     MIEMBRO_COMISION_NOM_RE = 112  # ?
+    MIEMBRO_COMISION_DIRECCION = 113
+    SECRETARIO_COMISION_DIRECTIVA = 114
+    PRESIDENTE_COMISION_DIRECTIVA = 115
+    SUPLENTE = 116
+    COMISARIO_SI_O = 117  # ?
+    COMISARIO_SUP_S = 118  # ?
+    AUDITOR_MANCOMUNADO = 119
+    MIEMBRO_COM_EIC = 120  # ?
+    MIEMBRO_CTE_NYR = 121  # ?
+    COM_NOMB = 122  # ?
+    COM_ESTRATEG = 123  # ?
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -143,12 +154,14 @@ class CARGO:
                  'SECRETARIO': SECRETARIO,
                  'Vicesecret.': VICESECRETARIO,
                  'VICESECRET.': VICESECRETARIO,
-                 'Cons.Del.Man': CONS_DEL_MAN,
+                 'Cons.Del.Man': CONSEJERO_DELEGADO_MANCOMUNADO,
+                 'CONS.DEL.MAN': CONSEJERO_DELEGADO_MANCOMUNADO,
                  'Mie.Cons.Rec': MIEMBRO_CONSEJO_RECTOR,
                  'Miem.C.Ret': MIEMBRO_CONSEJO_RECTOR,
                  'Pre.Cons.Rec': PRESIDENTE_CONSEJO_RECTOR,
                  'Pr.C.Ret': PRESIDENTE_CONSEJO_RECTOR,
                  'Sec.Cons.Rec': SECRETARIO_CONSEJO_RECTOR,
+                 'Sec.C.Ret': SECRETARIO_CONSEJO_RECTOR,
                  'Adm. Unico': ADM_UNICO,
                  'Adm. unico': ADM_UNICO,
                  'ADM.UNICO': ADM_UNICO,
@@ -277,10 +290,23 @@ class CARGO:
                  'Pres.Com.Ej.': PRESIDENTE_COMISION_EJECUTIVA,
                  'Pr.Com.Ejecu': PRESIDENTE_COMISION_EJECUTIVA,
                  'Vpr.Com.Ejec': VICEPRESIDENTE_COMISION_EJECUTIVA,
+                 'Vicpres C.E': VICEPRESIDENTE_COMISION_EJECUTIVA,
                  'Com.Ejecutiv': COMITE_EJECUTIVO,
+                 'COM.EJECUTIV': COMITE_EJECUTIVO,
                  'Vicepresi.1º': VICEPRESIDENTE_PRIMERO,
                  'Vcp.Cons.Rec': VICEPRESIDENTE_CONSEJO_RECTOR,
                  'Auditor Grup': AUDITOR_GRUPO,
+                 'MiemComDire': MIEMBRO_COMISION_DIRECCION,
+                 'SecrComDirec': SECRETARIO_COMISION_DIRECTIVA,
+                 'PresComDirec': PRESIDENTE_COMISION_DIRECTIVA,
+                 'Suplente': SUPLENTE,
+                 'COMISAR.SI.O': COMISARIO_SI_O,
+                 'COMISR.SUP.S': COMISARIO_SUP_S,
+                 'Aud.Manc': AUDITOR_MANCOMUNADO,
+                 'Miem.COM.EIC': MIEMBRO_COM_EIC,
+                 'Mbro.Cte.NyR': MIEMBRO_CTE_NYR,
+                 'Com.Nomb.': COM_NOMB,
+                 'Com estrateg': COM_ESTRATEG,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
