@@ -144,6 +144,7 @@ class CARGO:
     MIEMBRO_CTE_NYR = 121  # ?
     COM_NOMB = 122  # ?
     COM_ESTRATEG = 123  # ?
+    APODERADO_CONJUNTO = 124
 
     _keywords = {'Presidente': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
@@ -307,6 +308,7 @@ class CARGO:
                  'Mbro.Cte.NyR': MIEMBRO_CTE_NYR,
                  'Com.Nomb.': COM_NOMB,
                  'Com estrateg': COM_ESTRATEG,
+                 'APOD.CONJUN.': APODERADO_CONJUNTO,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
