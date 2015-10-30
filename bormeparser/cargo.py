@@ -147,6 +147,7 @@ class CARGO:
     APODERADO_CONJUNTO = 124
 
     _keywords = {'Presidente': PRESIDENTE,
+                 'PRESIDENTE': PRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
                  'VICEPRESIDEN': VICEPRESIDENTE,
                  'Consejero': CONSEJERO,

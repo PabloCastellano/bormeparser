@@ -28,6 +28,7 @@ logger.setLevel(logging.WARN)
 # TODO: comprobar bytes
 
 # Falla https
+# TODO: boe.gob.es es un mirror? Resuelve a una IP distinta.
 #BORME_XML_URL = "https://www.boe.es/diario_borme/xml.php?id=BORME-S-"
 BORME_XML_URL = "http://www.boe.es/diario_borme/xml.php?id=BORME-S-%d%02d%02d"
 BORME_PDF_URL = "http://boe.es/borme/dias/%d/%02d/%02d/pdfs/BORME-%s-%d-%s-%s.pdf"
