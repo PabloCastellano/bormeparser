@@ -145,6 +145,7 @@ class CARGO:
     COM_NOMB = 122  # ?
     COM_ESTRATEG = 123  # ?
     APODERADO_CONJUNTO = 124
+    R_C_P_SOLMAN = 125,
 
     _keywords = {'Presidente': PRESIDENTE,
                  'PRESIDENTE': PRESIDENTE,
@@ -198,6 +199,7 @@ class CARGO:
                  'LiquiSoli': LIQUISOLI,
                  'LiqSolid': LIQUISOLI,
                  'Liquidador M': LIQUIDADOR_MANCOMUNADO,
+                 'LiqManc': LIQUIDADOR_MANCOMUNADO,
                  'REPR.143 RRM': REPR_143_RRM,
                  'CONSEJERO': CONSEJERO,
                  'CONS.DEL.M/S': CONS_DEL_M_S,
@@ -209,6 +211,7 @@ class CARGO:
                  'Vcsec.no.Con': VICESECRETARIO_NO_CONSJ,
                  'Auditor': AUDITOR,
                  'Aud.C.Con.': AUDITOR_CUENTAS_CONSOLIDADAS,
+                 'AUDT.CTS.CON': AUDITOR_CUENTAS_CONSOLIDADAS,
                  'Aud.Supl.': AUDITOR_SUPL,
                  'Auditor Sup.': AUDITOR_SUPL,
                  'Ent.Reg.Cont': ENT_REG_CONT,
@@ -236,6 +239,7 @@ class CARGO:
                  'Comis.Contro': COMISARIO,
                  'Socio único': SOCIO_UNICO,
                  'Gerente': GERENTE,
+                 'GERENTE': GERENTE,
                  'LiqUnico': LIQUIDADOR_UNICO,
                  'Cons.Del.C.R': CONS_DEL_C_R,
                  'Ent. Gestora': ENTIDAD_GESTORA,
@@ -310,6 +314,7 @@ class CARGO:
                  'Com.Nomb.': COM_NOMB,
                  'Com estrateg': COM_ESTRATEG,
                  'APOD.CONJUN.': APODERADO_CONJUNTO,
+                 'R.C.P.SolMan': R_C_P_SOLMAN,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
