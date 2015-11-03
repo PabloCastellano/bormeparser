@@ -145,7 +145,16 @@ class CARGO:
     COM_NOMB = 122  # ?
     COM_ESTRATEG = 123  # ?
     APODERADO_CONJUNTO = 124
-    R_C_P_SOLMAN = 125,
+    R_C_P_SOLMAN = 125
+    VOCAL_5 = 126
+    VOCAL_6 = 127
+    VOCAL_7 = 128
+    REPRESENTANTE_SUCURS = 129
+    SUB_GENERAL = 130
+    MED_CONCUSAL = 131
+    LIQUIDADOR_CONC = 132
+    DIRECTOR_GENERAL_SUPLENTE = 133
+    CON_IND = 134
 
     _keywords = {'Presidente': PRESIDENTE,
                  'PRESIDENTE': PRESIDENTE,
@@ -200,6 +209,7 @@ class CARGO:
                  'LiqSolid': LIQUISOLI,
                  'Liquidador M': LIQUIDADOR_MANCOMUNADO,
                  'LiqManc': LIQUIDADOR_MANCOMUNADO,
+                 'LIQUID.MANC.': LIQUIDADOR_MANCOMUNADO,
                  'REPR.143 RRM': REPR_143_RRM,
                  'CONSEJERO': CONSEJERO,
                  'CONS.DEL.M/S': CONS_DEL_M_S,
@@ -214,6 +224,7 @@ class CARGO:
                  'AUDT.CTS.CON': AUDITOR_CUENTAS_CONSOLIDADAS,
                  'Aud.Supl.': AUDITOR_SUPL,
                  'Auditor Sup.': AUDITOR_SUPL,
+                 'AUDITOR SUP.': AUDITOR_SUPL,
                  'Ent.Reg.Cont': ENT_REG_CONT,
                  'EntidDeposit': ENTIDAD_DEPOSITARIA,
                  'ENT.DEPOSIT.': ENTIDAD_DEPOSITARIA,
@@ -247,6 +258,7 @@ class CARGO:
                  'Auditor Titu': AUDITOR_TITU,
                  'AUDIT.CUENT.': AUDITOR_CUENTAS,
                  'Dir. General': DIRECTOR_GENERAL,
+                 'DTOR.GENERAL': DIRECTOR_GENERAL,
                  'Miem.J.Dir.': MIEMBRO_JUNTA_DIRECTIVA,
                  'Scrt.J.Dir.': SECRETARIO_JUNTA_DIRECTIVA,
                  'SEC.JTA.DIRE': SECRETARIO_JUNTA_DIRECTIVA,
@@ -284,7 +296,9 @@ class CARGO:
                  'Aud.Su.C.Con': AUDITOR_SU_C_CON,
                  'Miem.J.Rec': MIEMBRO_JUNTA_RECTORA,
                  'Pres.J.Rec': PRESIDENTE_JUNTA_RECTORA,
+                 'PRE.JTA.RECT': PRESIDENTE_JUNTA_RECTORA,
                  'Sec.J.Rec': SECRETARIO_JUNTA_RECTORA,
+                 'SEC.JTA.RECT': SECRETARIO_JUNTA_RECTORA,
                  'Vic.Junt.Rec': VICEPRESIDENTE_JUNTA_RECTORA,
                  'Liq.Judicial': LIQUIDADOR_JUDICIAL,
                  'Miem.Con.Dir': MIEMBRO_CONSEJO_DIRECTIVO,
@@ -315,6 +329,12 @@ class CARGO:
                  'Com estrateg': COM_ESTRATEG,
                  'APOD.CONJUN.': APODERADO_CONJUNTO,
                  'R.C.P.SolMan': R_C_P_SOLMAN,
+                 'REPR.SUCURS.': REPRESENTANTE_SUCURS,
+                 'Sub.General': SUB_GENERAL,
+                 'Med.Concusal': MED_CONCUSAL,
+                 'LIQ.CONC.': LIQUIDADOR_CONC,
+                 'Dir.Gen.Spl': DIRECTOR_GENERAL_SUPLENTE,
+                 'Con.Ind.': CON_IND,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
