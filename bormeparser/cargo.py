@@ -155,6 +155,7 @@ class CARGO:
     LIQUIDADOR_CONC = 132
     DIRECTOR_GENERAL_SUPLENTE = 133
     CON_IND = 134
+    ADMINISTRADOR_MANCOMUNADO = 135
 
     _keywords = {'Presidente': PRESIDENTE,
                  'PRESIDENTE': PRESIDENTE,
@@ -191,7 +192,7 @@ class CARGO:
                  'Apo.Man.Soli': APODERADO_MANCOMUNADO_SOLIDARIO,
                  'Apo.Manc.': APODERADO_MANCOMUNADO,
                  'APOD.MANCOMU': APODERADO_MANCOMUNADO,
-                 'Adm. Mancom.': APODERADO_MANCOMUNADO,
+                 'Adm. Mancom.': ADMINISTRADOR_MANCOMUNADO,
                  'Apo.Sol.': APODERADO_SOLIDARIO,
                  'Apod.Solid': APODERADO_SOLIDARIO,
                  'APODERAD.SOL': APODERADO_SOL,
