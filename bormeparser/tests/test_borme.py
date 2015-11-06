@@ -81,7 +81,7 @@ class BormeTestCase(unittest.TestCase):
         self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
         self.assertEqual(data['date'], '2015-02-10')
         self.assertEqual(data['seccion'], 'A')
-        self.assertEqual(data['provincia'], 'Cáceres')  # "C\u00e1ceres"
+        self.assertEqual(data['provincia'], u'Cáceres')  # "C\u00e1ceres"
         self.assertEqual(data['num'], 27)
         self.assertEqual(data['url'], 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(data['from_anuncio'], 57315)
@@ -120,7 +120,7 @@ class FakeBormeTestCase(unittest.TestCase):
         self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
         self.assertEqual(data['date'], '2015-02-10')
         self.assertEqual(data['seccion'], 'A')
-        self.assertEqual(data['provincia'], 'Cáceres')  # "C\u00e1ceres"
+        self.assertEqual(data['provincia'], u'Cáceres')  # "C\u00e1ceres"
         self.assertEqual(data['num'], 27)
         self.assertEqual(data['url'], 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(data['from_anuncio'], 1)
