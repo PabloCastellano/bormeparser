@@ -358,20 +358,23 @@ class Borme(object):
         doc['provincia'] = self.provincia
         doc['num'] = self.num
         doc['url'] = self._url
-        doc['num_anuncios'] = 0
         doc['from_anuncio'] = self.anuncios_rango[0]
         doc['to_anuncio'] = self.anuncios_rango[1]
         doc['anuncios'] = {}
 
+        num_anuncios = 0
         for id, anuncio in self.anuncios.items():
-            doc['num_anuncios'] += 1
+            num_anuncios += 1
             doc['anuncios'][anuncio.id] = OrderedDict()
             doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
             doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
             doc['anuncios'][anuncio.id]['actos'] = {}
+            doc['anuncios'][anuncio.id]['num_actos'] = 0
             for acto in anuncio.actos:
+                doc['anuncios'][anuncio.id]['num_actos'] += 1
                 doc['anuncios'][anuncio.id]['actos'][acto.name] = acto.value
 
+        doc['num_anuncios'] = num_anuncios
         logger.debug(doc)
         return doc
 
