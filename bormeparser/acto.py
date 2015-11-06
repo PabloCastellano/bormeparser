@@ -75,7 +75,6 @@ class ACTO:
     APERTURA_DE_SUCURSAL = 50
     CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES = 51
 
-
     # Palabras clave con argumentos
     _arg_keywords = {
         u'Nombramientos': NOMBRAMIENTOS,
