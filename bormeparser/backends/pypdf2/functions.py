@@ -22,9 +22,10 @@ def clean_data(data):
 def parse_acto(nombreacto, data, prefix=''):
     data = clean_data(data)
     if is_acto_cargo(nombreacto):
-        data = regex_cargos(data)
-        if not data:
+        cargos = regex_cargos(data)
+        if not cargos:
             logger.warning('No se encontraron cargos en la cadena: %s' % data)
+        data = cargos
     elif is_acto_escision(nombreacto):
         nombreacto, data = regex_escision(nombreacto, data)
     elif is_acto_fusion(nombreacto):
