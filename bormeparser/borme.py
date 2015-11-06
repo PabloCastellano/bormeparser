@@ -298,7 +298,7 @@ class Borme(object):
         self.cve = cve
         self.filename = filename
         self._parsed = False
-        self.info = {}  # TODO: Info
+        self.num_pages = 0  # TODO
         self._set_anuncios(anuncios)
         self._url = None
         if not lazy:
@@ -323,11 +323,6 @@ class Borme(object):
         if not self._url:
             self._set_url()
         return self._url
-
-    def get_info(self):
-        #borme['info'] = {'pages': 5, 'anuncios': 38, 'fromanuncio': 12222, 'toanuncio': 12260}
-        #return self.info
-        raise NotImplementedError
 
     def get_anuncio(self, anuncio_id):
         try:
@@ -363,11 +358,13 @@ class Borme(object):
         doc['provincia'] = self.provincia
         doc['num'] = self.num
         doc['url'] = self._url
-        doc['filename'] = self.filename
-        doc['info'] = self.info
+        doc['num_anuncios'] = 0
+        doc['from_anuncio'] = self.anuncios_rango[0]
+        doc['to_anuncio'] = self.anuncios_rango[1]
         doc['anuncios'] = {}
 
         for id, anuncio in self.anuncios.items():
+            doc['num_anuncios'] += 1
             doc['anuncios'][anuncio.id] = OrderedDict()
             doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
             doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
