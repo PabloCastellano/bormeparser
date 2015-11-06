@@ -20,6 +20,7 @@
 import unittest
 
 from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision, regex_fusion
+from bormeparser.regex import is_acto_cargo_entrante
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -84,6 +85,12 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
 
         ceses2 = regex_cargos(self.ceses2)
         self.assertEqual(ceses2, DATA['fake5'])
+
+    def test_cargo_entrante(self):
+        self.assertTrue(is_acto_cargo_entrante('Reelecciones'))
+        self.assertTrue(is_acto_cargo_entrante('Nombramientos'))
+        self.assertFalse(is_acto_cargo_entrante('Ceses/Dimisiones'))
+        self.assertRaises(ValueError, is_acto_cargo_entrante, 'Cambio de domicilio social')
 
 
 class BormeparserRegexRareTestCase(unittest.TestCase):
