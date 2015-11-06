@@ -105,7 +105,8 @@ class BormeActoCargo(BormeActo):
 class BormeActoFact(BormeActo):
 
     def _set_name(self, name):
-        if not is_acto_noarg(name):
+        if not is_acto_noarg(name)\
+                and name not in (u'Extinción', u'Declaración de unipersonalidad'):  # Ugly hack
             raise ValueError('No se puede BormeActoFact sin un acto de sin argumento: %s' % name)
         self.name = name
 
@@ -134,15 +135,18 @@ class BormeAnuncio(object):
         del actos['Datos registrales']
 
         for acto_nombre, valor in actos.items():
-            if is_acto_cargo(acto_nombre) or is_acto_rare_cargo(acto_nombre):
+            if is_acto_rare_cargo(acto_nombre):
+                if acto_nombre.startswith(u'Declaración de unipersonalidad'):
+                    a = BormeActoFact(acto_nombre, valor)
+                else:
+                    a = BormeActoCargo(acto_nombre, valor)
+            elif is_acto_cargo(acto_nombre):
                 a = BormeActoCargo(acto_nombre, valor)
-                self.actos.append(a)
             elif is_acto_noarg(acto_nombre):
                 a = BormeActoFact(acto_nombre, valor)
-                self.actos.append(a)
             else:
                 a = BormeActoTexto(acto_nombre, valor)
-                self.actos.append(a)
+            self.actos.append(a)
 
     def get_borme_actos(self):
         return self.actos
