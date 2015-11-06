@@ -18,12 +18,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
+import json
 import os
 import tempfile
 import unittest
 
 from bormeparser.borme import Borme, BormeActoCargo, BormeActoTexto, BormeAnuncio, BormeXML
-from bormeparser.download import download_xml
+from bormeparser.download import download_pdf, download_xml
 from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.seccion import SECCION
 from bormeparser.provincia import PROVINCIA
@@ -49,9 +50,52 @@ DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA
 
 
 class BormeTestCase(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+        cls.borme = download_pdf((2015, 2, 10), '/tmp/BORME-A-2015-27-10.pdf', SECCION.A, PROVINCIA.CACERES, parse=True)
+
+    @classmethod
+    def tearDownClass(cls):
+        os.unlink('/tmp/BORME-A-2015-27-10.pdf')
+
+    def test_instance(self):
+        self.assertEqual(self.borme.date, datetime.date(year=2015, month=2, day=10))
+        self.assertEqual(self.borme.seccion, SECCION.A)
+        self.assertEqual(self.borme.provincia, PROVINCIA.CACERES)
+        self.assertEqual(self.borme.num, 27)
+        self.assertEqual(self.borme.cve, 'BORME-A-2015-27-10')
+        self.assertEqual(self.borme.url, 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(self.borme.filename, '/tmp/BORME-A-2015-27-10.pdf')
+
+    def test_to_json(self):
+        fp = tempfile.NamedTemporaryFile()
+        filename = fp.name
+        fp.close()
+        converted = self.borme.to_json(filename)
+        self.assertTrue(converted)
+
+        fp = open(filename)
+        data = json.load(fp)
+        fp.close()
+
+        self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
+        self.assertEqual(data['date'], '2015-02-10')
+        self.assertEqual(data['seccion'], 'A')
+        self.assertEqual(data['provincia'], 'Cáceres')  # "C\u00e1ceres"
+        self.assertEqual(data['num'], 27)
+        self.assertEqual(data['url'], 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(data['from_anuncio'], 57315)
+        self.assertEqual(data['to_anuncio'], 57344)
+        self.assertEqual(data['num_anuncios'], 30)
+
+        os.unlink(filename)
+
+
+class FakeBormeTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
         bormeanuncios = [BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'])]
-        self.borme = Borme((2015, 2, 10), 'A', PROVINCIA.CACERES, 27, 'BORME-A-2015-27-10', bormeanuncios)
+        cls.borme = Borme((2015, 2, 10), 'A', PROVINCIA.CACERES, 27, 'BORME-A-2015-27-10', bormeanuncios)
 
     def test_instance(self):
         self.assertEqual(self.borme.date, datetime.date(year=2015, month=2, day=10))
@@ -64,9 +108,24 @@ class BormeTestCase(unittest.TestCase):
 
     def test_to_json(self):
         fp = tempfile.NamedTemporaryFile()
-        converted = self.borme.to_json(fp.name)
-        self.assertTrue(converted)
+        filename = fp.name
         fp.close()
+        converted = self.borme.to_json(filename)
+        self.assertTrue(converted)
+
+        fp = open(filename)
+        data = json.load(fp)
+        fp.close()
+
+        self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
+        self.assertEqual(data['date'], '2015-02-10')
+        self.assertEqual(data['seccion'], 'A')
+        self.assertEqual(data['provincia'], 'Cáceres')  # "C\u00e1ceres"
+        self.assertEqual(data['num'], 27)
+        self.assertEqual(data['url'], 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(data['from_anuncio'], 1)
+        self.assertEqual(data['to_anuncio'], 1)
+        self.assertEqual(data['num_anuncios'], 1)
 
 
 class BormeAnuncioTestCase(unittest.TestCase):
@@ -125,6 +184,7 @@ class BormeXMLTestCase(unittest.TestCase):
     date = (2015, 9, 24)
     url = 'http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150924'
     nbo = 183
+
     def test_from_file(self):
         path = os.path.join(tempfile.gettempdir(), 'BORME-S-20150924.xml')
         downloaded = download_xml(self.date, path)
