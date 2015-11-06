@@ -65,7 +65,7 @@ class BormeActoTexto(BormeActo):
 
     def _set_name(self, name):
         if is_acto_cargo(name) or is_acto_rare_cargo(name):
-            raise ValueError
+            raise ValueError('No se puede BormeActoTexto con un acto de cargo: %s' % name)
         self.name = name
 
     def _set_value(self, value):
@@ -81,7 +81,7 @@ class BormeActoCargo(BormeActo):
 
     def _set_name(self, name):
         if not is_acto_cargo(name) and not is_acto_rare_cargo(name):
-            raise ValueError(name)
+            raise ValueError('No se puede BormeActoCargo sin un acto de cargo: %s' % name)
         self.name = name
 
     def _set_value(self, value):
@@ -106,7 +106,7 @@ class BormeActoFact(BormeActo):
 
     def _set_name(self, name):
         if not is_acto_noarg(name):
-            raise ValueError
+            raise ValueError('No se puede BormeActoFact sin un acto de sin argumento: %s' % name)
         self.name = name
 
     def _set_value(self, value):
