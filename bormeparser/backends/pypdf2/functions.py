@@ -42,10 +42,12 @@ def parse_acto_bold(nombreacto, data):
 
     if is_acto_rare(nombreacto):
         # TODO: u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo'
-        acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
-        actos[acto_colon] = arg_colon
         if nombreacto.startswith(u'Declaración de unipersonalidad'):
+            acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
             actos[acto_colon] = True
+        else:
+            acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
+            actos[acto_colon] = arg_colon
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
         logger.debug('  nombreacto: %s' % nombreacto)
