@@ -37,11 +37,20 @@ def download_range(begin, end):
     next_date = begin
     seccion = bormeparser.SECCION.A
 
+    #end = min(end, datetime.date.today())
     while next_date and next_date <= end:
+        print('####### %s ' % next_date)
         xml_path = get_borme_xml_filepath(next_date)
         try:
             bxml = BormeXML.from_file(xml_path)
-            print('%s already exists!' % os.path.basename(xml_path))
+            if bxml.next_borme:
+                print('%s already exists!' % os.path.basename(xml_path))
+            else:
+                print('Re-downloading %s ' % os.path.basename(xml_path))
+                bxml = BormeXML.from_date(next_date)
+                os.makedirs(os.path.dirname(xml_path), exist_ok=True)  # TODO: Python 2
+                bxml.save_to_file(xml_path)
+
         except FileNotFoundError:
             print('Downloading %s ' % os.path.basename(xml_path))
             bxml = BormeXML.from_date(next_date)
