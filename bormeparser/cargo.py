@@ -27,13 +27,13 @@ class CARGO:
     SECRETARIO = 4
     VICESECRETARIO = 5
     CONSEJERO_DELEGADO_MANCOMUNADO = 6
-    ADM_UNICO = 7
+    ADMINISTRADOR_UNICO = 7
     MIEMBRO_CONSEJO_RECTOR = 8
     PRESIDENTE_CONSEJO_RECTOR = 9
     SECRETARIO_CONSEJO_RECTOR = 10
-    ADM_SOLID = 11
+    ADMINISTRADOR_SOLIDARIO = 11
     APODERADO = 12
-    SOC_PROF = 13
+    SOCIO_PROFESIONAL = 13
     APODERADO_MANCOMUNADO_SOLIDARIO = 14
     APODERADO_MANCOMUNADO = 15
     APODERADO_SOLIDARIO = 16
@@ -42,15 +42,15 @@ class CARGO:
     CONS_DEL_SOL = 19
     REPRESENTANTE = 20
     CONS_DELEGADO = 21
-    APOD_SOL_MAN = 22
+    APODERADO_SOLIDARIO_MANCOMUNADO = 22
     LIQUISOLI = 23
     LIQUIDADOR = 24
     APODERADO_SOL = 25
     REPR_143_RRM = 26
     AUDITOR_CUENTAS_CONSOLIDADAS = 27
-    SECRETARIO_NO_CONSEJ = 28
+    SECRETARIO_NO_CONSEJERO = 28
     CONS_DEL_M_S = 29
-    VICESECRETARIO_NO_CONSJ = 30
+    VICESECRETARIO_NO_CONSEJERO = 30
     AUDITOR = 31
     ADM_CONCURS = 32
     REP_ADM_CONC = 33
@@ -160,8 +160,8 @@ class CARGO:
     DIRECTOR_SUCURSAL = 137
     MIEMBRO_COMISION_SEQ = 138
     TESORERO_CONSEJO_RECTOR = 139
-    TESORERO_COMISION_EJ_C = 140
-    MIEMBRO_COMISION_EJ_CR = 141
+    TESORERO_COMISION_EJECUTIVA_C = 140
+    MIEMBRO_COMISION_EJECUTIVA_CR = 141
     PRESIDENTE_COMISION_A_YC = 142
     PROMOTOR = 143
     DEPOSITARIO = 144
@@ -230,7 +230,7 @@ class CARGO:
     VOCAL_8_CON_REC = 207
     SUPLENTE_CONSEJO_RECTOR = 208
     D_G_CONSEJO_RECTOR = 209
-    SECRETARIO_NO_CONSEJ_GO = 210
+    SECRETARIO_NO_CONSEJERO_GO = 210
     MIEMBRO_CONSEJERO_GO = 211
     VICEPRESIDENTE_COMISION_CONTROL = 212
     SUPLENTE_COMISION_CONTROL = 213
@@ -250,7 +250,7 @@ class CARGO:
     VICESECRETARIO_CONSEJO_RECTOR = 227
     SOCIO_COLECTIVO = 228
     DIRECTOR_COMERCIAL = 229
-    SECRETARIO_COMISION_EJ_CR = 230
+    SECRETARIO_COMISION_EJECUTIVA_CR = 230
     PRESIDENTE_J_ADM = 231
     VICEPRESIDENTE_J_ADM = 232
     SECRETARIO_J_ADM = 233
@@ -275,52 +275,116 @@ class CARGO:
     MIEMBRO_COMITE_PRO = 252
     SECRETARIO_GENERAL = 253
     DIRECTOR_EJECUTIVO = 254
+    SOCIO_UNICO_PROFESIONAL = 255
+    VICEPRESIDENTE_SEGUNDO = 256
+    SECRETARIO_GENERAL_ADJUNTO = 257
+    VICESECRETARIO_NO_CONSEJERO_SEGUNDO = 258
+    MIEMBRO_COMISION_RETR = 259
+    ADMINISTRADOR_PRIMERO = 260
+    REPRESENTANTE_PLAN = 261
+    REPRESENTANTE_SUPLENTE = 262
+    CONSEJERO_INDEPENDIENTE = 263
+    DEPOSITARIO_COMISION_CONTROL = 264
+    ENTIDAD_GESTORA_ACT = 265
+    ENTIDAD_GESTORA_INDEPENDIENTE = 266
+    DIRECTOR_DEPARTAMENTO = 267
+    DIRECTOR_EXPLOTA = 268
+    DIRECTOR_FINANCIERO = 269
+    SUBDIRECTOR = 270
+    SECRETARIO_NO_CONSEJERO_COMISION_EJECUTIVA = 271
+    INTERVENTOR_SOLIDARIO = 272
+    VOCAL_SUPLENTE = 273
+    VICEPRESIDENTE_HONORIFICO = 274
+    VICEPRESIDENTE_COMISION_DIRECTIVA = 275
+    MIEMBRO_COMISION_CYA = 276
+    MIEMBRO_COMISION_VIG = 277
+    SUPLENTE_COMISION_VIG = 278
+    AG_REV_TIT = 279
+    PRESIDENTE_COMISION_RIESGOS = 280
+    VICEPRESIDENTE_COMISION_RIESGOS = 281
+    CONSEJERO_COMISION_RIESGOS = 282
+    COMS_VIGILAN = 283
+    MIEMBRO_COMISION_ACR = 284
+    FUNDADOR = 285
+    GERENTE_SMCP = 286
+    SUPLENTE_COMISION_CT = 287
+    MIEMBRO_CDCA = 288
+    OTORGANTE = 289
+    SUPLENTE_COMISION_LI = 290
+    PRESEN_CONC = 291
+    PRESIDENTE_COMISION_SEG = 292
+    MIEMBRO_COMISION_SEG = 293
+    AUX_ADMINISTRADOR_CONC = 294
+    MIEMBRO_C_COMISION_PERM = 295
+    MANDATARIO = 296
+    CONSEJERO_COMISION_DELEGADA = 297
+    ADMINISTRADOR_PROV = 298
+    SECRETARIO_COMISION_AYR = 299
+    DELEGADO_GENERAL = 300
 
     _keywords = {'Presidente': PRESIDENTE,
                  'PRESIDENTE': PRESIDENTE,
                  'Pdte.': PRESIDENTE,
                  'PresEjecutiv': PRESIDENTE_EJECUTIVO,
+                 'PRES.EJECUT.': PRESIDENTE_EJECUTIVO,
                  'COPRESIDENTE': COPRESIDENTE,
                  'Vicepresid.': VICEPRESIDENTE,
                  'VICEPRESIDEN': VICEPRESIDENTE,
                  'Vicepresiden': VICEPRESIDENTE,
+                 'VICEPRESID.2': VICEPRESIDENTE_SEGUNDO,
                  'Consejero': CONSEJERO,
                  'Consj.Domini': CONSEJERO_DOMINI,
                  'Secretario': SECRETARIO,
                  'SECRETARIO': SECRETARIO,
                  'Secret.Gral.': SECRETARIO_GENERAL,
+                 'Secr.Gral.Ad': SECRETARIO_GENERAL_ADJUNTO,
                  'Vicesecret.': VICESECRETARIO,
                  'VICESECRET.': VICESECRETARIO,
+                 'VsecrNoConsj': VICESECRETARIO_NO_CONSEJERO,
+                 'V-SEC NO CON': VICESECRETARIO_NO_CONSEJERO,
+                 'Vcsec.no.Con': VICESECRETARIO_NO_CONSEJERO,
+                 'V- SEC NO CON': VICESECRETARIO_NO_CONSEJERO,
+                 'V-SEC.NO.C.2': VICESECRETARIO_NO_CONSEJERO_SEGUNDO,
                  'Cons.Del.Man': CONSEJERO_DELEGADO_MANCOMUNADO,
                  'CONS.DEL.MAN': CONSEJERO_DELEGADO_MANCOMUNADO,
                  'Vcs.Cons.Rec': VICESECRETARIO_CONSEJO_RECTOR,
                  'Mie.Cons.Rec': MIEMBRO_CONSEJO_RECTOR,
+                 'Miem.Co.Rec': MIEMBRO_CONSEJO_RECTOR,
                  'Miem.C.Ret': MIEMBRO_CONSEJO_RECTOR,
+                 'M.Com.Retr.': MIEMBRO_COMISION_RETR,
                  'Pre.Cons.Rec': PRESIDENTE_CONSEJO_RECTOR,
                  'PRES.CON.REC': PRESIDENTE_CONSEJO_RECTOR,
                  'Pr.C.Ret': PRESIDENTE_CONSEJO_RECTOR,
+                 'Pres.Com.Ret': PRESIDENTE_CONSEJO_RECTOR,
                  'Sec.Cons.Rec': SECRETARIO_CONSEJO_RECTOR,
                  'SECR.CON.REC': SECRETARIO_CONSEJO_RECTOR,
                  'Sec.C.Ret': SECRETARIO_CONSEJO_RECTOR,
+                 'Secr.C.Ret': SECRETARIO_CONSEJO_RECTOR,
                  'SUPL2.CON.RE': SUPLENTE_CONSEJO_RECTOR,
                  'Vcp.Cons.Rec': VICEPRESIDENTE_CONSEJO_RECTOR,
                  'Tes.C.Rec': TESORERO_CONSEJO_RECTOR,
                  'CONS.RECTOR': CONSEJO_RECTOR,
                  'D.G.Cons.Rec': D_G_CONSEJO_RECTOR,
-                 'Adm. Unico': ADM_UNICO,
-                 'Adm. Unico.': ADM_UNICO,
-                 'Adm. unico': ADM_UNICO,
-                 'ADM.UNICO': ADM_UNICO,
-                 'Admin.Unico': ADM_UNICO,
-                 'Adm. Solid.': ADM_SOLID,
-                 'ADM.SOLIDAR.': ADM_SOLID,
-                 'Admin.Solid': ADM_SOLID,
+                 'Adm. Unico': ADMINISTRADOR_UNICO,
+                 'Adm. Unico.': ADMINISTRADOR_UNICO,
+                 'Adm. unico': ADMINISTRADOR_UNICO,
+                 'ADM.UNICO': ADMINISTRADOR_UNICO,
+                 'Admin.Unico': ADMINISTRADOR_UNICO,
+                 'DM.UNICO 2': ADMINISTRADOR_UNICO,
+                 'Adm. Solid.': ADMINISTRADOR_SOLIDARIO,
+                 'ADM.SOLIDAR.': ADMINISTRADOR_SOLIDARIO,
+                 'Admin.Solid': ADMINISTRADOR_SOLIDARIO,
                  'ADM.CONCURS.': ADM_CONCURS,
                  'Adm.Concur': ADM_CONCURS,
                  'Admin.Conc': ADM_CONCURS,
                  'Adm. Mancom': ADM_MANCOM,
                  'Admin.Manc': ADM_MANCOM,
                  'ADM.CONJUNTO': ADM_CONJUNTO,
+                 'Adm. Mancom.': ADMINISTRADOR_MANCOMUNADO,
+                 'Adm. Manco.': ADMINISTRADOR_MANCOMUNADO,
+                 'Adm.Man.Supl': ADMINISTRADOR_MANCOMUNADO_SUPLENTE,
+                 'ADM.SUP.MAN.': ADMINISTRADOR_MANCOMUNADO_SUPLENTE,
+                 'Admin.1º': ADMINISTRADOR_PRIMERO,
                  'Apoderado': APODERADO,
                  'APODERADO': APODERADO,
                  'poderado 1': APODERADO,
@@ -328,15 +392,15 @@ class CARGO:
                  'Apo.Manc.': APODERADO_MANCOMUNADO,
                  'Apod.Manc': APODERADO_MANCOMUNADO,
                  'APOD.MANCOMU': APODERADO_MANCOMUNADO,
-                 'Adm. Mancom.': ADMINISTRADOR_MANCOMUNADO,
-                 'Adm.Man.Supl': ADMINISTRADOR_MANCOMUNADO_SUPLENTE,
-                 'ADM.SUP.MAN.': ADMINISTRADOR_MANCOMUNADO_SUPLENTE,
                  'Apo.Sol.': APODERADO_SOLIDARIO,
                  'Apod.Solid': APODERADO_SOLIDARIO,
                  'APODERAD.SOL': APODERADO_SOL,
-                 'APOD.SOL/MAN': APOD_SOL_MAN,
-                 'Apod.Sol-man': APOD_SOL_MAN,
-                 'Soc.Prof.': SOC_PROF,
+                 'APOD.CONJUN.': APODERADO_CONJUNTO,
+                 'Apo.D.Gral.': APODERADO_D_GENERAL,
+                 'APOD.SOL/MAN': APODERADO_SOLIDARIO_MANCOMUNADO,
+                 'Apod.Sol-man': APODERADO_SOLIDARIO_MANCOMUNADO,
+                 'Soc.Prof.': SOCIO_PROFESIONAL,
+                 'Soc.Uni.Prof': SOCIO_UNICO_PROFESIONAL,
                  'Co.De.Ma.So': CONSEJERO_DELEGADO_MANCOMUNADO_SOLIDARIO,
                  'Cons.Del.Sol': CONS_DEL_SOL,
                  'Representan': REPRESENTANTE,
@@ -345,7 +409,11 @@ class CARGO:
                  'REPRESENTAN.': REPRESENTANTE,
                  'REPR.SUCURS.': REPRESENTANTE_SUCURS,
                  'Rpte. Suc.': REPRESENTANTE_SUCURS,
+                 'Rep.SUC.': REPRESENTANTE_SUCURS,
                  'REPRE.FISCAL': REPRESENTANTE_FISCAL,
+                 'Repre.Fiscal': REPRESENTANTE_FISCAL,
+                 'Repres.Plan.': REPRESENTANTE_PLAN,
+                 'RepresSuplen': REPRESENTANTE_SUPLENTE,
                  'Con.Delegado': CONS_DELEGADO,
                  'CONS. DELEG.': CONS_DELEGADO,
                  'Cons.Delegad': CONS_DELEGADO,
@@ -358,20 +426,25 @@ class CARGO:
                  'LiqManc': LIQUIDADOR_MANCOMUNADO,
                  'LIQUID.MANC.': LIQUIDADOR_MANCOMUNADO,
                  'Liquid.manc': LIQUIDADOR_MANCOMUNADO,
+                 'LIQ.CONC.': LIQUIDADOR_CONC,
+                 'Liquid.conc.': LIQUIDADOR_CONC,
+                 'LiqC': LIQUIDADOR_CONC,
+                 'LiqUnico': LIQUIDADOR_UNICO,
+                 'Liq.Judicial': LIQUIDADOR_JUDICIAL,
                  'REPR.143 RRM': REPR_143_RRM,
                  'CONSEJERO': CONSEJERO,
                  'ConsejSuplen': CONSEJERO_SUPLENTE,
+                 'Consj. Supl.': CONSEJERO_SUPLENTE,
+                 'CONS.SUPLENT': CONSEJERO_SUPLENTE,
                  'Cons.Interin': CONSEJERO_INTERIN,
                  'CONS.HONORA.': CONSEJERO_HONORA,
+                 'Cons. Idpte.': CONSEJERO_INDEPENDIENTE,
                  'CONS.DEL.M/S': CONS_DEL_M_S,
-                 'SecreNoConsj': SECRETARIO_NO_CONSEJ,
-                 'SECR.NO CONS': SECRETARIO_NO_CONSEJ,
-                 'Scr:no.Cons': SECRETARIO_NO_CONSEJ,
-                 'S.NO CONS.GO': SECRETARIO_NO_CONSEJ_GO,
+                 'SecreNoConsj': SECRETARIO_NO_CONSEJERO,
+                 'SECR.NO CONS': SECRETARIO_NO_CONSEJERO,
+                 'Scr:no.Cons': SECRETARIO_NO_CONSEJERO,
+                 'S.NO CONS.GO': SECRETARIO_NO_CONSEJERO_GO,
                  'MBRO.CONS.GO': MIEMBRO_CONSEJERO_GO,
-                 'VsecrNoConsj': VICESECRETARIO_NO_CONSJ,
-                 'V-SEC NO CON': VICESECRETARIO_NO_CONSJ,
-                 'Vcsec.no.Con': VICESECRETARIO_NO_CONSJ,
                  'Auditor': AUDITOR,
                  'Aud.C.Con.': AUDITOR_CUENTAS_CONSOLIDADAS,
                  'AUDT.CTS.CON': AUDITOR_CUENTAS_CONSOLIDADAS,
@@ -379,6 +452,7 @@ class CARGO:
                  'Auditor Sup.': AUDITOR_SUPLENTE,
                  'AUDITOR SUP.': AUDITOR_SUPLENTE,
                  'Aud.Supl.CC': AUDITOR_SUPLENTE_CUENTAS_CONSOLIDADAS,
+                 'Aud.Supl.C.C': AUDITOR_SUPLENTE_CUENTAS_CONSOLIDADAS,
                  'Ent.Reg.Cont': ENT_REG_CONT,
                  'EntidDeposit': ENTIDAD_DEPOSITARIA,
                  'ENT.DEPOSIT.': ENTIDAD_DEPOSITARIA,
@@ -396,6 +470,7 @@ class CARGO:
                  'PRE.COMS.CTR': PRESIDENTE_COMISION_CONTROL,
                  'PRES.COM.CON': PRESIDENTE_COMISION_CONTROL,
                  'Vpr.Com.Ctr': VICEPRESIDENTE_COMISION_CONTROL,
+                 'V-PRE.COMS.C': VICEPRESIDENTE_COMISION_CONTROL,
                  'Secr.Com.Ctr': SECRETARIO_COMISION_CONTROL,
                  'SEC.COMS.CTR': SECRETARIO_COMISION_CONTROL,
                  'Vices.Com.Ct': VICESECRETARIO_COMISION_CONTROL,
@@ -403,6 +478,7 @@ class CARGO:
                  'MRO.COMS.CTR': MIEMBRO_COMISION_CONTROL,
                  'MBRO.COM.CRT': MIEMBRO_COMISION_CONTROL,
                  'Supl.Comi.C.': SUPLENTE_COMISION_CONTROL,
+                 'Dep.Com.Ctr.': DEPOSITARIO_COMISION_CONTROL,
                  'R.L.C.Perma.': RLC_PERMA,
                  'R.L.C.Perm.': RLC_PERMA,
                  'R.L.C.Per.M.': RLC_PERMA,
@@ -413,37 +489,46 @@ class CARGO:
                  'Vpre.J.G.P.V': VICEPRESIDENTE_JGPV,
                  'Miem.A.G.P.V': MIEMBRO_AGPV,
                  'Tesorero': TESORERO,
+                 'TESORERO': TESORERO,
                  'REP.ADM.CONC': REP_ADM_CONC,
                  'Comisario': COMISARIO,
                  'COMISARIO': COMISARIO,
                  'Comis.Contro': COMISARIO,
                  'Gerente': GERENTE,
                  'GERENTE': GERENTE,
-                 'LiqUnico': LIQUIDADOR_UNICO,
                  'Cons.Del.C.R': CONS_DEL_C_R,
                  'Ent. Gestora': ENTIDAD_GESTORA,
                  'Ent.Gestora': ENTIDAD_GESTORA,
                  'ENTI.GESTORA': ENTIDAD_GESTORA,
+                 'Ent.Gest.Act': ENTIDAD_GESTORA_ACT,
+                 'ENT.GEST.IND': ENTIDAD_GESTORA_INDEPENDIENTE,
                  'ENT.COGESTOR': ENTIDAD_COGESTORA,
                  'Auditor Titu': AUDITOR_TITU,
                  'AUDIT.CUENT.': AUDITOR_CUENTAS,
                  'Director': DIRECTOR,
                  'DIRECTOR': DIRECTOR,
                  'Dir.Adm.': DIRECTOR_ADMINISTRACION,
+                 'DTOR.ADMINIS': DIRECTOR_ADMINISTRACION,
+                 'DTOR.DEPART.': DIRECTOR_DEPARTAMENTO,
+                 'DTOR.COMERC.': DIRECTOR_COMERCIAL,
                  'Dir. General': DIRECTOR_GENERAL,
                  'Dir.Gral.': DIRECTOR_GENERAL,
                  'DTOR.GENERAL': DIRECTOR_GENERAL,
                  'Dtor.General': DIRECTOR_GENERAL,
                  'DIRECTOR GEN': DIRECTOR_GENERAL,
                  'DTOR.GEN.ADM': DIRECTOR_GENERAL_ADM,
-                 'DTOR.EJECUT.': DIRECTOR_EJECUTIVO,
-                 'DTOR.SUCURS.': DIRECTOR_SUCURSAL,
-                 'DTOR.FABRICA': DIRECTOR_FABRICA,
                  'DTOR.GEN.ADJ': DIRECTOR_GENERAL_ADJUNTO,
+                 'Dir.Gral.Adj': DIRECTOR_GENERAL_ADJUNTO,
+                 'DTOR.EJECUT.': DIRECTOR_EJECUTIVO,
+                 'DTOR.EXPLOTA': DIRECTOR_EXPLOTA,
+                 'DTOR.FABRICA': DIRECTOR_FABRICA,
+                 'DTOR.FINANC.': DIRECTOR_FINANCIERO,
+                 'DTOR.SUCURS.': DIRECTOR_SUCURSAL,
                  'DTOR.TECNICO': DIRECTOR_TECNICO,
                  'Dir. Técnico': DIRECTOR_TECNICO,
                  'D. Comercial': DIRECTOR_COMERCIAL,
                  'Dir.Gen.Spl': DIRECTOR_GENERAL_SUPLENTE,
+                 'Subdirec': SUBDIRECTOR,
                  'SUBDTOR.GNRL': SUBDIRECTOR_GENERAL,
                  'Subdir.Gral.': SUBDIRECTOR_GENERAL,
                  'Socio': SOCIO,
@@ -478,12 +563,15 @@ class CARGO:
                  'Secr.Cons.Li': SECRETARIO_COM_LIQ,
                  'Ger.Com.Ger': GER_COM_GER,
                  'Miem.Com.Ger': MIEMBRO_COM_GER,
+                 'MBRO.COM.GER': MIEMBRO_COM_GER,
                  'ADMINISTR.': ADMINISTRADOR,
                  'Administrad': ADMINISTRADOR,
                  'ADM.ADJUNTO': ADMINISTRADOR_ADJUNTO,
                  'PRESI.JTA.DI': PRESIDENTE_JUNTA_DIRECTIVA,
                  'Pres.J.Dir.': PRESIDENTE_JUNTA_DIRECTIVA,
+                 'PRESID.JUNTA': PRESIDENTE_JUNTA_DIRECTIVA,
                  'V-PRE.JTA.DI': VICEPRESIDENTE_JUNTA_DIRECTIVA,
+                 'Vpte.J.Dir.': VICEPRESIDENTE_JUNTA_DIRECTIVA,
                  'V-PR.S.JTA.D': VICEPRESIDENTE_SEGUNDO_JUNTA_DIRECTIVA,
                  'Vsec.J.Dir.': VICESECRETARIO_JUNTA_DIRECTIVA,
                  'Scrt.J.Dir.': SECRETARIO_JUNTA_DIRECTIVA,
@@ -502,10 +590,12 @@ class CARGO:
                  'Def.part.': DEF_PARTICIP,
                  'Adm.Judicial': ADM_JUDICIAL,
                  'ADM.JUDICIAL': ADM_JUDICIAL,
+                 'Admin.Judic': ADM_JUDICIAL,
                  'Adm.Supl.': ADM_SUPLENTE,
                  'ADM.SUPLENTE': ADM_SUPLENTE,
                  'Apod.D.Gral.': APOD_D_GENERAL,
                  'Com. Audit.': COM_AUDIT,
+                 'COMIS.AUDITO': COM_AUDIT,
                  'COM.AUD.CTRL': COM_AUDIT_CTRL,
                  'PRE.COM.AUD.': PRESIDENTE_COM_AUD,
                  'MBRO.COM.AUD': MIEMBRO_COM_AUD,
@@ -520,7 +610,6 @@ class CARGO:
                  'Sec.J.Rec': SECRETARIO_JUNTA_RECTORA,
                  'SEC.JTA.RECT': SECRETARIO_JUNTA_RECTORA,
                  'Vic.Junt.Rec': VICEPRESIDENTE_JUNTA_RECTORA,
-                 'Liq.Judicial': LIQUIDADOR_JUDICIAL,
                  'Miem.Con.Dir': MIEMBRO_CONSEJO_DIRECTIVO,
                  'Pres.Con.Dir': PRESIDENTE_CONSEJO_DIRECTIVO,
                  'Vpre.Con.Dir': VICEPRESIDENTE_CONSEJO_DIRECTIVO,
@@ -531,8 +620,11 @@ class CARGO:
                  'PRES.COM.EJE': PRESIDENTE_COMISION_EJECUTIVA,
                  'PRE.COMS.EJE': PRESIDENTE_COMISION_EJECUTIVA,
                  'Pr.Com.Ejecu': PRESIDENTE_COMISION_EJECUTIVA,
+                 'Pte.C.Ej': PRESIDENTE_COMISION_EJECUTIVA,
+                 'P.Com.Ejec.': PRESIDENTE_COMISION_EJECUTIVA,
                  'Sec.Com.Ej.': SECRETARIO_COMISION_EJECUTIVA,
                  'Sec.C.Ej': SECRETARIO_COMISION_EJECUTIVA,
+                 'S.NO.C.CO.EJ': SECRETARIO_NO_CONSEJERO_COMISION_EJECUTIVA,
                  'SecrCENoCon': SECRETARIO_COMISION_EJECUTIVA_NO_CONSEJERO,
                  'Vpr.Com.Ejec': VICEPRESIDENTE_COMISION_EJECUTIVA,
                  'Vicpres C.E': VICEPRESIDENTE_COMISION_EJECUTIVA,
@@ -550,8 +642,10 @@ class CARGO:
                  'MiemComDirec': MIEMBRO_COMISION_DIRECCION,
                  'MBRO.CON.DIR': MIEMBRO_COMISION_DIRECCION,
                  'MBRO.COM.DIR': MIEMBRO_COMISION_DIRECCION,
+                 'MRO.COMS.DIR': MIEMBRO_COMISION_DIRECCION,
                  'SecrComDirec': SECRETARIO_COMISION_DIRECTIVA,
                  'PresComDirec': PRESIDENTE_COMISION_DIRECTIVA,
+                 'Vte.Com.Dir.': VICEPRESIDENTE_COMISION_DIRECTIVA,
                  'Suplente': SUPLENTE,
                  'COMISAR.SI.O': COMISARIO_SI_O,
                  'COMISR.SUP.S': COMISARIO_SUP_S,
@@ -563,27 +657,28 @@ class CARGO:
                  'Secr.Cte.NyR': SECRETARIO_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
                  'Com.Nomb.': COM_NOMB,
                  'Com estrateg': COM_ESTRATEG,
-                 'APOD.CONJUN.': APODERADO_CONJUNTO,
                  'R.C.P.SolMan': R_C_P_SOLMAN,
                  'Sub.General': SUB_GENERAL,
                  'Med.Concusal': MED_CONCUSAL,
-                 'LIQ.CONC.': LIQUIDADOR_CONC,
-                 'Liquid.conc.': LIQUIDADOR_CONC,
                  'Con.Ind.': CON_IND,
                  'MRO.COMS.SEQ': MIEMBRO_COMISION_SEQ,
-                 'Tes.Com.Ej.C': TESORERO_COMISION_EJ_C,
-                 'Sec.Com.EjCR': SECRETARIO_COMISION_EJ_CR,
-                 'Mie.Com.EjCR': MIEMBRO_COMISION_EJ_CR,
+                 'Tes.Com.Ej.C': TESORERO_COMISION_EJECUTIVA_C,
+                 'Sec.Com.EjCR': SECRETARIO_COMISION_EJECUTIVA_CR,
+                 'Mie.Com.EjCR': MIEMBRO_COMISION_EJECUTIVA_CR,
                  'PRE.COM.A.YC': PRESIDENTE_COMISION_A_YC,
                  'Promotor': PROMOTOR,
                  'Depositario': DEPOSITARIO,
+                 'DEPOSITARIO': DEPOSITARIO,
                  'C.CTR=E.PROM': C_CTR_E_PROM,
                  'INTERVENTOR': INTERVENTOR,
                  'Interventor': INTERVENTOR,
                  'IntervJudic': INTERVENTOR_JUDICIAL,
+                 'INTERV.SOLID': INTERVENTOR_SOLIDARIO,
                  'Adm.Sol.Supl': ADMINISTRADOR_SOLIDARIO_SUPLENTE,
                  'PRE.COMS.DEL': PRESIDENTE_COMISION_DELEGADA,
                  'SEC.COMS.DEL': SECRETARIO_COMISION_DELEGADA,
+                 'Sec.Com.Del': SECRETARIO_COMISION_DELEGADA,
+                 'Con.Del.Com.': CONSEJERO_COMISION_DELEGADA,
                  'Mmbr.Com.Del': MIEMBRO_COMISION_DELEGADA,
                  'MRO.COMS.DEL': MIEMBRO_COMISION_DELEGADA,
                  'Aud.Tit.Grup': AUDITOR_TIT_GRUP,
@@ -592,7 +687,9 @@ class CARGO:
                  'Miem.Com.Rec': MIEMBRO_COMISION_REC,
                  'Sec.Com.Rec': SECRETARIO_COMISION_REC,
                  'Delegado': DELEGADO,
+                 'DELEG.GNERAL': DELEGADO_GENERAL,
                  'P.Com.AyR': PRESIDENTE_COMISION_AYR,
+                 'Se.Com.AyR': SECRETARIO_COMISION_AYR,
                  'Miem.ComAyR.': MIEMBRO_COMISION_AYR,
                  'SecCmDirNCon': SEC_CM_DIR_N_CON,
                  'PRE.COMS.O.S': PRESIDENTE_COMISION_O_S,
@@ -609,14 +706,20 @@ class CARGO:
                  'PresComAuCnt': PRESIDENTE_COMISION_AU_CNT,
                  'MiemComAuCnt': MIEMBRO_COMISION_AU_CNT,
                  'Miem.Com.Ri.': MIEMBRO_COMISION_RI,
+                 'AdminProvi': ADMINISTRADOR_PROV,
                  'ADM.PROV.SOL': ADMINISTRADOR_PROV_SOLIDARIO,
                  'AdmProvSolEF': ADMINISTRADOR_PROV_SOLIDARIO_EF,
                  'ADJ.GERENCIA': ADJ_GERENCIA,
                  'PRES.HONORI.': PRESIDENTE_HONORIFICO,
+                 'Pres. Honor.': PRESIDENTE_HONORIFICO,
+                 'Pres.Honorif': PRESIDENTE_HONORIFICO,
+                 'V-PRES.HONOR': VICEPRESIDENTE_HONORIFICO,
                  'PreCteAdmres': PRESIDENTE_COMITE_ADM_RES,
                  'Síndico': SINDICO,
+                 'SINDICO': SINDICO,
                  'VOC8.CON.REC': VOCAL_8_CON_REC,
                  'VOC10.CON.RE': VOCAL_10_CON_REC,
+                 'VOCAL SUPLEN': VOCAL_SUPLENTE,
                  'MBRO.COM.CTO': MIEMBRO_COM_CTO,
                  'V-P1.COM.CTO': VICEPRESIDENTE_PRIMERO_COM_CTO,
                  'V-P2.COM.CTO': VICEPRESIDENTE_SEGUNDO_COM_CTO,
@@ -638,6 +741,27 @@ class CARGO:
                  'VPre.C.Pro': VICEPRESIDENTE_COMITE_PRO,
                  'Sec.C.Pro': SECRETARIO_COMITE_PRO,
                  'Miem.C.Pro': MIEMBRO_COMITE_PRO,
+                 'Mbro.Com.CyA': MIEMBRO_COMISION_CYA,
+                 'MRO.COMS.VIG': MIEMBRO_COMISION_VIG,
+                 'SUPL.COMS.VI': SUPLENTE_COMISION_VIG,
+                 'Ag.Rev.Tit.': AG_REV_TIT,
+                 'PRE.C.RIESGO': PRESIDENTE_COMISION_RIESGOS,
+                 'V-PRE.COM.RI': VICEPRESIDENTE_COMISION_RIESGOS,
+                 'CO.C.RIESGOS': CONSEJERO_COMISION_RIESGOS,
+                 'COMS.VIGILAN': COMS_VIGILAN,
+                 'Miem.Com.Acr': MIEMBRO_COMISION_ACR,
+                 'Fundador': FUNDADOR,
+                 'GERENTE SMCP': GERENTE_SMCP,
+                 'SUPL.COMS.CT': SUPLENTE_COMISION_CT,
+                 'Miem.C.D.C.A': MIEMBRO_CDCA,
+                 'Otorgante': OTORGANTE,
+                 'SUPL.COMI.LI': SUPLENTE_COMISION_LI,
+                 'PRESEN.CONC.': PRESEN_CONC,
+                 'Pres.COM.SEG': PRESIDENTE_COMISION_SEG,
+                 'Miem.COM.SEG': MIEMBRO_COMISION_SEG,
+                 'AUX.ADM.CONC': AUX_ADMINISTRADOR_CONC,
+                 'M.C.Com.Perm': MIEMBRO_C_COMISION_PERM,
+                 'MANDATARIO': MANDATARIO,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
