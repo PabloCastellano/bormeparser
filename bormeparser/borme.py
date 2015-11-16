@@ -450,7 +450,7 @@ class Borme(object):
             for id_anuncio, data in anuncios:
                 a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], data['datos registrales'])
                 bormeanuncios.append(a)
-        return Borme(date, seccion, provincia, num, cve, bormeanuncios)
+        return Borme(date, seccion, provincia, num, cve, bormeanuncios, filename)
 
     def __lt__(self, other):
         return self.anuncios_rango[1] < other.anuncios_rango[0]

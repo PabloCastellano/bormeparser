@@ -95,7 +95,7 @@ class BormeTestCase(unittest.TestCase):
         self.assertEqual(b.num, 27)
         self.assertEqual(b.cve, 'BORME-A-2015-27-10')
         self.assertEqual(b.url, 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
-        self.assertEqual(b.filename, None)
+        self.assertEqual(b.filename, filename)
 
         os.unlink(filename)
 
