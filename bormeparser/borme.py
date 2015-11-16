@@ -8,7 +8,7 @@ from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
 from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
 #from .parser import parse as parse_borme
-#from .seccion import SECCION
+from .seccion import SECCION
 from .provincia import Provincia
 import datetime
 import logging
@@ -168,6 +168,8 @@ class BormeXML(object):
         self.filename = None
         self._urls_seccion = None
         self._urls_provincia = None
+        self._cves = None
+        self._sizes = None
 
     def _load(self, source):
         def parse_date(fecha):
@@ -229,6 +231,34 @@ class BormeXML(object):
         else:
             raise AttributeError('You must specifiy either provincia or seccion or both')
         return urls
+
+    def get_cves(self, seccion):
+        """ Obtiene los CVEs """
+        if seccion != SECCION.A:
+            raise NotImplementedError('Solo seccion A por el momento')
+
+        if not self._cves:
+            self._cves = []
+            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+                if not item.get('id').endswith('-99'):
+                    self._cves.append(item.get('id'))
+
+        return self._cves
+
+    def get_sizes(self, seccion):
+        """ Obtiene un diccionario con el CVE y su tamaño """
+        if seccion != SECCION.A:
+            raise NotImplementedError('Solo seccion A por el momento')
+
+        if not self._sizes:
+            self._sizes = {}
+            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+                if not item.get('id').endswith('-99'):
+                    cve = item.get('id')
+                    size = item.xpath('urlPdf')[0].get('szBytes')
+                    self._sizes[cve] = int(size)
+
+        return self._sizes
 
     def _get_url_pdfs_provincia(self, provincia):
         """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """

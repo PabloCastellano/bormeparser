@@ -234,6 +234,14 @@ class BormeXMLTestCase(unittest.TestCase):
         # Exceptions
         self.assertRaises(BormeDoesntExistException, BormeXML.from_date, (2015, 9, 26))
 
+        l = ['BORME-A-2015-183-%s' % x
+             for x in ['01', '03', '04', '06', '07', '08', '09', '10', '11', '12', '14', '15', '16', '22', '25', '26',
+             '28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '39', '40', '41', '43', '46', '47', '49', '50', '51']
+             ]
+        self.assertEqual(bxml.get_cves(SECCION.A), l)
+
+        # TODO: get_sizes
+
 
 if __name__ == '__main__':
     unittest.main()
