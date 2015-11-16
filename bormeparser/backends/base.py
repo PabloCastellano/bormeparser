@@ -5,7 +5,6 @@ import os
 
 from bormeparser.borme import Borme, BormeAnuncio
 from bormeparser.regex import regex_fecha
-from bormeparser.download import get_url_pdf
 from bormeparser import SECCION, PROVINCIA
 
 
@@ -28,7 +27,6 @@ class BormeParserBackend(object):
             bormeanuncios.append(a)
 
         fecha = regex_fecha(anuncios['borme_fecha'])
-        # FIXME: provincia, seccion objects
         seccion = SECCION.from_borme(anuncios['borme_seccion'], anuncios['borme_subseccion'])
         provincia = PROVINCIA.from_title(anuncios['borme_provincia'])
         return Borme(fecha, seccion, provincia, anuncios['borme_num'], anuncios['borme_cve'], bormeanuncios, filename=self.filename)

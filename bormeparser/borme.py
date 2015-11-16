@@ -9,7 +9,7 @@ from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, B
 from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
 #from .parser import parse as parse_borme
 from .seccion import SECCION
-from .provincia import Provincia
+from .provincia import Provincia, PROVINCIA
 import datetime
 import logging
 import json
@@ -86,11 +86,14 @@ class BormeActoCargo(BormeActo):
 
     def _set_value(self, value):
         if not isinstance(value, dict):
-            raise ValueError('value must be dict: %s' % value)
+            raise ValueError('value must be a dictionary: %s' % value)
 
-        for _, v in value.items():
+        for k, v in value.items():
             if not isinstance(v, set):
-                raise ValueError('v must be set: %s' % v)
+                if isinstance(v, list):
+                    value[k] = set(v)
+                else:
+                    raise ValueError('v must be a set: %s' % v)
 
         self.value = value
 
@@ -122,17 +125,18 @@ class BormeAnuncio(object):
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
-    def __init__(self, id, empresa, actos):
+    def __init__(self, id, empresa, actos, datos_registrales=None):
         logger.debug('new BormeAnuncio(%s) %s' % (id, empresa))
         self.id = id
         self.empresa = empresa
-        self.datos_registrales = ""
+        self.datos_registrales = datos_registrales or ""
         self._set_actos(actos.copy())
 
     def _set_actos(self, actos):
         self.actos = []
-        self.datos_registrales = actos['Datos registrales']
-        del actos['Datos registrales']
+        if not self.datos_registrales:
+            self.datos_registrales = actos['Datos registrales']
+            del actos['Datos registrales']
 
         for acto_nombre, valor in actos.items():
             if is_acto_rare_cargo(acto_nombre):
@@ -434,7 +438,19 @@ class Borme(object):
 
     @classmethod
     def from_json(self, filename):
-        raise NotImplementedError
+        with open(filename) as fp:
+            d = json.load(fp)
+            cve = d['cve']
+            date = datetime.datetime.strptime(d['date'], '%Y-%m-%d').date()
+            seccion = d['seccion']  # TODO: SECCION.from_borme()
+            provincia = PROVINCIA.from_title(d['provincia'].upper())
+            num = d['num']
+            bormeanuncios = []
+            anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
+            for id_anuncio, data in anuncios:
+                a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], data['datos registrales'])
+                bormeanuncios.append(a)
+        return Borme(date, seccion, provincia, num, cve, bormeanuncios)
 
     def __lt__(self, other):
         return self.anuncios_rango[1] < other.anuncios_rango[0]
