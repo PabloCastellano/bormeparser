@@ -162,26 +162,38 @@ def regex_empresa(data):
     return int(acto_id), empresa
 
 
+# SUCURSAL EN ESPAÑA
+# SICAV
 def regex_nombre_empresa(nombre):
     if nombre.endswith('(R.M. PALMA DE MALLORCA)'):
         nombre = nombre[:-24]
     if nombre.endswith('(R.M. PUERTO DE ARRECIFE)'):
         nombre = nombre[:-25]
-    if nombre.endswith(' (R.M. PUERTO DEL ROSARIO)'):
+    if nombre.endswith('(R.M. PUERTO DEL ROSARIO)'):
         nombre = nombre[:-25]
     if nombre.endswith('(R.M. SANTIAGO DE COMPOSTELA)'):
         nombre = nombre[:-29]
-    if nombre.endswith(' (R.M. SANTA CRUZ DE TENERIFE)'):
+    if nombre.endswith('(R.M. SANTA CRUZ DE TENERIFE)'):
         nombre = nombre[:-29]
-    if nombre.endswith(' (R.M. EIVISSA)'):
+    if nombre.endswith('(R.M. LAS PALMAS)'):
+        nombre = nombre[:-17]
+    if nombre.endswith('(R.M. EIVISSA)'):
         nombre = nombre[:-14]
-    if nombre.endswith(' EN LIQUIDACION'):
-        # TODO: en liquidación
+    if nombre.endswith('EN LIQUIDACION'):
         nombre = nombre[:-15]
+    nombre.rstrip()
+    if nombre.endswith(' S.L.'):
+        nombre = nombre[:-4] + 'SL'
     if nombre.endswith(' S.L'):
+        nombre = nombre[:-3] + 'SL'
+    if nombre.endswith(' S L'):
         nombre = nombre[:-3] + 'SL'
     elif nombre.endswith(' SOCIEDAD LIMITADA'):
         nombre = nombre[:-17] + 'SL'
+    elif nombre.endswith(' SOCIETAT LIMITADA'):
+        nombre = nombre[:-17] + 'SL'
+    elif nombre.endswith(' S.A.L'):
+        nombre = nombre[:-5] + 'SAL'
     elif nombre.endswith(' S.A'):
         nombre = nombre[:-3] + 'SA'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
@@ -194,6 +206,10 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-26] + 'SCP'
     elif nombre.endswith(' SOCIEDAD LIMITADA PROFESIONAL'):
         nombre = nombre[:-29] + 'SLP'
+    elif nombre.endswith(' S.L.P'):
+        nombre = nombre[:-5] + 'SLP'
+    elif nombre.endswith(' S.L. PROFESIONAL'):
+        nombre = nombre[:-16] + 'SLP'
     elif nombre.endswith(' SA UNIPERSONAL'):
         nombre = nombre[:-14] + 'SAU'
     elif nombre.endswith(' S.L UNIPERSONAL'):
