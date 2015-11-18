@@ -18,6 +18,8 @@ def parse(data):
     elif data.startswith('http'):
         # TODO: from url
         content = requests.get(data).read()
+        # r = requests.get(data)
+        # r.content
         borme = parser(data).parse()
         #actos = parser.parse_actos()
     else:

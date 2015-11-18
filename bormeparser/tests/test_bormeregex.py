@@ -20,7 +20,7 @@
 import unittest
 
 from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision, regex_fusion
-from bormeparser.regex import is_acto_cargo_entrante
+from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -48,6 +48,8 @@ class BormeparserIsCompanyTestCase(unittest.TestCase):
 class BormeparserRegexEmpresaTestCase(unittest.TestCase):
     acto1 = '57344 - ALDARA CATERING SL.'
     acto2 = '57344 - ALDARA CATERING SL'
+    empresa1 = 'ALDARA CATERING SL'
+    empresa2 = 'ALDARA CATERING'
 
     def test_regex_empresa(self):
         acto_id, empresa = regex_empresa(self.acto1)
@@ -57,6 +59,15 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
         acto_id, empresa = regex_empresa(self.acto1)
         self.assertEqual(acto_id, 57344)
         self.assertEqual(empresa, 'ALDARA CATERING SL')
+
+    def test_regex_empresa_tipo(self):
+        empresa, tipo = regex_empresa_tipo(self.empresa1)
+        self.assertEqual(empresa, 'ALDARA CATERING')
+        self.assertEqual(tipo, 'SL')
+
+        empresa, tipo = regex_empresa_tipo(self.empresa2)
+        self.assertEqual(empresa, 'ALDARA CATERING')
+        self.assertEqual(tipo, '')
 
 
 class BormeparserRegexCargosTestCase(unittest.TestCase):

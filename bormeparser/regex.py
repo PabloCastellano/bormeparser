@@ -143,6 +143,18 @@ def regex_noarg(data):
     return nombreacto, siguiente_acto
 
 
+def regex_empresa_tipo(data):
+    empresa = data
+    tipo = ''
+    for t in SOCIEDADES.keys():
+        if data.endswith(' %s' % t):
+            empresa = data[:-len(t) - 1]
+            tipo = t
+            if empresa.endswith(','):
+                empresa = empresa[:-1]
+    return empresa, tipo
+
+
 def regex_empresa(data):
     """ Captura el número de acto y el nombre de la empresa """
     acto_id, empresa = REGEX_EMPRESA.match(data).groups()
