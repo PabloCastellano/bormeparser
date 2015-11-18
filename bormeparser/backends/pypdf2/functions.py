@@ -14,6 +14,7 @@ logger.setLevel(logging.WARN)
 
 actos = OrderedDict()
 
+
 def clean_data(data):
     """ Unscape parenthesis and removes double spaces """
     return data.replace('\(', '(').replace('\)', ')').replace('  ', ' ').strip()

@@ -414,6 +414,7 @@ class CARGO:
                  'Vcs.Cons.Rec': VICESECRETARIO_CONSEJO_RECTOR,
                  'Mie.Cons.Rec': MIEMBRO_CONSEJO_RECTOR,
                  'Miem.Co.Rec': MIEMBRO_CONSEJO_RECTOR,
+                 'Miem.Co.Rec.': MIEMBRO_CONSEJO_RECTOR,
                  'Miem.C.Ret': MIEMBRO_CONSEJO_RECTOR,
                  'M.Com.Retr.': MIEMBRO_COMISION_RETR,
                  'Pre.Cons.Rec': PRESIDENTE_CONSEJO_RECTOR,
