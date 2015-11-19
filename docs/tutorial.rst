@@ -93,7 +93,7 @@ De la instancia BORME puedes obtener información básica como la fecha, la secc
     >>> borme.seccion
     'SECCIÓN PRIMERA'
 
-Y lo más importante: los actos mercantiles.
+Y lo más importante: los anuncios mercantiles.
 
 .. code-block:: python
 
