@@ -14,6 +14,8 @@ logger.setLevel(logging.WARN)
 
 actos = OrderedDict()
 
+SANITIZE_COMPANY_NAME = True
+
 
 def clean_data(data):
     """ Unscape parenthesis and removes double spaces """
@@ -23,7 +25,7 @@ def clean_data(data):
 def parse_acto(nombreacto, data, prefix=''):
     data = clean_data(data)
     if is_acto_cargo(nombreacto):
-        cargos = regex_cargos(data)
+        cargos = regex_cargos(data, sanitize=SANITIZE_COMPANY_NAME)
         if not cargos:
             logger.warning('No se encontraron cargos en la cadena: %s' % data)
         data = cargos
@@ -177,7 +179,7 @@ def parse_file(filename):
                     logger.debug('END: cabecera')
                     cabecera = False
                     data = clean_data(data)
-                    anuncio_id, empresa = regex_empresa(data)
+                    anuncio_id, empresa = regex_empresa(data, sanitize=SANITIZE_COMPANY_NAME)
                     logger.debug('  anuncio_id: %s' % anuncio_id)
                     logger.debug('  empresa: %s' % empresa)
                     data = ""

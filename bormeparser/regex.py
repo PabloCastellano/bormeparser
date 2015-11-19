@@ -155,10 +155,11 @@ def regex_empresa_tipo(data):
     return empresa, tipo
 
 
-def regex_empresa(data):
+def regex_empresa(data, sanitize=True):
     """ Captura el número de acto y el nombre de la empresa """
     acto_id, empresa = REGEX_EMPRESA.match(data).groups()
-    empresa = regex_nombre_empresa(empresa)
+    if sanitize:
+        empresa = regex_nombre_empresa(empresa)
     return int(acto_id), empresa
 
 
@@ -224,10 +225,14 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-44] + 'SRLL'
     elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA PROFESIONAL'):
         nombre = nombre[:-48] + 'SRLP'
+
+    if nombre.endswith(' S.I.C.A.V. SA'):
+        nombre = nombre[:-13] + 'SICAV SA'
+
     return nombre
 
 
-def regex_cargos(data):
+def regex_cargos(data, sanitize=True):
     """
     :param data:
     'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
@@ -244,7 +249,8 @@ def regex_cargos(data):
         for e in cargo[1].split(';'):
             e = e.rstrip('.')
             e = e.strip()
-            e = regex_nombre_empresa(e)
+            if sanitize:
+                e = regex_nombre_empresa(e)
             entidades.add(e)
         cargos[cargo[0]] = entidades
     return cargos
