@@ -97,47 +97,36 @@ Y lo más importante: los actos mercantiles.
 
 .. code-block:: python
 
-    >>> for acto in borme.get_actos():
-    ...         print(acto)
+    >>> for anuncio in borme.get_anuncios()[:10]:
+    ...         print(anuncio)
     ...         
-    [...]
-    <BormeActo(223969) RUILERENA SL. (4)>
-    <BormeActo(223970) REMOTONIO SL. (3)>
-    <BormeActo(223971) GARPAPACIA SL. (3)>
-    <BormeActo(223972) GARIETOCIA SL. (3)>
-    <BormeActo(223973) PROAS INGENIERIA SL. (3)>
-    <BormeActo(223974) LORECUALAR SL. (4)>
-    <BormeActo(223976) DELCAVO SL. (4)>
-    <BormeActo(223977) A. RANDO 2004 SL. (1)>
-    <BormeActo(223978) DISTRIBUIDORA MALAGUEÑA DE EXPLOSIVOS SL. (1)>
-    <BormeActo(223979) HMFALGARROBO SL. (2)>
-    <BormeActo(223980) SERVICIOS BASICOS MALAGA SL. (2)>
-    <BormeActo(223981) PALUSTRIS INVERSIONES SL. (1)>
-    <BormeActo(223982) LANDEVANT SL. (1)>
-    <BormeActo(223983) RESTAURACIONES FERROVIARIAS SL. (1)>
-    <BormeActo(223984) BCM GESTION DE SERVICIOS SL. (1)>
-    <BormeActo(223986) VIAJES EUROPA TOURS SA. (2)>
-    <BormeActo(223987) FUERTE EL ROMPIDO SL. (1)>
-    <BormeActo(223988) JEWELLERY THEATRE IBERIA SL. (3)>
-    <BormeActo(223989) AF ASESORIA DE EMPRESAS SL. (1)>
-    [...]
+    <BormeAnuncio(223966) POLYESTER MALAGA SA (1)>
+    <BormeAnuncio(223967) RED MOUNTAIN PARK SL (3)>
+    <BormeAnuncio(223968) ISOFT SANIDAD SA (1)>
+    <BormeAnuncio(223969) RUILERENA SL (4)>
+    <BormeAnuncio(223970) REMOTONIO SL (4)>
+    <BormeAnuncio(223971) GARPAPACIA SL (4)>
+    <BormeAnuncio(223972) GARIETOCIA SL (4)>
+    <BormeAnuncio(223973) PROAS INGENIERIA SL (2)>
+    <BormeAnuncio(223974) LORECUALAR SL (4)>
+    <BormeAnuncio(223975) CUALERENA SL (4)>
 
-El segundo número entre paréntesis indica el número de cambios que contiene dicho acto.
+El segundo número entre paréntesis indica el número de actos mercantiles que contiene dicho anuncio.
 
-Para analizar un acto mercantil en concreto, podemos obtenerlo de la instancia Borme a través de su id:
+Para analizar un anuncio mercantil en concreto, podemos obtenerlo de la instancia Borme a través de su id:
 
 .. code-block:: python
 
-    >>> acto = borme.get_acto(223988)
-    >>> acto.get_datos_registrales()
-    'T 5367, L 4274, F 64, S 8, H MA126720, I/A 2 (22.05.15).'
+    >>> anuncio = borme.get_anuncio(223969)
+    >>> anuncio.datos_registrales
+    'T 4889, L 3797, F 13, S 8, H MA109474, I/A 2 (21.05.15).'
     >>> import pprint
-    >>> actos = acto.get_actos()
+    >>> anuncio.get_actos()
+    <generator object get_actos at 0x7fed96cceb40>
+    >>> actos = list(anuncio.get_actos())
     >>> pprint.pprint(actos)
-    {'Cambio de domicilio social': 'URB PUEBLO MARINERO DE RIBERA S/N 9C - EDF. DE LA (MARBELLA).',
-     'Ceses/Dimisiones': [('Adm. Unico', {'MARTINEZ MORALES IVAN KARIM'})],
-     'Nombramientos': [('Adm. Unico', {'NIKOLAEKO MARIA'})]}
-
-
-
-
+    [('Ceses/Dimisiones',
+      {'Adm. Solid.': {'PASCUAL GARCIA LORENA', 'RUIZ GARRIDO JUAN ANTONIO'}}),
+     ('Nombramientos', {'Liquidador': {'PASCUAL GARCIA LORENA'}}),
+     ('Disolución', 'Voluntaria.'),
+     ('Extinción', True)]
