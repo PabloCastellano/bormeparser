@@ -3,7 +3,6 @@
 
 import datetime
 import os
-import requests
 from lxml import etree
 
 from .exceptions import BormeDoesntExistException
@@ -13,8 +12,10 @@ from threading import Thread
 try:
     # Python 3
     from queue import Queue
+    from urllib import request
 except ImportError:
     from Queue import Queue
+    import urllib as request
 
 import logging
 logger = logging.getLogger(__name__)
@@ -34,8 +35,6 @@ BORME_XML_URL = "http://www.boe.es/diario_borme/xml.php?id=BORME-S-%d%02d%02d"
 BORME_PDF_URL = "http://boe.es/borme/dias/%d/%02d/%02d/pdfs/BORME-%s-%d-%s-%s.pdf"
 URL_BASE = 'http://www.boe.es'
 
-# http request timeout, default is 5 seconds
-TIMEOUT = 5
 # Download threads
 THREADS = 4
 
@@ -155,6 +154,7 @@ def get_url_pdfs(date, seccion=None, provincia=None):
         raise AttributeError('You must specifiy either provincia or seccion or both')
     return urls
 
+
 # date = (year, month, date) or datetime.date
 # "http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150601"
 def get_url_xml(date):
@@ -166,21 +166,17 @@ def get_url_xml(date):
 
 
 # TODO: FileExistsError (subclass de OSError)
-def download_url(url, filename, timeout=TIMEOUT):
+def download_url(url, filename=None):
     logger.info('Downloading URL: %s' % url)
     if os.path.exists(filename):
         logger.warning('%s already exists!' % os.path.basename(filename))
         return False
 
-    r = requests.get(url, stream=True, timeout=timeout)
-    cl = r.headers.get('content-length')
-    logger.debug("%.2f KB" % (int(cl) / 1024.0))
+    local_filename, headers = request.urlretrieve(url, filename)
+    content_length = headers['content-length']
+    logger.debug("%.2f KB" % (int(content_length) / 1024.0))
 
-    with open(filename, 'wb') as fd:
-        for chunk in r.iter_content(8192):
-            fd.write(chunk)
-
-    return True
+    return True, local_filename
 
 
 def download_urls(urls, path):
@@ -218,6 +214,7 @@ def download_urls_multi(urls, path, threads=THREADS):
 
     q.join()
     return files
+
 
 class ThreadDownloadUrl(Thread):
     """Threaded Url Grab"""

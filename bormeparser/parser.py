@@ -3,7 +3,12 @@
 
 import importlib
 import os
-import requests
+
+try:
+    # Python 3
+    from urllib import request
+except ImportError:
+    import urllib as request
 
 # backends
 DEFAULT_PARSER = ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser')
@@ -16,12 +21,9 @@ def parse(data):
     if os.path.isfile(data):
         borme = parser(data).parse()
     elif data.startswith('http'):
-        # TODO: from url
-        content = requests.get(data).read()
-        # r = requests.get(data)
-        # r.content
+        # TODO
+        #content = request.urlopen(data).read()
         borme = parser(data).parse()
-        #actos = parser.parse_actos()
     else:
         raise FileNotFoundError(data)
 
