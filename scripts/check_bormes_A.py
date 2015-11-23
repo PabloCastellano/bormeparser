@@ -12,7 +12,7 @@ import os
 import sys
 
 BORMES_ROOT = '~/.bormes'
-logger = logging.getLogger('a')
+logger = logging.getLogger('check_bormes')
 logger.setLevel(logging.DEBUG)
 
 # python scripts/check_bormes_A.py 2015-06-02 [--debug]
@@ -52,8 +52,8 @@ def check_range(begin, end, download_xml=False):
                 os.makedirs(os.path.dirname(xml_path), exist_ok=True)  # TODO: Python 2
                 bxml.save_to_file(xml_path)
             else:
-                logger.info('XML not found: %s' % os.path.basename(xml_path))
-                logger.info('If you want to continue specify download_xml=True')
+                logger.info('XML not found: %s\n' % os.path.basename(xml_path))
+                logger.info('If you want to continue specify download_xml=True\n')
                 return
 
         sizes = bxml.get_sizes(seccion)
@@ -101,7 +101,7 @@ if __name__ == '__main__':
         print('DEBUG ON')
     else:
         bormeparser.download.logger.setLevel(logging.INFO)
-        ch.setLevel(logging.WARN)
+        ch.setLevel(logging.INFO)
     logger.addHandler(ch)
 
     if sys.argv[1] == '--init':
