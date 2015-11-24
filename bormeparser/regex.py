@@ -61,6 +61,7 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 
 # https://es.wikipedia.org/wiki/Anexo:Tipos_de_sociedad_mercantil_en_Espa%C3%B1a
 SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
+              'AEIE': 'Agrupación Europea de Interés Económico',
               'COOP': 'Cooperativa',
               'SA': 'Sociedad Anónima',
               'SAL': 'Sociedad Anónima Laboral',
@@ -166,6 +167,8 @@ def regex_empresa(data, sanitize=True):
 # SUCURSAL EN ESPAÑA
 # SICAV
 def regex_nombre_empresa(nombre):
+    if nombre.endswith('(R.M. A CORUÑA)'):
+        nombre = nombre[:-15]
     if nombre.endswith('(R.M. PALMA DE MALLORCA)'):
         nombre = nombre[:-24]
     if nombre.endswith('(R.M. PUERTO DE ARRECIFE)'):
@@ -225,6 +228,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-44] + 'SRLL'
     elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA PROFESIONAL'):
         nombre = nombre[:-48] + 'SRLP'
+    elif nombre.endswith(' AGRUPACION DE INTERES ECONOMICO'):
+        nombre = nombre[:-31] + 'AIE'
 
     if nombre.endswith(' S.I.C.A.V. SA'):
         nombre = nombre[:-13] + 'SICAV SA'
