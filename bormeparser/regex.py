@@ -18,7 +18,7 @@ esc_cargos_keywords = [x.replace('.', '\.') for x in CARGO.KEYWORDS]
 # OR de las palabras clave con argumentos
 RE_ARG_KEYWORDS = '(%s)' % '|'.join(esc_arg_keywords)
 RE_ALL_KEYWORDS = '(%s|%s|%s|%s)' % ('|'.join(esc_arg_keywords), '|'.join(esc_colon_keywords),
-                                          '|'.join(esc_noarg_keywords), esc_ending_keywords[0])
+                                     '|'.join(esc_noarg_keywords), esc_ending_keywords[0])
 # OR de las palabras clave, "non grouping"
 RE_ALL_KEYWORDS_NG = '(?:%s|%s|%s|%s)' % ('|'.join(esc_arg_keywords), '|'.join(esc_colon_keywords),
                                           '|'.join(esc_noarg_keywords), esc_ending_keywords[0])
@@ -63,6 +63,7 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'AEIE': 'Agrupación Europea de Interés Económico',
               'COOP': 'Cooperativa',
+              'FP': 'Fondo de Pensiones',
               'SA': 'Sociedad Anónima',
               'SAL': 'Sociedad Anónima Laboral',
               'SAP': 'Sociedad Anónima P?',
@@ -164,10 +165,9 @@ def regex_empresa(data, sanitize=True):
     return int(acto_id), empresa
 
 
-# SUCURSAL EN ESPAÑA
-# SICAV
+# TODO: Devolver palabras clave como SICAV, SUCURSAL, EN LIQUIDACION
 def regex_nombre_empresa(nombre):
-    if nombre.endswith('(R.M. A CORUÑA)'):
+    if nombre.endswith(u'(R.M. A CORUÑA)'):
         nombre = nombre[:-15]
     if nombre.endswith('(R.M. PALMA DE MALLORCA)'):
         nombre = nombre[:-24]
@@ -179,12 +179,16 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-29]
     if nombre.endswith('(R.M. SANTA CRUZ DE TENERIFE)'):
         nombre = nombre[:-29]
+    if nombre.endswith('(R.M. SANTA CRUZ DE LA PALMA)'):
+        nombre = nombre[:-29]
     if nombre.endswith('(R.M. LAS PALMAS)'):
         nombre = nombre[:-17]
     if nombre.endswith('(R.M. EIVISSA)'):
         nombre = nombre[:-14]
     if nombre.endswith('EN LIQUIDACION'):
         nombre = nombre[:-15]
+    if nombre.endswith(u'SUCURSAL EN ESPAÑA'):
+        nombre = nombre[:-18]
     nombre.rstrip()
     if nombre.endswith(' S.L.'):
         nombre = nombre[:-4] + 'SL'
@@ -198,6 +202,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-17] + 'SL'
     elif nombre.endswith(' S.A.L'):
         nombre = nombre[:-5] + 'SAL'
+    elif nombre.endswith(' SOCIEDAD ANONIMA LABORAL'):
+        nombre = nombre[:-24] + 'SAL'
     elif nombre.endswith(' S.A'):
         nombre = nombre[:-3] + 'SA'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
@@ -220,8 +226,12 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-15] + 'SLU'
     elif nombre.endswith(' SL UNIPERSONAL'):
         nombre = nombre[:-14] + 'SLU'
+    elif nombre.endswith(' SOCIEDAD LIMITADA UNIPERSONAL'):
+        nombre = nombre[:-29] + 'SLU'
     elif nombre.endswith(' S.L.N.E'):
         nombre = nombre[:-7] + 'SLNE'
+    elif nombre.endswith(' S.L.N.E.'):
+        nombre = nombre[:-8] + 'SLNE'
     elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA'):
         nombre = nombre[:-36] + 'SRL'
     elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA LABORAL'):
@@ -230,6 +240,10 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-48] + 'SRLP'
     elif nombre.endswith(' AGRUPACION DE INTERES ECONOMICO'):
         nombre = nombre[:-31] + 'AIE'
+    elif nombre.endswith(' FONDO DE PENSIONES'):
+        nombre = nombre[:-18] + 'FP'
+    elif nombre.endswith(' SOCIEDAD ANONIMA PROFESIONAL'):
+        nombre = nombre[:-28] + 'SAP'
 
     if nombre.endswith(' S.I.C.A.V. SA'):
         nombre = nombre[:-13] + 'SICAV SA'
