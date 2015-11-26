@@ -3,7 +3,7 @@
 
 from .acto import ACTO
 #from .download import download_pdf
-from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls_multi
+from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls_multi, USE_HTTPS
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
 from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
@@ -20,10 +20,13 @@ from lxml import etree
 from collections import OrderedDict
 
 try:
+    # Python 3
     FileNotFoundError
+    from urllib import request
 except NameError:
     # Python 2
     FileNotFoundError = IOError
+    import urllib as request
 
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
@@ -179,7 +182,11 @@ class BormeXML(object):
         def parse_date(fecha):
             return datetime.datetime.strptime(fecha, '%d/%m/%Y').date()
 
-        self.xml = etree.parse(source)
+        if source.startswith('http'):
+            self.xml = etree.parse(request.urlopen(source))
+        else:
+            self.xml = etree.parse(source)
+
         if self.xml.getroot().tag != 'sumario':
             raise BormeDoesntExistException
 
@@ -198,12 +205,13 @@ class BormeXML(object):
     @property
     def url(self):
         if not self._url:
-            self._url = get_url_xml(self.date)
+            self._url = get_url_xml(self.date, secure=self.use_https)
         return self._url
 
     @staticmethod
-    def from_file(path):
+    def from_file(path, secure=USE_HTTPS):
         bxml = BormeXML()
+        bxml.use_https = secure
 
         if not path.startswith('http'):
             if not os.path.exists(path):
@@ -214,12 +222,13 @@ class BormeXML(object):
         return bxml
 
     @staticmethod
-    def from_date(date):
+    def from_date(date, secure=USE_HTTPS):
         if isinstance(date, tuple):
             date = datetime.date(year=date[0], month=date[1], day=date[2])
 
         url = get_url_xml(date)
         bxml = BormeXML()
+        bxml.use_https = secure
         bxml._url = url
         bxml._load(url)
         assert(date == bxml.date)
@@ -268,12 +277,15 @@ class BormeXML(object):
         """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """
 
         if not self._urls_provincia:
+            protocol = 'https' if self.use_https else 'http'
+            url_base = URL_BASE % protocol
             self._urls_provincia = {}
+
             for item in self.xml.xpath('//sumario/diario/seccion/emisor/item'):
                 prov = item.xpath('titulo')[0].text
                 if prov != provincia:
                     continue
-                url = URL_BASE + item.xpath('urlPdf')[0].text
+                url = url_base + item.xpath('urlPdf')[0].text
                 seccion = item.getparent().getparent().get('num')
                 self._urls_provincia[seccion] = url
 
@@ -283,17 +295,20 @@ class BormeXML(object):
         """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
 
         if not self._urls_seccion:
+            protocol = 'https' if self.use_https else 'http'
+            url_base = URL_BASE % protocol
             self._urls_seccion = {}
+
             for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
                 provincia = item.xpath('titulo')[0].text
-                url = URL_BASE + item.xpath('urlPdf')[0].text
+                url = url_base + item.xpath('urlPdf')[0].text
                 self._urls_seccion[provincia] = url
 
         return self._urls_seccion
 
     def download_pdfs(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
-        urls = self.get_url_pdfs(self.date, provincia=provincia, seccion=seccion)
+        urls = self.get_url_pdfs(self.date, provincia=provincia, seccion=seccion, secure=self.use_https)
         files = download_urls_multi(urls, path)
         return True, files
 

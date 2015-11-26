@@ -64,7 +64,7 @@ class BormeTestCase(unittest.TestCase):
         self.assertEqual(self.borme.provincia, PROVINCIA.CACERES)
         self.assertEqual(self.borme.num, 27)
         self.assertEqual(self.borme.cve, 'BORME-A-2015-27-10')
-        self.assertEqual(self.borme.url, 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(self.borme.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(self.borme.filename, '/tmp/BORME-A-2015-27-10.pdf')
 
     def test_json(self):
@@ -83,7 +83,7 @@ class BormeTestCase(unittest.TestCase):
         self.assertEqual(data['seccion'], 'A')
         self.assertEqual(data['provincia'], u'Cáceres')  # "C\u00e1ceres"
         self.assertEqual(data['num'], 27)
-        self.assertEqual(data['url'], 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(data['url'], 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(data['from_anuncio'], 57315)
         self.assertEqual(data['to_anuncio'], 57344)
         self.assertEqual(data['num_anuncios'], 30)
@@ -94,7 +94,7 @@ class BormeTestCase(unittest.TestCase):
         self.assertEqual(b.provincia, PROVINCIA.CACERES)
         self.assertEqual(b.num, 27)
         self.assertEqual(b.cve, 'BORME-A-2015-27-10')
-        self.assertEqual(b.url, 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(b.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(b.filename, filename)
 
         os.unlink(filename)
@@ -112,7 +112,7 @@ class FakeBormeTestCase(unittest.TestCase):
         self.assertEqual(self.borme.provincia, PROVINCIA.CACERES)
         self.assertEqual(self.borme.num, 27)
         self.assertEqual(self.borme.cve, 'BORME-A-2015-27-10')
-        self.assertEqual(self.borme.url, 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(self.borme.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(self.borme.filename, None)
 
     def test_to_json(self):
@@ -131,7 +131,7 @@ class FakeBormeTestCase(unittest.TestCase):
         self.assertEqual(data['seccion'], 'A')
         self.assertEqual(data['provincia'], u'Cáceres')  # "C\u00e1ceres"
         self.assertEqual(data['num'], 27)
-        self.assertEqual(data['url'], 'http://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
+        self.assertEqual(data['url'], 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(data['from_anuncio'], 1)
         self.assertEqual(data['to_anuncio'], 1)
         self.assertEqual(data['num_anuncios'], 1)
@@ -191,7 +191,8 @@ class BormeActoTestCase(unittest.TestCase):
 
 class BormeXMLTestCase(unittest.TestCase):
     date = (2015, 9, 24)
-    url = 'http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150924'
+    url = 'https://www.boe.es/diario_borme/xml.php?id=BORME-S-20150924'
+    url_insecure = 'http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150924'
     nbo = 183
 
     def test_from_file(self):
@@ -210,9 +211,18 @@ class BormeXMLTestCase(unittest.TestCase):
         self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
         os.unlink(path)
 
-        # from remote file (http)
+        # from remote file (https)
         bxml = BormeXML.from_file(self.url)
         self.assertEqual(bxml.url, self.url)
+        self.assertEqual(bxml.date, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2]))
+        self.assertEqual(bxml.filename, None)
+        self.assertEqual(bxml.nbo, self.nbo)
+        self.assertEqual(bxml.prev_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] - 1))
+        self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
+
+        # from remote file (insecure https)
+        bxml = BormeXML.from_file(self.url, secure=False)
+        self.assertEqual(bxml.url, self.url_insecure)
         self.assertEqual(bxml.date, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2]))
         self.assertEqual(bxml.filename, None)
         self.assertEqual(bxml.nbo, self.nbo)

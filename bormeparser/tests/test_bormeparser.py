@@ -71,32 +71,32 @@ class BormeparserUrlsTestCase(unittest.TestCase):
 
     def test_url_xml(self):
         # tuple
-        url = bormeparser.get_url_xml(self.date)
+        url = bormeparser.get_url_xml(self.date, secure=False)
         self.assertEqual(url, DATA[self.date]['xml'])
 
         # datetime
         date = datetime.date(*self.date)
-        url = bormeparser.get_url_xml(date)
+        url = bormeparser.get_url_xml(date, secure=False)
         self.assertEqual(url, DATA[self.date]['xml'])
 
     def test_url_pdf(self):
         # tuple
-        url = bormeparser.get_url_pdf(self.date, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
+        url = bormeparser.get_url_pdf(self.date, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA, secure=False)
         self.assertEqual(url, DATA[self.date]['pdf'][(bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)])
 
         # datetime
         date = datetime.date(*self.date)
-        url = bormeparser.get_url_pdf(date, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
+        url = bormeparser.get_url_pdf(date, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA, secure=False)
         self.assertEqual(url, DATA[self.date]['pdf'][(bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)])
 
     def test_url_pdfs_seccion(self):
         # tuple
-        urls = bormeparser.get_url_pdfs(self.date, seccion=bormeparser.SECCION.A)
+        urls = bormeparser.get_url_pdfs(self.date, seccion=bormeparser.SECCION.A, secure=False)
         six.assertCountEqual(self, urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
 
         # datetime
         date = datetime.date(*self.date)
-        urls = bormeparser.get_url_pdfs(date, seccion=bormeparser.SECCION.A)
+        urls = bormeparser.get_url_pdfs(date, seccion=bormeparser.SECCION.A, secure=False)
         six.assertCountEqual(self, urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
 
 

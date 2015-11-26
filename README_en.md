@@ -15,9 +15,9 @@ Registro Mercantil Central (RMC) in Spain which contains newly created societies
 the companies must communicate.
 
 This library takes advantage of the electronic format of BORMEs that are published since 2009 due to
-[this Spanish law](http://www.boe.es/buscar/doc.php?id=BOE-A-2008-19826).
+[this Spanish law](https://www.boe.es/buscar/doc.php?id=BOE-A-2008-19826).
 
-BORMEs are published at http://boe.es/diario_borme/.
+BORMEs are published at https://boe.es/diario_borme/.
 
 Unfortunately due to some agreements with Mercantile Register they are not allowed
 to publish all data in some useful format like XML and the most interesting information is only available in PDF files.

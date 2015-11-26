@@ -10,8 +10,8 @@ try:
 except ImportError:
     import urllib as request
 
-#URL_BASE = 'http://boe.es/diario_borme/xml.php?id=BORME-S-20150910'
-URL_BASE = 'http://boe.es/diario_borme/xml.php?id=BORME-S-'
+#URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-20150910'
+URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-'
 DELAY = 5 * 60  # 20 minutes
 LOGFILE = 'xmlpoller.log'
 TIMEOUT = 10

@@ -19,10 +19,10 @@ El **Boletín Oficial del Registro Mercantil** es un documento publicado diariam
 en España que contiene un listado de las últimas sociedades creadas y disueltas así como otros datos que las empresas
 están obligadas a comunicar.
 
-La librería aprovecha que desde la aprobación de [esta ley](http://www.boe.es/buscar/doc.php?id=BOE-A-2008-19826),
+La librería aprovecha que desde la aprobación de [esta ley](https://www.boe.es/buscar/doc.php?id=BOE-A-2008-19826),
 desde el año 2009 el BORME se publica también en formato electrónico con la misma validez que su versión en papel.
 
-Los BORMEs se publican en http://boe.es/diario_borme/.
+Los BORMEs se publican en https://boe.es/diario_borme/.
 
 Desgraciadamente debido al acuerdo actual con el Registro Mercantil, no pueden publicar todos los datos en un formato
 útil y reutilizable como XML o JSON y los datos más interesantes están solo disponibles en los archivos PDF.

@@ -28,12 +28,11 @@ logger.setLevel(logging.WARN)
 # DON'T REWRITE BY DEFAULT
 # TODO: comprobar bytes
 
-# Falla https
 # TODO: boe.gob.es es un mirror? Resuelve a una IP distinta.
-#BORME_XML_URL = "https://www.boe.es/diario_borme/xml.php?id=BORME-S-"
-BORME_XML_URL = "http://www.boe.es/diario_borme/xml.php?id=BORME-S-%d%02d%02d"
-BORME_PDF_URL = "http://boe.es/borme/dias/%d/%02d/%02d/pdfs/BORME-%s-%d-%s-%s.pdf"
-URL_BASE = 'http://www.boe.es'
+BORME_XML_URL = "%s://www.boe.es/diario_borme/xml.php?id=BORME-S-%d%02d%02d"
+BORME_PDF_URL = "%s://boe.es/borme/dias/%d/%02d/%02d/pdfs/BORME-%s-%d-%s-%s.pdf"
+URL_BASE = '%s://www.boe.es'
+USE_HTTPS = True
 
 # Download threads
 THREADS = 4
@@ -41,15 +40,15 @@ THREADS = 4
 
 # date = (year, month, date) or datetime.date
 # filename = path to filename or just filename
-def download_xml(date, filename):
-    url = get_url_xml(date)
+def download_xml(date, filename, secure=USE_HTTPS):
+    url = get_url_xml(date, secure=secure)
     downloaded = download_url(url, filename)
     return downloaded
 
 
-def download_pdfs(date, path, provincia=None, seccion=None):
+def download_pdfs(date, path, provincia=None, seccion=None, secure=USE_HTTPS):
     """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
-    urls = get_url_pdfs(date, provincia=provincia, seccion=seccion)
+    urls = get_url_pdfs(date, provincia=provincia, seccion=seccion, secure=secure)
     files = download_urls(urls, path)
     return True, files
 
@@ -79,26 +78,33 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
 # seccion = ('A', 'B', 'C') or class SECCION
 # province = class PROVINCIA
 # "http://boe.es/borme/dias/2015/06/01/pdfs/BORME-A-2015-101-29.pdf"
-def get_url_pdf(date, seccion, provincia):
+def get_url_pdf(date, seccion, provincia, secure=USE_HTTPS):
     if isinstance(date, tuple):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
-    url = get_url_xml(date)
+    url = get_url_xml(date, secure=secure)
     nbo = get_nbo_from_xml(url)
-    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
+    protocol = 'https' if secure else 'http'
+
+    return BORME_PDF_URL % (protocol, date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
 
 
-def get_url_pdf_from_xml(date, seccion, provincia, xml_path):
+def get_url_pdf_from_xml(date, seccion, provincia, xml_path, secure=USE_HTTPS):
     if isinstance(date, tuple):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
     nbo = get_nbo_from_xml(xml_path)
-    return BORME_PDF_URL % (date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
+    protocol = 'https' if secure else 'http'
+
+    return BORME_PDF_URL % (protocol, date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
 
 
-def get_nbo_from_xml(xml_path):
+def get_nbo_from_xml(source):
     """ Número de Boletín Oficial """
-    tree = etree.parse(xml_path)
+    if source.startswith('https'):
+        tree = etree.parse(request.urlopen(source))
+    else:
+        tree = etree.parse(source)
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
@@ -106,48 +112,60 @@ def get_nbo_from_xml(xml_path):
     return tree.xpath('//sumario/diario')[0].attrib['nbo']
 
 
-def get_url_pdfs_provincia(date, provincia):
+def get_url_pdfs_provincia(date, provincia, secure=USE_HTTPS):
     """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """
-    url = get_url_xml(date)
-    tree = etree.parse(url)
+    url = get_url_xml(date, secure=secure)
+    if secure:
+        tree = etree.parse(request.urlopen(url))
+        protocol = 'https'
+    else:
+        tree = etree.parse(url)
+        protocol = 'http'
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
 
+    url_base = URL_BASE % protocol
     urls = {}
     for item in tree.xpath('//sumario/diario/seccion/emisor/item'):
         prov = item.xpath('titulo')[0].text
         if prov != provincia:
             continue
-        url = URL_BASE + item.xpath('urlPdf')[0].text
+        url = url_base + item.xpath('urlPdf')[0].text
         seccion = item.getparent().getparent().get('num')
         urls[seccion] = url
 
     return urls
 
 
-def get_url_pdfs_seccion(date, seccion):
+def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
     """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
-    url = get_url_xml(date)
-    tree = etree.parse(url)
+    url = get_url_xml(date, secure=secure)
+    if secure:
+        tree = etree.parse(request.urlopen(url))
+        protocol = 'https'
+    else:
+        tree = etree.parse(url)
+        protocol = 'http'
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
 
+    url_base = URL_BASE % protocol
     urls = {}
     for item in tree.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
         provincia = item.xpath('titulo')[0].text
-        url = URL_BASE + item.xpath('urlPdf')[0].text
+        url = url_base + item.xpath('urlPdf')[0].text
         urls[provincia] = url
 
     return urls
 
 
-def get_url_pdfs(date, seccion=None, provincia=None):
+def get_url_pdfs(date, seccion=None, provincia=None, secure=USE_HTTPS):
     if seccion and not provincia:
-        urls = get_url_pdfs_seccion(date, seccion)
+        urls = get_url_pdfs_seccion(date, seccion, secure=secure)
     elif provincia and not seccion:
-        urls = get_url_pdfs_provincia(date, provincia)
+        urls = get_url_pdfs_provincia(date, provincia, secure=secure)
     elif provincia and seccion:
         raise NotImplementedError
     else:
@@ -157,12 +175,13 @@ def get_url_pdfs(date, seccion=None, provincia=None):
 
 # date = (year, month, date) or datetime.date
 # "http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150601"
-def get_url_xml(date):
+def get_url_xml(date, secure=USE_HTTPS):
     """ Obtiene el archivo XML que contiene las URLs de los BORMEs del dia indicado """
     if isinstance(date, tuple):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
-    return BORME_XML_URL % (date.year, date.month, date.day)
+    protocol = 'https' if secure else 'http'
+    return BORME_XML_URL % (protocol, date.year, date.month, date.day)
 
 
 # TODO: FileExistsError (subclass de OSError)

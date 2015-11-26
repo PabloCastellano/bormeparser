@@ -18,9 +18,9 @@ Empezamos con las funciones para generar las urls de descarga:
 .. code-block:: python
 
     >>> print(xml_url)
-    http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150602
+    https://www.boe.es/diario_borme/xml.php?id=BORME-S-20150602
     >>> print(pdf_url)
-    http://boe.es/borme/dias/2015/06/02/pdfs/BORME-A-2015-102-29.pdf
+    https://boe.es/borme/dias/2015/06/02/pdfs/BORME-A-2015-102-29.pdf
 
 Pero podemos usar otras funciones para descargar el BORME directamente de ese día:
 
