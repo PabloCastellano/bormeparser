@@ -228,6 +228,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-14] + 'SLU'
     elif nombre.endswith(' SOCIEDAD LIMITADA UNIPERSONAL'):
         nombre = nombre[:-29] + 'SLU'
+    elif nombre.endswith(' SOCIEDAD LIMITADA NUEVA EMPRESA'):
+        nombre = nombre[:-31] + 'SLNE'
     elif nombre.endswith(' S.L.N.E'):
         nombre = nombre[:-7] + 'SLNE'
     elif nombre.endswith(' S.L.N.E.'):
