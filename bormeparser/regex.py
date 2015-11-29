@@ -253,6 +253,8 @@ def regex_nombre_empresa(nombre):
 
     if nombre.endswith(' S.I.C.A.V. SA'):
         nombre = nombre[:-13] + 'SICAV SA'
+    if nombre.endswith(' SA SICAV'):
+        nombre = nombre[:-8] + 'SICAV SA'
 
     return nombre
 
