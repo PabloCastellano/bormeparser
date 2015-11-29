@@ -410,7 +410,7 @@ class Borme(object):
         doc['seccion'] = self.seccion
         doc['provincia'] = self.provincia
         doc['num'] = self.num
-        doc['url'] = self._url
+        doc['url'] = self.url
         doc['from_anuncio'] = self.anuncios_rango[0]
         doc['to_anuncio'] = self.anuncios_rango[1]
         doc['anuncios'] = {}
