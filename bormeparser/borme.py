@@ -308,7 +308,7 @@ class BormeXML(object):
 
     def download_pdfs(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
-        urls = self.get_url_pdfs(self.date, provincia=provincia, seccion=seccion, secure=self.use_https)
+        urls = self.get_url_pdfs(self.date, provincia=provincia, seccion=seccion)
         files = download_urls_multi(urls, path)
         return True, files
 
