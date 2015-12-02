@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # El BORME se publica los días laborables y normalmente a las 7:30 de la mañana
 
 import datetime
@@ -10,9 +10,8 @@ try:
 except ImportError:
     import urllib as request
 
-#URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-20150910'
-URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-'
-DELAY = 5 * 60  # 20 minutes
+URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-'  # https://boe.es/diario_borme/xml.php?id=BORME-S-20150910
+DELAY = 5 * 60  # 5 minutes
 LOGFILE = 'xmlpoller.log'
 TIMEOUT = 10
 
