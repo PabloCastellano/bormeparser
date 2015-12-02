@@ -185,6 +185,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-17]
     if nombre.endswith('(R.M. EIVISSA)'):
         nombre = nombre[:-14]
+    if nombre.endswith('(R.M. MAHON)'):
+        nombre = nombre[:-12]
     if nombre.endswith('EN LIQUIDACION'):
         nombre = nombre[:-15]
     if nombre.endswith(u'SUCURSAL EN ESPAÑA'):
