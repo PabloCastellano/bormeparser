@@ -67,7 +67,9 @@ SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'SA': 'Sociedad Anónima',
               'SAL': 'Sociedad Anónima Laboral',
               'SAP': 'Sociedad Anónima P?',
+              'SAS': 'Sociedad por Acciones Simplificada',
               'SAU': 'Sociedad Anónima Unipersonal',
+              'SC': 'Sociedad Comanditaria',
               'SCP': 'Sociedad Civil Profesional',
               'SL': 'Sociedad Limitada',
               'SLL': 'Sociedad Limitada Laboral',
@@ -252,6 +254,12 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-18] + 'FP'
     elif nombre.endswith(' SOCIEDAD ANONIMA PROFESIONAL'):
         nombre = nombre[:-28] + 'SAP'
+    elif nombre.endswith(' SOCIEDAD COMANDITARIA'):
+        nombre = nombre[:-21] + 'SC'
+    elif nombre.endswith(' SOCIEDAD COMANDITARIA SIMPLE'):  # SC simple
+        nombre = nombre[:-28] + 'SC'
+    elif nombre.endswith(' SOCIEDAD COMANDITARIA POR ACCIONES'):  # SC por acciones
+        nombre = nombre[:-34] + 'SC'
 
     if nombre.endswith(' S.I.C.A.V. SA'):
         nombre = nombre[:-13] + 'SICAV SA'
