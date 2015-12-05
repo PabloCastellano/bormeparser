@@ -73,6 +73,7 @@ SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'SCP': 'Sociedad Civil Profesional',
               'SL': 'Sociedad Limitada',
               'SLL': 'Sociedad Limitada Laboral',
+              'SLLP': 'Sociedad Limitada Laboral P?',
               'SLNE': 'Sociedad Limitada Nueva Empresa',
               'SLP': 'Sociedad Limitada Profesional',
               'SLU': 'Sociedad Limitada Unipersonal',
@@ -167,7 +168,8 @@ def regex_empresa(data, sanitize=True):
     return int(acto_id), empresa
 
 
-# TODO: Devolver palabras clave como SICAV, SUCURSAL, EN LIQUIDACION
+# TODO: Devolver palabras clave como SICAV, SUCURSAL EN ESPAÑA, EN LIQUIDACION
+# UNION TEMPORAL DE EMPRESAS LEY 18 1982 DE 26 DE MAYO
 def regex_nombre_empresa(nombre):
     if nombre.endswith(u'(R.M. A CORUÑA)'):
         nombre = nombre[:-15]
@@ -214,6 +216,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-4] + 'SA'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
         nombre = nombre[:-16] + 'SA'
+    elif nombre.endswith(' S L L'):
+        nombre = nombre[:-5] + 'SLL'
     elif nombre.endswith(' S.L.L'):
         nombre = nombre[:-5] + 'SLL'
     elif nombre.endswith(' SOCIEDAD LIMITADA LABORAL'):
@@ -260,11 +264,15 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-28] + 'SC'
     elif nombre.endswith(' SOCIEDAD COMANDITARIA POR ACCIONES'):  # SC por acciones
         nombre = nombre[:-34] + 'SC'
+    elif nombre.endswith(' A.E.I.E'):
+        nombre = nombre[:-7] + 'AEIE'
 
+    if nombre.endswith(' SOCIEDAD ANONIMA DE INVERSION DE CAPITAL VARIABLE'):
+        nombre = nombre[:-49] + 'SICAV'
     if nombre.endswith(' S.I.C.A.V. SA'):
-        nombre = nombre[:-13] + 'SICAV SA'
+        nombre = nombre[:-13] + 'SICAV'
     if nombre.endswith(' SA SICAV'):
-        nombre = nombre[:-8] + 'SICAV SA'
+        nombre = nombre[:-8] + 'SICAV'
 
     return nombre
 
