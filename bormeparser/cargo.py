@@ -403,6 +403,8 @@ class CARGO:
     VOCAL_10_JUNTA_DIRECTIVA = 378
     VICESECRETARIO_COMISION_EJECUTIVA = 379
     MIEMBRO_SUPLENTE_COMITE_REC = 380
+    MIEMBRO_COMISION_RESPO = 381
+    PRESIDENTE_COMISION_RESPO = 382
 
     _keywords = {'Presidente': PRESIDENTE,
                  'PRESIDENTE': PRESIDENTE,
@@ -943,6 +945,8 @@ class CARGO:
                  'VOCAL 1': VOCAL_1,
                  'Con.Ind.Coor': CON_IND_COOR,
                  'COM.GERENCIA': COM_GERENCIA,
+                 'MBRO.C.RESPO': MIEMBRO_COMISION_RESPO,
+                 'PTE.COMI.RES': PRESIDENTE_COMISION_RESPO,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
