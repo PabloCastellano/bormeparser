@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import datetime
 import re
 
 from bormeparser.acto import ACTO
@@ -341,6 +342,89 @@ def regex_fusion(data):
     return {'Sociedades fusionadas': set([company])}
 
 
+def regex_constitucion(data):
+
+    def parse_capital(amount):
+        # '3.000,00 Euros', '3.000.000 Ptas'
+        amount = amount.group(1).strip()
+        if 'Euros' in amount:
+            amount = amount.split(' Euros')[0]
+            amount = float(amount.replace('.', '').replace(',', '.'))
+        elif 'Ptas' in amount:
+            amount = amount.split(' Ptas')[0]
+            amount = int(amount.replace('.', ''))
+        else:
+            raise ValueError('Capital ni Ptas ni Euros: {0}'.format(amount))
+        return amount
+
+    all_keywords = ['Comienzo de operaciones', 'Duración', 'Objeto social', 'Domicilio', 'Capital', 'Capital suscrito', 'Desembolsado']
+    all_keywords.append('$')
+    all_or_ng = '(?:{0})'.format('|'.join(all_keywords))
+
+    date = re.search('Comienzo de operaciones: (.*?){0}'.format(all_or_ng), data).group(1).strip()
+    if len(date) > 1 and date[1] == '.':
+        date = date[:7]
+    elif len(date) > 2 and date[2] == '.':
+        date = date[:8]
+    if date.endswith('.'):
+        date = date[:-1]
+    try:
+        # 'dd.mm.yy', 'd.mm.yy', 'dd.m.yy', 'd.m.yy', 'dd/mm/yy', '2-10-2009', '21 DE FEBRERO DE 2006'
+        if '/' in date or '-' in date:
+            n = re.findall('(\d{1,4})', date)  # ['17', '04', '2013']
+            if len(n) != 3:
+                raise ValueError
+            date = {'day': int(n[0]), 'month': int(n[1]), 'year': int(n[2])}
+            date = datetime.date(**date)
+        elif ' de ' in date.lower():
+            match = re.match('(\d+) de (\w+) de (\d+)', date.lower())
+            if not match:
+                raise ValueError
+            day, month, year = match.groups()
+            date = datetime.date(day=int(day), month=MESES[month], year=int(year))
+        else:
+            date = datetime.datetime.strptime(date, '%d.%m.%y').date()
+        date = date.isoformat()
+    except ValueError:
+        print('ERROR CON DATE: {0}'.format(date))
+
+    duration = re.search('Duración: (.*?){0}'.format(all_or_ng), data)
+    if duration:
+        duration = duration.group(1).strip()
+
+    activity = re.search('Objeto social: (.*?){0}'.format(all_or_ng), data)
+    if activity:
+        activity = activity.group(1).strip()
+        activity = capitalize_sentence(activity)
+
+    address = re.search('Domicilio: (.*?){0}'.format(all_or_ng), data)
+    if address:
+        address = address.group(1).strip().title()
+
+    capital = re.search('Capital: (.*?){0}'.format(all_or_ng), data)
+    if capital:
+        try:
+            capital = parse_capital(capital)
+        except ValueError:
+            raise ValueError('Capital ni Ptas ni Euros: {0}'.format(capital))
+
+    suscrito = re.search('Capital suscrito: (.*?){0}'.format(all_or_ng), data)
+    if suscrito:
+        try:
+            suscrito = parse_capital(suscrito)
+        except ValueError:
+            raise ValueError('Suscrito ni Ptas ni Euros: {0}'.format(suscrito))
+
+    desembolsado = re.search('Desembolsado: (.*?){0}'.format(all_or_ng), data)
+    if desembolsado:
+        try:
+            desembolsado = parse_capital(desembolsado)
+        except ValueError:
+            raise ValueError('Desembolsado ni Ptas ni Euros: {0}'.format(desembolsado))
+
+    return (date, activity, address, capital)
+
+
 # This is a way not to use datetime.strftime, which requires es_ES.utf8 locale generated.
 def regex_fecha(data):
     """
@@ -352,3 +436,19 @@ def regex_fecha(data):
 
     day, month, year = re.match('\w+ (\d+) de (\w+) de (\d+)', data).groups()
     return (int(year), MESES[month], int(day))
+
+
+def capitalize_sentence(string):
+    # TODO: espacio de más tras coma/punto
+    string = re.sub(r'([,/\.]+)(?! )', r'\1 ', string)
+    if string == string.upper():
+        string = string.lower()
+    sentences = string.split(". ")
+    while '' in sentences:
+        sentences.remove('')
+    sentences2 = [sentence[0].capitalize() + sentence[1:] for sentence in sentences]
+    string2 = '. '.join(sentences2)
+    if not string2.endswith('.'):
+        string2 += '.'
+
+    return string2
