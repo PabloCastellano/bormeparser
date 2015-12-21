@@ -22,5 +22,9 @@ class BormeInvalidActoException(BormeparserException):
     pass
 
 
+class BormeInvalidCargoException(BormeparserException):
+    pass
+
+
 class BormeAnuncioNotFound(BormeparserException):
     pass
