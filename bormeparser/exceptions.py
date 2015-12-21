@@ -2,25 +2,25 @@
 # -*- coding: utf-8 -*-
 
 
-class BormeException(Exception):
+class BormeparserException(Exception):
     pass
 
 
-class BormeIOErrorException(BormeException, IOError):
+class BormeIOErrorException(BormeparserException, IOError):
     pass
 
 
-class BormeDoesntExistException(BormeException):
+class BormeDoesntExistException(BormeparserException):
     pass
 
 
-class BormeAlreadyDownloadedException(BormeException):
+class BormeAlreadyDownloadedException(BormeparserException):
     pass
 
 
-class BormeInvalidActoException(BormeException):
+class BormeInvalidActoException(BormeparserException):
     pass
 
 
-class BormeAnuncioNotFound(BormeException):
+class BormeAnuncioNotFound(BormeparserException):
     pass
