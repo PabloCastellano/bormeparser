@@ -225,6 +225,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-17] + 'SL'
     elif nombre.endswith(' SOCIETAT LIMITADA'):
         nombre = nombre[:-17] + 'SL'
+    elif nombre.endswith(' SOCIEDAD ANONIMA DEPORTIVA'):
+        nombre = nombre[:-26] + 'SAD'
     elif nombre.endswith(' S.A.L'):
         nombre = nombre[:-5] + 'SAL'
     elif nombre.endswith(' SOCIEDAD ANONIMA LABORAL'):
