@@ -21,144 +21,104 @@ import six
 
 
 class ACTO:
-    NOMBRAMIENTOS = 1
-    REVOCACIONES = 2
-    CESES_DIMISIONES = 3
-    MODIFICACIONES_ESTATUTARIAS = 4
-    CAMBIO_DE_OBJETO_SOCIAL = 5
-    CAMBIO_DE_DENOMINACION_SOCIAL = 6
-    CAMBIO_DE_DOMICILIO_SOCIAL = 7
-    AMPLIACION_DEL_OBJETO_SOCIAL = 8
-    SOCIEDAD_UNIPERSONAL = 9
-    DISOLUCION = 10
-    REELECCIONES = 11
-    CONSTITUCION = 12
-    ARTICULO_378_5_DEL_RRM = 13
-    OTROS_CONCEPTOS = 14
-    AMPLIACION_DE_CAPITAL = 15
-    REDUCCION_DE_CAPITAL = 16
-    SITUACION_CONCURSAL = 17
-    FUSION_POR_ABSORCION = 18
-    SUSPENSION_DE_PAGOS = 19
-    TRANSFORMACION_DE_SOCIEDAD = 20
-    CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS = 21
-    DESEMBOLSO_DE_DIVIDENDOS_PASIVOS = 22
-    PAGINA_WEB_DE_LA_SOCIEDAD = 23
-    PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA = 24
-    SOCIEDAD_UNIPERSONAL = 25
-    EXTINCION = 26
-    DECLARACION_DE_UNIPERSONALIDAD = 27
-    PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD = 28
-    REAPERTURA_HOJA_REGISTRAL = 29
-    ADAPTACION_LEY_2_95 = 30
-    CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS = 31
-    CIERRE_PROVISIONAL_REVOCACION_NIF = 32
-    REACTIVACION_DE_LA_SOCIEDAD = 32
-    CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO = 33
-    FE_DE_ERRATAS = 34
-    DATOS_REGISTRALES = 35
-    CREDITO_INCOBRABLE = 36
-    EMPRESARIO_INDIVIDUAL = 37
-    EMISION_OBLIGACIONES = 38
-    MODIFICACION_PODERES = 39
-    ESCISION_PARCIAL = 40
-    ESCISION_TOTAL = 41
-    FUSION_UNION = 42
-    ADAPTACION_DE_LA_SOCIEDAD = 43
-    QUIEBRA = 44
-    SUCURSAL = 45
-    CESION_GLOBAL_ACTIVO_PASIVO = 46
-    SEGREGACION = 47
-    ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR = 48
-    MODIFICACION_DE_DURACION = 49
-    APERTURA_DE_SUCURSAL = 50
-    CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES = 51
-    PRIMERA_INSCRIPCION = 52
-
+    NOMBRAMIENTOS = u'Nombramientos'
+    REVOCACIONES = u'Revocaciones'
+    CESES_DIMISIONES = u'Ceses/Dimisiones'
+    MODIFICACIONES_ESTATUTARIAS = u'Modificaciones estatutarias'
+    CAMBIO_DE_OBJETO_SOCIAL = u'Cambio de objeto social'
+    CAMBIO_DE_DENOMINACION_SOCIAL = u'Cambio de denominación social'
+    CAMBIO_DE_DOMICILIO_SOCIAL = u'Cambio de domicilio social'
+    AMPLIACION_DEL_OBJETO_SOCIAL = u'Ampliacion del objeto social'
+    SOCIEDAD_UNIPERSONAL = u'Sociedad unipersonal'
+    DISOLUCION = u'Disolución'
+    REELECCIONES = u'Reelecciones'
+    CONSTITUCION = u'Constitución'
+    ARTICULO_378_5_DEL_RRM = u'Articulo 378.5 del Reglamento del Registro Mercantil'
+    OTROS_CONCEPTOS = u'Otros conceptos'
+    AMPLIACION_DE_CAPITAL = u'Ampliación de capital'
+    REDUCCION_DE_CAPITAL = u'Reducción de capital'
+    SITUACION_CONCURSAL = u'Situación concursal'
+    FUSION_POR_ABSORCION = u'Fusión por absorción'
+    SUSPENSION_DE_PAGOS = u'Suspensión de pagos'
+    TRANSFORMACION_DE_SOCIEDAD = u'Transformación de sociedad'
+    CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS = u'Cancelaciones de oficio de nombramientos'
+    DESEMBOLSO_DE_DIVIDENDOS_PASIVOS = u'Desembolso de dividendos pasivos'
+    PAGINA_WEB_DE_LA_SOCIEDAD = u'Página web de la sociedad'
+    PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA = u'Primera sucursal de sociedad extranjera'
+    EXTINCION = u'Extinción'
+    PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD = u'Pérdida del caracter de unipersonalidad'
+    REAPERTURA_HOJA_REGISTRAL = u'Reapertura hoja registral'
+    ADAPTACION_LEY_2_95_1 = u'Adaptación Ley 2/95'  # 1
+    ADAPTACION_LEY_2_95_2 = u'Adaptada segun D.T. 2 apartado 2 Ley 2/95'  # 2
+    CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS = u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas'
+    CIERRE_PROVISIONAL_REVOCACION_NIF = u'Cierre provisional de la hoja registral por revocación del NIF'
+    REACTIVACION_DE_LA_SOCIEDAD = u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)'
+    CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO = u'Cambio de identidad del socio único'
+    FE_DE_ERRATAS = u'Fe de erratas'
+    DATOS_REGISTRALES = u'Datos registrales'
+    CREDITO_INCOBRABLE = u'Crédito incobrable'
+    EMPRESARIO_INDIVIDUAL = u'Empresario Individual'
+    EMISION_OBLIGACIONES = u'Emisión de obligaciones'
+    MODIFICACION_PODERES = u'Modificación de poderes'
+    ESCISION_PARCIAL = u'Escisión parcial'
+    ESCISION_TOTAL_1 = u'Escisión total. Sociedades beneficiarias de la escisión'  # 1
+    ESCISION_TOTAL_2 = u'Escisión total'  # 2
+    FUSION_UNION = u'Fusión por unión'
+    ADAPTACION_DE_LA_SOCIEDAD = u'Adaptación de sociedad'
+    QUIEBRA = u'Quiebra'
+    SUCURSAL = u'Sucursal'
+    CESION_GLOBAL_ACTIVO_PASIVO = u'Cesión global de activo y pasivo'
+    SEGREGACION = u'Segregación'
+    ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR = u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo'
+    MODIFICACION_DE_DURACION = u'Modificación de duración'
+    APERTURA_DE_SUCURSAL = u'Apertura de sucursal'
+    CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES = u'Cierre provisional hoja registral art. 137.2 Ley 43/1995 Impuesto de Sociedades'
+    DECLARACION_DE_UNIPERSONALIDAD_1 = u'Declaración de unipersonalidad. Socio único'  # 1
+    DECLARACION_DE_UNIPERSONALIDAD_2 = u'Declaración de unipersonalidad'  # 2
+    PRIMERA_INSCRIPCION = u'Primera inscripcion (O.M. 10/6/1.997)'
+    
     # Palabras clave con argumentos
-    _arg_keywords = {
-        u'Nombramientos': NOMBRAMIENTOS,
-        u'Revocaciones': REVOCACIONES,
-        u'Ceses/Dimisiones': CESES_DIMISIONES,
-        u'Modificaciones estatutarias': MODIFICACIONES_ESTATUTARIAS,
-        u'Cambio de objeto social': CAMBIO_DE_OBJETO_SOCIAL,
-        u'Cambio de denominación social': CAMBIO_DE_DENOMINACION_SOCIAL,
-        u'Cambio de domicilio social': CAMBIO_DE_DOMICILIO_SOCIAL,
-        u'Ampliacion del objeto social': AMPLIACION_DEL_OBJETO_SOCIAL,
-        u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
-        u'Disolución': DISOLUCION,
-        u'Reelecciones': REELECCIONES,
-        u'Constitución': CONSTITUCION,
-        u'Apertura de sucursal': APERTURA_DE_SUCURSAL,
-        u'Empresario Individual': EMPRESARIO_INDIVIDUAL,
-        u'Articulo 378.5 del Reglamento del Registro Mercantil': ARTICULO_378_5_DEL_RRM,
-        u'Otros conceptos': OTROS_CONCEPTOS,
-        u'Ampliación de capital': AMPLIACION_DE_CAPITAL,
-        u'Reducción de capital': REDUCCION_DE_CAPITAL,
-        u'Situación concursal': SITUACION_CONCURSAL,
-        u'Fusión por absorción': FUSION_POR_ABSORCION,
-        u'Suspensión de pagos': SUSPENSION_DE_PAGOS,
-        u'Transformación de sociedad': TRANSFORMACION_DE_SOCIEDAD,
-        u'Cancelaciones de oficio de nombramientos': CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS,
-        u'Desembolso de dividendos pasivos': DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
-        u'Página web de la sociedad': PAGINA_WEB_DE_LA_SOCIEDAD,
-        u'Primera sucursal de sociedad extranjera': PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
-        u'Emisión de obligaciones': EMISION_OBLIGACIONES,
-        u'Modificación de poderes': MODIFICACION_PODERES,
-        u'Escisión parcial': ESCISION_PARCIAL,
-        u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
-        u'Fusión por unión': FUSION_UNION,
-        u'Quiebra': QUIEBRA,
-        u'Sucursal': SUCURSAL,
-        u'Cesión global de activo y pasivo': CESION_GLOBAL_ACTIVO_PASIVO,
-        u'Segregación': SEGREGACION,
-        u'Primera inscripcion (O.M. 10/6/1.997)': PRIMERA_INSCRIPCION,
-    }
+    ARG_KEYWORDS = [
+        NOMBRAMIENTOS, REVOCACIONES, CESES_DIMISIONES, MODIFICACIONES_ESTATUTARIAS,
+        CAMBIO_DE_OBJETO_SOCIAL, CAMBIO_DE_DENOMINACION_SOCIAL, CAMBIO_DE_DOMICILIO_SOCIAL,
+        AMPLIACION_DEL_OBJETO_SOCIAL, SOCIEDAD_UNIPERSONAL, DISOLUCION, REELECCIONES,
+        CONSTITUCION, PRIMERA_INSCRIPCION, APERTURA_DE_SUCURSAL, EMPRESARIO_INDIVIDUAL, ARTICULO_378_5_DEL_RRM,
+        OTROS_CONCEPTOS, AMPLIACION_DE_CAPITAL, REDUCCION_DE_CAPITAL, SITUACION_CONCURSAL,
+        FUSION_POR_ABSORCION, SUSPENSION_DE_PAGOS, TRANSFORMACION_DE_SOCIEDAD,
+        CANCELACIONES_DE_OFICIO_DE_NOMBRAMIENTOS, DESEMBOLSO_DE_DIVIDENDOS_PASIVOS,
+        PAGINA_WEB_DE_LA_SOCIEDAD, PRIMERA_SUCURSAL_DE_SOCIEDAD_EXTRANJERA,
+        EMISION_OBLIGACIONES, MODIFICACION_PODERES, ESCISION_PARCIAL, ESCISION_TOTAL_1,
+        FUSION_UNION, QUIEBRA, SUCURSAL, CESION_GLOBAL_ACTIVO_PASIVO, SEGREGACION
+    ]
 
+    # FIXME: SOCIEDAD_UNIPERSONAL esta en arg y noarg
     # Palabras clave sin argumentos
-    _noarg_keywords = {
-        u'Crédito incobrable': CREDITO_INCOBRABLE,
-        u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
-        u'Extinción': EXTINCION,
-        u'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
-        u'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
-        u'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
-        u'Adaptada segun D.T. 2 apartado 2 Ley 2/95': ADAPTACION_LEY_2_95,
-        u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
-        u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_REVOCACION_NIF,
-        u'Cierre provisional hoja registral art. 137.2 Ley 43/1995 Impuesto de Sociedades': CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES,
-        u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD,
-        u'Adaptación de sociedad': ADAPTACION_DE_LA_SOCIEDAD,
-    }
+    NOARG_KEYWORDS = [
+        CREDITO_INCOBRABLE, EXTINCION, PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD, REAPERTURA_HOJA_REGISTRAL,
+        ADAPTACION_LEY_2_95_1, ADAPTACION_LEY_2_95_2, CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
+        SOCIEDAD_UNIPERSONAL, CIERRE_PROVISIONAL_REVOCACION_NIF, CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES,
+        REACTIVACION_DE_LA_SOCIEDAD, ADAPTACION_DE_LA_SOCIEDAD
+    ]
 
     # Palabras clave seguidas por :
-    _colon_keywords = {
-        u'Modificación de duración': MODIFICACION_DE_DURACION,
-        u'Fe de erratas': FE_DE_ERRATAS,
-    }
+    COLON_KEYWORDS = [
+        MODIFICACION_DE_DURACION, FE_DE_ERRATAS
+    ]
 
-    _rare_keywords = {
-        u'Declaración de unipersonalidad. Socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
-        u'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
-        u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo': ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR,
-    }
+    RARE_KEYWORDS = [
+        CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO, ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR,
+        DECLARACION_DE_UNIPERSONALIDAD_1
+    ]
 
-    _other_keywords = {
-        u'Declaración de unipersonalidad': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
-        u'Escisión total': ESCISION_TOTAL,
-    }
+    OTHER_KEYWORDS = [
+        DECLARACION_DE_UNIPERSONALIDAD_2, ESCISION_TOTAL_2
+    ]
 
     # Palabra clave
-    _ending_keywords = {
-        'Datos registrales': DATOS_REGISTRALES
-    }
-
-    ARG_KEYWORDS = list(six.viewkeys(_arg_keywords))
-    NOARG_KEYWORDS = list(six.viewkeys(_noarg_keywords))
-    COLON_KEYWORDS = list(six.viewkeys(_colon_keywords))
-    RARE_KEYWORDS = list(six.viewkeys(_rare_keywords))
-    OTHER_KEYWORDS = list(six.viewkeys(_other_keywords))
-    ENDING_KEYWORDS = list(six.viewkeys(_ending_keywords))
+    ENDING_KEYWORDS = [
+        DATOS_REGISTRALES
+    ]
+    
     ALL_KEYWORDS = ARG_KEYWORDS + NOARG_KEYWORDS + COLON_KEYWORDS + RARE_KEYWORDS + OTHER_KEYWORDS + ENDING_KEYWORDS
 
 """
