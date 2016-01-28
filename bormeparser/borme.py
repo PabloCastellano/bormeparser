@@ -477,12 +477,15 @@ class Borme(object):
             seccion = d['seccion']  # TODO: SECCION.from_borme()
             provincia = PROVINCIA.from_title(d['provincia'].upper())
             num = d['num']
+            url = d['url']
             bormeanuncios = []
             anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
             for id_anuncio, data in anuncios:
                 a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], data['datos registrales'])
                 bormeanuncios.append(a)
-        return Borme(date, seccion, provincia, num, cve, bormeanuncios, filename)
+        borme = Borme(date, seccion, provincia, num, cve, bormeanuncios, filename)
+        borme._url = url
+        return borme
 
     def __lt__(self, other):
         return self.anuncios_rango[1] < other.anuncios_rango[0]
