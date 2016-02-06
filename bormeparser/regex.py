@@ -273,6 +273,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-44] + 'SRLL'
     elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA PROFESIONAL'):
         nombre = nombre[:-48] + 'SRLP'
+    elif nombre.endswith(' A.I.E'):
+        nombre = nombre[:-5] + 'AIE'
     elif nombre.endswith(' AGRUPACION DE INTERES ECONOMICO'):
         nombre = nombre[:-31] + 'AIE'
     elif nombre.endswith(' FONDO DE PENSIONES'):
