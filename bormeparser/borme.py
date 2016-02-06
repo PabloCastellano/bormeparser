@@ -471,7 +471,7 @@ class Borme(object):
     @classmethod
     def from_json(self, filename):
         with open(filename) as fp:
-            d = json.load(fp)
+            d = json.load(fp, object_pairs_hook=OrderedDict)
             cve = d['cve']
             date = datetime.datetime.strptime(d['date'], '%Y-%m-%d').date()
             seccion = d['seccion']  # TODO: SECCION.from_borme()
