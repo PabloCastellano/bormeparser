@@ -420,14 +420,15 @@ class Borme(object):
             self.filename = filename
         return downloaded
 
-    def _to_dict(self):
+    def _to_dict(self, set_url=True):
         doc = OrderedDict()
         doc['cve'] = self.cve
         doc['date'] = self.date.isoformat()
         doc['seccion'] = self.seccion
         doc['provincia'] = self.provincia
         doc['num'] = self.num
-        doc['url'] = self.url
+        if set_url:
+            doc['url'] = self.url
         doc['from_anuncio'] = self.anuncios_rango[0]
         doc['to_anuncio'] = self.anuncios_rango[1]
         doc['anuncios'] = {}
@@ -448,7 +449,10 @@ class Borme(object):
         logger.debug(doc)
         return doc
 
-    def to_json(self, filename, overwrite=True, pretty=True):
+    def to_json(self, filename, overwrite=True, pretty=True, include_url=True):
+        """
+            Incluir la URL es opcional porque requiere conexión a Internet
+        """
         def set_default(obj):
             """ serialize Python sets as lists
                 http://stackoverflow.com/a/22281062
@@ -462,7 +466,7 @@ class Borme(object):
         if os.path.isfile(filename) and not overwrite:
             return False
 
-        doc = self._to_dict()
+        doc = self._to_dict(include_url)
         indent = 2 if pretty else None
         with open(filename, 'w') as fp:
             fp.write(json.dumps(doc, default=set_default, indent=indent))
@@ -477,7 +481,7 @@ class Borme(object):
             seccion = d['seccion']  # TODO: SECCION.from_borme()
             provincia = PROVINCIA.from_title(d['provincia'].upper())
             num = d['num']
-            url = d['url']
+            url = d.get('url')  # No obligatorio
             bormeanuncios = []
             anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
             for id_anuncio, data in anuncios:
