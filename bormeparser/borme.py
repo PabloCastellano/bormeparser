@@ -251,7 +251,7 @@ class BormeXML(object):
         assert(date == bxml.date)
         return bxml
 
-    def get_url_pdfs(self, date, seccion=None, provincia=None):
+    def get_url_pdfs(self, seccion=None, provincia=None):
         if seccion and not provincia:
             urls = self._get_url_pdfs_seccion(seccion)
         elif provincia and not seccion:
@@ -325,7 +325,7 @@ class BormeXML(object):
 
     def download_pdfs(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
-        urls = self.get_url_pdfs(self.date, provincia=provincia, seccion=seccion)
+        urls = self.get_url_pdfs(provincia=provincia, seccion=seccion)
         files = download_urls_multi(urls, path)
         return True, files
 
