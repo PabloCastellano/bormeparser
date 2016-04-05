@@ -357,16 +357,26 @@ class BormeXML(object):
         #   <fechaSig/> en lugar de <fechaSig></fechaSig>
 
         self.xml.write(path, encoding='iso-8859-1', pretty_print=True)
-        with open(path, 'r', encoding='iso-8859-1') as fp:
-            content = fp.read()
+
+        if six.PY3:
+            with open(path, 'r', encoding='iso-8859-1') as fp:
+                content = fp.read()
+        else:
+            with open(path, 'r') as fp:
+                content = fp.read()
 
         content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
         if not self.is_final:
             logger.warning('Está guardando un archivo no definitivo')
             content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
 
-        with open(path, 'w', encoding='iso-8859-1') as fp:
-            fp.write(content)
+        if six.PY3:
+            with open(path, 'w', encoding='iso-8859-1') as fp:
+                fp.write(content)
+        else:
+            with open(path, 'w') as fp:
+                fp.write(content)
+
         return True
 
 
