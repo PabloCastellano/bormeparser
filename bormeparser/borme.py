@@ -192,6 +192,7 @@ class BormeXML(object):
         self.filename = None
         self._urls_seccion = None
         self._urls_provincia = None
+        self._urls_cve = None
         self._cves = None
         self._sizes = None
 
@@ -250,6 +251,19 @@ class BormeXML(object):
         bxml._load(url)
         assert(date == bxml.date)
         return bxml
+
+    def get_urls_cve(self, seccion=None, provincia=None):
+        if not self._urls_cve:
+            protocol = 'https' if self.use_https else 'http'
+            url_base = URL_BASE % protocol
+            self._urls_cve = {}
+
+            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+                cve = item.get('id')
+                url = url_base + item.xpath('urlPdf')[0].text
+                self._urls_cve[cve] = url
+
+        return self._urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
         if seccion and not provincia:

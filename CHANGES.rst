@@ -5,7 +5,7 @@ Version 0.2 [unreleased]
 ------------------------
 
 - Eliminado primer argumento "date" de BormeXML.get_url_pdfs()
- 
+- Nuevo método: BormeXML.get_urls_cve()
 
 Version 0.1.5 [2015-09-25]
 --------------------------
