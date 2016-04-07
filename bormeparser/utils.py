@@ -29,6 +29,14 @@ FIRST_BORME = {2009: datetime.date(2009, 1, 2),
                2015: datetime.date(2015, 1, 2)}
 
 
+BORME_WEB_URL = "{protocol}://www.boe.es/borme/dias/{year}/{month:02d}/{day:02d}"
+
+
+def get_borme_website(date, secure=True):
+    protocol = 'https' if secure else 'http'
+    return BORME_WEB_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day)
+
+
 def remove_accents(string):
     try:
         return ''.join((c for c in unicodedata.normalize('NFKD', string) if unicodedata.category(c) != 'Mn'))

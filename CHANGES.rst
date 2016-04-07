@@ -6,6 +6,8 @@ Version 0.2 [unreleased]
 
 - Eliminado primer argumento "date" de BormeXML.get_url_pdfs()
 - Nuevo método: BormeXML.get_urls_cve()
+- Arregladas algunas incompatibilidades con Python 2
+- Nueva función: get_borme_website()
 
 Version 0.1.5 [2015-09-25]
 --------------------------
