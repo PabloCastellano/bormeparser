@@ -36,7 +36,7 @@ except NameError:
     # Python 2
     FileNotFoundError = IOError
 
-EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__), 'examples')
+EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__), '..', 'examples')
 
 DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}},
                          'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).',
