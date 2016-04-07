@@ -19,7 +19,7 @@
 
 
 import bormeparser
-import bormeparser.borme
+import bormeparser.backends.pypdf2.functions
 import logging
 import os
 import sys
@@ -28,12 +28,13 @@ import sys
 if __name__ == '__main__':
 
     if len(sys.argv) == 1:
-        print('Usage: %s <filename.pdf> [--debug]')
+        print('Usage: {} <filename.pdf> [--debug]'.format(sys.argv[0]))
         sys.exit(1)
 
-    # set logger DEBUG
+    # set logger DEBUG (Not working)
     if len(sys.argv) == 3 and sys.argv[2] == '--debug':
         bormeparser.borme.logger.setLevel(logging.DEBUG)
+        bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
     # filename
     filename = os.path.basename(sys.argv[1]).replace('.pdf', '.json')

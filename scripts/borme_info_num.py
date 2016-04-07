@@ -19,7 +19,6 @@
 
 
 import bormeparser
-import bormeparser.borme
 import bormeparser.backends.pypdf2.functions
 from bormeparser.exceptions import BormeAnuncioNotFound
 import logging
@@ -50,5 +49,5 @@ if __name__ == '__main__':
             print('  Datos registrales')
             print('    %s' % anuncio.datos_registrales)
         except BormeAnuncioNotFound:
-            print('No existe el anuncio %s' % id)
+            print('No existe el anuncio {}. Elije uno entre {} y {}.'.format(id, borme.anuncios_rango[0], borme.anuncios_rango[1]))
         print()

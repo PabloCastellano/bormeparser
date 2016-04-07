@@ -19,7 +19,6 @@
 
 
 import bormeparser
-import bormeparser.borme
 import bormeparser.backends.pypdf2.functions
 import logging
 import sys
@@ -29,7 +28,7 @@ import sys
 
 if __name__ == '__main__':
 
-    # set logger DEBUG
+    # set logger DEBUG (Not working)
     if len(sys.argv) == 3 and sys.argv[2] == '--debug':
         bormeparser.borme.logger.setLevel(logging.DEBUG)
         bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
