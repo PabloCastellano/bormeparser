@@ -39,5 +39,5 @@ class PyPDF2Parser(BormeParserBackend):
 
 if __name__ == '__main__':
     import pprint
-    actos = parse_file('../../../pdf/BORME-A-2015-27-10.pdf')
+    actos = parse_file('examples/BORME-A-2015-27-10.pdf')
     pprint.pprint(actos, width=160)

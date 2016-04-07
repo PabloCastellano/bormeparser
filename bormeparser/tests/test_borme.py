@@ -23,6 +23,7 @@ import os
 import tempfile
 import unittest
 
+import bormeparser
 from bormeparser.borme import Borme, BormeActoCargo, BormeActoTexto, BormeAnuncio, BormeXML
 from bormeparser.download import download_pdf, download_xml
 from bormeparser.exceptions import BormeDoesntExistException
@@ -35,6 +36,7 @@ except NameError:
     # Python 2
     FileNotFoundError = IOError
 
+EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__), 'examples')
 
 DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}},
                          'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).',
@@ -52,11 +54,7 @@ DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA
 class BormeTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.borme = download_pdf((2015, 2, 10), '/tmp/BORME-A-2015-27-10.pdf', SECCION.A, PROVINCIA.CACERES, parse=True)
-
-    @classmethod
-    def tearDownClass(cls):
-        os.unlink('/tmp/BORME-A-2015-27-10.pdf')
+        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'))
 
     def test_instance(self):
         self.assertEqual(self.borme.date, datetime.date(year=2015, month=2, day=10))
@@ -65,7 +63,7 @@ class BormeTestCase(unittest.TestCase):
         self.assertEqual(self.borme.num, 27)
         self.assertEqual(self.borme.cve, 'BORME-A-2015-27-10')
         self.assertEqual(self.borme.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
-        self.assertEqual(self.borme.filename, '/tmp/BORME-A-2015-27-10.pdf')
+        self.assertEqual(self.borme.filename, os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'))
 
     def test_json(self):
         fp = tempfile.NamedTemporaryFile()

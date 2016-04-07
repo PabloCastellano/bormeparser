@@ -10,7 +10,7 @@ Usar un backend específico
 
     import bormeparser.backends.pypdf2
 
-    parser = bormeparser.backends.pypdf2.parser.PyPDF2Parser('pdf/BORME-A-2015-27-10.pdf')
+    parser = bormeparser.backends.pypdf2.parser.PyPDF2Parser('examples/BORME-A-2015-27-10.pdf')
     borme = parser.parse()
 
 
