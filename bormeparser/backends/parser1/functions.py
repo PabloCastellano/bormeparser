@@ -26,11 +26,9 @@ import json
 try:
     from PyPDF2 import PdfFileWriter, PdfFileReader
     logging.info('Using PyPDF2')
-    print('Using PyPDF2')
 except ImportError:
     from pyPdf import PdfFileWriter, PdfFileReader
     logging.info('Using deprecated pyPdf')
-    print('Using PyPDF2')
 
 from pdfminer.converter import TextConverter
 from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
