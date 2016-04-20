@@ -20,6 +20,8 @@
 import unicodedata
 import datetime
 
+from .seccion import SECCION
+
 FIRST_BORME = {2009: datetime.date(2009, 1, 2),
                2010: datetime.date(2010, 1, 4),
                2011: datetime.date(2011, 1, 3),
@@ -29,12 +31,12 @@ FIRST_BORME = {2009: datetime.date(2009, 1, 2),
                2015: datetime.date(2015, 1, 2)}
 
 
-BORME_WEB_URL = "{protocol}://www.boe.es/borme/dias/{year}/{month:02d}/{day:02d}"
+BORME_WEB_URL = "{protocol}://www.boe.es/borme/dias/{year}/{month:02d}/{day:02d}/index.php?s={seccion}"
 
 
-def get_borme_website(date, secure=True):
+def get_borme_website(date, seccion, secure=True):
     protocol = 'https' if secure else 'http'
-    return BORME_WEB_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day)
+    return BORME_WEB_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day, seccion=seccion)
 
 
 def remove_accents(string):
