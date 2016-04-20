@@ -80,8 +80,11 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
     downloaded = download_url(url, filename)
 
     if downloaded:
-        logger.debug('Downloaded %s' % filename)
+        logger.debug('Downloaded: {}'.format(filename))
     else:
+        logger.debug('File already exists: {}'.format(filename))
+
+    if not parse:
         return False
 
     if parse:
