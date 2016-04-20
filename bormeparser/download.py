@@ -21,10 +21,11 @@
 import datetime
 import os
 from lxml import etree
+from threading import Thread
 
 from .exceptions import BormeDoesntExistException
 from .parser import parse as parse_borme
-from threading import Thread
+from .seccion import SECCION
 
 try:
     # Python 3
@@ -156,7 +157,21 @@ def get_url_pdfs_provincia(date, provincia, secure=USE_HTTPS):
 
 
 def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
-    """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
+    """
+    Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada
+
+    {'A CORUÑA': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-A-2016-75-15.pdf',
+     'ALBACETE': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-A-2016-75-02.pdf',
+     'ALICANTE': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-A-2016-75-03.pdf',
+     'ALMERÍA': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-A-2016-75-04.pdf',
+     'ASTURIAS': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-A-2016-75-33.pdf',
+     'BADAJOZ': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-A-2016-75-06.pdf'
+    }
+    """
+
+    if seccion not in (SECCION.A, SECCION.B):
+        raise ValueError('Section must be: A or B')
+
     url = get_url_xml(date, secure=secure)
     if secure:
         tree = etree.parse(request.urlopen(url))
@@ -170,10 +185,62 @@ def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
 
     url_base = URL_BASE % protocol
     urls = {}
-    for item in tree.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+
+    for item in tree.xpath('//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)):
         provincia = item.xpath('titulo')[0].text
         url = url_base + item.xpath('urlPdf')[0].text
         urls[provincia] = url
+
+    return urls
+
+
+def get_url_seccion_c(date, format='xml', secure=USE_HTTPS):
+    """
+    Obtiene las URLs para descargar los BORMEs de la seccion C y formato y fecha indicada
+
+    {'AUMENTO DE CAPITAL': {'BRANDCONT SERVER, S.L.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2310.pdf',
+                            'CLUB DEPORTIVO DE BALONCESTO DE SEVILLA, SOCIEDAD ANÓNIMA DEPORTIVA': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2311.pdf'},
+     'CONVOCATORIAS DE JUNTAS': {'AF-INCEPAL, S.A.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2281.pdf',
+                                 'AUTOBUSES INTERURBANOS, S.A.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2282.pdf',
+                                 'BANCOFAR, S.A.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2283.pdf',
+                                 'CAP NEGRET, S.A.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2284.pdf',
+                                 'CENTRO EUROPEO DE EMPRESAS E INNOVACIÓN\nDE ARAGÓN, S.A.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2285.pdf'},
+     'REDUCCIÓN DE CAPITAL': {'ABENGOA, S.A.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2312.pdf',
+                              'FONTEDUERO, S.A.U.': 'https://www.boe.es/borme/dias/2016/04/20/pdfs/BORME-C-2016-2313.pdf'}
+    }
+    """
+
+    if format == 'xml':
+        format_ = 'urlXml'
+    elif format in ('htm', 'html'):
+        format_ = 'urlHtm'
+    elif format == 'pdf':
+        format_ = 'urlPdf'
+    else:
+        raise ValueError('format must be "xml", "htm" or "pdf"')
+
+    url = get_url_xml(date, secure=secure)
+    if secure:
+        tree = etree.parse(request.urlopen(url))
+        protocol = 'https'
+    else:
+        tree = etree.parse(url)
+        protocol = 'http'
+
+    if tree.getroot().tag != 'sumario':
+        raise BormeDoesntExistException
+
+    url_base = URL_BASE % protocol
+    urls = {}
+
+    for item_emisor in tree.xpath('//sumario/diario/seccion[@num="C"]/emisor'):
+        emisor = item_emisor.get('nombre')
+        urls[emisor] = {}
+
+        for item in item_emisor.xpath('item'):
+            provincia = item.xpath('titulo')[0].text
+            url = url_base + item.xpath(format_)[0].text
+            urls[emisor][provincia] = url
 
     return urls
 
