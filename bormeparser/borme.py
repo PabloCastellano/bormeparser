@@ -190,11 +190,6 @@ class BormeXML(object):
         self._url = None
         self.date = None
         self.filename = None
-        self._urls_seccion = None
-        self._urls_provincia = None
-        self._urls_cve = None
-        self._cves = None
-        self._sizes = None
 
     def _load(self, source):
         def parse_date(fecha):
@@ -253,17 +248,16 @@ class BormeXML(object):
         return bxml
 
     def get_urls_cve(self, seccion=None, provincia=None):
-        if not self._urls_cve:
-            protocol = 'https' if self.use_https else 'http'
-            url_base = URL_BASE % protocol
-            self._urls_cve = {}
+        protocol = 'https' if self.use_https else 'http'
+        url_base = URL_BASE % protocol
+        urls_cve = {}
 
-            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
-                cve = item.get('id')
-                url = url_base + item.xpath('urlPdf')[0].text
-                self._urls_cve[cve] = url
+        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+            cve = item.get('id')
+            url = url_base + item.xpath('urlPdf')[0].text
+            urls_cve[cve] = url
 
-        return self._urls_cve
+        return urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
         if seccion and not provincia:
@@ -281,61 +275,57 @@ class BormeXML(object):
         if seccion != SECCION.A:
             raise NotImplementedError('Solo seccion A por el momento')
 
-        if not self._cves:
-            self._cves = []
-            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
-                if not item.get('id').endswith('-99'):
-                    self._cves.append(item.get('id'))
+        cves = []
+        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+            if not item.get('id').endswith('-99'):
+                cves.append(item.get('id'))
 
-        return self._cves
+        return cves
 
     def get_sizes(self, seccion):
         """ Obtiene un diccionario con el CVE y su tamaño """
         if seccion != SECCION.A:
             raise NotImplementedError('Solo seccion A por el momento')
 
-        if not self._sizes:
-            self._sizes = {}
-            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
-                if not item.get('id').endswith('-99'):
-                    cve = item.get('id')
-                    size = item.xpath('urlPdf')[0].get('szBytes')
-                    self._sizes[cve] = int(size)
+        sizes = {}
+        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+            if not item.get('id').endswith('-99'):
+                cve = item.get('id')
+                size = item.xpath('urlPdf')[0].get('szBytes')
+                sizes[cve] = int(size)
 
-        return self._sizes
+        return sizes
 
     def _get_url_pdfs_provincia(self, provincia):
         """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """
 
-        if not self._urls_provincia:
-            protocol = 'https' if self.use_https else 'http'
-            url_base = URL_BASE % protocol
-            self._urls_provincia = {}
+        protocol = 'https' if self.use_https else 'http'
+        url_base = URL_BASE % protocol
+        urls = {}
 
-            for item in self.xml.xpath('//sumario/diario/seccion/emisor/item'):
-                prov = item.xpath('titulo')[0].text
-                if prov != provincia:
-                    continue
-                url = url_base + item.xpath('urlPdf')[0].text
-                seccion = item.getparent().getparent().get('num')
-                self._urls_provincia[seccion] = url
+        for item in self.xml.xpath('//sumario/diario/seccion/emisor/item'):
+            prov = item.xpath('titulo')[0].text
+            if prov != provincia:
+                continue
+            url = url_base + item.xpath('urlPdf')[0].text
+            seccion = item.getparent().getparent().get('num')
+            urls[seccion] = url
 
-        return self._urls_provincia
+        return urls
 
     def _get_url_pdfs_seccion(self, seccion):
         """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
 
-        if not self._urls_seccion:
-            protocol = 'https' if self.use_https else 'http'
-            url_base = URL_BASE % protocol
-            self._urls_seccion = {}
+        protocol = 'https' if self.use_https else 'http'
+        url_base = URL_BASE % protocol
+        urls = {}
 
-            for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
-                provincia = item.xpath('titulo')[0].text
-                url = url_base + item.xpath('urlPdf')[0].text
-                self._urls_seccion[provincia] = url
+        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+            provincia = item.xpath('titulo')[0].text
+            url = url_base + item.xpath('urlPdf')[0].text
+            urls[provincia] = url
 
-        return self._urls_seccion
+        return urls
 
     def download_pdfs(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
