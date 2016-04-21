@@ -47,8 +47,12 @@ logger.setLevel(logging.WARN)
 # TODO: comprobar bytes
 
 # TODO: boe.gob.es es un mirror? Resuelve a una IP distinta.
-BORME_XML_URL = "%s://www.boe.es/diario_borme/xml.php?id=BORME-S-%d%02d%02d"
-BORME_PDF_URL = "%s://boe.es/borme/dias/%d/%02d/%02d/pdfs/BORME-%s-%d-%s-%s.pdf"
+BORME_AB_PDF_URL = "{protocol}://boe.es/borme/dias/{year}/{month:02d}/{day:02d}/pdfs/BORME-{seccion}-{year}-{nbo}-{provincia}.pdf"
+BORME_XML_URL = "{protocol}://www.boe.es/diario_borme/xml.php?id=BORME-S-{year}{month:02d}{day:02d}"
+BORME_C_HTM_URL = "{protocol}://boe.es/diario_borme/txt.php?id=BORME-C-{year}-{anuncio}"
+BORME_C_PDF_URL = "{protocol}://boe.es/borme/dias/{year}/{month:02d}/{day:02d}/pdfs/BORME-C-{year}-{anuncio}.pdf"
+BORME_C_XML_URL = "{protocol}://boe.es/diario_borme/xml.php?id=BORME-C-{year}-{anuncio}"
+
 URL_BASE = '%s://www.boe.es'
 USE_HTTPS = True
 
@@ -107,7 +111,8 @@ def get_url_pdf(date, seccion, provincia, secure=USE_HTTPS):
     nbo = get_nbo_from_xml(url)
     protocol = 'https' if secure else 'http'
 
-    return BORME_PDF_URL % (protocol, date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
+    return BORME_AB_PDF_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day,
+                                   seccion=seccion, nbo=nbo, provincia=provincia.code)
 
 
 def get_url_pdf_from_xml(date, seccion, provincia, xml_path, secure=USE_HTTPS):
@@ -117,9 +122,23 @@ def get_url_pdf_from_xml(date, seccion, provincia, xml_path, secure=USE_HTTPS):
     nbo = get_nbo_from_xml(xml_path)
     protocol = 'https' if secure else 'http'
 
-    return BORME_PDF_URL % (protocol, date.year, date.month, date.day, seccion, date.year, nbo, provincia.code)
+    return BORME_AB_PDF_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day,
+                                   seccion=seccion, nbo=nbo, provincia=provincia.code)
 
 
+"""
+# Needs research
+def get_url_borme_c(date, some_number, format='xml'):
+    if format == 'xml':
+        return BORME_C_XML_URL.format(protocol=protoco, year=date.year, anuncio=some_number)
+    elif format in ('htm', 'html'):
+        return BORME_C_HTM_URL.format(protocol=protocol, year=date.year, anuncio=some_number)
+    elif format == 'pdf':
+        return BORME_C_PDF_URL.format(protocol=protocol, year=date.year, month=date.month, day=month.day, anuncio=some_number)
+    else:
+        raise ValueError('format must be "xml", "htm" or "pdf"')
+"""
+    
 def get_nbo_from_xml(source):
     """ Número de Boletín Oficial """
     if source.startswith('https'):
@@ -268,7 +287,7 @@ def get_url_xml(date, secure=USE_HTTPS):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
     protocol = 'https' if secure else 'http'
-    return BORME_XML_URL % (protocol, date.year, date.month, date.day)
+    return BORME_XML_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day)
 
 
 # TODO: FileExistsError (subclass de OSError)
