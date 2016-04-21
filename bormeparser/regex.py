@@ -408,7 +408,7 @@ def regex_constitucion(data):
             date = datetime.datetime.strptime(date, '%d.%m.%y').date()
         date = date.isoformat()
     except ValueError:
-        print('ERROR CON DATE: {0}'.format(date))
+        print('ERROR CON Comienzo de operaciones: {0}'.format(date))
 
     duration = re.search('Duración: (.*?){0}'.format(all_or_ng), data)
     if duration:

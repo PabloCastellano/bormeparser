@@ -17,8 +17,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import unicodedata
+
+import re
 import datetime
+import unicodedata
 
 from .seccion import SECCION
 
@@ -44,3 +46,10 @@ def remove_accents(string):
         return ''.join((c for c in unicodedata.normalize('NFKD', string) if unicodedata.category(c) != 'Mn'))
     except TypeError:
         return ''.join((c for c in unicodedata.normalize('NFKD', unicode(string, 'utf-8')) if unicodedata.category(c) != 'Mn'))
+
+
+def acto_to_attr(acto):
+    attr = remove_accents(acto).replace(' del ', ' ').replace(' por ', ' ').replace(' de ', ' ')
+    attr = attr.replace(' ', '_').replace('/', '_').replace('.', '_').lower()
+    attr = re.sub('[^A-Za-z_]+', '', attr)
+    return attr.rstrip('_')
