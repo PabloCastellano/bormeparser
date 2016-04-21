@@ -59,3 +59,33 @@ class BormeAParserBackend(object):
 
     def _parse_actos(self):
         raise NotImplementedError
+
+
+class BormeCParserBackend(object):
+    def __init__(self, filename):
+
+        if not os.path.isfile(filename):
+            raise IOError
+
+        self.filename = filename
+
+    def parse(self):
+        """
+        Returns a dictionary with BORME information.
+        Note that if you are parsing HTML, some fields will not be available
+         {'id_anuncio': 'A110044738',
+         'numero_anuncio': '44738',
+         'cve': 'BORME-C-2011-20488',
+         'departamento': 'CONVOCATORIAS DE JUNTAS',
+         'empresa': 'DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A.',
+         'diario_numero': '101',
+         'publication_date': datetime.date(2011, 5, 27),
+         'cifs': ['B31136005', 'A58348038', 'A31017494', 'A58348038', 'A31067218'],
+         'pagina_inicial': '22110',
+         'pagina_final': '22116',
+         'texto': 'Por acuerdo del Consejo de Administración de la compañía "Desarrollos Especiales de Sistemas de Anclaje, S.A." se convoca a los accionistas a la '
+                  'Junta General Ordinaria y Extraordinaria de la sociedad que tendrá lugar en el Centro de Promoción Económica y Servicios a las Empresas Can '
+                  'Calderón, calle Andorra, 64, de Viladecans (Barcelona), el próximo día 29 de junio de 2011, a las 12:00 horas'
+        }
+        """
+        raise NotImplementedError

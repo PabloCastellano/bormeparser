@@ -28,7 +28,8 @@ except ImportError:
     import urllib as request
 
 # backends
-DEFAULT_PARSER = ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser')
+DEFAULT_PARSER = {'A': ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser'),
+                  'C': ('bormeparser.backends.seccion_c.lxml.parser', 'LxmlBormeCParser')}
 
 
 # parse: url, filename (string)
