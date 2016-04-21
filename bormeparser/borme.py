@@ -270,25 +270,31 @@ class BormeXML(object):
             raise AttributeError('You must specifiy either provincia or seccion or both')
         return urls
 
-    def get_cves(self, seccion):
+    def get_cves(self, seccion=None):
         """ Obtiene los CVEs """
-        if seccion != SECCION.A:
-            raise NotImplementedError('Solo seccion A por el momento')
+
+        if seccion:
+            xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
+        else:
+            xpath = '//sumario/diario/seccion/emisor/item'
 
         cves = []
-        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+        for item in self.xml.xpath(xpath):
             if not item.get('id').endswith('-99'):
                 cves.append(item.get('id'))
 
         return cves
 
-    def get_sizes(self, seccion):
+    def get_sizes(self, seccion=None):
         """ Obtiene un diccionario con el CVE y su tamaño """
-        if seccion != SECCION.A:
-            raise NotImplementedError('Solo seccion A por el momento')
+
+        if seccion:
+            xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
+        else:
+            xpath = '//sumario/diario/seccion/emisor/item'
 
         sizes = {}
-        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+        for item in self.xml.xpath(xpath):
             if not item.get('id').endswith('-99'):
                 cve = item.get('id')
                 size = item.xpath('urlPdf')[0].get('szBytes')
