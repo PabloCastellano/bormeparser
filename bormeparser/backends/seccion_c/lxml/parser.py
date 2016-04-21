@@ -38,10 +38,10 @@ class LxmlBormeCParser(BormeCParserBackend):
         logger.setLevel(log_level)
 
     def _clean_cif(self, companies):
-        cifs = []
+        cifs = set()
         for cif in companies:
             cif = cif.replace('.', '').replace('-', '')
-            cifs.append(cif)
+            cifs.add(cif)
         return cifs
 
     def parse(self):

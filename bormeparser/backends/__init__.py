@@ -7,5 +7,6 @@ except ImportError:
     pass
 
 from .pypdf2.parser import PyPDF2Parser
+from .seccion_c.lxml.parser import LxmlBormeCParser
 
-__all__ = ['parser1', 'pypdf2']
+__all__ = ['parser1', 'pypdf2', 'seccion_c']

@@ -80,7 +80,7 @@ class BormeCParserBackend(object):
          'empresa': 'DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A.',
          'diario_numero': '101',
          'publication_date': datetime.date(2011, 5, 27),
-         'cifs': ['B31136005', 'A58348038', 'A31017494', 'A58348038', 'A31067218'],
+         'cifs': {'B31136005', 'A58348038', 'A31017494', 'A31067218'},
          'pagina_inicial': '22110',
          'pagina_final': '22116',
          'texto': 'Por acuerdo del Consejo de Administración de la compañía "Desarrollos Especiales de Sistemas de Anclaje, S.A." se convoca a los accionistas a la '
