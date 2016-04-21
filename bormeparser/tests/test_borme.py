@@ -51,7 +51,7 @@ DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA
          }
 
 
-class BormeTestCase(unittest.TestCase):
+class BormeATestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'), SECCION.A)
@@ -259,6 +259,33 @@ class BormeXMLTestCase(unittest.TestCase):
 
         # TODO: get_sizes
 
+
+class BormeCTestCase1(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'), SECCION.C)
+
+    def test_instance(self):
+        self.assertEqual(self.borme['date'], datetime.date(year=2011, month=5, day=27))
+        self.assertEqual(self.borme['seccion'], SECCION.C)
+        self.assertEqual(self.borme.num, 101)
+        self.assertEqual(self.borme.cve, 'BORME-C-2011-20488')
+        self.assertEqual(self.borme.url, 'https://www.boe.es/diario_borme/xml.php?id=BORME-C-2011-20416')
+        self.assertEqual(self.borme.filename, os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'))
+
+
+class BormeCTestCase2(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'), SECCION.C)
+
+    def test_instance(self):
+        self.assertEqual(self.borme['date'], datetime.date(year=2011, month=5, day=27))
+        self.assertEqual(self.borme['seccion'], SECCION.C)
+        self.assertEqual(self.borme.num, 101)
+        self.assertEqual(self.borme.cve, 'BORME-C-2011-20488')
+        self.assertEqual(self.borme.url, 'https://boe.es/diario_borme/txt.php?id=BORME-C-2011-20416')
+        self.assertEqual(self.borme.filename, os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'))
 
 if __name__ == '__main__':
     unittest.main()
