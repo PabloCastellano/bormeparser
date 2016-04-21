@@ -19,6 +19,11 @@
 
 import six
 
+from .utils import acto_to_attr
+import pdb; pdb.set_trace()
+from .regex import regex_constitucion
+regex_constitucion = None
+
 
 class ACTO:
     NOMBRAMIENTOS = u'Nombramientos'
@@ -76,7 +81,7 @@ class ACTO:
     DECLARACION_DE_UNIPERSONALIDAD_1 = u'Declaración de unipersonalidad. Socio único'  # 1
     DECLARACION_DE_UNIPERSONALIDAD_2 = u'Declaración de unipersonalidad'  # 2
     PRIMERA_INSCRIPCION = u'Primera inscripcion (O.M. 10/6/1.997)'
-    
+
     # Palabras clave con argumentos
     ARG_KEYWORDS = [
         NOMBRAMIENTOS, REVOCACIONES, CESES_DIMISIONES, MODIFICACIONES_ESTATUTARIAS,
@@ -120,6 +125,41 @@ class ACTO:
     ]
     
     ALL_KEYWORDS = ARG_KEYWORDS + NOARG_KEYWORDS + COLON_KEYWORDS + RARE_KEYWORDS + OTHER_KEYWORDS + ENDING_KEYWORDS
+
+    @staticmethod
+    def get_parser(acto):
+        attr = acto_to_attr(acto)
+        func = getattr(ActoParser, 'parse_' + attr, ActoParser.parse_default)
+        return func
+
+    @staticmethod
+    def parse(acto, data):
+        func = ACTO.get_parser(acto)
+        return func(data)
+
+
+class ActoParser:
+
+    @staticmethod
+    def parse_nombramientos(data):
+        pass
+
+    @staticmethod
+    def parse_ceses_dimisiones(data):
+        return ActoParser.parse_nombramientos(data)
+
+    @staticmethod
+    def parse_constitucion(data):
+        return regex_constitucion(data)
+
+    @staticmethod
+    def parse_primera_inscripcion_o_m(data):
+        return ActoParser.parse_constitucion(data)
+
+    @staticmethod
+    def parse_default(data):
+        print('Using default parser for {0}'.format(data))
+        return data
 
 """
     DICT_KEYWORDS = {kw: remove_accents(kw).replace(' del ', ' ').replace(' por ', ' ').replace(' de ', ' ')
