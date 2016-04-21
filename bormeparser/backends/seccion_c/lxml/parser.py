@@ -18,6 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from bormeparser.backends.base import BormeCParserBackend
+from bormeparser.seccion import SECCION
+
 from lxml import etree
 
 import datetime
@@ -54,6 +56,8 @@ class LxmlBormeCParser(BormeCParserBackend):
             return self._parse_xml()
         elif content.startswith('<!DOCTYPE HTML PUBLIC'):
             return self._parse_html(content)
+        elif self.filename.lower().endswith('.pdf'):
+            raise NotImplementedError
         else:
             raise ValueError('Cannot detect BORME C type')
 
@@ -74,20 +78,22 @@ class LxmlBormeCParser(BormeCParserBackend):
         texto = '\n\n'.join(texto)
         fecha_publicacion = datetime.datetime.strptime(fecha_publicacion, '%Y%m%d').date()
 
-        cifs = re.findall('(?:[CN]IF n\w+|[CN]IF) ([A-Z]-?[\d.-]+)', texto)
+        cifs = re.findall('(?:[CN]IF n\w+|[CN]IF) ([A-Z]-?[\d.-]+)', texto, re.UNICODE)
         cifs = self._clean_cif(cifs)
 
         return {'departamento': departamento,
                 'texto': texto,
-                'diario_numero': diario_numero,
-                'numero_anuncio': numero_anuncio,
+                'diario_numero': int(diario_numero),
+                'numero_anuncio': int(numero_anuncio),
                 'id_anuncio': id_anuncio,
-                'pagina_inicial': pagina_inicial,
-                'pagina_final': pagina_final,
+                'pagina_inicial': int(pagina_inicial),
+                'pagina_final': int(pagina_final),
                 'fecha': fecha_publicacion,
                 'empresa': empresa,
                 'cifs': cifs,
-                'cve': cve
+                'cve': cve,
+                'seccion': SECCION.C,
+                'filename': self.filename
                 }
 
     def _parse_html(self, content):
@@ -104,16 +110,18 @@ class LxmlBormeCParser(BormeCParserBackend):
         cve = html.xpath('//div[@class="contMigas"]/ul/li[@class="destino"]/text()')[0]  # "Documento BORME-C-2011-20488"
         cve = cve.split()[1]
 
-        cifs = re.findall('(?:[CN]IF n\w+|[CN]IF) ([A-Z]-?[\d.-]+)', texto)
+        cifs = re.findall('(?:[CN]IF n\w+|[CN]IF) ([A-Z]-?[\d.-]+)', texto, re.UNICODE)
         cifs = self._clean_cif(cifs)
 
         return {'departamento': departamento,
                 'texto': texto,
-                'diario_numero': diario_numero,
+                'diario_numero': int(diario_numero),
                 'fecha': fecha_publicacion,
                 'empresa': empresa,
                 'cifs': cifs,
-                'cve': cve
+                'cve': cve,
+                'seccion': SECCION.C,
+                'filename': self.filename
                 }
 
 

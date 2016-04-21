@@ -266,12 +266,19 @@ class BormeCTestCase1(unittest.TestCase):
         cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'), SECCION.C)
 
     def test_instance(self):
-        self.assertEqual(self.borme['date'], datetime.date(year=2011, month=5, day=27))
+        self.assertEqual(self.borme['cifs'], {'A31017494', 'A31067218', 'A58348038', 'B31136005'})
+        self.assertEqual(self.borme['cve'], 'BORME-C-2011-20488')
+        self.assertEqual(self.borme['departamento'], 'CONVOCATORIAS DE JUNTAS')
+        self.assertEqual(self.borme['empresa'], 'DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A.')
+        self.assertEqual(self.borme['fecha'], datetime.date(year=2011, month=5, day=27))
         self.assertEqual(self.borme['seccion'], SECCION.C)
-        self.assertEqual(self.borme.num, 101)
-        self.assertEqual(self.borme.cve, 'BORME-C-2011-20488')
-        self.assertEqual(self.borme.url, 'https://www.boe.es/diario_borme/xml.php?id=BORME-C-2011-20416')
-        self.assertEqual(self.borme.filename, os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'))
+        self.assertEqual(self.borme['diario_numero'], 101)
+        self.assertEqual(self.borme['filename'], os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'))
+        self.assertEqual(self.borme['id_anuncio'], 'A110044738')
+        self.assertEqual(self.borme['numero_anuncio'], 44738)
+        self.assertEqual(self.borme['pagina_inicial'], 22110)
+        self.assertEqual(self.borme['pagina_final'], 22116)
+        self.assertEqual(self.borme['seccion'], SECCION.C)
 
 
 class BormeCTestCase2(unittest.TestCase):
@@ -280,12 +287,15 @@ class BormeCTestCase2(unittest.TestCase):
         cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'), SECCION.C)
 
     def test_instance(self):
-        self.assertEqual(self.borme['date'], datetime.date(year=2011, month=5, day=27))
+        self.assertEqual(self.borme['cifs'], {'A31017494', 'A31067218', 'A58348038', 'B31136005'})
+        self.assertEqual(self.borme['cve'], 'BORME-C-2011-20488')
+        self.assertEqual(self.borme['departamento'], 'CONVOCATORIAS DE JUNTAS')
+        self.assertEqual(self.borme['diario_numero'], 101)
+        self.assertEqual(self.borme['empresa'], 'DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A.')
+        self.assertEqual(self.borme['fecha'], datetime.date(year=2011, month=5, day=27))
+        self.assertEqual(self.borme['filename'], os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'))
         self.assertEqual(self.borme['seccion'], SECCION.C)
-        self.assertEqual(self.borme.num, 101)
-        self.assertEqual(self.borme.cve, 'BORME-C-2011-20488')
-        self.assertEqual(self.borme.url, 'https://boe.es/diario_borme/txt.php?id=BORME-C-2011-20416')
-        self.assertEqual(self.borme.filename, os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'))
+
 
 if __name__ == '__main__':
     unittest.main()
