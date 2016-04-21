@@ -73,6 +73,7 @@ class ACTO:
     MODIFICACION_DE_DURACION = 49
     APERTURA_DE_SUCURSAL = 50
     CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES = 51
+    PRIMERA_INSCRIPCION = 52
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -111,6 +112,7 @@ class ACTO:
         u'Sucursal': SUCURSAL,
         u'Cesión global de activo y pasivo': CESION_GLOBAL_ACTIVO_PASIVO,
         u'Segregación': SEGREGACION,
+        u'Primera inscripcion (O.M. 10/6/1.997)': PRIMERA_INSCRIPCION,
     }
 
     # Palabras clave sin argumentos
