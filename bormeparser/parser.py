@@ -32,9 +32,9 @@ DEFAULT_PARSER = ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser')
 
 
 # parse: url, filename (string)
-def parse(data):
-    module = importlib.import_module(DEFAULT_PARSER[0])
-    parser = getattr(module, DEFAULT_PARSER[1])
+def parse(data, seccion):
+    module = importlib.import_module(DEFAULT_PARSER[seccion][0])
+    parser = getattr(module, DEFAULT_PARSER[seccion][1])
     if os.path.isfile(data):
         borme = parser(data).parse()
     elif data.startswith('http'):

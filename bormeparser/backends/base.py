@@ -25,7 +25,7 @@ from bormeparser.regex import regex_fecha
 from bormeparser import SECCION, PROVINCIA
 
 
-class BormeParserBackend(object):
+class BormeAParserBackend(object):
     def __init__(self, filename):
 
         if not os.path.isfile(filename):

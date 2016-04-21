@@ -88,7 +88,7 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
         return False
 
     if parse:
-        return parse_borme(filename)
+        return parse_borme(filename, seccion)
 
     return True
 

@@ -20,9 +20,9 @@
 
 from .functions import crop_file, clean_file, parse_file, parse_file_anuncios, convert_to_text_file
 
-from bormeparser.backends.base import BormeParserBackend
+from bormeparser.backends.base import BormeAParserBackend
 
-class Parser1(BormeParserBackend):
+class Parser1(BormeAParserBackend):
     """
     Parse using pyPdf + pdfminer
     """

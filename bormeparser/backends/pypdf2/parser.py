@@ -21,11 +21,11 @@
 #from __future__ import absolute_import
 #from functions import parse_file
 from .functions import parse_file, logger
-from bormeparser.backends.base import BormeParserBackend
+from bormeparser.backends.base import BormeAParserBackend
 import logging
 
 
-class PyPDF2Parser(BormeParserBackend):
+class PyPDF2Parser(BormeAParserBackend):
     """
     Parse using PyPDF2
     """

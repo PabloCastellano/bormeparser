@@ -25,13 +25,13 @@ Para implementar un nuevo backend, es necesario crear un nuevo paquete en el dir
 
 `__init__.py` deberá estar vacío.
 
-`parser.py` deberá contener una clase que herede de BormeParserBackend e implemente el método `_parse()`:
+`parser.py` deberá contener una clase que herede de BormeAParserBackend e implemente el método `_parse()`:
 
 .. code-block:: python
 
-    from bormeparser.backends.base import BormeParserBackend
+    from bormeparser.backends.base import BormeAParserBackend
     
-    class NuevoParser(BormeParserBackend):
+    class NuevoParser(BormeAParserBackend):
         def _parse(self):
             # Do your parsing here
             return DATA
