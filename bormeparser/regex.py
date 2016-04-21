@@ -24,7 +24,7 @@ import re
 from bormeparser.acto import ACTO
 from bormeparser.cargo import CARGO
 
-esc_arg_keywords = [x.replace('.', '\.') for x in ACTO.ALL_KEYWORDS]
+esc_arg_keywords = [x.replace('.', '\.').replace('(', '\(').replace(')', '\)') for x in ACTO.ARG_KEYWORDS]
 esc_colon_keywords = [x.replace('.', '\.') for x in ACTO.COLON_KEYWORDS]
 esc_rare_keywords = [x.replace('.', '\.') for x in ACTO.RARE_KEYWORDS]
 esc_noarg_keywords = [x.replace('.', '\.').replace('(', '\(').replace(')', '\)') for x in ACTO.NOARG_KEYWORDS]
@@ -65,7 +65,7 @@ REGEX5 = re.compile(RE_NOARG_KEYWORDS + '\.')
 
 REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
-REGEX_RARE = re.compile(RE_RARE_KEYWORDS + ': (.*?)\.\s*' + RE_ARG_KEYWORDS + '(.*)', re.UNICODE)
+REGEX_RARE = re.compile(RE_RARE_KEYWORDS + ': (.*?)\.\s*' + RE_ALL_KEYWORDS + '(.*)', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+)\s+-\s+(.*?)(?:\.$|$)')
 REGEX_PDF_TEXT = re.compile('^\((.*)\)Tj$')
@@ -329,7 +329,8 @@ def regex_decl_unip(data):
     data: "Declaración de unipersonalidad. Socio único: BRENNAN KEVIN LIONEL. Nombramientos."
           "Cambio de identidad del socio único: OLSZEWSKI GRZEGORZ. Ceses/Dimisiones."
     """
-    acto_colon, arg_colon, nombreacto, _, nombreacto2 = REGEX_RARE.match(data).groups()  # FIXME: 4º valor None
+    #import pdb; pdb.set_trace()
+    acto_colon, arg_colon, nombreacto, nombreacto2 = REGEX_RARE.match(data).groups()
     if acto_colon == u'Declaración de unipersonalidad. Socio único':
         acto_colon = u'Declaración de unipersonalidad'
     arg_colon = {u'Socio Único': {arg_colon}}
