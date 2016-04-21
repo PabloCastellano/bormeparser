@@ -54,7 +54,7 @@ DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA
 class BormeTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'))
+        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'), SECCION.A)
 
     def test_instance(self):
         self.assertEqual(self.borme.date, datetime.date(year=2015, month=2, day=10))
