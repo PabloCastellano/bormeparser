@@ -341,6 +341,25 @@ def download_urls_multi(urls, path, threads=THREADS):
     return files
 
 
+def download_urls_multi_names(urls, path, threads=THREADS):
+    """ Descarga las urls a path indicado (verisón multihilo) """
+
+    q = Queue()
+    files = []
+
+    for i in range(THREADS):
+        t = ThreadDownloadUrl(i, q, files)
+        t.setDaemon(True)
+        t.start()
+
+    for filename, url in urls.items():
+        full_path = os.path.join(path, filename)
+        q.put((url, full_path))
+
+    q.join()
+    return files
+
+
 class ThreadDownloadUrl(Thread):
     """Threaded Url Grab"""
     def __init__(self, thread_id, queue, files):

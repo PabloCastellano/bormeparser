@@ -21,6 +21,7 @@
 from .acto import ACTO
 #from .download import download_pdf
 from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls_multi, USE_HTTPS
+from .download import download_urls_multi_names
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
 from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
@@ -261,7 +262,12 @@ class BormeXML(object):
 
     def get_url_pdfs(self, seccion=None, provincia=None):
         if seccion and not provincia:
-            urls = self._get_url_pdfs_seccion(seccion)
+            if seccion in (SECCION.A, SECCION.B):
+                urls = self._get_url_pdfs_seccion(seccion)
+            elif seccion == SECCION.C:
+                urls = self._get_url_borme_c(format='xml')
+            else:
+                raise ValueError('Seccion incorrecta')
         elif provincia and not seccion:
             urls = self._get_url_pdfs_provincia(provincia)
         elif provincia and seccion:
@@ -319,6 +325,26 @@ class BormeXML(object):
 
         return urls
 
+    def _get_url_borme_c(self, format='xml'):
+        """ Obtiene las URLs para descargar los BORMEs de la seccion C y la fecha indicada """
+
+        protocol = 'https' if self.use_https else 'http'
+        url_base = URL_BASE % protocol
+        urls = {}
+
+        for item in self.xml.xpath('//sumario/diario/seccion[@num="C"]/emisor/item'):
+            if format == 'xml':
+                url = url_base + item.xpath('urlXml')[0].text
+            elif format in ('htm', 'html'):
+                url = url_base + item.xpath('urlHtm')[0].text
+            elif format == 'pdf':
+                url = url_base + item.xpath('urlPdf')[0].text
+            cve = item.get('id')
+            filename = '{}.{}'.format(cve, format)
+            urls[filename] = url
+
+        return urls
+
     def _get_url_pdfs_seccion(self, seccion):
         """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
 
@@ -336,7 +362,7 @@ class BormeXML(object):
     def download_pdfs(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
         urls = self.get_url_pdfs(provincia=provincia, seccion=seccion)
-        files = download_urls_multi(urls, path)
+        files = download_urls_multi_names(urls, path)
         return True, files
 
     def download_pdf(self, filename, seccion, provincia):
