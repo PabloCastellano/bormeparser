@@ -80,7 +80,7 @@ def download_range(begin, end):
         os.makedirs(path, exist_ok=True)
 
         print('\nPATH: %s\nDATE: %s\nSECCION: %s\n' % (path, bxml.date, seccion))
-        bxml.download_pdfs(path, seccion=seccion)
+        bxml.download_borme(path, seccion=seccion)
         next_date = bxml.next_borme
 
 

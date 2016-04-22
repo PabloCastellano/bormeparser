@@ -359,13 +359,16 @@ class BormeXML(object):
 
         return urls
 
-    def download_pdfs(self, path, provincia=None, seccion=None):
+    def download_borme(self, path, provincia=None, seccion=None):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
         urls = self.get_url_pdfs(provincia=provincia, seccion=seccion)
-        files = download_urls_multi_names(urls, path)
+        if seccion == SECCION.C:
+            files = download_urls_multi_names(urls, path)
+        else:
+            files = download_urls_multi(urls, path)
         return True, files
 
-    def download_pdf(self, filename, seccion, provincia):
+    def download_single_borme(self, filename, seccion, provincia):
         """ Descarga BORME PDF de la provincia, la seccion y la fecha indicada """
         url = get_url_pdf(self.date, seccion, provincia)
         downloaded = download_url(url, filename)
