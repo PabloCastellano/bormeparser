@@ -320,7 +320,10 @@ def regex_cargos(data, sanitize=True):
             if sanitize:
                 e = regex_nombre_empresa(e)
             entidades.add(e)
-        cargos[cargo[0]] = entidades
+        if cargo[0] in cargos:
+            cargos[cargo[0]].update(entidades)
+        else:
+            cargos[cargo[0]] = entidades
     return cargos
 
 
