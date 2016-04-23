@@ -78,12 +78,12 @@ def download_range(begin, end):
 
         path = get_borme_pdf_path(bxml.date)
         try:
-            os.makedirs(path)
             print('\nPATH: %s\nDATE: %s\nSECCION: %s\n' % (path, bxml.date, seccion))
+            os.makedirs(path)
             bxml.download_borme(path, seccion=seccion)
         except OSError:
             # Si existe el directorio, pasar al siguiente día
-            pass
+            print('Skipping dir')
 
         next_date = bxml.next_borme
 
