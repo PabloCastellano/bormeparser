@@ -20,7 +20,7 @@
 import unittest
 
 from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision, regex_fusion
-from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo
+from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo, borme_c_separa_empresas_titulo
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
         'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
@@ -153,6 +153,28 @@ class BormeparserRegexRareTestCase(unittest.TestCase):
         sociedad = regex_fusion(self.string6)
         self.assertEqual(sociedad, {'Sociedades fusionadas': {'YOLO SOCIEDAD ANONIMA'}})
 
+
+class BormeparserRegexBormeC(unittest.TestCase):
+    titulo1 = 'PARQUE EMPRESARIAL OMEGA, S.L.U, SOCIEDAD ABSORBENTE\nFGLG OMEGA 2, S.L.U.\nFGLG OMEGA 5, S.L.U.(SOCIEDADES ABSORBIDAS)'
+    titulo3 = 'INDUSTRIAS TEVI, S.L.\n(SOCIEDAD ESCINDIDA)\nTEVIINMUEBLES 2009, S.L.\n(SOCIEDAD BENEFICIARIA)'
+    titulo4 = 'NAVES EN ALQUILER PARA LA INDUSTRIA, S.L.\nSOCIEDAD ABSORBENTE Y\nCOCINAS RONDA NORTE, S.L.\nSOCIEDAD ABSORBIDA'
+    #titulo5 = u'TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L. (SOCIEDAD ABSORBENTE), MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL (SOCIEDAD ABSORBIDA).'
+    #titulo6 = 'SOCIEDAD ANONIMA\nINDUSTRIAS CELULOSA ARAGONESA\n(SOCIEDAD ABSORBENTE)\nCABALUR, SOCIEDAD LIMITADA UNIPERSONAL\n(SOCIEDAD ABSORBIDA)'
+    #titulo7 = u'SICA, S.L. (SOCIEDAD ABSORBENTE), CAOLINA, S.L. DE CARÁCTER UNIPERSONAL\n(SOCIEDAD ABSORBIDA)'
+
+    def test_separar_empresas_titulo(self):
+        empresas1 = borme_c_separa_empresas_titulo(self.titulo1)
+        self.assertEqual(empresas1, ['PARQUE EMPRESARIAL OMEGA, S.L.U', 'FGLG OMEGA 2, S.L.U.', 'FGLG OMEGA 5, S.L.U.'])
+        empresas3 = borme_c_separa_empresas_titulo(self.titulo3)
+        self.assertEqual(empresas3, ['INDUSTRIAS TEVI, S.L.', 'TEVIINMUEBLES 2009, S.L.'])
+        empresas4 = borme_c_separa_empresas_titulo(self.titulo4)
+        self.assertEqual(empresas4, ['NAVES EN ALQUILER PARA LA INDUSTRIA, S.L.', 'COCINAS RONDA NORTE, S.L.'])
+        #empresas5 = borme_c_separa_empresas_titulo(self.titulo5)
+        #self.assertEqual(empresas5, [u'TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L.', 'MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL'])
+        #empresas6 = borme_c_separa_empresas_titulo(self.titulo6)
+        #self.assertEqual(empresas6, ['SOCIEDAD ANONIMA INDUSTRIAS CELULOSA ARAGONESA', 'CABALUR, SOCIEDAD LIMITADA UNIPERSONAL'])    
+        #empresas7 = borme_c_separa_empresas_titulo(self.titulo7)
+        #self.assertEqual(empresas7, ['SICA, S.L.', 'CAOLINA, S.L. DE CARÁCTER UNIPERSONAL'])    
 
 if __name__ == '__main__':
     unittest.main()

@@ -464,6 +464,50 @@ def regex_fecha(data):
     return (int(year), MESES[month], int(day))
 
 
+def borme_c_separa_empresas_titulo(titulo):
+    """ This function is far from being perfect """
+    #
+    #        if len(empresas) > 0:
+    #            # ['SOCIEDAD ANONIMA BLABLA (SOCIEDAD ABSORBENTE)', ' CABALUR, SOCIEDAD LIMITADA UNIPERSONAL (SOCIEDAD ABSORBIDA)']
+    #            # ['MONTE ALMACABA, S.L. (SOCIEDAD BENEFICIARIA DE LA ESCISION DE NUEVA CREACION)', ' AGROPECUARIA SANTA MARIA DE LA CABEZAS S.L. (SOCIEDAD QUE SE ESCINDE PARCIALMENTE)']
+    #            empresas = list(map(lambda x: re.sub('\(.*?\)', '', x), empresas))
+    #            empresas = list(map(lambda x: x.strip(), empresas))
+    #            # ['MONTE ALMACABA, S.L.', 'AGROPECUARIA SANTA MARIA DE LA CABEZAS,S.L.']
+    #            empresa = empresas[0]
+    #            relacionadas = empresas[1:]
+    #
+    empresas = []
+    lines = []
+
+    if not '\n' in titulo:
+        lines = re.findall('.*? \([\w\s]+\)', titulo, re.UNICODE)
+    if len(lines) == 0:
+        lines = titulo.split('\n')
+        
+    for line in lines:
+        empresa = re.sub('\(.*?\)', '', line)
+        #empresa = line.replace('(SOCIEDAD ABSORBENTE)', '')
+        #empresa = empresa.replace('(SOCIEDAD ABSORBIDA)', '')
+        #empresa = empresa.replace('(SOCIEDAD ESCINDIDA)', '')
+        #empresa = empresa.replace('(SOCIEDAD BENEFICIARIA)', '')
+        #empresa = empresa.replace('(SOCIEDADES ABSORBIDAS)', '')
+        #empresa = empresa.replace('(EN LIQUIDACIÓN)', '')
+        #empresa = empresa.replace('(SOCIEDAD ABSORBENTE Y PARCIALMENTE ESCINDIDA)', '')
+        #empresa = empresa.replace('(SOCIEDADES BENEFICIARIAS DE LA ESCISIÓN PARCIAL)', '')
+        empresa = empresa.replace('SOCIEDAD ABSORBENTE', '')
+        empresa = empresa.replace('SOCIEDAD ABSORBIDA', '')
+        empresa = empresa.strip()
+        empresa = empresa.rstrip(',')
+        empresa = empresa.strip()
+        empresas.append(empresa)
+        # TODO: regex_empresa
+
+    if len(empresas) > 1:
+        # ['COEMA']
+        empresas = [e for e in empresas if len(e) > 5]
+
+    return empresas
+
 def capitalize_sentence(string):
     # TODO: espacio de más tras coma/punto
     string = re.sub(r'([,/\.]+)(?! )', r'\1 ', string)

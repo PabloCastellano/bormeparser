@@ -20,6 +20,7 @@
 from bormeparser.backends.base import BormeCParserBackend
 from bormeparser.seccion import SECCION
 from bormeparser.emisor import EMISOR
+from bormeparser.regex import borme_c_separa_empresas_titulo
 
 from lxml import etree
 
@@ -78,21 +79,16 @@ class LxmlBormeCParser(BormeCParserBackend):
 
         texto = '\n\n'.join(texto)
         fecha_publicacion = datetime.datetime.strptime(fecha_publicacion, '%Y%m%d').date()
-        empresa = titulo.replace('\n', ' ')
+
         relacionadas = []
 
-        empresas = re.findall('.*? \([\w\s]+\)', empresa, re.UNICODE)
-        if departamento == EMISOR.FUSIONES_ABORCIONES:
-            assert(len(empresas) > 1)
+        empresas = borme_c_separa_empresas_titulo(titulo)
+        empresa = empresas[0]
+        relacionadas = empresas[1:]
 
-        if len(empresas) > 0:
-            # ['SOCIEDAD ANONIMA BLABLA (SOCIEDAD ABSORBENTE)', ' CABALUR, SOCIEDAD LIMITADA UNIPERSONAL (SOCIEDAD ABSORBIDA)']
-            # ['MONTE ALMACABA, S.L. (SOCIEDAD BENEFICIARIA DE LA ESCISION DE NUEVA CREACION)', ' AGROPECUARIA SANTA MARIA DE LA CABEZAS S.L. (SOCIEDAD QUE SE ESCINDE PARCIALMENTE)']
-            empresas = list(map(lambda x: re.sub('\(.*?\)', '', x), empresas))
-            empresas = list(map(lambda x: x.strip(), empresas))
-            # ['MONTE ALMACABA, S.L.', 'AGROPECUARIA SANTA MARIA DE LA CABEZAS,S.L.']
-            empresa = empresas[0]
-            relacionadas = empresas[1:]
+        if departamento == EMISOR.FUSIONES_ABORCIONES:
+            logger.warning('En fusiones y absorciones debe haber al menos 2 empresas.')
+            #assert(len(empresas) > 1)
 
         cifs = re.findall('(?:[CN]IF n\w+|[CN]IF) ([A-Z]-?[\d.-]+)', texto, re.UNICODE)
         cifs = self._clean_cif(cifs)
