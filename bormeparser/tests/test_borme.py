@@ -275,7 +275,7 @@ class BormeCTestCase1(unittest.TestCase):
         self.assertEqual(self.borme['diario_numero'], 101)
         self.assertEqual(self.borme['filename'], os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'))
         self.assertEqual(self.borme['id_anuncio'], 'A110044738')
-        self.assertEqual(self.borme['numero_anuncio'], 44738)
+        self.assertEqual(self.borme['numero_anuncio'], '44738')
         self.assertEqual(self.borme['pagina_inicial'], 22110)
         self.assertEqual(self.borme['pagina_final'], 22116)
         self.assertEqual(self.borme['seccion'], SECCION.C)
