@@ -19,6 +19,7 @@
 
 from bormeparser.backends.base import BormeCParserBackend
 from bormeparser.seccion import SECCION
+from bormeparser.emisor import EMISOR
 
 from lxml import etree
 
@@ -65,7 +66,7 @@ class LxmlBormeCParser(BormeCParserBackend):
         tree = etree.parse(self.filename)
 
         texto = tree.xpath('/documento/texto/p/text()')
-        empresa = tree.xpath('/documento/metadatos/titulo/text()')[0]                       # "DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A."
+        titulo = tree.xpath('/documento/metadatos/titulo/text()')[0]                        # "DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A."
         diario_numero = tree.xpath('/documento/metadatos/diario_numero/text()')[0]          # "101"
         departamento = tree.xpath('/documento/metadatos/departamento/text()')[0]            # "CONVOCATORIAS DE JUNTAS"
         numero_anuncio = tree.xpath('/documento/metadatos/numero_anuncio/text()')[0]        # "44738"
@@ -77,6 +78,21 @@ class LxmlBormeCParser(BormeCParserBackend):
 
         texto = '\n\n'.join(texto)
         fecha_publicacion = datetime.datetime.strptime(fecha_publicacion, '%Y%m%d').date()
+        empresa = titulo.replace('\n', ' ')
+        relacionadas = []
+
+        empresas = re.findall('.*? \([\w\s]+\)', empresa, re.UNICODE)
+        if departamento == EMISOR.FUSIONES_ABORCIONES:
+            assert(len(empresas) > 1)
+
+        if len(empresas) > 0:
+            # ['SOCIEDAD ANONIMA BLABLA (SOCIEDAD ABSORBENTE)', ' CABALUR, SOCIEDAD LIMITADA UNIPERSONAL (SOCIEDAD ABSORBIDA)']
+            # ['MONTE ALMACABA, S.L. (SOCIEDAD BENEFICIARIA DE LA ESCISION DE NUEVA CREACION)', ' AGROPECUARIA SANTA MARIA DE LA CABEZAS S.L. (SOCIEDAD QUE SE ESCINDE PARCIALMENTE)']
+            empresas = list(map(lambda x: re.sub('\(.*?\)', '', x), empresas))
+            empresas = list(map(lambda x: x.strip(), empresas))
+            # ['MONTE ALMACABA, S.L.', 'AGROPECUARIA SANTA MARIA DE LA CABEZAS,S.L.']
+            empresa = empresas[0]
+            relacionadas = empresas[1:]
 
         cifs = re.findall('(?:[CN]IF n\w+|[CN]IF) ([A-Z]-?[\d.-]+)', texto, re.UNICODE)
         cifs = self._clean_cif(cifs)
@@ -89,7 +105,9 @@ class LxmlBormeCParser(BormeCParserBackend):
                 'pagina_inicial': int(pagina_inicial),
                 'pagina_final': int(pagina_final),
                 'fecha': fecha_publicacion,
+                'titulo': titulo,
                 'empresa': empresa,
+                'empresas_relacionadas': relacionadas,
                 'cifs': cifs,
                 'cve': cve,
                 'seccion': SECCION.C,
