@@ -50,7 +50,7 @@ Instalación desde Git
 
 Puedes instalar bormeparser descargándolo y ejecutando:
 
-    sudo apt-get install python3-dev libxslt1-dev libffi-dev
+    sudo apt-get install python3-dev libxslt1-dev libffi-dev zlib1g-dev
     git clone https://github.com/PabloCastellano/bormeparser.git
     cd bormeparser
     python setup.py install
