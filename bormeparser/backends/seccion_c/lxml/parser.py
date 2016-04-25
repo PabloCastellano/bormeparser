@@ -69,7 +69,7 @@ class LxmlBormeCParser(BormeCParserBackend):
         titulo = tree.xpath('/documento/metadatos/titulo/text()')[0]                        # "DESARROLLOS ESPECIALES DE SISTEMAS DE ANCLAJE, S.A."
         diario_numero = tree.xpath('/documento/metadatos/diario_numero/text()')[0]          # "101"
         departamento = tree.xpath('/documento/metadatos/departamento/text()')[0]            # "CONVOCATORIAS DE JUNTAS"
-        numero_anuncio = tree.xpath('/documento/metadatos/numero_anuncio/text()')[0]        # "44738"
+        numero_anuncio = tree.xpath('/documento/metadatos/numero_anuncio/text()')[0]        # "44738"; a veces coincide con id_anuncio (que no es int)
         id_anuncio = tree.xpath('/documento/metadatos/id_anuncio/text()')[0]                # "A110044738"
         fecha_publicacion = tree.xpath('/documento/metadatos/fecha_publicacion/text()')[0]  # "20110527"
         pagina_inicial = tree.xpath('/documento/metadatos/pagina_inicial/text()')[0]        # "22110"
@@ -100,7 +100,7 @@ class LxmlBormeCParser(BormeCParserBackend):
         return {'departamento': departamento,
                 'texto': texto,
                 'diario_numero': int(diario_numero),
-                'numero_anuncio': int(numero_anuncio),
+                'numero_anuncio': numero_anuncio,
                 'id_anuncio': id_anuncio,
                 'pagina_inicial': int(pagina_inicial),
                 'pagina_final': int(pagina_final),
