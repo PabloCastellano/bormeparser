@@ -23,12 +23,12 @@ import os
 
 try:
     # Python 3
-    FileNotFoundError
     from urllib import request
+    FileNotFoundError
 except ImportError:
     # Python 2
-    FileNotFoundError = IOError
     import urllib as request
+    FileNotFoundError = IOError
 
 # backends
 DEFAULT_PARSER = {'A': ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser'),
