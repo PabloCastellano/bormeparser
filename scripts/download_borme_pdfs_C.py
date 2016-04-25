@@ -34,6 +34,11 @@ BORMES_ROOT = '~/.bormes'
 
 # python scripts/download_borme_pdfs_A.py 2015-06-02 [--debug]
 
+try:
+    FileNotFoundError
+except NameError:
+    # Python 2
+    FileNotFoundError = IOError
 
 def get_borme_xml_filepath(date):
     year = str(date.year)

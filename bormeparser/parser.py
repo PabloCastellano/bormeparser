@@ -23,8 +23,11 @@ import os
 
 try:
     # Python 3
+    FileNotFoundError
     from urllib import request
 except ImportError:
+    # Python 2
+    FileNotFoundError = IOError
     import urllib as request
 
 # backends
