@@ -460,7 +460,7 @@ def regex_fecha(data):
     ('2', 'junio', '2015')
     """
 
-    day, month, year = re.match('\w+ (\d+) de (\w+) de (\d+)', data).groups()
+    day, month, year = re.match('\w+ (\d+) de (\w+) de (\d+)', data, re.UNICODE).groups()
     return (int(year), MESES[month], int(day))
 
 
