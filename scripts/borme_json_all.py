@@ -69,7 +69,11 @@ if __name__ == '__main__':
         t.setDaemon(True)
         t.start()
 
-    os.makedirs(json_root, exist_ok=True)  # TODO: Python 2
+    try:
+        os.makedirs(json_root)
+    except OSError:
+        pass
+
     _, year_dirs, _ = next(os.walk(pdf_root))
     for year in year_dirs:
         year_dir = os.path.join(pdf_root, year)
@@ -82,7 +86,12 @@ if __name__ == '__main__':
             for day in day_dirs:
                 day_dir = os.path.join(month_dir, day)
                 json_day_dir = os.path.join(json_month_dir, day)
-                os.makedirs(json_day_dir, exist_ok=True)  # TODO: Python 2
+
+                try:
+                    os.makedirs(json_day_dir)
+                except OSError:
+                    pass
+
                 _, _, files = next(os.walk(day_dir))
                 for filename in files:
                     if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):

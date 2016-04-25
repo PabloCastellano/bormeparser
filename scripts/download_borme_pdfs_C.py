@@ -67,13 +67,19 @@ def download_range(begin, end):
             else:
                 print('Re-downloading %s ' % os.path.basename(xml_path))
                 bxml = BormeXML.from_date(next_date)
-                os.makedirs(os.path.dirname(xml_path), exist_ok=True)  # TODO: Python 2
+                try:
+                    os.makedirs(os.path.dirname(xml_path))
+                except OSError:
+                    pass
                 bxml.save_to_file(xml_path)
 
         except FileNotFoundError:
             print('Downloading %s ' % os.path.basename(xml_path))
             bxml = BormeXML.from_date(next_date)
-            os.makedirs(os.path.dirname(xml_path), exist_ok=True)  # TODO: Python 2
+            try:
+                os.makedirs(os.path.dirname(xml_path))
+            except OSError:
+                pass
             bxml.save_to_file(xml_path)
 
         path = get_borme_pdf_path(bxml.date)

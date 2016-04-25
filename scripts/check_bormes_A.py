@@ -68,7 +68,10 @@ def check_range(begin, end, download_xml=False):
             if download_xml:
                 logger.info('Downloading %s' % os.path.basename(xml_path))
                 bxml = BormeXML.from_date(next_date)
-                os.makedirs(os.path.dirname(xml_path), exist_ok=True)  # TODO: Python 2
+                try:
+                    os.makedirs(os.path.dirname(xml_path))
+                except OSError:
+                    pass
                 bxml.save_to_file(xml_path)
             else:
                 logger.info('XML not found: %s\n' % os.path.basename(xml_path))
