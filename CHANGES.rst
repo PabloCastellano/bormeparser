@@ -4,6 +4,11 @@ Changelog
 Version X.X [unreleased]
 ------------------------
 
+Version 0.2.2 [2016-04-26]
+------------------------
+
+- Mejoras en el parser de BORME C
+
 Version 0.2.1 [2016-04-25]
 ------------------------
 
