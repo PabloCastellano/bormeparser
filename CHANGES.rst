@@ -1,13 +1,22 @@
 Changelog
 =========
 
-Version 0.2 [unreleased]
+Version X.X [unreleased]
+------------------------
+
+Version 0.2 [2016-04-25]
 ------------------------
 
 - Eliminado primer argumento "date" de BormeXML.get_url_pdfs()
 - Nuevo método: BormeXML.get_urls_cve()
 - Arregladas algunas incompatibilidades con Python 2
 - Nuevas funciones: get_borme_website(), get_url_seccion_c()
+- Se incorpora parser para BORME C
+- Añadido el acto "(Primera inscripcion O.M. 10/6/1.997)"
+- Renombradas constantes y funciones
+- BormeXML: BORME C
+- script download_borme_pdfs_C.py
+- Mejora parsing de cargos repetidos en el mismo acto (issue #4)
 
 Version 0.1.5 [2015-09-25]
 --------------------------
