@@ -1,3 +1,3 @@
-__version__ = '0.2'
+__version__ = '0.2.1'
 __author__ = 'Pablo Castellano <pablo@anche.no>'
 __license__ = 'GPLv3+'

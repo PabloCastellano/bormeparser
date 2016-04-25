@@ -4,6 +4,11 @@ Changelog
 Version X.X [unreleased]
 ------------------------
 
+Version 0.2.1 [2016-04-25]
+------------------------
+
+- Corregidos fallos de compatibilidad con Python 2
+
 Version 0.2 [2016-04-25]
 ------------------------
 
