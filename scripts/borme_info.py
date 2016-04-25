@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # borme_info.py -
-# Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         bormeparser.borme.logger.setLevel(logging.DEBUG)
         bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
-    borme = bormeparser.parse(sys.argv[1])
+    borme = bormeparser.parse(sys.argv[1], bormeparser.SECCION.A)
 
     for anuncio in borme.get_anuncios():
         print('Anuncio %d' % anuncio.id)

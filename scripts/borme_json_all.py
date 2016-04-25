@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # borme_json_all.py -
-# Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ class ThreadConvertJSON(Thread):
             pdf_path, json_path = self.queue.get()
             print('Creating %s...' % json_path)
             try:
-                borme = bormeparser.parse(pdf_path)
+                borme = bormeparser.parse(pdf_path, bormeparser.SECCION.A)
                 borme.to_json(json_path)
                 print('{cve}: OK'.format(cve=borme.cve))
             except Exception as e:
@@ -85,7 +85,7 @@ if __name__ == '__main__':
                 os.makedirs(json_day_dir, exist_ok=True)  # TODO: Python 2
                 _, _, files = next(os.walk(day_dir))
                 for filename in files:
-                    if filename.endswith('-99.pdf'):
+                    if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):
                         continue
                     pdf_path = os.path.join(day_dir, filename)
                     json_filename = filename.replace('.pdf', '.json')
