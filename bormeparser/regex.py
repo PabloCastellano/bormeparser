@@ -504,7 +504,7 @@ def borme_c_separa_empresas_titulo(titulo):
 
     if len(empresas) > 1:
         # ['COEMA']
-        empresas = [e for e in empresas if len(e) > 5]
+        empresas = [e for e in empresas if len(e) > 4]
 
     return empresas
 
