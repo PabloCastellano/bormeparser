@@ -203,6 +203,8 @@ def regex_empresa(data, sanitize=True):
 # TODO: Devolver palabras clave como SICAV, SUCURSAL EN ESPAÑA, EN LIQUIDACION
 # UNION TEMPORAL DE EMPRESAS LEY 18 1982 DE 26 DE MAYO
 def regex_nombre_empresa(nombre):
+    sucursal_spain = False
+
     if nombre.endswith(u'(R.M. A CORUÑA)'):
         nombre = nombre[:-15]
     if nombre.endswith('(R.M. PALMA DE MALLORCA)'):
@@ -225,8 +227,9 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-12]
     if nombre.endswith('EN LIQUIDACION'):
         nombre = nombre[:-15]
-    if nombre.endswith(u'SUCURSAL EN ESPAÑA'):
-        nombre = nombre[:-18]
+    if u'SUCURSAL EN ESPAÑA' in nombre:
+        nombre = nombre.replace(u' SUCURSAL EN ESPAÑA', '')
+        sucursal_spain = True
     nombre.rstrip()
     if nombre.endswith(' S.L.'):
         nombre = nombre[:-4] + 'SL'
@@ -248,10 +251,14 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-3] + 'SA'
     elif nombre.endswith(' S.A.'):
         nombre = nombre[:-4] + 'SA'
+    elif nombre.endswith(' B.V.'):
+        nombre = nombre[:-4] + 'BV'
     elif nombre.endswith(' B.V'):
         nombre = nombre[:-3] + 'BV'
     elif nombre.endswith(' N.V'):
         nombre = nombre[:-3] + 'NV'
+    elif nombre.endswith(' N.V.'):
+        nombre = nombre[:-4] + 'NV'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
         nombre = nombre[:-16] + 'SA'
     elif nombre.endswith(' S L L'):
@@ -314,6 +321,7 @@ def regex_nombre_empresa(nombre):
     if nombre.endswith(' SA SICAV'):
         nombre = nombre[:-8] + 'SICAV'
 
+    # TODO: return sucursal_spain
     return nombre
 
 
