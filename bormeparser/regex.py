@@ -80,6 +80,10 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 # https://es.wikipedia.org/wiki/Anexo:Tipos_de_sociedad_mercantil_en_Espa%C3%B1a
 SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'AEIE': 'Agrupación Europea de Interés Económico',
+              # BV: Sociedad Privada de Responsabilidad Limitada (Holanda).
+              'BV': 'Besloten vennootschap met beperkte aansprakelijkheid',
+              # BVBA: Igual que BV. Denominación en Bélgica.
+              'BVBA': 'Besloten vennootschap met beperkte aansprakelijkheid',
               'COOP': 'Cooperativa',
               'FP': 'Fondo de Pensiones',
               'SA': 'Sociedad Anónima',
@@ -235,6 +239,8 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-3] + 'SA'
     elif nombre.endswith(' S.A.'):
         nombre = nombre[:-4] + 'SA'
+    elif nombre.endswith(' B.V.'):
+        nombre = nombre[:-4] + 'BV'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
         nombre = nombre[:-16] + 'SA'
     elif nombre.endswith(' S L L'):
@@ -483,7 +489,7 @@ def borme_c_separa_empresas_titulo(titulo):
         lines = re.findall('.*? \([\w\s]+\)', titulo, re.UNICODE)
     if len(lines) == 0:
         lines = titulo.split('\n')
-        
+
     for line in lines:
         empresa = re.sub('\(.*?\)', '', line)
         #empresa = line.replace('(SOCIEDAD ABSORBENTE)', '')
@@ -507,6 +513,7 @@ def borme_c_separa_empresas_titulo(titulo):
         empresas = [e for e in empresas if len(e) > 4]
 
     return empresas
+
 
 def capitalize_sentence(string):
     # TODO: espacio de más tras coma/punto
