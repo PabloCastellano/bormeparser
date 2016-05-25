@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # regex.py -
-# Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -80,10 +80,6 @@ MESES = {'enero': 1, 'febrero': 2, 'marzo': 3, 'abril': 4, 'mayo': 5, 'junio': 6
 # https://es.wikipedia.org/wiki/Anexo:Tipos_de_sociedad_mercantil_en_Espa%C3%B1a
 SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               'AEIE': 'Agrupación Europea de Interés Económico',
-              # BV: Sociedad Privada de Responsabilidad Limitada (Holanda).
-              'BV': 'Besloten vennootschap met beperkte aansprakelijkheid',
-              # BVBA: Igual que BV. Denominación en Bélgica.
-              'BVBA': 'Besloten vennootschap met beperkte aansprakelijkheid',
               'COOP': 'Cooperativa',
               'FP': 'Fondo de Pensiones',
               'SA': 'Sociedad Anónima',
@@ -106,6 +102,19 @@ SOCIEDADES = {'AIE': 'Agrupación de Interés Económico',
               }
 # SOCIEDAD COOPERATIVA DE CREDITO
 # FONDOS DE PENSIONES
+
+# Tipos de sociedades extranjeras
+SOCIEDADES.update({
+    # Bélgica
+    # BVBA: Sociedad Privada de Responsabilidad Limitada
+    'BVBA': 'Besloten vennootschap met beperkte aansprakelijkheid',
+
+    # Holanda:
+    # BV: Sociedad Privada de Responsabilidad Limitada
+    'BV': 'Besloten vennootschap met beperkte aansprakelijkheid',
+    # NV: Sociedad Anónima (Holanda)
+    'NV': 'Naamloze Vennootschap',
+})
 
 
 def is_acto_cargo_entrante(data):
@@ -239,8 +248,10 @@ def regex_nombre_empresa(nombre):
         nombre = nombre[:-3] + 'SA'
     elif nombre.endswith(' S.A.'):
         nombre = nombre[:-4] + 'SA'
-    elif nombre.endswith(' B.V.'):
-        nombre = nombre[:-4] + 'BV'
+    elif nombre.endswith(' B.V'):
+        nombre = nombre[:-3] + 'BV'
+    elif nombre.endswith(' N.V'):
+        nombre = nombre[:-3] + 'NV'
     elif nombre.endswith(' SOCIEDAD ANONIMA'):
         nombre = nombre[:-16] + 'SA'
     elif nombre.endswith(' S L L'):
