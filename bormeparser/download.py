@@ -305,7 +305,10 @@ def download_url(url, filename=None):
 
 
 def download_urls(urls, path):
-    """ Descarga las urls a path indicado """
+    """
+        Descarga las urls a path indicado.
+        Devuelve la lista de archivos que fueron descargados.
+    """
     files = []
     for url in urls.values():
         filename = url.split('/')[-1]
@@ -322,7 +325,11 @@ def download_urls(urls, path):
 
 
 def download_urls_multi(urls, path, threads=THREADS):
-    """ Descarga las urls a path indicado (verisón multihilo) """
+    """
+        Descarga las urls a path indicado (versión multihilo).
+        urls: {_: url}
+        Devuelve la lista de archivos que fueron descargados.
+    """
 
     q = Queue()
     files = []
@@ -342,7 +349,11 @@ def download_urls_multi(urls, path, threads=THREADS):
 
 
 def download_urls_multi_names(urls, path, threads=THREADS):
-    """ Descarga las urls a path indicado (verisón multihilo) """
+    """
+        Descarga las urls al path indicado (versión multihilo).
+        urls: {filename: url}
+        Devuelve la lista de archivos que fueron descargados.
+    """
 
     q = Queue()
     files = []
