@@ -49,7 +49,7 @@ Parsear un archivo PDF de BORME:
 
 .. code-block:: python
 
-    borme = bormeparser.parse('/tmp/BORME-A-2015-102-29.pdf')
+    borme = bormeparser.parse('/tmp/BORME-A-2015-102-29.pdf', bormeparser.SECCION.A)
 
 .. code-block:: python
 
