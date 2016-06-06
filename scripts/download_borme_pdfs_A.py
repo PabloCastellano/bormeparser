@@ -18,21 +18,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-import bormeparser.download
 import bormeparser
 from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.borme import BormeXML
 from bormeparser.utils import FIRST_BORME
 
-import calendar
+import argparse
 import datetime
 import logging
 import os
-import sys
 
-BORMES_ROOT = '~/.bormes'
+DEFAULT_BORME_ROOT = '~/.bormes'
 
-# python scripts/download_borme_pdfs_A.py 2015-06-02 [--debug]
+logger = logging.getLogger(__name__)
+ch = logging.StreamHandler()
+logger.addHandler(ch)
+
 
 try:
     FileNotFoundError
@@ -41,38 +42,38 @@ except NameError:
     FileNotFoundError = IOError
 
 
-
-def get_borme_xml_filepath(date):
+def get_borme_xml_filepath(date, directory):
     year = str(date.year)
-    month = '%02d' % date.month
-    day = '%02d' % date.day
-    filename = 'BORME-S-%d%s%s.xml' % (date.year, month, day)
-    return os.path.join(os.path.expanduser(BORMES_ROOT), 'xml', year, month, filename)
+    month = '{:02d}'.format(date.month)
+    day = '{:02d}'.format(date.day)
+    filename = 'BORME-S-{}{}{}.xml'.format(year, month, day)
+    return os.path.join(os.path.expanduser(directory), 'xml', year, month, filename)
 
 
-def get_borme_pdf_path(date):
+def get_borme_pdf_path(date, directory):
     year = str(date.year)
-    month = '%02d' % date.month
-    day = '%02d' % date.day
+    month = '{:02d}'.format(date.month)
+    day = '{:02d}'.format(date.day)
+    return os.path.join(os.path.expanduser(directory), 'pdf', year, month, day)
 
-    return os.path.join(os.path.expanduser(BORMES_ROOT), 'pdf', year, month, day)
 
-
-def download_range(begin, end):
+def download_range(begin, end, directory):
     """ Downloads PDFs using threads """
     next_date = begin
     seccion = bormeparser.SECCION.A
+    total_downloaded = 0
 
     #end = min(end, datetime.date.today())
     while next_date and next_date <= end:
-        print('####### %s ' % next_date)
-        xml_path = get_borme_xml_filepath(next_date)
+        path = get_borme_pdf_path(next_date, directory)
+        xml_path = get_borme_xml_filepath(next_date, directory)
+        logger.info('\nDownloading files from {} (sección {}) to {}\n'.format(next_date, seccion, path))
         try:
             bxml = BormeXML.from_file(xml_path)
             if bxml.next_borme:
-                print('%s already exists!' % os.path.basename(xml_path))
+                logger.debug('{filename} already exists!'.format(filename=os.path.basename(xml_path)))
             else:
-                print('Re-downloading %s ' % os.path.basename(xml_path))
+                logger.debug('Re-downloading {filename}'.format(filename=os.path.basename(xml_path)))
                 bxml = BormeXML.from_date(next_date)
                 try:
                     os.makedirs(os.path.dirname(xml_path))
@@ -81,7 +82,7 @@ def download_range(begin, end):
                 bxml.save_to_file(xml_path)
 
         except FileNotFoundError:
-            print('Downloading %s ' % os.path.basename(xml_path))
+            logger.debug('Downloading {filename}'.format(filename=os.path.basename(xml_path)))
             bxml = BormeXML.from_date(next_date)
             try:
                 os.makedirs(os.path.dirname(xml_path))
@@ -89,64 +90,45 @@ def download_range(begin, end):
                 pass
             bxml.save_to_file(xml_path)
 
-        path = get_borme_pdf_path(bxml.date)
         try:
             os.makedirs(path)
         except OSError:
             pass
 
-        print('\nPATH: %s\nDATE: %s\nSECCION: %s\n' % (path, bxml.date, seccion))
-        bxml.download_borme(path, seccion=seccion)
+        _, files = bxml.download_borme(path, seccion=seccion)
+        total_downloaded += len(files)
         next_date = bxml.next_borme
 
-
-def print_invalid_date():
-    print('Invalid date. Use ISO format: 2015-06-02 or 2015-06 or 2015; or --init')
-    sys.exit(1)
+    logger.info('\n{} files were downloaded'.format(total_downloaded))
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Download BORME A PDF files.')
+    parser.add_argument('-f', '--fromdate', required=True, help='ISO formatted date (ex. 2015-01-01) or "init"')
+    parser.add_argument('-t', '--to', required=True, help='ISO formatted date (ex. 2016-01-01) or "today"')
+    parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
+    parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
+    args = parser.parse_args()
 
-    if len(sys.argv) == 3 and sys.argv[2] == '--debug':
-        bormeparser.download.logger.setLevel(logging.DEBUG)
-    else:
+    bormeparser.borme.logger.setLevel(logging.ERROR)
+    if args.verbose:
         bormeparser.download.logger.setLevel(logging.INFO)
-
-    if sys.argv[1] == '--init':
-        download_range(FIRST_BORME[2009], datetime.date.today())
+        logger.setLevel(logging.INFO)
     else:
-        try:
-            date = tuple(map(int, sys.argv[1].split('-')))
-        except:
-            print_invalid_date()
+        bormeparser.download.logger.setLevel(logging.ERROR)
+        logger.setLevel(logging.INFO)
 
-        if len(date) == 3:  # 2015-06-02
-            date = datetime.date(*date)
-            try:
-                download_range(date, date)
-            except BormeDoesntExistException:
-                print('It looks like there is no BORME for this date. Nothing was downloaded')
-        elif len(date) == 2:  # 2015-06
-            _, lastday = calendar.monthrange(*date)
-            end_date = datetime.date(date[0], date[1], lastday)
-            try:
-                begin_date = datetime.date(date[0], date[1], 1)
-                download_range(begin_date, end_date)
-            except BormeDoesntExistException:
-                try:
-                    begin_date = datetime.date(date[0], date[1], 2)
-                    download_range(begin_date, end_date)
-                except BormeDoesntExistException:
-                    try:
-                        begin_date = datetime.date(date[0], date[1], 3)
-                        download_range(begin_date, end_date)
-                    except BormeDoesntExistException:
-                        begin_date = datetime.date(date[0], date[1], 4)
-                        download_range(begin_date, end_date)
+    if args.fromdate == 'init':
+        date_from = FIRST_BORME[2009]
+    else:
+        date_from = datetime.datetime.strptime(args.fromdate, '%Y-%m-%d').date()
 
-        elif len(date) == 1:  # 2015
-            begin_date = FIRST_BORME[date[0]]
-            end_date = datetime.date(date[0], 12, 31)
-            download_range(begin_date, end_date)
-        else:
-            print_invalid_date()
+    if args.to == 'today':
+        date_to = datetime.date.today()
+    else:
+        date_to = datetime.datetime.strptime(args.to, '%Y-%m-%d').date()
+
+    try:
+        download_range(date_from, date_to, args.directory)
+    except BormeDoesntExistException:
+        logger.warn('It looks like there is no BORME for the start date ({}). Nothing was downloaded'.format(date_from))
