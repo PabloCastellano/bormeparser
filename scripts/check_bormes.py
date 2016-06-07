@@ -34,10 +34,9 @@ ch = logging.StreamHandler()
 logger.addHandler(ch)
 
 
-def check_range(begin, end, directory, download_xml=False):
+def check_range(begin, end, provincia, seccion, directory, download_xml=False):
     """ Downloads PDFs using threads """
     next_date = begin
-    seccion = bormeparser.SECCION.A
     results = {'good': 0, 'missing': 0, 'incorrect': 0}
 
     while next_date and next_date <= end:
@@ -59,7 +58,7 @@ def check_range(begin, end, directory, download_xml=False):
                 logger.info('If you want to continue use --download-xml.\n')
                 return
 
-        sizes = bxml.get_sizes(seccion)
+        sizes = bxml.get_sizes(seccion, provincia)
         path = get_borme_pdf_path(bxml.date, directory)
 
         for cve, size in sizes.items():
@@ -93,6 +92,8 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--fromdate', help='ISO formatted date (ex. 2015-01-01). Default: init')
     parser.add_argument('-t', '--to', help='ISO formatted date (ex. 2016-01-01). Default: today')
     parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
+    parser.add_argument('-s', '--seccion', default=bormeparser.SECCION.A, choices=['A', 'B', 'C'], help='BORME seccion')
+    parser.add_argument('-p', '--provincia', choices=bormeparser.provincia.ALL_PROVINCIAS, help='BORME provincia')
     parser.add_argument('-x', '--download-xml', action='store_true', default=False, help='Download missing XML BORME files')
     parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
     args = parser.parse_args()
@@ -115,6 +116,6 @@ if __name__ == '__main__':
         date_to = datetime.date.today()
 
     try:
-        check_range(date_from, date_to, args.directory, args.download_xml)
+        check_range(date_from, date_to, args.provincia, args.seccion, args.directory, args.download_xml)
     except BormeDoesntExistException:
         logger.warn('It looks like there is no BORME for the start date ({}). Nothing was downloaded'.format(date_from))
