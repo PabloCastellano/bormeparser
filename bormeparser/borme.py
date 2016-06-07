@@ -253,11 +253,11 @@ class BormeXML(object):
         url_base = URL_BASE % protocol
         urls_cve = {}
 
-        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
+        xpath = self._build_xpath(seccion)
+        for item in self.xml.xpath(xpath):
             cve = item.get('id')
             url = url_base + item.xpath('urlPdf')[0].text
             urls_cve[cve] = url
-
         return urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
@@ -275,34 +275,35 @@ class BormeXML(object):
     def get_cves(self, seccion=None):
         """ Obtiene los CVEs """
 
-        if seccion:
-            xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
-        else:
-            xpath = '//sumario/diario/seccion/emisor/item'
-
         cves = []
+        xpath = self._build_xpath(seccion)
         for item in self.xml.xpath(xpath):
             if not item.get('id').endswith('-99'):
                 cves.append(item.get('id'))
-
         return cves
 
     def get_sizes(self, seccion=None):
         """ Obtiene un diccionario con el CVE y su tamaño """
 
-        if seccion:
-            xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
-        else:
-            xpath = '//sumario/diario/seccion/emisor/item'
-
         sizes = {}
+        xpath = self._build_xpath(seccion)
         for item in self.xml.xpath(xpath):
             if not item.get('id').endswith('-99'):
                 cve = item.get('id')
                 size = item.xpath('urlPdf')[0].get('szBytes')
                 sizes[cve] = int(size)
-
         return sizes
+
+    def _build_xpath(self, seccion, provincia=None):
+        if seccion and provincia:
+            xpath = u'//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
+        elif seccion:
+            xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
+        elif provincia:
+            xpath = u'//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
+        else:
+            xpath = '//sumario/diario/seccion/emisor/item'
+        return xpath
 
     def _get_url_borme_c(self, format='xml'):
         """
@@ -342,14 +343,8 @@ class BormeXML(object):
         url_base = URL_BASE % protocol
         urls = {}
 
-        if seccion and provincia:
-            xpath1 = u'//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
-        elif seccion:
-            xpath1 = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
-        else:
-            xpath1 = u'//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
-
-        for item in self.xml.xpath(xpath1):
+        xpath = self._build_xpath(seccion, provincia)
+        for item in self.xml.xpath(xpath):
             if seccion and provincia:
                 item = item.getparent()
                 key = item.get('id')  # cve
