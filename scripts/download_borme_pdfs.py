@@ -34,7 +34,7 @@ ch = logging.StreamHandler()
 logger.addHandler(ch)
 
 
-def download_range(begin, end, directory, seccion):
+def download_range(begin, end, directory, seccion, provincia=None):
     """ Downloads PDFs using threads """
     next_date = begin
     total_downloaded = 0
@@ -70,11 +70,14 @@ def download_range(begin, end, directory, seccion):
         except OSError:
             pass
 
-        _, files = bxml.download_borme(path, seccion=seccion)
+        _, files = bxml.download_borme(path, provincia=provincia, seccion=seccion)
+
+        if len(files) > 0:
+            logger.info('Downloaded {} files from {}'.format(len(files), next_date))
         total_downloaded += len(files)
         next_date = bxml.next_borme
 
-    logger.info('\n{} files were downloaded'.format(total_downloaded))
+    logger.info('\n{} total files were downloaded'.format(total_downloaded))
 
 
 if __name__ == '__main__':
@@ -83,6 +86,7 @@ if __name__ == '__main__':
     parser.add_argument('-t', '--to', default='today', help='ISO formatted date (ex. 2016-01-01). Default: today')
     parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
     parser.add_argument('-s', '--seccion', default=bormeparser.SECCION.A, choices=['A', 'B', 'C'], help='BORME seccion')
+    parser.add_argument('-p', '--provincia', help='BORME provincia')
     parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
     args = parser.parse_args()
 
@@ -107,6 +111,6 @@ if __name__ == '__main__':
         date_to = datetime.datetime.strptime(args.to, '%Y-%m-%d').date()
 
     try:
-        download_range(date_from, date_to, args.directory, args.seccion)
+        download_range(date_from, date_to, args.directory, args.seccion, args.provincia)
     except BormeDoesntExistException:
         logger.warn('It looks like there is no BORME for the start date ({}). Nothing was downloaded'.format(date_from))
