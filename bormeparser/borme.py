@@ -253,8 +253,7 @@ class BormeXML(object):
         url_base = URL_BASE % protocol
         urls_cve = {}
 
-        xpath = self._build_xpath(seccion)
-        for item in self.xml.xpath(xpath):
+        for item in self._build_xpath(seccion, provincia):
             cve = item.get('id')
             url = url_base + item.xpath('urlPdf')[0].text
             urls_cve[cve] = url
@@ -278,10 +277,7 @@ class BormeXML(object):
         """ Obtiene los CVEs """
 
         cves = []
-        xpath = self._build_xpath(seccion, provincia)
-        for item in self.xml.xpath(xpath):
-            if provincia:
-                item = item.getparent()
+        for item in self._build_xpath(seccion, provincia):
             if not item.get('id').endswith('-99'):
                 cves.append(item.get('id'))
         return cves
@@ -290,10 +286,7 @@ class BormeXML(object):
         """ Obtiene un diccionario con el CVE y su tamaño """
 
         sizes = {}
-        xpath = self._build_xpath(seccion, provincia)
-        for item in self.xml.xpath(xpath):
-            if provincia:
-                item = item.getparent()
+        for item in self._build_xpath(seccion, provincia):
             if not item.get('id').endswith('-99'):
                 cve = item.get('id')
                 size = item.xpath('urlPdf')[0].get('szBytes')
@@ -309,7 +302,11 @@ class BormeXML(object):
             xpath = u'//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
         else:
             xpath = '//sumario/diario/seccion/emisor/item'
-        return xpath
+
+        if provincia:
+            return [item.getparent() for item in self.xml.xpath(xpath)]
+        else:
+            return self.xml.xpath(xpath)
 
     def _get_url_borme_c(self, format='xml'):
         """
@@ -351,15 +348,12 @@ class BormeXML(object):
         url_base = URL_BASE % protocol
         urls = {}
 
-        xpath = self._build_xpath(seccion, provincia)
-        for item in self.xml.xpath(xpath):
+        for item in self._build_xpath(seccion, provincia):
             if seccion and provincia:
-                item = item.getparent()
                 key = item.get('id')  # cve
             elif seccion:
                 key = item.xpath('titulo')[0].text  # provincia
             elif provincia:
-                item = item.getparent()
                 key = item.getparent().getparent().get('num')  # seccion
             url = url_base + item.xpath('urlPdf')[0].text
             urls[key] = url
