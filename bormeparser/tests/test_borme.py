@@ -187,17 +187,14 @@ class BormeActoTestCase(unittest.TestCase):
         self.assertRaises(ValueError, BormeActoTexto, 'Nombramientos', ['mal'])
 
 
-class BormeXMLTestCase(unittest.TestCase):
+class BormeXMLInstanceTestCase(unittest.TestCase):
     date = (2015, 9, 24)
     url = 'https://www.boe.es/diario_borme/xml.php?id=BORME-S-20150924'
     url_insecure = 'http://www.boe.es/diario_borme/xml.php?id=BORME-S-20150924'
     nbo = 183
 
     def test_from_file(self):
-        path = os.path.join(tempfile.gettempdir(), 'BORME-S-20150924.xml')
-        downloaded = download_xml(self.date, path)
-        self.assertTrue(downloaded)
-        self.assertEqual(os.path.getsize(path), 20534)
+        path = os.path.join(EXAMPLES_PATH, 'BORME-S-20150924.xml')
 
         # from local file
         bxml = BormeXML.from_file(path)
@@ -207,7 +204,6 @@ class BormeXMLTestCase(unittest.TestCase):
         self.assertEqual(bxml.nbo, self.nbo)
         self.assertEqual(bxml.prev_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] - 1))
         self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
-        os.unlink(path)
 
         # from remote file (https)
         bxml = BormeXML.from_file(self.url)
