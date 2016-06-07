@@ -248,7 +248,7 @@ class BormeXML(object):
         assert(date == bxml.date)
         return bxml
 
-    def get_urls_cve(self, seccion=None, provincia=None):
+    def get_urls_cve(self, seccion=None):
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
         urls_cve = {}
@@ -261,19 +261,15 @@ class BormeXML(object):
         return urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
-        if seccion and not provincia:
-            if seccion in (SECCION.A, SECCION.B):
-                urls = self._get_url_pdfs_seccion(seccion)
-            elif seccion == SECCION.C:
-                urls = self._get_url_borme_c(format='xml')
-            else:
-                raise ValueError('Seccion incorrecta')
-        elif provincia and not seccion:
-            urls = self._get_url_pdfs_provincia(provincia)
-        elif provincia and seccion:
-            raise NotImplementedError
-        else:
+        if not seccion and not provincia:
             raise AttributeError('You must specifiy either provincia or seccion or both')
+        else:
+            if seccion in (SECCION.A, SECCION.B):
+                urls = self._get_url_borme_a(seccion=seccion, provincia=provincia)
+            elif seccion == SECCION.C:
+                if provincia:
+                    logger.warn('provincia parameter makes no sense when seccion=C')
+                urls = self._get_url_borme_c(format='xml')
         return urls
 
     def get_cves(self, seccion=None):
@@ -308,25 +304,11 @@ class BormeXML(object):
 
         return sizes
 
-    def _get_url_pdfs_provincia(self, provincia):
-        """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """
-
-        protocol = 'https' if self.use_https else 'http'
-        url_base = URL_BASE % protocol
-        urls = {}
-
-        for item in self.xml.xpath('//sumario/diario/seccion/emisor/item'):
-            prov = item.xpath('titulo')[0].text
-            if prov != provincia:
-                continue
-            url = url_base + item.xpath('urlPdf')[0].text
-            seccion = item.getparent().getparent().get('num')
-            urls[seccion] = url
-
-        return urls
-
     def _get_url_borme_c(self, format='xml'):
-        """ Obtiene las URLs para descargar los BORMEs de la seccion C y la fecha indicada """
+        """
+            Obtiene las URLs para descargar los BORMEs de la seccion C y la fecha indicada.
+            format: xml, htm, pdf
+        """
 
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
@@ -345,17 +327,38 @@ class BormeXML(object):
 
         return urls
 
-    def _get_url_pdfs_seccion(self, seccion):
-        """ Obtiene las URLs para descargar los BORMEs de la seccion y fecha indicada """
+    def _get_url_borme_a(self, seccion=None, provincia=None):
+        """
+            Obtiene las URLs para descargar los BORMEs de la provincia,
+            sección y fecha indicada.
+
+            Devuelve urls: {provincia: url_seccion}
+                           {seccion: url_provincia}
+                           {cve: url_seccion_provincia}
+
+        """
 
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
         urls = {}
 
-        for item in self.xml.xpath('//sumario/diario/seccion[@num="%s"]/emisor/item' % seccion):
-            provincia = item.xpath('titulo')[0].text
+        if seccion and provincia:
+            xpath1 = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
+        elif seccion:
+            xpath1 = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
+        else:
+            xpath1 = '//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
+
+        for item in self.xml.xpath(xpath1):
+            if seccion and provincia:
+                item = item.getparent()
+                key = item.get('id')  # cve
+            elif seccion:
+                key = item.xpath('titulo')[0].text  # provincia
+            else:
+                key = item.getparent().getparent().get('num')  # seccion
             url = url_base + item.xpath('urlPdf')[0].text
-            urls[provincia] = url
+            urls[key] = url
 
         return urls
 

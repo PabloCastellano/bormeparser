@@ -125,7 +125,6 @@ def get_url_pdf_from_xml(date, seccion, provincia, xml_path, secure=USE_HTTPS):
     return BORME_AB_PDF_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day,
                                    seccion=seccion, nbo=nbo, provincia=provincia.code)
 
-
 """
 # Needs research
 def get_url_borme_c(date, some_number, format='xml'):

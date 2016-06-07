@@ -247,14 +247,97 @@ class BormeXMLInstanceTestCase(unittest.TestCase):
         # Exceptions
         self.assertRaises(BormeDoesntExistException, BormeXML.from_date, (2015, 9, 26))
 
-        l = ['BORME-A-2015-183-%s' % x
-             for x in ['01', '03', '04', '06', '07', '08', '09', '10', '11', '12', '14', '15', '16', '22', '25', '26',
-             '28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '39', '40', '41', '43', '46', '47', '49', '50', '51']
-             ]
-        self.assertEqual(bxml.get_cves(SECCION.A), l)
 
-        # TODO: get_sizes
+class BormeXMLTestCase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        path = os.path.join(EXAMPLES_PATH, 'BORME-S-20150924.xml')
+        cls.bxml = BormeXML.from_file(path)
 
+    def test_get_url_pdfs(self):
+        urls_a = {'CEUTA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-51.pdf',
+                  'ÍNDICE ALFABÉTICO DE SOCIEDADES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-99.pdf',
+                  'MÁLAGA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-29.pdf',
+                  'BURGOS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-09.pdf',
+                  'SEGOVIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-40.pdf',
+                  'PONTEVEDRA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-36.pdf',
+                  'CASTELLÓN': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-12.pdf',
+                  'LAS PALMAS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-35.pdf',
+                  'ASTURIAS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-33.pdf',
+                  'ILLES BALEARS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-07.pdf',
+                  'CÓRDOBA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-14.pdf', 
+                  'LA RIOJA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-26.pdf',
+                  'SANTA CRUZ DE TENERIFE': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-38.pdf',
+                  'PALENCIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-34.pdf',
+                  'ZAMORA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-49.pdf',
+                  'A CORUÑA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-15.pdf',
+                  'OURENSE': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-32.pdf',
+                  'MADRID': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-28.pdf',
+                  'CUENCA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-16.pdf',
+                  'SEVILLA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-41.pdf',
+                  'MURCIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-30.pdf',
+                  'ARABA/ÁLAVA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-01.pdf',
+                  'ZARAGOZA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-50.pdf',
+                  'TARRAGONA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-43.pdf',
+                  'ALMERÍA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-04.pdf',
+                  'VALENCIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-46.pdf',
+                  'CÁCERES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-10.pdf',
+                  'CÁDIZ': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-11.pdf',
+                  'BARCELONA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-08.pdf',
+                  'LLEIDA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-25.pdf',
+                  'VALLADOLID': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-47.pdf',
+                  'HUESCA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-22.pdf',
+                  'NAVARRA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-31.pdf',
+                  'CANTABRIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-39.pdf',
+                  'BADAJOZ': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-06.pdf',
+                  'ALICANTE': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-03.pdf'}
+
+        url_cve_a = {'BORME-A-2015-183-06': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-06.pdf'}
+
+        urls_b = {'MÁLAGA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-29.pdf',
+                  'ALMERÍA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-04.pdf',
+                  'A CORUÑA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-15.pdf',
+                  'ILLES BALEARS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-07.pdf',
+                  'MADRID': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-28.pdf',
+                  'JAÉN': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-23.pdf'}
+
+        url_cve_b = {'BORME-B-2015-183-04': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-04.pdf'}
+
+        urls_c = {'BORME-C-2015-%s.xml' % str(x): 'https://www.boe.es/diario_borme/xml.php?id=BORME-C-2015-%s' % str(x)
+            for x in range(9348, 9374+1)
+            }
+
+        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.A), urls_a)
+        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.A, provincia='BADAJOZ'), url_cve_a)
+        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.B), urls_b)
+        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.B, provincia='ALMERÍA'), url_cve_b)
+        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.C), urls_c)
+        self.assertRaises(AttributeError, self.bxml.get_url_pdfs)
+
+    def test_get_cves(self):
+        seccion_a_bormes = ['BORME-A-2015-183-%s' % x
+            for x in ['01', '03', '04', '06', '07', '08', '09', '10', '11', '12', '14', '15', '16', '22', '25', '26',
+            '28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '39', '40', '41', '43', '46', '47', '49', '50', '51']
+            ]
+
+        seccion_b_bormes = ['BORME-B-2015-183-%s' % x
+            for x in ['04', '07', '15', '23', '28', '29']
+            ]
+
+        seccion_c_bormes = ['BORME-C-2015-%s' % str(x)
+            for x in range(9348, 9374+1)
+            ]
+
+        self.assertEqual(self.bxml.get_cves(SECCION.A), seccion_a_bormes)
+        self.assertEqual(self.bxml.get_cves(SECCION.B), seccion_b_bormes)
+        self.assertEqual(self.bxml.get_cves(SECCION.C), seccion_c_bormes)
+        self.assertEqual(self.bxml.get_cves(), seccion_a_bormes + seccion_b_bormes + seccion_c_bormes)
+
+    # get_urls_cve
+    # get_sizes
+    # download_borme
+    # download_single_borme
+    # save_to_file
 
 class BormeCTestCase1(unittest.TestCase):
     @classmethod
