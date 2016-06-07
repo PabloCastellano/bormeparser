@@ -1,15 +1,2 @@
-blessings==1.6
-bpython==0.14.2
-cffi==1.2.1
-coverage==4.0
-cryptography==1.0.1
-curtsies==0.2.3
-enum34==1.0.4
-greenlet==0.4.9
-idna==2.0
-ipaddress==1.0.14
-ndg-httpsclient==0.4.0
-pyasn1==0.1.8
-pycparser==2.14
-Pygments==2.0.2
-pyOpenSSL==0.15.1
+bpython==0.15
+coverage==4.1
