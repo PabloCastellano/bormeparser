@@ -89,8 +89,8 @@ def check_range(begin, end, provincia, seccion, directory, download_xml=False):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Check BORME files are present and not corrupt.')
-    parser.add_argument('-f', '--fromdate', help='ISO formatted date (ex. 2015-01-01). Default: init')
-    parser.add_argument('-t', '--to', help='ISO formatted date (ex. 2016-01-01). Default: today')
+    parser.add_argument('-f', '--fromdate', default='init', help='ISO formatted date (ex. 2015-01-01). Default: init')
+    parser.add_argument('-t', '--to', default='today', help='ISO formatted date (ex. 2016-01-01). Default: today')
     parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
     parser.add_argument('-s', '--seccion', default=bormeparser.SECCION.A, choices=['A', 'B', 'C'], help='BORME seccion')
     parser.add_argument('-p', '--provincia', choices=bormeparser.provincia.ALL_PROVINCIAS, help='BORME provincia')
@@ -105,15 +105,17 @@ if __name__ == '__main__':
         bormeparser.download.logger.setLevel(logging.INFO)
         logger.setLevel(logging.INFO)
 
-    if args.fromdate:
-        date_from = datetime.datetime.strptime(args.fromdate, '%Y-%m-%d').date()
-    else:
+    if args.fromdate == 'init':
         date_from = FIRST_BORME[2009]
-
-    if args.to:
-        date_to = datetime.datetime.strptime(args.to, '%Y-%m-%d').date()
+    elif args.fromdate == 'today':
+        date_from = datetime.date.today()
     else:
+        date_from = datetime.datetime.strptime(args.fromdate, '%Y-%m-%d').date()
+
+    if args.to == 'today':
         date_to = datetime.date.today()
+    else:
+        date_to = datetime.datetime.strptime(args.to, '%Y-%m-%d').date()
 
     try:
         check_range(date_from, date_to, args.provincia, args.seccion, args.directory, args.download_xml)
