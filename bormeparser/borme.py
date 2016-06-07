@@ -343,11 +343,11 @@ class BormeXML(object):
         urls = {}
 
         if seccion and provincia:
-            xpath1 = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
+            xpath1 = u'//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
         elif seccion:
             xpath1 = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
         else:
-            xpath1 = '//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
+            xpath1 = u'//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
 
         for item in self.xml.xpath(xpath1):
             if seccion and provincia:
