@@ -274,22 +274,26 @@ class BormeXML(object):
             urls = self._get_url_borme_a(seccion=seccion, provincia=provincia)
         return urls
 
-    def get_cves(self, seccion=None):
+    def get_cves(self, seccion=None, provincia=None):
         """ Obtiene los CVEs """
 
         cves = []
-        xpath = self._build_xpath(seccion)
+        xpath = self._build_xpath(seccion, provincia)
         for item in self.xml.xpath(xpath):
+            if provincia:
+                item = item.getparent()
             if not item.get('id').endswith('-99'):
                 cves.append(item.get('id'))
         return cves
 
-    def get_sizes(self, seccion=None):
+    def get_sizes(self, seccion=None, provincia=None):
         """ Obtiene un diccionario con el CVE y su tamaño """
 
         sizes = {}
-        xpath = self._build_xpath(seccion)
+        xpath = self._build_xpath(seccion, provincia)
         for item in self.xml.xpath(xpath):
+            if provincia:
+                item = item.getparent()
             if not item.get('id').endswith('-99'):
                 cve = item.get('id')
                 size = item.xpath('urlPdf')[0].get('szBytes')

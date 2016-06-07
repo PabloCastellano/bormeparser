@@ -292,7 +292,6 @@ class BormeXMLTestCase(unittest.TestCase):
                   'ZARAGOZA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-50.pdf',
                   u'\xcdNDICE ALFAB\xc9TICO DE SOCIEDADES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-99.pdf'}
 
-
         url_cve_a = {'BORME-A-2015-183-06': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-06.pdf'}
 
         urls_b = {u'A CORU\xd1A': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-15.pdf',
@@ -305,7 +304,7 @@ class BormeXMLTestCase(unittest.TestCase):
         url_cve_b = {'BORME-B-2015-183-04': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-04.pdf'}
 
         urls_c = {'BORME-C-2015-%s.xml' % str(x): 'https://www.boe.es/diario_borme/xml.php?id=BORME-C-2015-%s' % str(x)
-            for x in range(9348, 9374+1)
+            for x in range(9348, 9374 + 1)
             }
 
         self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.A), urls_a)
@@ -317,8 +316,9 @@ class BormeXMLTestCase(unittest.TestCase):
 
     def test_get_cves(self):
         seccion_a_bormes = ['BORME-A-2015-183-%s' % x
-            for x in ['01', '03', '04', '06', '07', '08', '09', '10', '11', '12', '14', '15', '16', '22', '25', '26',
-            '28', '29', '30', '31', '32', '33', '34', '35', '36', '38', '39', '40', '41', '43', '46', '47', '49', '50', '51']
+            for x in ['01', '03', '04', '06', '07', '08', '09', '10', '11', '12', '14', '15', '16',
+                      '22', '25', '26', '28', '29', '30', '31', '32', '33', '34', '35', '36', '38',
+                      '39', '40', '41', '43', '46', '47', '49', '50', '51']
             ]
 
         seccion_b_bormes = ['BORME-B-2015-183-%s' % x
@@ -326,19 +326,99 @@ class BormeXMLTestCase(unittest.TestCase):
             ]
 
         seccion_c_bormes = ['BORME-C-2015-%s' % str(x)
-            for x in range(9348, 9374+1)
+            for x in range(9348, 9374 + 1)
             ]
 
         self.assertEqual(self.bxml.get_cves(SECCION.A), seccion_a_bormes)
+        self.assertEqual(self.bxml.get_cves(SECCION.A, 'MADRID'), ['BORME-A-2015-183-28'])
         self.assertEqual(self.bxml.get_cves(SECCION.B), seccion_b_bormes)
+        self.assertEqual(self.bxml.get_cves(SECCION.B, 'MADRID'), ['BORME-B-2015-183-28'])
         self.assertEqual(self.bxml.get_cves(SECCION.C), seccion_c_bormes)
         self.assertEqual(self.bxml.get_cves(), seccion_a_bormes + seccion_b_bormes + seccion_c_bormes)
 
+    def test_get_sizes(self):
+        seccion_a_sizes = {'BORME-A-2015-183-01': 264270,
+                           'BORME-A-2015-183-03': 245244,
+                           'BORME-A-2015-183-04': 169953,
+                           'BORME-A-2015-183-06': 161559,
+                           'BORME-A-2015-183-07': 267575,
+                           'BORME-A-2015-183-08': 370135,
+                           'BORME-A-2015-183-09': 157946,
+                           'BORME-A-2015-183-10': 161280,
+                           'BORME-A-2015-183-11': 164313,
+                           'BORME-A-2015-183-12': 160732,
+                           'BORME-A-2015-183-14': 152215,
+                           'BORME-A-2015-183-15': 227369,
+                           'BORME-A-2015-183-16': 171656,
+                           'BORME-A-2015-183-22': 161860,
+                           'BORME-A-2015-183-25': 161113,
+                           'BORME-A-2015-183-26': 161466,
+                           'BORME-A-2015-183-28': 517865,
+                           'BORME-A-2015-183-29': 244087,
+                           'BORME-A-2015-183-30': 173920,
+                           'BORME-A-2015-183-31': 179861,
+                           'BORME-A-2015-183-32': 157695,
+                           'BORME-A-2015-183-33': 159711,
+                           'BORME-A-2015-183-34': 154927,
+                           'BORME-A-2015-183-35': 162190,
+                           'BORME-A-2015-183-36': 163327,
+                           'BORME-A-2015-183-38': 230147,
+                           'BORME-A-2015-183-39': 175651,
+                           'BORME-A-2015-183-40': 150569,
+                           'BORME-A-2015-183-41': 282266,
+                           'BORME-A-2015-183-43': 175624,
+                           'BORME-A-2015-183-46': 212840,
+                           'BORME-A-2015-183-47': 153324,
+                           'BORME-A-2015-183-49': 153394,
+                           'BORME-A-2015-183-50': 186990,
+                           'BORME-A-2015-183-51': 160560}
+
+        seccion_b_sizes = {'BORME-B-2015-183-04': 154590,
+                           'BORME-B-2015-183-07': 154387,
+                           'BORME-B-2015-183-15': 154473,
+                           'BORME-B-2015-183-23': 154726,
+                           'BORME-B-2015-183-28': 153207,
+                           'BORME-B-2015-183-29': 154139}
+
+        seccion_c_sizes = {'BORME-C-2015-9348': 162614,
+                           'BORME-C-2015-9349': 154154,
+                           'BORME-C-2015-9350': 153806,
+                           'BORME-C-2015-9351': 157009,
+                           'BORME-C-2015-9352': 154018,
+                           'BORME-C-2015-9353': 152244,
+                           'BORME-C-2015-9354': 153634,
+                           'BORME-C-2015-9355': 153862,
+                           'BORME-C-2015-9356': 154451,
+                           'BORME-C-2015-9357': 153346,
+                           'BORME-C-2015-9358': 155604,
+                           'BORME-C-2015-9359': 155331,
+                           'BORME-C-2015-9360': 157719,
+                           'BORME-C-2015-9361': 155338,
+                           'BORME-C-2015-9362': 158391,
+                           'BORME-C-2015-9363': 154171,
+                           'BORME-C-2015-9364': 157195,
+                           'BORME-C-2015-9365': 151230,
+                           'BORME-C-2015-9366': 150960,
+                           'BORME-C-2015-9367': 152812,
+                           'BORME-C-2015-9368': 151345,
+                           'BORME-C-2015-9369': 152875,
+                           'BORME-C-2015-9370': 154768,
+                           'BORME-C-2015-9371': 153658,
+                           'BORME-C-2015-9372': 151925,
+                           'BORME-C-2015-9373': 157139,
+                           'BORME-C-2015-9374': 153469}
+
+        self.assertEqual(self.bxml.get_sizes(SECCION.A), seccion_a_sizes)
+        self.assertEqual(self.bxml.get_sizes(SECCION.A, 'MADRID'), {'BORME-A-2015-183-28': 517865})
+        self.assertEqual(self.bxml.get_sizes(SECCION.B), seccion_b_sizes)
+        self.assertEqual(self.bxml.get_sizes(SECCION.B, 'MADRID'), {'BORME-B-2015-183-28': 153207})
+        self.assertEqual(self.bxml.get_sizes(SECCION.C), seccion_c_sizes)
+
     # get_urls_cve
-    # get_sizes
     # download_borme
     # download_single_borme
     # save_to_file
+
 
 class BormeCTestCase1(unittest.TestCase):
     @classmethod
