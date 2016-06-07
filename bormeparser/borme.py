@@ -261,15 +261,17 @@ class BormeXML(object):
         return urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
-        if not seccion and not provincia:
-            raise AttributeError('You must specifiy either provincia or seccion or both')
+        """ 
+            Obtiene urls para descargar BORME.
+            Debe especificar seccion, provincia, o ambas.
+            Para seccion='C', provincia no se tiene en cuenta.
+        """
+        if seccion == SECCION.C:
+            if provincia:
+                logger.warn('provincia parameter makes no sense when seccion="C"')
+            urls = self._get_url_borme_c(format='xml')
         else:
-            if seccion in (SECCION.A, SECCION.B):
-                urls = self._get_url_borme_a(seccion=seccion, provincia=provincia)
-            elif seccion == SECCION.C:
-                if provincia:
-                    logger.warn('provincia parameter makes no sense when seccion=C')
-                urls = self._get_url_borme_c(format='xml')
+            urls = self._get_url_borme_a(seccion=seccion, provincia=provincia)
         return urls
 
     def get_cves(self, seccion=None):
@@ -338,7 +340,9 @@ class BormeXML(object):
                            {cve: url_seccion_provincia}
 
         """
-
+        if not seccion and not provincia:
+            raise AttributeError('You must specifiy either provincia or seccion or both')
+        
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
         urls = {}
@@ -350,7 +354,8 @@ class BormeXML(object):
                 key = item.get('id')  # cve
             elif seccion:
                 key = item.xpath('titulo')[0].text  # provincia
-            else:
+            elif provincia:
+                item = item.getparent()
                 key = item.getparent().getparent().get('num')  # seccion
             url = url_base + item.xpath('urlPdf')[0].text
             urls[key] = url
