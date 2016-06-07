@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# borme_to_json.py -
-# Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
+# borme_to_json.py - Convert BORME A PDF files to JSON
+# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,26 +20,29 @@
 
 import bormeparser
 import bormeparser.backends.pypdf2.functions
+
+import argparse
 import logging
 import os
-import sys
 
 
 if __name__ == '__main__':
-
-    if len(sys.argv) == 1:
-        print('Usage: {} <filename.pdf> [--debug]'.format(sys.argv[0]))
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Convert BORME A PDF files to JSON.')
+    parser.add_argument('filename', help='BORME A PDF filename')
+    parser.add_argument('-d', '--debug', action='store_true', default=False, help='Debug mode')
+    parser.add_argument('-o', '--output', help='Output JSON file')
+    args = parser.parse_args()
 
     # set logger DEBUG (Not working)
-    if len(sys.argv) == 3 and sys.argv[2] == '--debug':
+    if args.debug:
         bormeparser.borme.logger.setLevel(logging.DEBUG)
         bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
-    # filename
-    filename = os.path.basename(sys.argv[1]).replace('.pdf', '.json')
-    borme = bormeparser.parse(sys.argv[1], bormeparser.SECCION.A)
+    if args.output:
+        filename = args.output
+    else:
+        filename = os.path.basename(args.filename).replace('.pdf', '.json')
+    borme = bormeparser.parse(args.filename, bormeparser.SECCION.A)
     borme.to_json(filename)
 
-    print()
-    print('Created %s' % os.path.abspath(filename))
+    print('\nCreated {}'.format(os.path.abspath(filename)))

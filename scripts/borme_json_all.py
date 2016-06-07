@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# borme_json_all.py -
+# borme_json_all.py - Convert all BORME PDF files to JSON
 # Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,11 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import bormeparser
 import bormeparser.borme
+from common import *
+
+import argparse
 import os
-import sys
 
 from threading import Thread
 
@@ -32,11 +33,10 @@ except ImportError:
     from Queue import Queue
 
 THREADS = 6
-BORMES_ROOT = '~/.bormes'
 
-BORMES_ROOT = os.path.expanduser(BORMES_ROOT)
-pdf_root = os.path.join(BORMES_ROOT, 'pdf')
-json_root = os.path.join(BORMES_ROOT, 'json')
+bormes_root = os.path.expanduser(DEFAULT_BORME_ROOT)
+pdf_root = os.path.join(bormes_root, 'pdf')
+json_root = os.path.join(bormes_root, 'json')
 
 
 class ThreadConvertJSON(Thread):
@@ -58,10 +58,8 @@ class ThreadConvertJSON(Thread):
 
 
 if __name__ == '__main__':
-
-    if len(sys.argv) != 1:
-        print('Usage: %s' % sys.argv[0])
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
+    args = parser.parse_args()
 
     q = Queue()
     for i in range(THREADS):

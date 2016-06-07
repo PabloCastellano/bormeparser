@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# borme_info.py -
+# borme_info.py - Shows BORME A info
 # Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,41 +17,62 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 import bormeparser
 import bormeparser.backends.pypdf2.functions
+from bormeparser.exceptions import BormeAnuncioNotFound
+
+import argparse
 import logging
 import sys
 
 
-# TODO: Fusionar con borme_info_num.py
+def print_anuncio(anuncio):
+    print('\nAnuncio {}'.format(anuncio.id))
+    print('-' * (8 + len(str(anuncio.id))))
+    print()
+    for acto, valor in anuncio.get_actos():
+        print('  {}'.format(acto))
+        print('    {}'.format(valor))
+    print('  Datos registrales')
+    print('    ' + anuncio.datos_registrales)
+    print()
+
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Shows BORME A info.')
+    parser.add_argument('filename', help='BORME A PDF filename')
+    parser.add_argument('-n', '--number', nargs='*', type=int, help='Show Verbose mode')
+    parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
+    args = parser.parse_args()
 
     # set logger DEBUG (Not working)
-    if len(sys.argv) == 3 and sys.argv[2] == '--debug':
+    if args.verbose:
         bormeparser.borme.logger.setLevel(logging.DEBUG)
         bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
-    borme = bormeparser.parse(sys.argv[1], bormeparser.SECCION.A)
+    borme = bormeparser.parse(args.filename, bormeparser.SECCION.A)
 
-    for anuncio in borme.get_anuncios():
-        print('Anuncio %d' % anuncio.id)
-        print('-' * (8 + len(str(anuncio.id))))
-        print()
-        for acto, valor in anuncio.get_actos():
-            print('  %s' % acto)
-            print('    %s' % valor)
-        print('  Datos registrales')
-        print('    %s' % anuncio.datos_registrales)
-        print()
+    if args.number:
+        anuncios = []
+        for n in args.number:
+            try:
+                anuncio = borme.get_anuncio(n)
+                anuncios.append(anuncio)
+            except BormeAnuncioNotFound:
+                print('No existe el anuncio {}. Elije uno entre {} y {}.'.format(n, borme.anuncios_rango[0], borme.anuncios_rango[1]))
+                sys.exit(1)
+    else:
+        anuncios = borme.get_anuncios()
 
-    print('Otros')
-    print('-----')
-    print()
-    print('  CVE: %s' % borme.cve)
-    print('  Fecha: %s' % borme.date)
-    print('  Num: %s' % borme.num)
-    print('  Provincia: %s' % borme.provincia)
-    print('  Seccion: %s' % borme.seccion)
-    print('  Anuncios incluidos: %d' % len(borme.get_anuncios()))
+    for anuncio in anuncios:
+        print_anuncio(anuncio)
+
+    if not args.number:
+        print('Otros datos')
+        print('-----\n')
+        print('  CVE: {}'.format(borme.cve))
+        print('  Fecha: {}'.format(borme.date))
+        print('  Num: {}'.format(borme.num))
+        print('  Provincia: {}'.format(borme.provincia))
+        print('  Seccion: {}'.format(borme.seccion))
+        print('  Anuncios incluidos: {}'.format(len(borme.get_anuncios())))

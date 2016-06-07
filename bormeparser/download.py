@@ -138,7 +138,7 @@ def get_url_borme_c(date, some_number, format='xml'):
     else:
         raise ValueError('format must be "xml", "htm" or "pdf"')
 """
-    
+
 def get_nbo_from_xml(source):
     """ Número de Boletín Oficial """
     if source.startswith('https'):
@@ -292,7 +292,7 @@ def get_url_xml(date, secure=USE_HTTPS):
 
 # TODO: FileExistsError (subclass de OSError)
 def download_url(url, filename=None):
-    logger.info('Downloading URL: %s' % url)
+    logger.debug('Downloading URL: %s' % url)
     if os.path.exists(filename):
         logger.warning('%s already exists!' % os.path.basename(filename))
         return False
