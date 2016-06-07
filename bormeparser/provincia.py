@@ -120,3 +120,5 @@ class PROVINCIA:
             return getattr(PROVINCIA, title)
         except AttributeError:
             raise ValueError('InvalidProvince: %s' % title)
+
+ALL_PROVINCIAS = list(filter(lambda x: not x.startswith('__') and x != 'from_title', vars(PROVINCIA)))

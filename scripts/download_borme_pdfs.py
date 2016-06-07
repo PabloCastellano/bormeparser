@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# download_borme_pdfs_A.py - Download BORME A PDF files
+# download_borme_pdfs_A.py - Download BORME PDF files
 # Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -81,12 +81,12 @@ def download_range(begin, end, directory, seccion, provincia=None):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Download BORME A PDF files.')
+    parser = argparse.ArgumentParser(description='Download BORME PDF files.')
     parser.add_argument('-f', '--fromdate', default='today', help='ISO formatted date (ex. 2015-01-01) or "init". Default: today')
     parser.add_argument('-t', '--to', default='today', help='ISO formatted date (ex. 2016-01-01). Default: today')
     parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
     parser.add_argument('-s', '--seccion', default=bormeparser.SECCION.A, choices=['A', 'B', 'C'], help='BORME seccion')
-    parser.add_argument('-p', '--provincia', help='BORME provincia')
+    parser.add_argument('-p', '--provincia', choices=bormeparser.provincia.ALL_PROVINCIAS, help='BORME provincia')
     parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
     args = parser.parse_args()
 
