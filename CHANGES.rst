@@ -1,8 +1,14 @@
 Changelog
 =========
 
-Version X.X [unreleased]
+Version 0.24 [unreleased]
 ------------------------
+
+- BormeXML: get_url_pdfs, get_cves y get_sizes ahora permiten especificar sección y provincia
+- Nueva constante ALL_PROVINCIAS en bormeparser.provincia
+- Detección de nuevos tipos de sociedades
+- Limpieza y uso de argparse en los scripts
+- Mejoras menores en la documentación
 
 Version 0.2.3 [2016-04-26]
 ------------------------

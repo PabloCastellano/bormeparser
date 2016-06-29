@@ -50,7 +50,7 @@ Instalación desde Git
 
 Puedes instalar bormeparser descargándolo y ejecutando:
 
-    sudo apt-get install python3-dev libxslt1-dev libffi-dev zlib1g-dev
+    sudo apt-get install python3-dev libxslt1-dev libffi-dev zlib1g-dev gcc
     git clone https://github.com/PabloCastellano/bormeparser.git
     cd bormeparser
     python setup.py install
@@ -62,6 +62,15 @@ Instalación desde Pip
 =====================
 
     pip install bormeparser
+
+
+Scripts
+=======
+    python scripts/download_borme_pdfs.py -f init -p VALENCIA
+    python scripts/check_bormes.py -f init -p VALENCIA
+    python scripts/download_borme_pdfs.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01
+    python scripts/check_bormes.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01
+    python scripts/borme_json_all.py
 
 
 Tests
