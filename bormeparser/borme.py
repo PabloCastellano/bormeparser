@@ -293,7 +293,10 @@ class BormeXML(object):
                 sizes[cve] = int(size)
         return sizes
 
-    def _build_xpath(self, seccion, provincia=None):
+    def _build_xpath(self, seccion=None, provincia=None):
+        """
+            Devuelve una lista con los elementos item
+        """
         if seccion and provincia:
             xpath = u'//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
         elif seccion:
