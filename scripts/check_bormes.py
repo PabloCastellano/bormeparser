@@ -117,7 +117,8 @@ if __name__ == '__main__':
     else:
         date_to = datetime.datetime.strptime(args.to, '%Y-%m-%d').date()
 
+    directory = os.path.expanduser(args.directory)
     try:
-        check_range(date_from, date_to, args.provincia, args.seccion, args.directory, args.download_xml)
+        check_range(date_from, date_to, args.provincia, args.seccion, directory, args.download_xml)
     except BormeDoesntExistException:
         logger.warn('It looks like there is no BORME for the start date ({}). Nothing was downloaded'.format(date_from))

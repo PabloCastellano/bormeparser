@@ -57,8 +57,9 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
     args = parser.parse_args()
 
-    pdf_root = os.path.join(args.directory, 'pdf')
-    json_root = os.path.join(args.directory, 'json')
+    bormes_root = os.path.expanduser(args.directory)
+    pdf_root = os.path.join(bormes_root, 'pdf')
+    json_root = os.path.join(bormes_root, 'json')
 
     q = Queue()
     for i in range(THREADS):
