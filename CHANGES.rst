@@ -1,7 +1,7 @@
 Changelog
 =========
 
-Version 0.24 [unreleased]
+Version 0.2.4 [unreleased]
 ------------------------
 
 - BormeXML: get_url_pdfs, get_cves y get_sizes ahora permiten especificar sección y provincia

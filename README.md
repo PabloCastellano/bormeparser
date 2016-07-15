@@ -66,11 +66,12 @@ Instalación desde Pip
 
 Scripts
 =======
+
     python scripts/download_borme_pdfs.py -f init -p VALENCIA
     python scripts/check_bormes.py -f init -p VALENCIA
     python scripts/download_borme_pdfs.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01
     python scripts/check_bormes.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01
-    python scripts/borme_json_all.py
+    python scripts/borme_json_all.py -d /tmp/bormemadrid
 
 
 Tests

@@ -34,11 +34,6 @@ except ImportError:
 
 THREADS = 6
 
-bormes_root = os.path.expanduser(DEFAULT_BORME_ROOT)
-pdf_root = os.path.join(bormes_root, 'pdf')
-json_root = os.path.join(bormes_root, 'json')
-
-
 class ThreadConvertJSON(Thread):
     def __init__(self, queue):
         super(ThreadConvertJSON, self).__init__()
@@ -59,7 +54,11 @@ class ThreadConvertJSON(Thread):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
+    parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
     args = parser.parse_args()
+
+    pdf_root = os.path.join(args.directory, 'pdf')
+    json_root = os.path.join(args.directory, 'json')
 
     q = Queue()
     for i in range(THREADS):
