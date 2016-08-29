@@ -50,6 +50,10 @@ setup(
     url='https://github.com/PabloCastellano/bormeparser/',
     download_url='https://github.com/PabloCastellano/bormeparser/archive/master.zip',
     keywords=['BORME', 'transparency', 'opendata', 'Spain', 'Registro mercantil', 'Boletín Oficial del Registro Mercantil'],
+    classifiers=[
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 2',
+    ],
     license=__license__,
     data_files=[('', ['LICENSE.txt'])],
     include_package_data=True,
