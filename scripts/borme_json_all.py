@@ -34,6 +34,7 @@ except ImportError:
 
 THREADS = 6
 
+
 class ThreadConvertJSON(Thread):
     def __init__(self, queue):
         super(ThreadConvertJSON, self).__init__()

@@ -51,6 +51,15 @@ ch = logging.StreamHandler()
 logger.addHandler(ch)
 logger.setLevel(logging.WARN)
 
+# RAW_FILE_VERSION must be a positive integer string.
+# Each new version adds 1 if the result file can change.
+RAW_FILE_VERSION = "1"
+# Thousands file version. It represents the file version part corresponding to this parser
+TH_FILE_VERSION = "1"
+# The file version depends on parser one and parser two. It is coded to avoid
+# that the parser one changes and the parser two does not.
+FILE_VERSION = "{}".format(int(RAW_FILE_VERSION) + 1000 * int(TH_FILE_VERSION))
+
 
 class BormeActo(object):
     """
@@ -499,6 +508,11 @@ class Borme(object):
                 doc['anuncios'][anuncio.id]['actos'][acto.name] = acto.value
 
         doc['num_anuncios'] = num_anuncios
+
+        # For compatibility with other parsers
+        doc['raw_version'] = RAW_FILE_VERSION
+        doc['version'] = FILE_VERSION
+
         logger.debug(doc)
         return doc
 
