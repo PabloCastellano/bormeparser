@@ -257,7 +257,7 @@ class BormeXML(object):
         assert(date == bxml.date)
         return bxml
 
-    def get_urls_cve(self, seccion=None):
+    def get_urls_cve(self, seccion=None, provincia=None):
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
         urls_cve = {}
