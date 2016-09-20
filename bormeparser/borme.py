@@ -466,7 +466,7 @@ class Borme(object):
         """
         [BormeAnuncio]
         """
-        return list(self.anuncios.values())
+        return list(self.anuncios.keys())
 
     def get_anuncios(self):
         """
