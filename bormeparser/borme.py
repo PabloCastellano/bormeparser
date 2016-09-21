@@ -486,7 +486,7 @@ class Borme(object):
         return downloaded
 
     def _to_dict(self, set_url=True):
-        doc = OrderedDict()
+        doc = {}
         doc['cve'] = self.cve
         doc['date'] = self.date.isoformat()
         doc['seccion'] = self.seccion
@@ -501,7 +501,7 @@ class Borme(object):
         num_anuncios = 0
         for id, anuncio in self.anuncios.items():
             num_anuncios += 1
-            doc['anuncios'][anuncio.id] = OrderedDict()
+            doc['anuncios'][anuncio.id] = {}
             doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
             doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
             doc['anuncios'][anuncio.id]['actos'] = []
@@ -539,7 +539,7 @@ class Borme(object):
         doc = self._to_dict(include_url)
         indent = 2 if pretty else None
         with open(filename, 'w') as fp:
-            fp.write(json.dumps(doc, default=set_default, indent=indent))
+            json.dump(doc, fp, default=set_default, indent=indent, sort_keys=True)
         return True
 
     @classmethod
