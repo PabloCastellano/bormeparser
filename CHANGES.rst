@@ -1,8 +1,12 @@
 Changelog
 =========
 
+Version 0.2.5 [unreleased]
+--------------------------
+
+
 Version 0.2.4 [2016-09-21]
-------------------------
+--------------------------
 
 - BormeXML: get_url_pdfs, get_cves y get_sizes ahora permiten especificar sección y provincia
 - Nueva constante ALL_PROVINCIAS en bormeparser.provincia
@@ -12,17 +16,17 @@ Version 0.2.4 [2016-09-21]
 - Nuevos campos "version" y "raw_version" en el formato JSON de BORME
 
 Version 0.2.3 [2016-04-26]
-------------------------
+--------------------------
 
 - Mejora en el parser de BORME C
 
 Version 0.2.2 [2016-04-26]
-------------------------
+--------------------------
 
 - Mejoras en el parser de BORME C
 
 Version 0.2.1 [2016-04-25]
-------------------------
+--------------------------
 
 - Corregidos fallos de compatibilidad con Python 2
 
@@ -47,7 +51,7 @@ Version 0.1.5 [2015-09-25]
 - Mejoras en setuptools
 
 Version 0.1.4 [2015-09-24]
-------------------------
+--------------------------
 
 - Grandes mejoras en el parser en general
 - Añadidos cargos y actos nuevos
@@ -62,17 +66,17 @@ Version 0.1.4 [2015-09-24]
 - Actualización de los requisitos
 
 Version 0.1.3 [2015-08-08]
-------------------------
+--------------------------
 
 - Fixed missing packages that weren't distributed
 
 Version 0.1.2 [2015-08-07]
-------------------------
+--------------------------
 
 - Fixed UnicodeWarning that caused tests to fail in Python 2
 
 Version 0.1.1 [2015-08-07]
-------------------------
+--------------------------
 
 - setup.py install now installs requirements
 
