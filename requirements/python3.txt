@@ -1,2 +1,2 @@
 -r base.txt
-pdfminer.six==20160202
+pdfminer.six==20160614

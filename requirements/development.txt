@@ -1,2 +1,2 @@
 bpython==0.15
-coverage==4.1
+coverage==4.2
