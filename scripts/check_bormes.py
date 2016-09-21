@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # check_bormes.py - Check BORME files are present and not corrupt
 # Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
@@ -22,7 +21,7 @@ import bormeparser
 from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.borme import BormeXML
 from bormeparser.utils import FIRST_BORME
-from common import *
+from common import DEFAULT_BORME_ROOT, get_borme_xml_filepath, get_borme_pdf_path
 
 import argparse
 import datetime

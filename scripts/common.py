@@ -21,13 +21,6 @@ import os
 
 DEFAULT_BORME_ROOT = '~/.bormes'
 
-try:
-    FileNotFoundError
-except NameError:
-    # Python 2
-    FileNotFoundError = IOError
-
-
 def get_borme_xml_filepath(date, directory):
     year = str(date.year)
     month = '{:02d}'.format(date.month)

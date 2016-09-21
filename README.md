@@ -67,12 +67,15 @@ Instalación desde Pip
 Scripts
 =======
 
+La carpeta scripts/ contiene algunos scripts útiles para tratar archivos BORME. Todos tienen parámetros de entrada similares.
+
     python scripts/download_borme_pdfs.py -f init -p VALENCIA
     python scripts/check_bormes.py -f init -p VALENCIA
-    python scripts/download_borme_pdfs.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01
-    python scripts/check_bormes.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01
+    python scripts/download_borme_pdfs.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01 -t 2016-06-30
+    python scripts/check_bormes.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01 -t 2016-06-30
     python scripts/borme_json_all.py -d /tmp/bormemadrid
 
+No está garantizado que todos los scripts sean compatibles con Python 2.
 
 Tests
 =====
@@ -88,4 +91,4 @@ Este paquete contiene tests unitarios. Puedes ejecutarlos escribiendo alguna de 
 Licencia
 ========
 
-Todo el código está bajo licencia GPLv3+.
+Todo el código está bajo licencia GPLv3+. Para más información consulta el archivo LICENSE.txt

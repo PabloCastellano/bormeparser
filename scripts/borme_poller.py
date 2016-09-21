@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # borme_poller.py -
 # Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
@@ -22,11 +21,7 @@
 import datetime
 import time
 
-try:
-    # Python 3
-    from urllib import request
-except ImportError:
-    import urllib as request
+from urllib import request
 
 URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-'  # https://boe.es/diario_borme/xml.php?id=BORME-S-20150910
 DELAY = 5 * 60  # 5 minutes
