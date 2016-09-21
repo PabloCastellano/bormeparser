@@ -160,15 +160,18 @@ class BormeAnuncio(object):
         self.id = id
         self.empresa = empresa
         self.datos_registrales = datos_registrales or ""
-        self._set_actos(actos.copy())
+        self._set_actos(actos)
 
     def _set_actos(self, actos):
         self.actos = []
-        if not self.datos_registrales:
-            self.datos_registrales = actos['Datos registrales']
-            del actos['Datos registrales']
+        for acto in actos:
+            acto_nombre = acto['label']
+            valor = acto['value']
 
-        for acto_nombre, valor in actos.items():
+            if acto_nombre == 'Datos registrales':
+                self.datos_registrales = valor
+                continue
+
             if is_acto_rare_cargo(acto_nombre):
                 if acto_nombre.startswith(u'Declaración de unipersonalidad'):
                     a = BormeActoFact(acto_nombre, valor)
@@ -269,7 +272,7 @@ class BormeXML(object):
         return urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
-        """ 
+        """
             Obtiene urls para descargar BORME.
             Debe especificar seccion, provincia, o ambas.
             Para seccion='C', provincia no se tiene en cuenta.
@@ -355,7 +358,7 @@ class BormeXML(object):
         """
         if not seccion and not provincia:
             raise AttributeError('You must specifiy either provincia or seccion or both')
-        
+
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
         urls = {}
@@ -501,11 +504,11 @@ class Borme(object):
             doc['anuncios'][anuncio.id] = OrderedDict()
             doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
             doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
-            doc['anuncios'][anuncio.id]['actos'] = {}
+            doc['anuncios'][anuncio.id]['actos'] = []
             doc['anuncios'][anuncio.id]['num_actos'] = 0
             for acto in anuncio.actos:
                 doc['anuncios'][anuncio.id]['num_actos'] += 1
-                doc['anuncios'][anuncio.id]['actos'][acto.name] = acto.value
+                doc['anuncios'][anuncio.id]['actos'].append({acto.name: acto.value})
 
         doc['num_anuncios'] = num_anuncios
 

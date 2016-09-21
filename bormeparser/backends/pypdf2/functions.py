@@ -29,7 +29,7 @@ from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
-actos = OrderedDict()
+actos = []
 
 SANITIZE_COMPANY_NAME = True
 
@@ -53,7 +53,7 @@ def parse_acto(nombreacto, data, prefix=''):
 
     logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
     logger.debug('  %s dataW: %s' % (prefix, data))
-    actos[nombreacto] = data
+    actos.append({'label': nombreacto, 'value': data})
 
 
 def parse_acto_bold(nombreacto, data):
@@ -64,10 +64,10 @@ def parse_acto_bold(nombreacto, data):
         # TODO: u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo'
         if nombreacto.startswith(u'Declaración de unipersonalidad'):
             acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
-            actos[acto_colon] = True
+            actos.append({'label': acto_colon, 'value': True})
         else:
             acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
-            actos[acto_colon] = arg_colon
+            actos.append({'label': acto_colon, 'value': arg_colon})
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
         logger.debug('  nombreacto: %s' % nombreacto)
@@ -75,14 +75,14 @@ def parse_acto_bold(nombreacto, data):
     elif REGEX_ARGCOLON.match(nombreacto):
         acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
         # FIXME: check
-        actos[acto_colon] = arg_colon
+        actos.append({'label': acto_colon, 'value': arg_colon})
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
         logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)
     elif REGEX_NOARG.match(nombreacto):
         acto_noarg, nombreacto = regex_noarg(nombreacto)
-        actos[acto_noarg] = True
+        actos.append({'label': acto_noarg, 'value': True})
         logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
         logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)
@@ -111,7 +111,7 @@ def parse_file(filename):
     DATA = OrderedDict()
     for key in ('borme_fecha', 'borme_num', 'borme_seccion', 'borme_subseccion', 'borme_provincia', 'borme_cve'):
         DATA[key] = None
-    actos.clear()
+    actos = []
 
     reader = PdfFileReader(open(filename, 'rb'))
     for n in range(0, reader.getNumPages()):
@@ -140,7 +140,7 @@ def parse_file(filename):
                     DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
 
                 data = ""
-                actos = OrderedDict()
+                actos = []
                 continue
 
             if line.startswith('/Texto_acto'):
