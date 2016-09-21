@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
 #
 # borme_json_all.py - Convert all BORME PDF files to JSON
 # Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
@@ -19,18 +18,13 @@
 
 import bormeparser
 import bormeparser.borme
-from common import *
+from common import DEFAULT_BORME_ROOT
 
 import argparse
 import os
 
 from threading import Thread
-
-try:
-    # Python 3
-    from queue import Queue
-except ImportError:
-    from Queue import Queue
+from queue import Queue
 
 THREADS = 6
 
@@ -43,7 +37,7 @@ class ThreadConvertJSON(Thread):
     def run(self):
         while True:
             pdf_path, json_path = self.queue.get()
-            print('Creating %s...' % json_path)
+            print('Creating %s ...' % json_path)
             try:
                 borme = bormeparser.parse(pdf_path, bormeparser.SECCION.A)
                 borme.to_json(json_path)
@@ -53,25 +47,9 @@ class ThreadConvertJSON(Thread):
             self.queue.task_done()
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
-    parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
-    args = parser.parse_args()
-
-    bormes_root = os.path.expanduser(args.directory)
+def walk_borme_root(bormes_root):
     pdf_root = os.path.join(bormes_root, 'pdf')
     json_root = os.path.join(bormes_root, 'json')
-
-    q = Queue()
-    for i in range(THREADS):
-        t = ThreadConvertJSON(q)
-        t.setDaemon(True)
-        t.start()
-
-    try:
-        os.makedirs(json_root)
-    except OSError:
-        pass
 
     _, year_dirs, _ = next(os.walk(pdf_root))
     for year in year_dirs:
@@ -86,17 +64,30 @@ if __name__ == '__main__':
                 day_dir = os.path.join(month_dir, day)
                 json_day_dir = os.path.join(json_month_dir, day)
 
-                try:
-                    os.makedirs(json_day_dir)
-                except OSError:
-                    pass
+                os.makedirs(json_day_dir, exist_ok=True)
 
                 _, _, files = next(os.walk(day_dir))
                 for filename in files:
-                    if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):
-                        continue
-                    pdf_path = os.path.join(day_dir, filename)
-                    json_filename = filename.replace('.pdf', '.json')
-                    json_path = os.path.join(json_day_dir, json_filename)
-                    q.put((pdf_path, json_path))
+                    yield day_dir, json_day_dir, filename
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
+    parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
+    args = parser.parse_args()
+
+    bormes_root = os.path.expanduser(args.directory)
+
+    q = Queue()
+    for i in range(THREADS):
+        t = ThreadConvertJSON(q)
+        t.setDaemon(True)
+        t.start()
+
+    for day_dir, json_day_dir, filename in walk_borme_root(bormes_root):
+        if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):
+            continue
+        pdf_path = os.path.join(day_dir, filename)
+        json_filename = filename.replace('.pdf', '.json')
+        json_path = os.path.join(json_day_dir, json_filename)
+        q.put((pdf_path, json_path))
     q.join()
