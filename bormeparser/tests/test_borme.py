@@ -65,6 +65,10 @@ class BormeATestCase(unittest.TestCase):
         self.assertEqual(self.borme.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(self.borme.filename, os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'))
 
+    def test_get_anuncios_ids(self):
+        ids = self.borme.get_anuncios_ids()
+        self.assertEqual(ids, list(range(57315, 57345)))
+
     def test_json(self):
         fp = tempfile.NamedTemporaryFile()
         filename = fp.name
