@@ -528,7 +528,7 @@ class Borme(object):
                 http://stackoverflow.com/a/22281062
             """
             if isinstance(obj, set):
-                return list(obj)
+                return sorted(obj)
             elif isinstance(obj, Provincia):
                 return str(obj)
             raise TypeError(type(obj))
