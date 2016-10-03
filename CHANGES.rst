@@ -1,8 +1,10 @@
 Changelog
 =========
 
-Version 0.2.5 [unreleased]
+Version 0.3.0 [unreleased]
 --------------------------
+
+- Cambios en el formato BORME-JSON
 
 
 Version 0.2.4 [2016-09-21]
