@@ -77,6 +77,10 @@ if __name__ == '__main__':
 
     bormes_root = os.path.expanduser(args.directory)
 
+    print('WARNING: This script is not thread safe and may have incorrect results!')
+    print('Process will start in 5 seconds.\n')
+    time.sleep(5)
+
     q = Queue()
     for i in range(THREADS):
         t = ThreadConvertJSON(q)
