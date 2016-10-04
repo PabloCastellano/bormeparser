@@ -196,9 +196,10 @@ def parse_file(filename):
                     logger.debug('END: cabecera')
                     cabecera = False
                     data = clean_data(data)
-                    anuncio_id, empresa = regex_empresa(data, sanitize=SANITIZE_COMPANY_NAME)
+                    anuncio_id, empresa, registro = regex_empresa(data, sanitize=SANITIZE_COMPANY_NAME)
                     logger.debug('  anuncio_id: %s' % anuncio_id)
                     logger.debug('  empresa: %s' % empresa)
+                    logger.debug('  registro: %s' % registro)
                     data = ""
                 if texto:
                     logger.debug('END: texto')
