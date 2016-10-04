@@ -49,7 +49,7 @@ def parse_acto(nombreacto, data, prefix=''):
 
     logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
     logger.debug('  %s dataW: %s' % (prefix, data))
-    actos.append({'label': nombreacto, 'value': data})
+    actos.append({nombreacto: data})
 
 
 def parse_acto_bold(nombreacto, data):
@@ -60,7 +60,7 @@ def parse_acto_bold(nombreacto, data):
         end = True
     elif is_acto_bold(nombreacto):
         acto_colon, arg_colon, nombreacto = regex_bold_acto(nombreacto)
-        actos.append({'label': acto_colon, 'value': arg_colon})
+        actos.append({acto_colon: arg_colon})
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
         logger.debug('  nombreacto: %s' % nombreacto)
@@ -68,14 +68,14 @@ def parse_acto_bold(nombreacto, data):
     elif REGEX_ARGCOLON.match(nombreacto):
         acto_colon, arg_colon, nombreacto = regex_argcolon(nombreacto)
         # FIXME: check
-        actos.append({'label': acto_colon, 'value': arg_colon})
+        actos.append({acto_colon: arg_colon})
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
         logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)
     elif REGEX_NOARG.match(nombreacto):
         acto_noarg, nombreacto = regex_noarg(nombreacto)
-        actos.append({'label': acto_noarg, 'value': None})
+        actos.append({acto_noarg: None})
         logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
         logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)

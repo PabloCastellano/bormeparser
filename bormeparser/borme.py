@@ -151,18 +151,16 @@ class BormeAnuncio(object):
     def _set_actos(self, actos):
         self.actos = []
         for acto in actos:
-            acto_nombre = acto['label']
-            valor = acto['value']
+            for acto_nombre, valor in acto.items():
+                if acto_nombre == 'Datos registrales':
+                    self.datos_registrales = valor
+                    continue
 
-            if acto_nombre == 'Datos registrales':
-                self.datos_registrales = valor
-                continue
-
-            if is_acto_cargo(acto_nombre):
-                a = BormeActoCargo(acto_nombre, valor)
-            else:
-                a = BormeActoTexto(acto_nombre, valor)
-            self.actos.append(a)
+                if is_acto_cargo(acto_nombre):
+                    a = BormeActoCargo(acto_nombre, valor)
+                else:
+                    a = BormeActoTexto(acto_nombre, valor)
+                self.actos.append(a)
 
     def get_borme_actos(self):
         return self.actos

@@ -81,7 +81,7 @@ def is_acto_cargo_entrante(data):
 
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
-    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos'
+    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos',
              'Ceses/Dimisiones', u'Emisión de obligaciones', u'Modificación de poderes']
     return data in actos
 
@@ -144,7 +144,7 @@ def regex_empresa(data, sanitize=True):
     if res:
         acto_id, empresa, registro = res.groups()
         if registro not in ALL_REGISTROS:
-            raise ValueError("Registro desconocido: " + registro)
+            logger.warning("Registro desconocido: " + registro)
     else:
         acto_id, empresa = REGEX_EMPRESA.match(data).groups()
         registro = None
