@@ -141,10 +141,11 @@ class BormeAnuncio(object):
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
-    def __init__(self, id, empresa, actos, datos_registrales=None):
-        logger.debug('new BormeAnuncio(%s) %s' % (id, empresa))
+    def __init__(self, id, empresa, actos, registro=None, datos_registrales=None):
+        logger.debug("new BormeAnuncio({}) {} ({})".format(id, empresa, registro))
         self.id = id
         self.empresa = empresa
+        self.registro = registro
         self.datos_registrales = datos_registrales or ""
         self._set_actos(actos)
 
@@ -170,7 +171,7 @@ class BormeAnuncio(object):
             yield acto.name, acto.value
 
     def __repr__(self):
-        return "<BormeAnuncio(%d) %s (%d)>" % (self.id, self.empresa, len(self.actos))
+        return "<BormeAnuncio({}) {} ({}) ({})>".format(self.id, self.empresa, self.registro, len(self.actos))
 
 
 # TODO: guardar self.filepath si from_file, y si from_date y luego save_to_file tb
@@ -480,6 +481,7 @@ class Borme(object):
             num_anuncios += 1
             doc['anuncios'][anuncio.id] = {}
             doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
+            doc['anuncios'][anuncio.id]['registro'] = anuncio.registro
             doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
             doc['anuncios'][anuncio.id]['actos'] = []
             doc['anuncios'][anuncio.id]['num_actos'] = 0
@@ -537,7 +539,7 @@ class Borme(object):
             bormeanuncios = []
             anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
             for id_anuncio, data in anuncios:
-                a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], data['datos registrales'])
+                a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], data['registro'], data['datos registrales'])
                 bormeanuncios.append(a)
         borme = Borme(date, seccion, provincia, num, cve, bormeanuncios, filename)
         borme._url = url

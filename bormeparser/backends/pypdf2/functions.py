@@ -92,6 +92,7 @@ def parse_file(filename):
     cve = False
     data = ""
     empresa = None
+    registro = None
     fecha = False
     last_font = 0
     nombreacto = None
@@ -130,7 +131,8 @@ def parse_file(filename):
                 if nombreacto:
                     parse_acto(nombreacto, data, prefix='BT')
                     nombreacto = None
-                    DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
+                    DATA[anuncio_id] = {'Empresa': empresa, 'Registro': registro, 'Actos': actos}
+                    registro = None
 
                 data = ""
                 actos = []
@@ -290,6 +292,6 @@ def parse_file(filename):
 
     if nombreacto:
         parse_acto(nombreacto, data, prefix='END')
-        DATA[anuncio_id] = {'Empresa': empresa, 'Actos': actos}
+        DATA[anuncio_id] = {'Empresa': empresa, 'Registro': registro, 'Actos': actos}
 
     return DATA
