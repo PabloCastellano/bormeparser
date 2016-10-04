@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # bormeparser.backends.pypdf2.functions.py -
-# Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@ import logging
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_rare,\
-                              regex_decl_unip, REGEX_ARGCOLON, REGEX_NOARG, REGEX_PDF_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
-                              is_acto_escision, regex_escision, regex_fusion, is_acto_fusion
+from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex_noarg, is_acto_cargo, is_acto_bold,\
+                              regex_bold_acto, REGEX_ARGCOLON, REGEX_NOARG, REGEX_PDF_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
+                              is_acto_bold_mix
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
@@ -46,10 +46,6 @@ def parse_acto(nombreacto, data, prefix=''):
         if not cargos:
             logger.warning('No se encontraron cargos en la cadena: %s' % data)
         data = cargos
-    elif is_acto_escision(nombreacto):
-        nombreacto, data = regex_escision(nombreacto, data)
-    elif is_acto_fusion(nombreacto):
-        data = regex_fusion(data)
 
     logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
     logger.debug('  %s dataW: %s' % (prefix, data))
@@ -60,14 +56,11 @@ def parse_acto_bold(nombreacto, data):
     global actos
     end = False
 
-    if is_acto_rare(nombreacto):
-        # TODO: u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo'
-        if nombreacto.startswith(u'Declaración de unipersonalidad'):
-            acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
-            actos.append({'label': acto_colon, 'value': True})
-        else:
-            acto_colon, arg_colon, nombreacto = regex_decl_unip(nombreacto)
-            actos.append({'label': acto_colon, 'value': arg_colon})
+    if is_acto_bold_mix(nombreacto):
+        end = True
+    elif is_acto_bold(nombreacto):
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(nombreacto)
+        actos.append({'label': acto_colon, 'value': arg_colon})
 
         logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))
         logger.debug('  nombreacto: %s' % nombreacto)
@@ -82,7 +75,7 @@ def parse_acto_bold(nombreacto, data):
         logger.debug('  data: %s' % data)
     elif REGEX_NOARG.match(nombreacto):
         acto_noarg, nombreacto = regex_noarg(nombreacto)
-        actos.append({'label': acto_noarg, 'value': True})
+        actos.append({'label': acto_noarg, 'value': None})
         logger.debug('  F2 acto_noargW: %s -- True' % acto_noarg)
         logger.debug('  nombreacto: %s' % nombreacto)
         logger.debug('  data: %s' % data)
@@ -252,7 +245,11 @@ def parse_file(filename):
                     if end:
                         break
 
-                data = ""
+                if is_acto_bold_mix(nombreacto):
+                    nombreacto = "Escisión total"
+                    data = "Sociedades beneficiarias de la escisión:"
+                else:
+                    data = ""
                 logger.debug('  data_1: %s' % data)
                 last_font = 2
                 continue

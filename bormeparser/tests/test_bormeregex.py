@@ -19,7 +19,7 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company, regex_escision, regex_fusion
+from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company
 from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo, borme_c_separa_empresas_titulo
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
@@ -109,49 +109,39 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
         self.assertRaises(ValueError, is_acto_cargo_entrante, 'Cambio de domicilio social')
 
 
-class BormeparserRegexRareTestCase(unittest.TestCase):
+class BormeparserRegexBoldTestCase(unittest.TestCase):
     string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
     string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
     string3 = u'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
-    string7 = u'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B12345678.Ceses/Dimisiones.'
+    string4 = u'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B12345678.Ceses/Dimisiones.'
+    string5 = u'Declaración de unipersonalidad. Socio único: ENGLOBA GRUPO DE COMUNICACION SL. Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.'
 
-    string4 = u'Sociedades beneficiarias de la escisión: PEPE SL.'
-    string5 = u'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA. PEDRO ANTONIO EXPLOTACIONES SL.'
-    string6 = u'Sociedades que se fusiónan: YOLO SOCIEDAD ANONIMA.'
 
     def test_regex_decl_unip(self):
-        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string1)
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string1)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {u'Socio Único': {'GRUPO DE EMPRESAS E INVERSIONES YOLO S.L'}})
+        self.assertEqual(arg_colon, u'Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L')
         self.assertEqual(nombreacto, 'Nombramientos')
 
-        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string2)
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string2)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {u'Socio Único': {'JOHN DOE'}})
+        self.assertEqual(arg_colon, u'Socio único: JOHN DOE')
         self.assertEqual(nombreacto, 'Datos registrales')
 
-        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string3)
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string3)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {u'Socio Único': {'FOO DOE'}})
+        self.assertEqual(arg_colon, u'Socio único: FOO DOE')
         self.assertEqual(nombreacto, u'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
 
-        acto_colon, arg_colon, nombreacto = regex_decl_unip(self.string7)
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string4)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, {u'Socio Único': {'CORPOREISHON BLA BLA. Cif:B12345678'}})
+        self.assertEqual(arg_colon, u'Socio único: CORPOREISHON BLA BLA. Cif:B12345678')
         self.assertEqual(nombreacto, u'Ceses/Dimisiones.')
 
-    def test_regex_escision(self):
-        nombreacto, beneficiarias = regex_escision(u'Escisión parcial', self.string4)
-        self.assertEqual(nombreacto, u'Escisión parcial')
-        self.assertEqual(beneficiarias, {'Sociedades beneficiarias': {'PEPE SL'}})
-
-        nombreacto, beneficiarias = regex_escision(u'Escisión total. Sociedades beneficiarias de la escisión', self.string5)
-        self.assertEqual(nombreacto, u'Escisión total')
-        self.assertEqual(beneficiarias, {'Sociedades beneficiarias': {'PEDRO ANTONIO 2001 SOCIEDAD LIMITADA', 'PEDRO ANTONIO EXPLOTACIONES SL'}})
-
-    def test_regex_fusion(self):
-        sociedad = regex_fusion(self.string6)
-        self.assertEqual(sociedad, {'Sociedades fusionadas': {'YOLO SOCIEDAD ANONIMA'}})
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string4)
+        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, u'Socio único: ENGLOBA GRUPO DE COMUNICACION SL')
+        self.assertEqual(nombreacto, u'Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.')
 
 
 class BormeparserRegexBormeC(unittest.TestCase):

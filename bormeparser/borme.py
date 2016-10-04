@@ -24,7 +24,7 @@ from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download
 from .download import download_urls_multi_names
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
-from .regex import is_acto_cargo, is_acto_noarg, is_acto_rare_cargo
+from .regex import is_acto_cargo, is_acto_noarg
 #from .parser import parse as parse_borme
 from .seccion import SECCION
 from .provincia import Provincia, PROVINCIA
@@ -95,13 +95,13 @@ class BormeActoTexto(BormeActo):
     """
 
     def _set_name(self, name):
-        if is_acto_cargo(name) or is_acto_rare_cargo(name):
+        if is_acto_cargo(name):
             raise ValueError('No se puede BormeActoTexto con un acto de cargo: %s' % name)
         self.name = name
 
     def _set_value(self, value):
-        if not isinstance(value, six.string_types):
-            raise ValueError('value must be str: %s' % value)
+        if not (value is None or isinstance(value, six.string_types)):
+            raise ValueError('value must be str or None: %s' % value)
         self.value = value
 
 
@@ -111,7 +111,7 @@ class BormeActoCargo(BormeActo):
     """
 
     def _set_name(self, name):
-        if not is_acto_cargo(name) and not is_acto_rare_cargo(name):
+        if not is_acto_cargo(name):
             raise ValueError('No se puede BormeActoCargo sin un acto de cargo: %s' % name)
         self.name = name
 
@@ -136,21 +136,6 @@ class BormeActoCargo(BormeActo):
         return list(self.value.keys())
 
 
-class BormeActoFact(BormeActo):
-
-    def _set_name(self, name):
-        if not is_acto_noarg(name)\
-                and name not in (u'Extinción', u'Declaración de unipersonalidad'):  # Ugly hack
-            raise ValueError('No se puede BormeActoFact sin un acto de sin argumento: %s' % name)
-        self.name = name
-
-    def _set_value(self, value):
-        if value is not True:
-            logger.warning('value must be True: %s' % value)
-            #raise ValueError('value must be True: %s' % value)
-        self.value = value
-
-
 class BormeAnuncio(object):
     """
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
@@ -173,15 +158,8 @@ class BormeAnuncio(object):
                 self.datos_registrales = valor
                 continue
 
-            if is_acto_rare_cargo(acto_nombre):
-                if acto_nombre.startswith(u'Declaración de unipersonalidad'):
-                    a = BormeActoFact(acto_nombre, valor)
-                else:
-                    a = BormeActoCargo(acto_nombre, valor)
-            elif is_acto_cargo(acto_nombre):
+            if is_acto_cargo(acto_nombre):
                 a = BormeActoCargo(acto_nombre, valor)
-            elif is_acto_noarg(acto_nombre):
-                a = BormeActoFact(acto_nombre, valor)
             else:
                 a = BormeActoTexto(acto_nombre, valor)
             self.actos.append(a)

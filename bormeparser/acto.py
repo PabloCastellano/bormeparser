@@ -54,7 +54,7 @@ class ACTO:
     CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS = 31
     CIERRE_PROVISIONAL_REVOCACION_NIF = 32
     REACTIVACION_DE_LA_SOCIEDAD = 32
-    CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO = 33
+
     FE_DE_ERRATAS = 34
     DATOS_REGISTRALES = 35
     CREDITO_INCOBRABLE = 36
@@ -85,7 +85,6 @@ class ACTO:
         u'Cambio de denominación social': CAMBIO_DE_DENOMINACION_SOCIAL,
         u'Cambio de domicilio social': CAMBIO_DE_DOMICILIO_SOCIAL,
         u'Ampliacion del objeto social': AMPLIACION_DEL_OBJETO_SOCIAL,
-        u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
         u'Disolución': DISOLUCION,
         u'Reelecciones': REELECCIONES,
         u'Constitución': CONSTITUCION,
@@ -106,7 +105,6 @@ class ACTO:
         u'Emisión de obligaciones': EMISION_OBLIGACIONES,
         u'Modificación de poderes': MODIFICACION_PODERES,
         u'Escisión parcial': ESCISION_PARCIAL,
-        u'Escisión total. Sociedades beneficiarias de la escisión': ESCISION_TOTAL,
         u'Fusión por unión': FUSION_UNION,
         u'Quiebra': QUIEBRA,
         u'Sucursal': SUCURSAL,
@@ -137,14 +135,10 @@ class ACTO:
         u'Fe de erratas': FE_DE_ERRATAS,
     }
 
-    _rare_keywords = {
-        u'Declaración de unipersonalidad. Socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
-        u'Cambio de identidad del socio único': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
+    _bold_keywords = {
+        u'Declaración de unipersonalidad': DECLARACION_DE_UNIPERSONALIDAD,
+        u'Sociedad unipersonal': SOCIEDAD_UNIPERSONAL,
         u'Acuerdo de ampliación de capital social sin ejecutar. Importe del acuerdo': ACUERDO_AMPLIACION_CAPITAL_SOCIAL_SIN_EJECUTAR,
-    }
-
-    _other_keywords = {
-        u'Declaración de unipersonalidad': CAMBIO_DE_IDENTIDAD_DEL_SOCIO_UNICO,
         u'Escisión total': ESCISION_TOTAL,
     }
 
@@ -156,10 +150,9 @@ class ACTO:
     ARG_KEYWORDS = list(six.viewkeys(_arg_keywords))
     NOARG_KEYWORDS = list(six.viewkeys(_noarg_keywords))
     COLON_KEYWORDS = list(six.viewkeys(_colon_keywords))
-    RARE_KEYWORDS = list(six.viewkeys(_rare_keywords))
-    OTHER_KEYWORDS = list(six.viewkeys(_other_keywords))
+    BOLD_KEYWORDS = list(six.viewkeys(_bold_keywords))
     ENDING_KEYWORDS = list(six.viewkeys(_ending_keywords))
-    ALL_KEYWORDS = ARG_KEYWORDS + NOARG_KEYWORDS + COLON_KEYWORDS + RARE_KEYWORDS + OTHER_KEYWORDS + ENDING_KEYWORDS
+    ALL_KEYWORDS = ARG_KEYWORDS + NOARG_KEYWORDS + COLON_KEYWORDS + BOLD_KEYWORDS + ENDING_KEYWORDS
 
 """
     DICT_KEYWORDS = {kw: remove_accents(kw).replace(' del ', ' ').replace(' por ', ' ').replace(' de ', ' ')
