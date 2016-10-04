@@ -38,11 +38,11 @@ if __name__ == '__main__':
         bormeparser.borme.logger.setLevel(logging.DEBUG)
         bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
-    if args.output:
-        filename = args.output
-    else:
-        filename = os.path.basename(args.filename).replace('.pdf', '.json')
+    print('\nParsing {}'.format(args.filename))
     borme = bormeparser.parse(args.filename, bormeparser.SECCION.A)
-    borme.to_json(filename)
+    path = borme.to_json(args.output)
 
-    print('\nCreated {}'.format(os.path.abspath(filename)))
+    if path:
+        print('Created {}'.format(os.path.abspath(path)))
+    else:
+        print('Error creating JSON for {}'.format(args.filename))

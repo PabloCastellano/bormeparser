@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # borme.py -
-# Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import datetime
 import logging
 import json
 import os
+import re
 import six
 
 from lxml import etree
@@ -519,9 +520,10 @@ class Borme(object):
         logger.debug(doc)
         return doc
 
-    def to_json(self, filename, overwrite=True, pretty=True, include_url=True):
+    def to_json(self, path=None, overwrite=True, pretty=True, include_url=True):
         """
             Incluir la URL es opcional porque requiere conexión a Internet
+            path: directorio o archivo
         """
         def set_default(obj):
             """ serialize Python sets as lists
@@ -533,14 +535,18 @@ class Borme(object):
                 return str(obj)
             raise TypeError(type(obj))
 
-        if os.path.isfile(filename) and not overwrite:
+        if path is None:
+            path = re.sub('(\.pdf)$', '.json', os.path.basename(self.filename))
+        if os.path.isfile(path) and not overwrite:
             return False
+        if os.path.isdir(path):
+            path = os.path.join(path, self.cve + '.json')
 
         doc = self._to_dict(include_url)
         indent = 2 if pretty else None
-        with open(filename, 'w') as fp:
+        with open(path, 'w') as fp:
             json.dump(doc, fp, default=set_default, indent=indent, sort_keys=True)
-        return True
+        return path
 
     @classmethod
     def from_json(self, filename):
