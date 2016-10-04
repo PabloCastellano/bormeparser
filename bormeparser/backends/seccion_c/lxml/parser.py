@@ -50,10 +50,12 @@ class LxmlBormeCParser(BormeCParserBackend):
 
     def parse(self):
         if six.PY2:
-            content = open(self.filename).read()
+            fp = open(self.filename)
         else:
-            content = open(self.filename, 'r', encoding='iso-8859-1').read()
+            fp = open(self.filename, 'r', encoding='iso-8859-1')
 
+        content = fp.read()
+        fp.close()
         if content.startswith('<?xml'):
             return self._parse_xml()
         elif content.startswith('<!DOCTYPE HTML PUBLIC'):
