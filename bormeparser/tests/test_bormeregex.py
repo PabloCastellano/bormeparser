@@ -19,7 +19,7 @@
 
 import unittest
 
-from bormeparser.regex import regex_cargos, regex_empresa, regex_decl_unip, is_company
+from bormeparser.regex import regex_cargos, regex_empresa, regex_bold_acto, is_company
 from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo, borme_c_separa_empresas_titulo
 
 DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
@@ -48,22 +48,25 @@ class BormeparserIsCompanyTestCase(unittest.TestCase):
 class BormeparserRegexEmpresaTestCase(unittest.TestCase):
     acto1 = '57344 - ALDARA CATERING SL.'
     acto2 = '57344 - ALDARA CATERING SL'
-    acto3 = u'473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA).'
+    acto3 = u'473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)'
     empresa1 = 'ALDARA CATERING SL'
     empresa2 = 'ALDARA CATERING'
 
     def test_regex_empresa(self):
-        acto_id, empresa = regex_empresa(self.acto1)
+        acto_id, empresa, registro = regex_empresa(self.acto1)
         self.assertEqual(acto_id, 57344)
         self.assertEqual(empresa, 'ALDARA CATERING SL')
+        self.assertEqual(registro, None)
 
-        acto_id, empresa = regex_empresa(self.acto2)
+        acto_id, empresa, registro = regex_empresa(self.acto2)
         self.assertEqual(acto_id, 57344)
         self.assertEqual(empresa, 'ALDARA CATERING SL')
+        self.assertEqual(registro, None)
 
-        acto_id, empresa = regex_empresa(self.acto3)
+        acto_id, empresa, registro = regex_empresa(self.acto3)
         self.assertEqual(acto_id, 473700)
         self.assertEqual(empresa, u'SA COVA PLAÇA MAJOR SL')
+        self.assertEqual(registro, 'R.M. PALMA DE MALLORCA')
 
     def test_regex_empresa_tipo(self):
         empresa, tipo = regex_empresa_tipo(self.empresa1)
@@ -138,7 +141,7 @@ class BormeparserRegexBoldTestCase(unittest.TestCase):
         self.assertEqual(arg_colon, u'Socio único: CORPOREISHON BLA BLA. Cif:B12345678')
         self.assertEqual(nombreacto, u'Ceses/Dimisiones.')
 
-        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string4)
+        acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string5)
         self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
         self.assertEqual(arg_colon, u'Socio único: ENGLOBA GRUPO DE COMUNICACION SL')
         self.assertEqual(nombreacto, u'Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.')

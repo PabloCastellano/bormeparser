@@ -38,10 +38,11 @@ except NameError:
 
 EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__), '..', 'examples')
 
-DATA1 = {214: {'Actos': {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}},
-                         'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).',
-                         'Constitución': 'Comienzo de operaciones: 1.04.15. Objeto social: blabla. Domicilio: C/ RANDOM 1 2 (MALAGA). Capital: 3.000,00 Euros.',
-                         'Nombramientos': {'Adm. Unico': {'PEDRO GOMEZ GOMEZ'}}},
+DATA1 = {214: {'Actos': [{'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}}},
+                         {'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).'},
+                         {'Constitución': 'Comienzo de operaciones: 1.04.15. Objeto social: blabla. Domicilio: C/ RANDOM 1 2 (MALAGA). Capital: 3.000,00 Euros.'},
+                         {'Nombramientos': {'Adm. Unico': {'PEDRO GOMEZ GOMEZ'}}}],
+               'Registro': 'R.M. MAHON',
                'Empresa': 'EMPRESA RANDOM SL.'},
          'borme_cve': 'BORME-A-2015-102-29',
          'borme_fecha': 'Martes 2 de junio de 2015',
@@ -105,7 +106,7 @@ class BormeATestCase(unittest.TestCase):
 class FakeBormeTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        bormeanuncios = [BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'])]
+        bormeanuncios = [BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'], DATA1[214]['Registro'])]
         cls.borme = Borme((2015, 2, 10), 'A', PROVINCIA.CACERES, 27, 'BORME-A-2015-27-10', bormeanuncios)
 
     def test_instance(self):
@@ -141,20 +142,21 @@ class FakeBormeTestCase(unittest.TestCase):
 
 class BormeAnuncioTestCase(unittest.TestCase):
     def setUp(self):
-        self.anuncio = BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'])
+        self.anuncio = BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'], DATA1[214]['Registro'])
 
     def test_instance(self):
         self.assertEqual(self.anuncio.id, 1)
         self.assertEqual(self.anuncio.empresa, DATA1[214]['Empresa'])
-        self.assertEqual(self.anuncio.datos_registrales, DATA1[214]['Actos']['Datos registrales'])
+        self.assertEqual(self.anuncio.registro, DATA1[214]['Registro'])
+        self.assertEqual(self.anuncio.datos_registrales, DATA1[214]['Actos'][1]['Datos registrales'])
 
     def test_get_actos(self):
         actos = list(self.anuncio.get_actos())
         actos.sort()  # Sort dictionary
         self.assertEqual(len(actos), 3)
-        self.assertEqual(actos[0], ('Ceses/Dimisiones', DATA1[214]['Actos']['Ceses/Dimisiones']))
-        self.assertEqual(actos[1], ('Constitución', DATA1[214]['Actos']['Constitución']))
-        self.assertEqual(actos[2], ('Nombramientos', DATA1[214]['Actos']['Nombramientos']))
+        self.assertEqual(actos[0], ('Ceses/Dimisiones', DATA1[214]['Actos'][0]['Ceses/Dimisiones']))
+        self.assertEqual(actos[1], ('Constitución', DATA1[214]['Actos'][2]['Constitución']))
+        self.assertEqual(actos[2], ('Nombramientos', DATA1[214]['Actos'][3]['Nombramientos']))
 
     def test_get_borme_actos(self):
         actos = self.anuncio.get_borme_actos()
@@ -162,20 +164,20 @@ class BormeAnuncioTestCase(unittest.TestCase):
         self.assertEqual(len(actos), 3)
         self.assertIsInstance(actos[0], BormeActoCargo)
         self.assertEqual(actos[0].name, 'Ceses/Dimisiones')
-        self.assertEqual(actos[0].cargos, DATA1[214]['Actos']['Ceses/Dimisiones'])
+        self.assertEqual(actos[0].cargos, DATA1[214]['Actos'][0]['Ceses/Dimisiones'])
         self.assertIsInstance(actos[1], BormeActoTexto)
         self.assertEqual(actos[1].name, 'Constitución')
-        self.assertEqual(actos[1].value, DATA1[214]['Actos']['Constitución'])
+        self.assertEqual(actos[1].value, DATA1[214]['Actos'][2]['Constitución'])
         self.assertIsInstance(actos[2], BormeActoCargo)
         self.assertEqual(actos[2].name, 'Nombramientos')
-        self.assertEqual(actos[2].cargos, DATA1[214]['Actos']['Nombramientos'])
+        self.assertEqual(actos[2].cargos, DATA1[214]['Actos'][3]['Nombramientos'])
 
 
 class BormeActoTestCase(unittest.TestCase):
     def test_cargo_instance(self):
-        acto = BormeActoCargo('Nombramientos', DATA1[214]['Actos']['Nombramientos'])
+        acto = BormeActoCargo('Nombramientos', DATA1[214]['Actos'][3]['Nombramientos'])
         self.assertEqual(len(acto.cargos), 1)
-        self.assertEqual(acto.cargos['Adm. Unico'], DATA1[214]['Actos']['Nombramientos']['Adm. Unico'])
+        self.assertEqual(acto.cargos['Adm. Unico'], DATA1[214]['Actos'][3]['Nombramientos']['Adm. Unico'])
 
         # Exceptions
         self.assertRaises(ValueError, BormeActoCargo, 'Acto invalido', 'mal')
@@ -183,8 +185,8 @@ class BormeActoTestCase(unittest.TestCase):
         self.assertRaises(ValueError, BormeActoCargo, 'Nombramientos', 'mal')
 
     def test_texto_instance(self):
-        acto = BormeActoTexto('Constitución', DATA1[214]['Actos']['Constitución'])
-        self.assertEqual(acto.value, DATA1[214]['Actos']['Constitución'])
+        acto = BormeActoTexto('Constitución', DATA1[214]['Actos'][2]['Constitución'])
+        self.assertEqual(acto.value, DATA1[214]['Actos'][2]['Constitución'])
 
         # Exceptions
         self.assertRaises(ValueError, BormeActoTexto, 'Acto invalido', ['mal'])
