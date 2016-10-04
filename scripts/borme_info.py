@@ -18,7 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import bormeparser
-import bormeparser.backends.pypdf2.functions
+import bormeparser.backends.pypdf2.parser
 from bormeparser.exceptions import BormeAnuncioNotFound
 
 import argparse
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     # set logger DEBUG (Not working)
     if args.verbose:
         bormeparser.borme.logger.setLevel(logging.DEBUG)
-        bormeparser.backends.pypdf2.functions.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
+        bormeparser.backends.pypdf2.parser.logger.setLevel(logging.DEBUG)  # FIXME: DEFAULT_PARSER
 
     borme = bormeparser.parse(args.filename, bormeparser.SECCION.A)
 
