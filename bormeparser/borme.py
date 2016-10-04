@@ -464,36 +464,40 @@ class Borme(object):
         return downloaded
 
     def _to_dict(self, set_url=True):
-        doc = {}
-        doc['cve'] = self.cve
-        doc['date'] = self.date.isoformat()
-        doc['seccion'] = self.seccion
-        doc['provincia'] = self.provincia
-        doc['num'] = self.num
-        if set_url:
-            doc['url'] = self.url
-        doc['from_anuncio'] = self.anuncios_rango[0]
-        doc['to_anuncio'] = self.anuncios_rango[1]
-        doc['anuncios'] = {}
+        doc = {
+            'cve': self.cve,
+            'date': self.date.isoformat(),
+            'seccion': self.seccion,
+            'provincia': self.provincia,
+            'num': self.num,
+            'from_anuncio': self.anuncios_rango[0],
+            'to_anuncio': self.anuncios_rango[1],
+            'anuncios': {}
+        }
 
         num_anuncios = 0
         for id, anuncio in self.anuncios.items():
-            num_anuncios += 1
-            doc['anuncios'][anuncio.id] = {}
-            doc['anuncios'][anuncio.id]['empresa'] = anuncio.empresa
-            doc['anuncios'][anuncio.id]['registro'] = anuncio.registro
-            doc['anuncios'][anuncio.id]['datos registrales'] = anuncio.datos_registrales
-            doc['anuncios'][anuncio.id]['actos'] = []
-            doc['anuncios'][anuncio.id]['num_actos'] = 0
+            doc['anuncios'][anuncio.id] = {
+                'empresa': anuncio.empresa,
+                'registro': anuncio.registro,
+                'datos registrales': anuncio.datos_registrales,
+                'actos': [],
+                'num_actos': 0
+            }
             for acto in anuncio.actos:
                 doc['anuncios'][anuncio.id]['num_actos'] += 1
                 doc['anuncios'][anuncio.id]['actos'].append({acto.name: acto.value})
+            num_anuncios += 1
 
         doc['num_anuncios'] = num_anuncios
 
         # For compatibility with other parsers
         doc['raw_version'] = RAW_FILE_VERSION
         doc['version'] = FILE_VERSION
+
+        # Note that it requires Internet connection the first time
+        if set_url:
+            doc['url'] = self.url
 
         logger.debug(doc)
         return doc
