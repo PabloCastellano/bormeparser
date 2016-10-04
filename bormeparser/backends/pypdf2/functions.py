@@ -26,12 +26,12 @@ from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex
                               regex_bold_acto, REGEX_ARGCOLON, REGEX_NOARG, REGEX_PDF_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
                               is_acto_bold_mix
 
+from ..base import SANITIZE_COMPANY_NAME
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
 
 actos = []
-
-SANITIZE_COMPANY_NAME = True
 
 
 def clean_data(data):

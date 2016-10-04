@@ -25,6 +25,9 @@ from bormeparser.regex import regex_fecha
 from bormeparser import SECCION, PROVINCIA
 
 
+SANITIZE_COMPANY_NAME = False
+
+
 class BormeAParserBackend(object):
     def __init__(self, filename):
 
