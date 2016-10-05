@@ -74,6 +74,8 @@ class ACTO:
     APERTURA_DE_SUCURSAL = 50
     CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES = 51
     PRIMERA_INSCRIPCION = 52
+    ANOTACION_PREVENTIVA_DEMANDA = 53
+    ANOTACION_PREVENTIVA_DECLARACION = 54
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -111,6 +113,8 @@ class ACTO:
         u'Cesión global de activo y pasivo': CESION_GLOBAL_ACTIVO_PASIVO,
         u'Segregación': SEGREGACION,
         u'Primera inscripcion (O.M. 10/6/1.997)': PRIMERA_INSCRIPCION,
+        u'Anotación preventiva. Demanda de impugnación de acuerdos sociales': ANOTACION_PREVENTIVA_DEMANDA,
+        u'Anotación preventiva. Declaración de deudor fallido': ANOTACION_PREVENTIVA_DECLARACION,
     }
 
     # Palabras clave sin argumentos
