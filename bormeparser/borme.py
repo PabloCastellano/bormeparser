@@ -36,7 +36,6 @@ import re
 import six
 
 from lxml import etree
-from collections import OrderedDict
 
 try:
     # Python 3
@@ -423,7 +422,10 @@ class Borme(object):
         raise NotImplementedError
 
     def _set_anuncios(self, anuncios):
-        self.anuncios = OrderedDict()
+        """
+            anuncios: [BormeAnuncio]
+        """
+        self.anuncios = {}
         for anuncio in anuncios:
             self.anuncios[anuncio.id] = anuncio
         self.anuncios_rango = (min(self.anuncios.keys()), max(self.anuncios.keys()))
@@ -447,7 +449,7 @@ class Borme(object):
         """
         [BormeAnuncio]
         """
-        return list(self.anuncios.keys())
+        return sorted(self.anuncios.keys())
 
     def get_anuncios(self):
         """
@@ -533,7 +535,7 @@ class Borme(object):
     @classmethod
     def from_json(self, filename):
         with open(filename) as fp:
-            d = json.load(fp, object_pairs_hook=OrderedDict)
+            d = json.load(fp)
             cve = d['cve']
             date = datetime.datetime.strptime(d['date'], '%Y-%m-%d').date()
             seccion = d['seccion']  # TODO: SECCION.from_borme()

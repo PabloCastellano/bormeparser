@@ -74,6 +74,7 @@ class BormeATestCase(unittest.TestCase):
         fp = tempfile.NamedTemporaryFile()
         filename = fp.name
         fp.close()
+
         converted = self.borme.to_json(filename)
         self.assertTrue(converted)
 
