@@ -71,7 +71,8 @@ class PyPDF2Parser(BormeAParserBackend):
         }
         self.actos = []
 
-        reader = PdfFileReader(open(self.filename, 'rb'))
+        fp = open(self.filename, 'rb')
+        reader = PdfFileReader(fp)
         for n in range(0, reader.getNumPages()):
             content = reader.getPage(n).getContents().getData()
             logger.debug('---- BEGIN OF PAGE ----')
@@ -266,6 +267,7 @@ class PyPDF2Parser(BormeAParserBackend):
                 'Actos': self.actos
             }
 
+        fp.close()
         return DATA
 
     def _clean_data(self, data):
