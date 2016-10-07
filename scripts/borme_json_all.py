@@ -20,8 +20,12 @@ import bormeparser
 import bormeparser.borme
 from common import DEFAULT_BORME_ROOT
 
+from bormeparser.backends.defaults import OPTIONS
+OPTIONS['SANITIZE_COMPANY_NAME'] = True
+
 import argparse
 import os
+import time
 
 from threading import Thread
 from queue import Queue
@@ -76,6 +80,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     bormes_root = os.path.expanduser(args.directory)
+    start_time = time.time()
 
     q = Queue()
     for i in range(THREADS):
@@ -91,3 +96,6 @@ if __name__ == '__main__':
         json_path = os.path.join(json_day_dir, json_filename)
         q.put((pdf_path, json_path))
     q.join()
+
+    elapsed_time = time.time() - start_time
+    print('Elapsed time: %.2f seconds' % elapsed_time)
