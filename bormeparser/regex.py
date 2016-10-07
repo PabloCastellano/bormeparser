@@ -64,7 +64,7 @@ REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
 REGEX_BOLD = re.compile(RE_BOLD_KEYWORDS + '\. (.*?)\.\s*' + RE_ALL_KEYWORDS + '(.*)\.?', re.UNICODE)
 
-REGEX_EMPRESA = re.compile('^(\d+) - (.*)$')
+REGEX_EMPRESA = re.compile('^(\d+) - (.*?)\.?$')
 REGEX_EMPRESA_REGISTRO = re.compile('^(\d+) - (.*)\(R.M. (.*)\)\.?$')
 REGEX_PDF_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
@@ -161,8 +161,6 @@ def regex_empresa(data, sanitize=True):
 
     empresa = re.sub(" EN LIQUIDACION$", "", empresa)
     empresa = re.sub(u" SUCURSAL EN ESPAÑA$", "", empresa)
-
-    empresa = empresa.rstrip('.')
 
     if sanitize:
         empresa = clean_empresa(empresa)
