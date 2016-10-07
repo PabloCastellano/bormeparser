@@ -24,8 +24,12 @@ import re
 from bormeparser.acto import ACTO
 from bormeparser.clean import clean_empresa
 from bormeparser.cargo import CARGO
-from bormeparser.registro import ALL_REGISTROS
+from bormeparser.registro import REGISTROS, ALL_REGISTROS
 from bormeparser.sociedad import ALL_SOCIEDADES
+
+import logging
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.WARN)
 
 esc_arg_keywords = [x.replace('.', '\.').replace('(', '\(').replace(')', '\)') for x in ACTO.ARG_KEYWORDS]
 esc_colon_keywords = [x.replace('.', '\.') for x in ACTO.COLON_KEYWORDS]
@@ -61,7 +65,7 @@ REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICO
 REGEX_BOLD = re.compile(RE_BOLD_KEYWORDS + '\. (.*?)\.\s*' + RE_ALL_KEYWORDS + '(.*)\.?', re.UNICODE)
 
 REGEX_EMPRESA = re.compile('^(\d+) - (.*)$')
-REGEX_EMPRESA_REGISTRO = re.compile('^(\d+) - (.*)\((.*)\)$')
+REGEX_EMPRESA_REGISTRO = re.compile('^(\d+) - (.*)\(R.M. (.*)\)\.?$')
 REGEX_PDF_TEXT = re.compile('^\((.*)\)Tj$')
 REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
@@ -149,6 +153,8 @@ def regex_empresa(data, sanitize=True):
         acto_id, empresa, registro = res.groups()
         if registro not in ALL_REGISTROS:
             logger.warning("Registro desconocido: " + registro)
+        else:
+            registro = REGISTROS[registro]
     else:
         acto_id, empresa = REGEX_EMPRESA.match(data).groups()
         registro = None

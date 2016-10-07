@@ -19,16 +19,18 @@
 
 
 REGISTROS = {
-    u"R.M. A CORUÑA": u"La Coruña",
-    u"R.M. SANTIAGO DE COMPOSTELA": "Santiago de Compostela",
-    u"R.M. PALMA DE MALLORCA": "Palma de Mallorca",
-    u"R.M. PUERTO DE ARRECIFE": "Puerto de Arrecife (Canarias)",
-    u"R.M. PUERTO DEL ROSARIO": "Puerto del Rosario (Canarias)",
-    u"R.M. SANTA CRUZ DE TENERIFE": "Santa Cruz de Tenerife (Canarias)",
-    u"R.M. SANTA CRUZ DE LA PALMA": "Santa Cruz de la Palma (Canarias)",
-    u"R.M. LAS PALMAS": "Las Palmas (Canarias)",
-    u"R.M. EIVISSA": "Ibiza (Islas Baleares)",
-    u"R.M. MAHON": "Mahon (Menorca, Islas Baleares)"
+    u"A CORUÑA": u"La Coruña",
+    u"SANTIAGO DE COMPOSTELA": "Santiago de Compostela (La Coruña)",
+    u"PALMA DE MALLORCA": "Palma de Mallorca",
+    u"PUERTO DE ARRECIFE": "Puerto de Arrecife (Canarias)",
+    u"PUERTO DEL ROSARIO": "Puerto del Rosario (Canarias)",
+    u"VALVERDE": "Santa Cruz de Tenerife (Canarias)",
+    u"SANTA CRUZ DE TENERIFE": "Santa Cruz de Tenerife (Canarias)",
+    u"SANTA CRUZ DE LA PALMA": "Santa Cruz de la Palma (Canarias)",
+    u"LAS PALMAS": "Las Palmas (Canarias)",
+    u"SAN SEBASTIAN DE LA GOMERA": "Santa Cruz de Tenerife (Canarias)",
+    u"EIVISSA": "Ibiza (Islas Baleares)",
+    u"MAHON": "Mahon (Menorca, Islas Baleares)"
 }
 
 
