@@ -27,7 +27,7 @@ from bormeparser.regex import regex_cargos, regex_empresa, regex_argcolon, regex
                               regex_bold_acto, REGEX_ARGCOLON, REGEX_NOARG, REGEX_PDF_TEXT, REGEX_BORME_NUM, REGEX_BORME_CVE,\
                               is_acto_bold_mix
 
-from ..base import SANITIZE_COMPANY_NAME
+from ..defaults import OPTIONS
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
@@ -43,6 +43,7 @@ class PyPDF2Parser(BormeAParserBackend):
         super(PyPDF2Parser, self).__init__(filename)
         logger.setLevel(log_level)
         self.actos = []
+        self.sanitize = OPTIONS['SANITIZE_COMPANY_NAME']
 
     def _parse(self):
         anuncio_id = None
@@ -160,7 +161,7 @@ class PyPDF2Parser(BormeAParserBackend):
                         logger.debug('END: cabecera')
                         cabecera = False
                         data = self._clean_data(data)
-                        anuncio_id, empresa, registro = regex_empresa(data, sanitize=SANITIZE_COMPANY_NAME)
+                        anuncio_id, empresa, registro = regex_empresa(data, sanitize=self.sanitize)
                         logger.debug('  anuncio_id: %s' % anuncio_id)
                         logger.debug('  empresa: %s' % empresa)
                         logger.debug('  registro: %s' % registro)
@@ -277,7 +278,7 @@ class PyPDF2Parser(BormeAParserBackend):
     def _parse_acto(self, nombreacto, data, prefix=''):
         data = self._clean_data(data)
         if is_acto_cargo(nombreacto):
-            cargos = regex_cargos(data, sanitize=SANITIZE_COMPANY_NAME)
+            cargos = regex_cargos(data, sanitize=self.sanitize)
             if not cargos:
                 logger.warning('No se encontraron cargos en la cadena: %s' % data)
             data = cargos

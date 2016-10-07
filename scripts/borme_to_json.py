@@ -21,6 +21,9 @@
 import bormeparser
 import bormeparser.backends.pypdf2.parser
 
+from bormeparser.backends.defaults import OPTIONS
+OPTIONS['SANITIZE_COMPANY_NAME'] = True
+
 import argparse
 import logging
 import os
