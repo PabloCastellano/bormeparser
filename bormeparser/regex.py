@@ -158,7 +158,12 @@ def regex_empresa(data, sanitize=True):
     else:
         acto_id, empresa = REGEX_EMPRESA.match(data).groups()
         registro = None
+
+    empresa = re.sub(" EN LIQUIDACION$", "", empresa)
+    empresa = re.sub(u" SUCURSAL EN ESPAÑA$", "", empresa)
+
     empresa = empresa.rstrip('.')
+
     if sanitize:
         empresa = clean_empresa(empresa)
     return int(acto_id), empresa, registro

@@ -23,12 +23,6 @@
 def clean_empresa(nombre):
     sucursal_spain = False
 
-    if nombre.endswith('EN LIQUIDACION'):
-        nombre = nombre[:-15]
-    if u'SUCURSAL EN ESPAÑA' in nombre:
-        nombre = nombre.replace(u' SUCURSAL EN ESPAÑA', '')
-        sucursal_spain = True
-    nombre.rstrip()
     if nombre.endswith(' S.L'):
         nombre = nombre[:-3] + 'SL'
     if nombre.endswith(' S L'):
@@ -109,5 +103,4 @@ def clean_empresa(nombre):
     if nombre.endswith(' SA SICAV'):
         nombre = nombre[:-8] + 'SICAV'
 
-    # TODO: return sucursal_spain
     return nombre
