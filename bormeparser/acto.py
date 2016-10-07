@@ -76,6 +76,7 @@ class ACTO:
     PRIMERA_INSCRIPCION = 52
     ANOTACION_PREVENTIVA_DEMANDA = 53
     ANOTACION_PREVENTIVA_DECLARACION = 54
+    CIERRE_SUCURSAL = 55
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -128,9 +129,11 @@ class ACTO:
         u'Adaptada segun D.T. 2 apartado 2 Ley 2/95': ADAPTACION_LEY_2_95,
         u'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
         u'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_REVOCACION_NIF,
+        u'Cierre provisional hoja registral por revocación del NIFde Entidades Jurídicas': CIERRE_PROVISIONAL_REVOCACION_NIF,
         u'Cierre provisional hoja registral art. 137.2 Ley 43/1995 Impuesto de Sociedades': CIERRE_PROVISIONAL_IMPUESTO_SOCIEDADES,
         u'Reactivación de la sociedad (Art. 242 del Reglamento del Registro Mercantil)': REACTIVACION_DE_LA_SOCIEDAD,
         u'Adaptación de sociedad': ADAPTACION_DE_LA_SOCIEDAD,
+        u'Cierre de Sucursal': CIERRE_SUCURSAL,
     }
 
     # Palabras clave seguidas por :
