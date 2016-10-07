@@ -63,6 +63,7 @@ class CARGO:
     ENT_REG_CONT = "Entidad reg. cont."
     ENTIDAD_DEPOSITARIA = "Entidad depositaria"
     CONSEJERO_DOMINIC = "Consejero dominic."
+    CONSEJERO_EJECUTIVO = "Consejero ejecutivo"
     MIEMBRO_COMIT_AUD = "Miembro de la comisión Aud."
     SECRETARIO_COMIT_AUD = "Secretario de la comisión Aud."
     PRESIDENTE_COMIT_AUD = "Presidente de la comisión Aud."
@@ -681,7 +682,7 @@ class CARGO:
                  'DTOR.MARKET.': DIRECTOR_MARKETING,
                  'DTOR.REL.LAB': DIRECTOR_RELACIONES_LABORALES,
                  'DTOR.REC.HUM': DIRECTOR_RECURSOS_HUMANOS,
-                 'DTOR.OPERCIO' DIRECTOR_OPERACIONES,
+                 'DTOR.OPERCIO': DIRECTOR_OPERACIONES,
                  'DTOR.SUCURS.': DIRECTOR_SUCURSAL,
                  'DTOR.TECNICO': DIRECTOR_TECNICO,
                  'Dir. Técnico': DIRECTOR_TECNICO,
@@ -865,7 +866,7 @@ class CARGO:
                  'Mmbr.Com.Del': MIEMBRO_COMISION_DELEGADA,
                  'MRO.COMS.DEL': MIEMBRO_COMISION_DELEGADA,
                  'Miem.Com.Del': MIEMBRO_COMISION_DELEGADA,
-                 'M.Com.Del.No' : MIEMBRO_COMISION_DELEGADA,  # "No"?
+                 'M.Com.Del.No': MIEMBRO_COMISION_DELEGADA,  # "No"?
                  'M.COM.CONSU.': MIEMBRO_COMISION_CONSU,
                  'M.C.Rep.Muni': MIEMBRO_COMISION_REP_MUNI,
                  'Aud.Tit.Grup': AUDITOR_TIT_GRUP,
