@@ -76,13 +76,13 @@ def is_acto_cargo_entrante(data):
 
     if not is_acto_cargo(data):
         raise ValueError('No es un acto con cargos: %s' % data)
-    return data in ['Reelecciones', 'Nombramientos']
+    return data in [u'Reelecciones', u'Nombramientos']
 
 
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
-    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos',
-             'Ceses/Dimisiones', u'Emisión de obligaciones', u'Modificación de poderes']
+    actos = [u'Revocaciones', u'Reelecciones', u'Cancelaciones de oficio de nombramientos', u'Nombramientos',
+             u'Ceses/Dimisiones', u'Emisión de obligaciones', u'Modificación de poderes']
     return data in actos
 
 

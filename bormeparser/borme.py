@@ -141,7 +141,7 @@ class BormeAnuncio(object):
     """
 
     def __init__(self, id, empresa, actos, registro=None, datos_registrales=None):
-        logger.debug("new BormeAnuncio({}) {} ({})".format(id, empresa, registro))
+        logger.debug(u"new BormeAnuncio({}) {} ({})".format(id, empresa, registro))
         self.id = id
         self.empresa = empresa
         self.registro = registro

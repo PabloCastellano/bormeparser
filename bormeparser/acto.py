@@ -151,7 +151,7 @@ class ACTO:
 
     # Palabra clave
     _ending_keywords = {
-        'Datos registrales': DATOS_REGISTRALES
+        u'Datos registrales': DATOS_REGISTRALES
     }
 
     ARG_KEYWORDS = list(six.viewkeys(_arg_keywords))
