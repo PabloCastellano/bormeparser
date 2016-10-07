@@ -124,14 +124,18 @@ def regex_noarg(data):
 
 
 def regex_empresa_tipo(data):
+    """
+        data: "GRUAS BANCALERO SL"
+        return empresa: "GRUAS BANCALERO"
+        return tipo: "SL"
+    """
     empresa = data
     tipo = ''
     for t in ALL_SOCIEDADES:
         if data.endswith(' %s' % t):
             empresa = data[:-len(t) - 1]
             tipo = t
-            if empresa.endswith(','):
-                empresa = empresa[:-1]
+            empresa = empresa.rstrip(",")
     return empresa, tipo
 
 
