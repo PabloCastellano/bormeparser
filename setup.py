@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import os
 import sys
+from glob import glob
 from setuptools import setup, find_packages
 
 sys.path.insert(0, 'bormeparser')
@@ -39,9 +41,14 @@ if sys.argv[-1] == 'publish':
     print("  git push --tags")
     sys.exit()
 
+os.symlink('../examples', 'bormeparser/examples')
+
 setup(
     name='bormeparser',
     packages=find_packages(exclude=['*.tests']),
+    package_data={
+        "bormeparser": glob("examples/*")
+    },
     version=__version__,
     description="bormeparser is a Python library for parsing BORME files",
     long_description=long_description,
@@ -61,3 +68,5 @@ setup(
     install_requires=get_install_requires(),
     test_suite="bormeparser.tests"
 )
+
+os.unlink('bormeparser/examples')
