@@ -66,7 +66,7 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
         acto_id, empresa, registro = regex_empresa(self.acto3)
         self.assertEqual(acto_id, 473700)
         self.assertEqual(empresa, u'SA COVA PLAÇA MAJOR SL')
-        self.assertEqual(registro, 'R.M. PALMA DE MALLORCA')
+        self.assertEqual(registro, 'Palma de Mallorca')
 
     def test_regex_empresa_tipo(self):
         empresa, tipo = regex_empresa_tipo(self.empresa1)
@@ -165,9 +165,9 @@ class BormeparserRegexBormeC(unittest.TestCase):
         #empresas5 = borme_c_separa_empresas_titulo(self.titulo5)
         #self.assertEqual(empresas5, [u'TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L.', 'MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL'])
         #empresas6 = borme_c_separa_empresas_titulo(self.titulo6)
-        #self.assertEqual(empresas6, ['SOCIEDAD ANONIMA INDUSTRIAS CELULOSA ARAGONESA', 'CABALUR, SOCIEDAD LIMITADA UNIPERSONAL'])    
+        #self.assertEqual(empresas6, ['SOCIEDAD ANONIMA INDUSTRIAS CELULOSA ARAGONESA', 'CABALUR, SOCIEDAD LIMITADA UNIPERSONAL'])
         #empresas7 = borme_c_separa_empresas_titulo(self.titulo7)
-        #self.assertEqual(empresas7, ['SICA, S.L.', 'CAOLINA, S.L. DE CARÁCTER UNIPERSONAL'])    
+        #self.assertEqual(empresas7, ['SICA, S.L.', 'CAOLINA, S.L. DE CARÁCTER UNIPERSONAL'])
 
 if __name__ == '__main__':
     unittest.main()
