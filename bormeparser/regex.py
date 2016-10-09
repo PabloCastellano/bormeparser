@@ -57,8 +57,9 @@ RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 # -- CARGOS --
 # OR de las palabras clave
 RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(esc_cargos_keywords)
+RE_CARGOS_KEYWORDS2 = '(?=%s|$)' % '|'.join(esc_cargos_keywords)
 # RE para capturar el cargo y los nombres
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ":\s(.*?)(?:\.$|\. |\s*$)"
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ': (.*?)' + RE_CARGOS_KEYWORDS2
 
 REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
@@ -182,8 +183,7 @@ def regex_cargos(data, sanitize=True):
     for cargo in re.findall(RE_CARGOS_MATCH, data, re.UNICODE):
         entidades = set()
         for e in cargo[1].split(';'):
-            e = e.rstrip('.')
-            e = e.strip()
+            e = e.strip(" .")
             if sanitize:
                 e = clean_empresa(e)
             entidades.add(e)
