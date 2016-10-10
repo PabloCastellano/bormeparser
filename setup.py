@@ -39,7 +39,10 @@ if sys.argv[-1] == 'publish':
     print("  git push --tags")
     sys.exit()
 
-os.symlink('../examples', 'bormeparser/examples')
+try:
+    os.symlink('../examples', 'bormeparser/examples')
+except FileExistsError:
+    pass
 
 setup(
     name='bormeparser',
