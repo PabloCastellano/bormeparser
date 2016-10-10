@@ -22,12 +22,7 @@ import unittest
 from bormeparser.regex import regex_cargos, regex_empresa, regex_bold_acto, is_company
 from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo, borme_c_separa_empresas_titulo
 
-DATA = {'fake1': {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}},
-        'fake2': {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}},
-        'fake3': {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {u'CUEVAS MUÑOZ SILVIA MARIA'}},
-        'fake4': {'Adm. Mancom.': {'PEREZ', 'HILARIO'}},
-        'fake5': {'Auditor': {'A.T.A AUDITORES SL'}, 'Adm. Mancom.': {'PEREZ', 'HILARIO'}},
-        'fake6': {'Adm. Solid.': {'ASDFG INVERSIONES SL'}, 'Adm. Mancom.': {'ASDFG INVERSIONES SL', 'PEDRO PEREZ'}}}
+
 
 
 class BormeparserIsCompanyTestCase(unittest.TestCase):
@@ -83,27 +78,41 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
     nombramientos2 = u'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
     nombramientos3 = u'Auditor: A.T.A AUDITORES SL. Aud.Supl.: CUEVAS MUÑOZ SILVIA MARIA.'
     nombramientos4 = u'Adm. Solid.: ASDFG INVERSIONES S.L. Adm. Mancom.: ASDFG INVERSIONES S.L.;PEDRO PEREZ'
+    nombramientos5 = u"Apoderado: CASER PENSIONES ENTIDAD GESTORA DE FONDOS DE PENSI."
+
     ceses1 = u'Adm. Mancom.: PEREZ;HILARIO'
     ceses2 = u'Auditor: A.T.A AUDITORES SL. Adm. Mancom.: PEREZ;HILARIO'
+    ceses3 = u"Consejero: C1 C. Consejero: C2 -A- Secretario: C2 -B- Vicesecret.: C4 -D-"
 
     def test_regex_nombramientos(self):
         cargos1 = regex_cargos(self.nombramientos1)
-        self.assertEqual(cargos1, DATA['fake1'])
+        self.assertEqual(cargos1, {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}})
 
         cargos2 = regex_cargos(self.nombramientos2)
-        self.assertEqual(cargos2, DATA['fake2'])
+        self.assertEqual(cargos2, {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}})
 
         cargos3 = regex_cargos(self.nombramientos3)
-        self.assertEqual(cargos3, DATA['fake3'])
+        self.assertEqual(cargos3, {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {u'CUEVAS MUÑOZ SILVIA MARIA'}})
 
         cargos4 = regex_cargos(self.nombramientos4)
-        self.assertEqual(cargos4, DATA['fake6'])
+        self.assertEqual(cargos4, {'Adm. Solid.': {'ASDFG INVERSIONES SL'},
+                                   'Adm. Mancom.': {'ASDFG INVERSIONES SL', 'PEDRO PEREZ'}})
+
+        cargos4 = regex_cargos(self.nombramientos5)
+        self.assertEqual(cargos4, {'Apoderado': {'CASER PENSIONES ENTIDAD GESTORA DE FONDOS DE PENSI'}})
 
         ceses1 = regex_cargos(self.ceses1)
-        self.assertEqual(ceses1, DATA['fake4'])
+        self.assertEqual(ceses1, {'Adm. Mancom.': {'PEREZ', 'HILARIO'}})
 
         ceses2 = regex_cargos(self.ceses2)
-        self.assertEqual(ceses2, DATA['fake5'])
+        self.assertEqual(ceses2, {'Auditor': {'A.T.A AUDITORES SL'},
+                                  'Adm. Mancom.': {'PEREZ', 'HILARIO'}})
+
+        ceses3 = regex_cargos(self.ceses3)
+        self.assertEqual(ceses3, {'Consejero': {'C1 C', 'C2 -A-'},
+                                  'Secretario': {'C2 -B-'},
+                                  'Vicesecret.': {'C4 -D-'}})
+
 
     def test_cargo_entrante(self):
         self.assertTrue(is_acto_cargo_entrante('Reelecciones'))

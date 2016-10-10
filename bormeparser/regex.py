@@ -56,10 +56,10 @@ RE_ENDING_KEYWORD = '(%s)' % esc_ending_keywords[0]
 
 # -- CARGOS --
 # OR de las palabras clave
-RE_CARGOS_KEYWORDS = '(%s)' % '|'.join(esc_cargos_keywords)
-RE_CARGOS_KEYWORDS2 = '(?=%s|$)' % '|'.join(esc_cargos_keywords)
+RE_CARGOS_KEYWORDS = '(%s):' % '|'.join(esc_cargos_keywords)
+RE_CARGOS_KEYWORDS2 = '(?=%s|$)' % '|'.join([x + ':' for x in esc_cargos_keywords])
 # RE para capturar el cargo y los nombres
-RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ': (.*?)' + RE_CARGOS_KEYWORDS2
+RE_CARGOS_MATCH = RE_CARGOS_KEYWORDS + ' (.*?)\.?' + RE_CARGOS_KEYWORDS2
 
 REGEX_NOARG = re.compile(RE_NOARG_KEYWORDS + '\.\s*(.*)', re.UNICODE)
 REGEX_ARGCOLON = re.compile(RE_COLON_KEYWORDS + ': (.*?)(?:\.\s+)(.*)', re.UNICODE)
