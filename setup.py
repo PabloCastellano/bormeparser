@@ -33,11 +33,9 @@ else:
     long_description = open('README.md').read()
 
 if sys.argv[-1] == 'publish':
-    import os
     os.system("python setup.py sdist bdist_wheel upload -s")
-    args = {'version': __version__}
     print("You probably want to also tag the version now:")
-    print("  git tag -s -a v%(version)s -m 'version %(version)s'" % args)
+    print("  git tag -s -a v{version}".format(version=__version__))
     print("  git push --tags")
     sys.exit()
 
