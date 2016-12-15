@@ -33,10 +33,11 @@ ch = logging.StreamHandler()
 logger.addHandler(ch)
 
 
-def check_range(begin, end, provincia, seccion, directory, download_xml=False):
+def check_range(begin, end, provincia, seccion, directory, download_xml):
     """ Downloads PDFs using threads """
     next_date = begin
     results = {'good': 0, 'missing': 0, 'incorrect': 0}
+    summary = []
 
     while next_date and next_date <= end:
         logger.info('Checking files from {}'.format(next_date.isoformat()))
@@ -73,12 +74,19 @@ def check_range(begin, end, provincia, seccion, directory, download_xml=False):
             if os.path.getsize(filepath) != size:
                 results['incorrect'] += 1
                 logger.warn('{}: PDF size is incorrect (is {} but should be {})\n'.format(filepath, os.path.getsize(filepath), size))
+                summary.append(filepath)
                 continue
 
             results['good'] += 1
             logger.debug('OK\n')
 
         next_date = bxml.next_borme
+
+    if len(summary) > 0:
+        print('\nMissing files:')
+        print('\n'.join(summary[:10]))
+    if len(summary) > 10:
+        print('This list is truncated. There are {} files not shown.'.format(len(summary) - 10))
 
     print('\nResults:')
     print('\tGood: {}'.format(results['good']))
