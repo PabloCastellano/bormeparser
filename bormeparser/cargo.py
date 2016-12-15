@@ -129,6 +129,7 @@ class CARGO:
     COMISION_EJECUTIVA = u"Comisión ejecutiva"
     AUDITOR_GRUP = "Auditor Grup"  # ?
     PRESIDENTE_COMISION_EJECUTIVA = u"Presidente de la comisión ejecutiva"
+    COPRESIDENTE_COMISION_EJECUTIVA = u"Copresidente de la comisión ejecutiva"
     VICEPRESIDENTE_COMISION_EJECUTIVA = u"Vicepresidente de la comisión ejecutiva"
     VICEPRESIDENTE_PRIMERO = "Vicepresidente primero"
     AUDITOR_SU_C_CON = u"Auditor suplente C.Con"  # ?
@@ -742,6 +743,7 @@ class CARGO:
                  'SEC.JTA.DIRE': SECRETARIO_JUNTA_DIRECTIVA,
                  'Vsec.J.Dir.': VICESECRETARIO_JUNTA_DIRECTIVA,
                  'V-SEC.JTA.DI': VICESECRETARIO_JUNTA_DIRECTIVA,
+                 'V- SEC.JTA.DI': VICESECRETARIO_JUNTA_DIRECTIVA,
                  'V-SEC.2.JT.D': VICESECRETARIO_SEGUNDO_JUNTA_DIRECTIVA,
                  'Miem.J.Dir.': MIEMBRO_JUNTA_DIRECTIVA,
                  'MBRO.JTA.DIR': MIEMBRO_JUNTA_DIRECTIVA,
@@ -796,6 +798,7 @@ class CARGO:
                  'Pr.Com.Ejecu': PRESIDENTE_COMISION_EJECUTIVA,
                  'Pte.C.Ej': PRESIDENTE_COMISION_EJECUTIVA,
                  'P.Com.Ejec.': PRESIDENTE_COMISION_EJECUTIVA,
+                 'Copre.ComEj': COPRESIDENTE_COMISION_EJECUTIVA,
                  'Sec.Com.Ej.': SECRETARIO_COMISION_EJECUTIVA,
                  'Sec.Com.Eje.': SECRETARIO_COMISION_EJECUTIVA,
                  'SEC.COM.EJEC': SECRETARIO_COMISION_EJECUTIVA,
