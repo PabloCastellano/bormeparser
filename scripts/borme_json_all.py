@@ -18,13 +18,14 @@
 
 import bormeparser
 import bormeparser.borme
-from common import DEFAULT_BORME_ROOT
+from common import DEFAULT_BORME_ROOT, get_git_revision_short_hash
 
 from bormeparser.backends.defaults import OPTIONS
 OPTIONS['SANITIZE_COMPANY_NAME'] = True
 
 import argparse
 import os
+import sys
 import time
 
 from threading import Thread
@@ -51,9 +52,10 @@ class ThreadConvertJSON(Thread):
             self.queue.task_done()
 
 
-def walk_borme_root(bormes_root):
+def walk_borme_root(bormes_root, json_root=None):
     pdf_root = os.path.join(bormes_root, 'pdf')
-    json_root = os.path.join(bormes_root, 'json')
+    if json_root is None:
+        json_root = os.path.join(bormes_root, 'json')
 
     _, year_dirs, _ = next(os.walk(pdf_root))
     for year in year_dirs:
@@ -74,6 +76,7 @@ def walk_borme_root(bormes_root):
                 for filename in files:
                     yield day_dir, json_day_dir, filename
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
     parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
@@ -88,7 +91,13 @@ if __name__ == '__main__':
         t.setDaemon(True)
         t.start()
 
-    for day_dir, json_day_dir, filename in walk_borme_root(bormes_root):
+    json_folder = 'json_' + get_git_revision_short_hash()
+    json_root = os.path.join(bormes_root, json_folder)
+    if os.path.exists(json_root):
+        print('{} already exists'.format(json_root))
+        sys.exit(1)
+
+    for day_dir, json_day_dir, filename in walk_borme_root(bormes_root, json_root):
         if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):
             continue
         pdf_path = os.path.join(day_dir, filename)

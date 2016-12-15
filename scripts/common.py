@@ -18,8 +18,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
+import subprocess
+
 
 DEFAULT_BORME_ROOT = '~/.bormes'
+
 
 def get_borme_xml_filepath(date, directory):
     year = str(date.year)
@@ -34,3 +37,13 @@ def get_borme_pdf_path(date, directory):
     month = '{:02d}'.format(date.month)
     day = '{:02d}'.format(date.day)
     return os.path.join(os.path.expanduser(directory), 'pdf', year, month, day)
+
+
+def get_git_revision_short_hash():
+    try:
+        version = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
+        if isinstance(version, bytes):
+            version = version.decode('unicode_escape')
+    except subprocess.CalledProcessError:
+        version = 'Unknown'
+    return version
