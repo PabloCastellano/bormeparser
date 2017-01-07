@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # borme_info.py - Shows BORME A info
-# Copyright (C) 2015-2016 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2015-2017 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

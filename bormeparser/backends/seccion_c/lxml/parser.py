@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # bormeparser.backends.seccion_c.basic.parser.py -
-# Copyright (C) 2016 Pablo Castellano <pablo@anche.no>
+# Copyright (C) 2016-2017 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
