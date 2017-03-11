@@ -17,12 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import os
 import re
 import datetime
 import unicodedata
 
-from .seccion import SECCION
+from .config import CONFIG
 
 FIRST_BORME = {2009: datetime.date(2009, 1, 2),
                2010: datetime.date(2010, 1, 4),
@@ -53,3 +53,18 @@ def acto_to_attr(acto):
     attr = attr.replace(' ', '_').replace('/', '_').replace('.', '_').lower()
     attr = re.sub('[^A-Za-z_]+', '', attr)
     return attr.rstrip('_')
+
+
+def get_borme_xml_filepath(date, directory=CONFIG["borme_root"]):
+    year = str(date.year)
+    month = '{:02d}'.format(date.month)
+    day = '{:02d}'.format(date.day)
+    filename = 'BORME-S-{}{}{}.xml'.format(year, month, day)
+    return os.path.join(os.path.expanduser(directory), 'xml', year, month, filename)
+
+
+def get_borme_pdf_path(date, directory=CONFIG["borme_root"]):
+    year = str(date.year)
+    month = '{:02d}'.format(date.month)
+    day = '{:02d}'.format(date.day)
+    return os.path.join(os.path.expanduser(directory), 'pdf', year, month, day)

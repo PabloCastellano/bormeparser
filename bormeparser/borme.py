@@ -21,17 +21,19 @@
 from .acto import ACTO
 #from .download import download_pdf
 from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls_multi, USE_HTTPS
-from .download import download_urls_multi_names
+from .download import download_urls_multi_names, get_url_pdf_from_xml
 #from .exceptions import BormeInvalidActoException
 from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
 from .regex import is_acto_cargo, is_acto_noarg
 #from .parser import parse as parse_borme
 from .seccion import SECCION
 from .provincia import Provincia, PROVINCIA
+from .utils import get_borme_xml_filepath
+
 import datetime
 import logging
 import json
-import os
+import os.path
 import re
 import requests
 import six
@@ -425,7 +427,11 @@ class Borme(object):
         self.anuncios_rango = (min(self.anuncios.keys()), max(self.anuncios.keys()))
 
     def _set_url(self):
-        self._url = get_url_pdf(self.date, self.seccion, self.provincia)
+        xml_path = get_borme_xml_filepath(self.date)
+        if os.path.isfile(xml_path):
+            self._url = get_url_pdf_from_xml(self.date, self.seccion, self.provincia, xml_path)
+        else:
+            self._url = get_url_pdf(self.date, self.seccion, self.provincia)
 
     @property
     def url(self):
