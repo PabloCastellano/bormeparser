@@ -179,7 +179,8 @@ class BormeXML(object):
 
         if source.startswith('http'):
             req = requests.get(source)
-            self.xml = etree.fromstring(req.text)
+            content = req.text.encode("ISO-8859-1")
+            self.xml = etree.fromstring(content).getroottree()
         else:
             self.xml = etree.parse(source)
 

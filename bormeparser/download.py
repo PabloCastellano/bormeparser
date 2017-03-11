@@ -141,7 +141,8 @@ def get_nbo_from_xml(source):
     """ Número de Boletín Oficial """
     if source.startswith('http'):
         req = requests.get(source)
-        tree = etree.fromstring(req.text)
+        content = req.text.encode('iso-8859-1')
+        tree = etree.fromstring(content).getroottree()
     else:
         tree = etree.parse(source)
 
@@ -159,7 +160,8 @@ def get_url_pdfs_provincia(date, provincia, secure=USE_HTTPS):
         protocol = 'https'
     else:
         protocol = 'http'
-    tree = etree.fromstring(req.text)
+    content = req.text.encode('iso-8859-1')
+    tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
@@ -199,7 +201,8 @@ def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
         protocol = 'https'
     else:
         protocol = 'http'
-    tree = etree.fromstring(req.text)
+    content = req.text.encode('iso-8859-1')
+    tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
@@ -246,7 +249,8 @@ def get_url_seccion_c(date, format='xml', secure=USE_HTTPS):
         protocol = 'https'
     else:
         protocol = 'http'
-    tree = etree.fromstring(req.text)
+    content = req.text.encode('iso-8859-1')
+    tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
