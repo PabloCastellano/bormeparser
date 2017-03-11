@@ -46,13 +46,10 @@ class PyPDF2Parser(BormeAParserBackend):
         self.sanitize = OPTIONS['SANITIZE_COMPANY_NAME']
 
     def _parse(self):
-        anuncio_id = None
         cabecera = False
         changing_page = False
         cve = False
         data = ""
-        empresa = None
-        registro = None
         fecha = False
         last_font = 0
         nombreacto = None
@@ -102,7 +99,6 @@ class PyPDF2Parser(BormeAParserBackend):
                             'Registro': registro,
                             'Actos': self.actos
                         }
-                        registro = None
 
                     data = ""
                     self.actos = []
@@ -162,6 +158,8 @@ class PyPDF2Parser(BormeAParserBackend):
                         cabecera = False
                         data = self._clean_data(data)
                         anuncio_id, empresa, registro = regex_empresa(data, sanitize=self.sanitize)
+                        if registro is None:
+                            registro = ""
                         logger.debug('  anuncio_id: %s' % anuncio_id)
                         logger.debug('  empresa: %s' % empresa)
                         logger.debug('  registro: %s' % registro)
