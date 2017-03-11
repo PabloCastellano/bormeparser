@@ -32,8 +32,8 @@ import os
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert BORME A PDF files to JSON.')
     parser.add_argument('filename', help='BORME A PDF filename')
-    parser.add_argument('-d', '--debug', action='store_true', default=False, help='Debug mode')
-    parser.add_argument('-o', '--output', help='Output JSON file')
+    parser.add_argument('--debug', action='store_true', default=False, help='Debug mode')
+    parser.add_argument('-o', '--output', help='Output directory or filename (default is current directory)')
     args = parser.parse_args()
 
     # set logger DEBUG (Not working)
