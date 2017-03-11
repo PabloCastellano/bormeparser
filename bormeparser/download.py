@@ -106,6 +106,9 @@ def download_pdf(date, filename, seccion, provincia, parse=False):
 # province = class PROVINCIA
 # "http://boe.es/borme/dias/2015/06/01/pdfs/BORME-A-2015-101-29.pdf"
 def get_url_pdf(date, seccion, provincia, secure=USE_HTTPS):
+    """ Devuelve la URL para descargar un BORME
+        Nota: Requiere conexión a Internet
+    """
     if isinstance(date, tuple):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
@@ -118,6 +121,7 @@ def get_url_pdf(date, seccion, provincia, secure=USE_HTTPS):
 
 
 def get_url_pdf_from_xml(date, seccion, provincia, xml_path, secure=USE_HTTPS):
+    """ Devuelve la URL para descargar un BORME """
     if isinstance(date, tuple):
         date = datetime.date(year=date[0], month=date[1], day=date[2])
 
@@ -141,7 +145,10 @@ def get_url_borme_c(date, some_number, format='xml'):
 """
 
 def get_nbo_from_xml(source):
-    """ Número de Boletín Oficial """
+    """ Devuelve el Número de Boletín Oficial (nbo)
+        source: url o path
+        Nota: Requiere conexión a Internet si source es una URL
+    """
     if source.startswith('http'):
         req = requests.get(source)
         content = req.text.encode('iso-8859-1')

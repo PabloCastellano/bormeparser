@@ -500,8 +500,12 @@ class Borme(object):
 
     def to_json(self, path=None, overwrite=True, pretty=True, include_url=True):
         """
-            Incluir la URL es opcional porque requiere conexión a Internet
+            Genera BORME-JSON a partir del archivo PDF
+            Nota: Requiere conexión a Internet si include_url=True
             path: directorio o archivo
+            overwrite: Sobreescribe el archivo si ya existe
+            pretty: Genera el BORME-JSON con indentación para que sea más legible
+            include_url: Incluir la URL para descargar el BORME de su fuente oficial
         """
         def set_default(obj):
             """ serialize Python sets as lists
