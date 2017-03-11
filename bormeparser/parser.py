@@ -21,15 +21,6 @@
 import importlib
 import os
 
-try:
-    # Python 3
-    from urllib import request
-    FileNotFoundError
-except ImportError:
-    # Python 2
-    import urllib as request
-    FileNotFoundError = IOError
-
 # backends
 DEFAULT_PARSER = {'A': ('bormeparser.backends.pypdf2.parser', 'PyPDF2Parser'),
                   'C': ('bormeparser.backends.seccion_c.lxml.parser', 'LxmlBormeCParser')}
@@ -43,9 +34,10 @@ def parse(data, seccion):
         borme = parser(data).parse()
     elif data.startswith('http'):
         # TODO
-        #content = request.urlopen(data).read()
+        # req = requests.get(data)
+        # content = req.text
         borme = parser(data).parse()
     else:
-        raise FileNotFoundError(data)
+        raise IOError(data)
 
     return borme

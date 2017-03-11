@@ -55,7 +55,7 @@ def download_range(begin, end, directory, seccion, provincia=None):
                     pass
                 bxml.save_to_file(xml_path)
 
-        except FileNotFoundError:
+        except IOError:
             logger.debug('Downloading {filename}'.format(filename=os.path.basename(xml_path)))
             bxml = BormeXML.from_date(next_date)
             try:

@@ -20,6 +20,8 @@
 
 import datetime
 import os
+import requests
+import time
 from lxml import etree
 from threading import Thread
 
@@ -27,13 +29,13 @@ from .exceptions import BormeDoesntExistException
 from .parser import parse as parse_borme
 from .seccion import SECCION
 
+requests.adapters.DEFAULT_RETRIES = 3
+
 try:
     # Python 3
     from queue import Queue
-    from urllib import request
 except ImportError:
     from Queue import Queue
-    import urllib as request
 
 import logging
 logger = logging.getLogger(__name__)
@@ -140,8 +142,10 @@ def get_url_borme_c(date, some_number, format='xml'):
 
 def get_nbo_from_xml(source):
     """ Número de Boletín Oficial """
-    if source.startswith('https'):
-        tree = etree.parse(request.urlopen(source))
+    if source.startswith('http'):
+        req = requests.get(source)
+        content = req.text.encode('iso-8859-1')
+        tree = etree.fromstring(content).getroottree()
     else:
         tree = etree.parse(source)
 
@@ -154,12 +158,13 @@ def get_nbo_from_xml(source):
 def get_url_pdfs_provincia(date, provincia, secure=USE_HTTPS):
     """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """
     url = get_url_xml(date, secure=secure)
+    req = requests.get(url)
     if secure:
-        tree = etree.parse(request.urlopen(url))
         protocol = 'https'
     else:
-        tree = etree.parse(url)
         protocol = 'http'
+    content = req.text.encode('iso-8859-1')
+    tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
@@ -194,12 +199,13 @@ def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
         raise ValueError('Section must be: A or B')
 
     url = get_url_xml(date, secure=secure)
+    req = requests.get(url)
     if secure:
-        tree = etree.parse(request.urlopen(url))
         protocol = 'https'
     else:
-        tree = etree.parse(url)
         protocol = 'http'
+    content = req.text.encode('iso-8859-1')
+    tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
@@ -241,12 +247,13 @@ def get_url_seccion_c(date, format='xml', secure=USE_HTTPS):
         raise ValueError('format must be "xml", "htm" or "pdf"')
 
     url = get_url_xml(date, secure=secure)
+    req = requests.get(url)
     if secure:
-        tree = etree.parse(request.urlopen(url))
         protocol = 'https'
     else:
-        tree = etree.parse(url)
         protocol = 'http'
+    content = req.text.encode('iso-8859-1')
+    tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
         raise BormeDoesntExistException
@@ -289,18 +296,22 @@ def get_url_xml(date, secure=USE_HTTPS):
     return BORME_XML_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day)
 
 
-# TODO: FileExistsError (subclass de OSError)
 def download_url(url, filename=None):
     logger.debug('Downloading URL: %s' % url)
     if os.path.exists(filename):
         logger.warning('%s already exists!' % os.path.basename(filename))
         return False
 
-    local_filename, headers = request.urlretrieve(url, filename)
-    content_length = headers['content-length']
+    req = requests.get(url, stream=True)
+    with open(filename, "wb") as fp:
+        for chunk in req.iter_content(chunk_size=1024):
+            if chunk:
+                fp.write(chunk)
+
+    content_length = req.headers['content-length']
     logger.debug("%.2f KB" % (int(content_length) / 1024.0))
 
-    return True, local_filename
+    return True
 
 
 def download_urls(urls, path):
@@ -381,6 +392,7 @@ class ThreadDownloadUrl(Thread):
     def run(self):
         while True:
             url, full_path = self.queue.get()
+            time.sleep(0.1)
             downloaded = download_url(url, full_path)
 
             if downloaded:

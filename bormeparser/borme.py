@@ -33,18 +33,10 @@ import logging
 import json
 import os
 import re
+import requests
 import six
 
 from lxml import etree
-
-try:
-    # Python 3
-    FileNotFoundError
-    from urllib import request
-except NameError:
-    # Python 2
-    FileNotFoundError = IOError
-    import urllib as request
 
 logger = logging.getLogger(__name__)
 ch = logging.StreamHandler()
@@ -186,7 +178,9 @@ class BormeXML(object):
             return datetime.datetime.strptime(fecha, '%d/%m/%Y').date()
 
         if source.startswith('http'):
-            self.xml = etree.parse(request.urlopen(source))
+            req = requests.get(source)
+            content = req.text.encode("ISO-8859-1")
+            self.xml = etree.fromstring(content).getroottree()
         else:
             self.xml = etree.parse(source)
 
@@ -218,7 +212,7 @@ class BormeXML(object):
 
         if not path.startswith('http'):
             if not os.path.exists(path):
-                raise FileNotFoundError(path)
+                raise IOError(path)
             bxml.filename = path
 
         bxml._load(path)

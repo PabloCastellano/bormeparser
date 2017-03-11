@@ -5,6 +5,7 @@ Version 0.3.0 [unreleased]
 --------------------------
 
 - Cambios en el formato BORME-JSON
+- Usar requests en lugar de urllib
 
 
 Version 0.2.4 [2016-09-21]

@@ -30,12 +30,6 @@ from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.seccion import SECCION
 from bormeparser.provincia import PROVINCIA
 
-try:
-    FileNotFoundError
-except NameError:
-    # Python 2
-    FileNotFoundError = IOError
-
 EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__), '..', 'examples')
 
 DATA1 = {214: {'Actos': [{'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}}},
@@ -231,7 +225,7 @@ class BormeXMLInstanceTestCase(unittest.TestCase):
         self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
 
         # Exceptions
-        self.assertRaises(FileNotFoundError, BormeXML.from_file, 'invalidfile.xml')
+        self.assertRaises(IOError, BormeXML.from_file, 'invalidfile.xml')
 
     def test_from_date(self):
         bxml = BormeXML.from_date(self.date)

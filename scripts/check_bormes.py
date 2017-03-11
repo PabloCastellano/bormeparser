@@ -44,7 +44,7 @@ def check_range(begin, end, provincia, seccion, directory, download_xml):
         xml_path = get_borme_xml_filepath(next_date, directory)
         try:
             bxml = BormeXML.from_file(xml_path)
-        except FileNotFoundError:
+        except IOError:
             if download_xml:
                 logger.info('Downloading {}'.format(os.path.basename(xml_path)))
                 bxml = BormeXML.from_date(next_date)
