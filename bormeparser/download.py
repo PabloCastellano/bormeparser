@@ -159,10 +159,7 @@ def get_url_pdfs_provincia(date, provincia, secure=USE_HTTPS):
     """ Obtiene las URLs para descargar los BORMEs de la provincia y fecha indicada """
     url = get_url_xml(date, secure=secure)
     req = requests.get(url)
-    if secure:
-        protocol = 'https'
-    else:
-        protocol = 'http'
+    protocol = 'https' if secure else 'http'
     content = req.text.encode('iso-8859-1')
     tree = etree.fromstring(content).getroottree()
 
@@ -200,10 +197,7 @@ def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
 
     url = get_url_xml(date, secure=secure)
     req = requests.get(url)
-    if secure:
-        protocol = 'https'
-    else:
-        protocol = 'http'
+    protocol = 'https' if secure else 'http'
     content = req.text.encode('iso-8859-1')
     tree = etree.fromstring(content).getroottree()
 
@@ -248,10 +242,7 @@ def get_url_seccion_c(date, format='xml', secure=USE_HTTPS):
 
     url = get_url_xml(date, secure=secure)
     req = requests.get(url)
-    if secure:
-        protocol = 'https'
-    else:
-        protocol = 'http'
+    protocol = 'https' if secure else 'http'
     content = req.text.encode('iso-8859-1')
     tree = etree.fromstring(content).getroottree()
 
