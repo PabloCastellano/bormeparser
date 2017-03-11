@@ -8,9 +8,11 @@ Version 0.3.0 [unreleased]
 - Parser thread-safe (issue #7)
 - Nombres de actos repetidos en el mismo anuncio (issue #3)
 - Usar requests en lugar de urllib
+- Archivo de configuración ~/.bormecfg
 - Mejoras en el parser
 - Añadidos 4 nuevos actos y 41 cargos directivos
 - Borme.to_json ahora permite especificar un path (archivo o directorio) en lugar de solo archivo
+- Borme._set_url evita conexión a Internet si existe BORME-XML
 - Sociedades y registros tienen su propio módulo
 - Funciones de limpieza de datos en bormeparser.clean
 - Incluye nombre del R.M. en BORME-JSON

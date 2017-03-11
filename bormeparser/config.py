@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# common.py - Common functions for bormeparser scripts
-# Copyright (C) 2016-2017 Pablo Castellano <pablo@anche.no>
+# bormeparser.config.py -
+# Copyright (C) 2017 Pablo Castellano <pablo@anche.no>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,15 +17,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import subprocess
+import os.path
 
+try:
+    # Python 3
+    import configparser
+    config = configparser.ConfigParser()
+except ImportError:
+    import ConfigParser
+    config = ConfigParser.ConfigParser()
 
-def get_git_revision_short_hash():
-    try:
-        version = subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
-        if isinstance(version, bytes):
-            version = version.decode('unicode_escape')
-    except subprocess.CalledProcessError:
-        version = 'Unknown'
-    return version
+CONFIG_FILE = os.path.expanduser("~/.bormecfg")
+DEFAULTS = {
+    'borme_root': os.path.expanduser("~/.bormes")
+}
+
+if os.path.isfile(CONFIG_FILE):
+    config.read(CONFIG_FILE)
+    CONFIG = dict(config["general"])
+else:
+    CONFIG = DEFAULTS
+

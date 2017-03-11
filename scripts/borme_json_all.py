@@ -18,7 +18,7 @@
 
 import bormeparser
 import bormeparser.borme
-from common import DEFAULT_BORME_ROOT, get_git_revision_short_hash
+from common import get_git_revision_short_hash
 
 from bormeparser.backends.defaults import OPTIONS
 OPTIONS['SANITIZE_COMPANY_NAME'] = True
@@ -31,6 +31,7 @@ import time
 from threading import Thread
 from queue import Queue
 
+BORME_ROOT = bormeparser.CONFIG["borme_root"]
 THREADS = 6
 
 
@@ -79,7 +80,7 @@ def walk_borme_root(bormes_root, json_root=None):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
-    parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
+    parser.add_argument('-d', '--directory', default=BORME_ROOT, help='Directory to download files (default is {})'.format(BORME_ROOT))
     args = parser.parse_args()
 
     bormes_root = os.path.expanduser(args.directory)
