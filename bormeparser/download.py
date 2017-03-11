@@ -21,12 +21,15 @@
 import datetime
 import os
 import requests
+import time
 from lxml import etree
 from threading import Thread
 
 from .exceptions import BormeDoesntExistException
 from .parser import parse as parse_borme
 from .seccion import SECCION
+
+requests.adapters.DEFAULT_RETRIES = 3
 
 try:
     # Python 3
@@ -389,6 +392,7 @@ class ThreadDownloadUrl(Thread):
     def run(self):
         while True:
             url, full_path = self.queue.get()
+            time.sleep(0.1)
             downloaded = download_url(url, full_path)
 
             if downloaded:
