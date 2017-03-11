@@ -19,9 +19,8 @@
 
 # El BORME se publica los días laborables y normalmente a las 7:30 de la mañana
 import datetime
+import requests
 import time
-
-from urllib import request
 
 URL_BASE = 'https://boe.es/diario_borme/xml.php?id=BORME-S-'  # https://boe.es/diario_borme/xml.php?id=BORME-S-20150910
 DELAY = 5 * 60  # 5 minutes
@@ -94,8 +93,8 @@ def poll_xml_dl():
         if weekday in (5, 6):
             wait_till_monday(weekday)
         url = URL_BASE + today.strftime('%Y%m%d')
-        content = request.urlopen(url, timeout=TIMEOUT).read()
-        found = parse_content(content)
+        req = requests.get(url, timeout=TIMEOUT)
+        found = parse_content(req.text)
         if found:
             wait_till_seven()
         else:
