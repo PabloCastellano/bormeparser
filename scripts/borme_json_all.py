@@ -83,7 +83,6 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--directory', default=BORME_ROOT, help='Directory to download files (default is {})'.format(BORME_ROOT))
     args = parser.parse_args()
 
-    bormes_root = os.path.expanduser(args.directory)
     start_time = time.time()
 
     q = Queue()
@@ -93,12 +92,12 @@ if __name__ == '__main__':
         t.start()
 
     json_folder = 'json_' + get_git_revision_short_hash()
-    json_root = os.path.join(bormes_root, json_folder)
+    json_root = os.path.join(args.directory, json_folder)
     if os.path.exists(json_root):
         print('{} already exists'.format(json_root))
         sys.exit(1)
 
-    for day_dir, json_day_dir, filename in walk_borme_root(bormes_root, json_root):
+    for day_dir, json_day_dir, filename in walk_borme_root(args.directory, json_root):
         if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):
             continue
         pdf_path = os.path.join(day_dir, filename)

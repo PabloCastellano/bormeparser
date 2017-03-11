@@ -60,11 +60,11 @@ def get_borme_xml_filepath(date, directory=CONFIG["borme_root"]):
     month = '{:02d}'.format(date.month)
     day = '{:02d}'.format(date.day)
     filename = 'BORME-S-{}{}{}.xml'.format(year, month, day)
-    return os.path.join(os.path.expanduser(directory), 'xml', year, month, filename)
+    return os.path.join(directory, 'xml', year, month, filename)
 
 
 def get_borme_pdf_path(date, directory=CONFIG["borme_root"]):
     year = str(date.year)
     month = '{:02d}'.format(date.month)
     day = '{:02d}'.format(date.day)
-    return os.path.join(os.path.expanduser(directory), 'pdf', year, month, day)
+    return os.path.join(directory, 'pdf', year, month, day)
