@@ -20,13 +20,14 @@
 import bormeparser
 from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.borme import BormeXML
-from bormeparser.utils import FIRST_BORME
-from common import DEFAULT_BORME_ROOT, get_borme_xml_filepath, get_borme_pdf_path
+from bormeparser.utils import FIRST_BORME, get_borme_xml_filepath, get_borme_pdf_path
 
 import argparse
 import datetime
 import logging
 import os
+
+BORME_ROOT = bormeparser.CONFIG["borme_root"]
 
 logger = logging.getLogger('check_bormes')
 ch = logging.StreamHandler()
@@ -98,7 +99,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Check BORME files are present and not corrupt.')
     parser.add_argument('-f', '--fromdate', default='init', help='ISO formatted date (ex. 2015-01-01). Default: init')
     parser.add_argument('-t', '--to', default='today', help='ISO formatted date (ex. 2016-01-01). Default: today')
-    parser.add_argument('-d', '--directory', default=DEFAULT_BORME_ROOT, help='Directory to download files (default is {})'.format(DEFAULT_BORME_ROOT))
+    parser.add_argument('-d', '--directory', default=BORME_ROOT, help='Directory to download files (default is {})'.format(BORME_ROOT))
     parser.add_argument('-s', '--seccion', default=bormeparser.SECCION.A, choices=['A', 'B', 'C'], help='BORME seccion')
     parser.add_argument('-p', '--provincia', choices=bormeparser.provincia.ALL_PROVINCIAS, help='BORME provincia')
     parser.add_argument('-x', '--download-xml', action='store_true', default=False, help='Download missing XML BORME files')
