@@ -5,8 +5,16 @@ Version 0.3.0 [unreleased]
 --------------------------
 
 - Cambios en el formato BORME-JSON
+- Parser thread-safe (issue #7)
+- Nombres de actos repetidos en el mismo anuncio (issue #3)
 - Usar requests en lugar de urllib
-
+- Mejoras en el parser
+- Añadidos 4 nuevos actos y 41 cargos directivos
+- Borme.to_json ahora permite especificar un path (archivo o directorio) en lugar de solo archivo
+- Sociedades y registros tienen su propio módulo
+- Funciones de limpieza de datos en bormeparser.clean
+- Incluye nombre del R.M. en BORME-JSON
+- Cambios menores en los scripts
 
 Version 0.2.4 [2016-09-21]
 --------------------------
