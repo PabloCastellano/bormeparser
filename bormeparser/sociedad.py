@@ -51,11 +51,14 @@ SOCIEDADES.update({
     # BVBA: Sociedad Privada de Responsabilidad Limitada
     'BVBA': 'Besloten vennootschap met beperkte aansprakelijkheid',
 
-    # Holanda:
+    # Holanda
     # BV: Sociedad Privada de Responsabilidad Limitada
     'BV': 'Besloten vennootschap met beperkte aansprakelijkheid',
     # NV: Sociedad Anónima (Holanda)
     'NV': 'Naamloze Vennootschap',
+
+    # UK
+    'LTD': 'Limited company',
 })
 
 ALL_SOCIEDADES = SOCIEDADES.keys()

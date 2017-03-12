@@ -94,8 +94,8 @@ def clean_empresa(nombre):
         nombre = nombre[:-28] + 'SC'
     elif nombre.endswith(' SOCIEDAD COMANDITARIA POR ACCIONES'):  # SC por acciones
         nombre = nombre[:-34] + 'SC'
-    elif nombre.endswith(' A.E.I.E'):
-        nombre = nombre[:-7] + 'AEIE'
+    elif nombre.endswith(' LIMITED'):
+        nombre = nombre[:-7] + 'LTD'
 
     if nombre.endswith(' SOCIEDAD ANONIMA DE INVERSION DE CAPITAL VARIABLE'):
         nombre = nombre[:-49] + 'SICAV'
