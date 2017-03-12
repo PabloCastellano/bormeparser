@@ -146,29 +146,36 @@ def regex_empresa_tipo(data):
 
 def regex_empresa(data, sanitize=True):
     """ Captura el número de acto y el nombre de la empresa
-        Si el nombre incluye el nombre de un registro mercantil, lo devuelve como tercer parámetro (sino None)
+        Si el nombre incluye el nombre de un registro mercantil, lo devuelve en el tercer parámetro
+        El tercer parámetro contiene información extra de la empresa
 
         data: "57344 - ALDARA CATERING SL"
         data: "473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)"
     """
 
+    extra = {"liquidacion": False, "sucursal": False, "registro": ""}
     res = REGEX_EMPRESA_REGISTRO.match(data)
     if res:
         acto_id, empresa, registro = res.groups()
         if registro not in ALL_REGISTROS:
             logger.warning("Registro desconocido: " + registro)
         else:
-            registro = REGISTROS[registro]
+            extra["registro"] = REGISTROS[registro]
     else:
         acto_id, empresa = REGEX_EMPRESA.match(data).groups()
         registro = None
 
-    empresa = re.sub(" EN LIQUIDACION$", "", empresa)
-    empresa = re.sub(u" SUCURSAL EN ESPAÑA$", "", empresa)
+    if empresa.endswith(" EN LIQUIDACION"):
+        extra["liquidacion"] = True
+        empresa = re.sub(" EN LIQUIDACION$", "", empresa)
+
+    if empresa.endswith(u" SUCURSAL EN ESPAÑA"):
+        extra["sucursal"] = True
+        empresa = re.sub(u" SUCURSAL EN ESPAÑA$", "", empresa)
 
     if sanitize:
         empresa = clean_empresa(empresa)
-    return int(acto_id), empresa, registro
+    return int(acto_id), empresa, extra
 
 
 def regex_cargos(data, sanitize=True):

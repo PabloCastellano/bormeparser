@@ -36,7 +36,7 @@ DATA1 = {214: {'Actos': [{'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCI
                          {'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).'},
                          {'Constitución': 'Comienzo de operaciones: 1.04.15. Objeto social: blabla. Domicilio: C/ RANDOM 1 2 (MALAGA). Capital: 3.000,00 Euros.'},
                          {'Nombramientos': {'Adm. Unico': {'PEDRO GOMEZ GOMEZ'}}}],
-               'Registro': 'R.M. MAHON',
+               'Extra': {"liquidacion": False, "sucursal": False, "registro": "R.M. MAHON"},
                'Empresa': 'EMPRESA RANDOM SL.'},
          'borme_cve': 'BORME-A-2015-102-29',
          'borme_fecha': 'Martes 2 de junio de 2015',
@@ -101,7 +101,7 @@ class BormeATestCase(unittest.TestCase):
 class FakeBormeTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        bormeanuncios = [BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'], DATA1[214]['Registro'])]
+        bormeanuncios = [BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'], DATA1[214]['Extra'])]
         cls.borme = Borme((2015, 2, 10), 'A', PROVINCIA.CACERES, 27, 'BORME-A-2015-27-10', bormeanuncios)
 
     def test_instance(self):
@@ -137,12 +137,14 @@ class FakeBormeTestCase(unittest.TestCase):
 
 class BormeAnuncioTestCase(unittest.TestCase):
     def setUp(self):
-        self.anuncio = BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'], DATA1[214]['Registro'])
+        self.anuncio = BormeAnuncio(1, DATA1[214]['Empresa'], DATA1[214]['Actos'], DATA1[214]['Extra'])
 
     def test_instance(self):
         self.assertEqual(self.anuncio.id, 1)
         self.assertEqual(self.anuncio.empresa, DATA1[214]['Empresa'])
-        self.assertEqual(self.anuncio.registro, DATA1[214]['Registro'])
+        self.assertEqual(self.anuncio.registro, DATA1[214]['Extra']["registro"])
+        self.assertEqual(self.anuncio.sucursal, DATA1[214]['Extra']["sucursal"])
+        self.assertEqual(self.anuncio.liquidacion, DATA1[214]['Extra']["liquidacion"])
         self.assertEqual(self.anuncio.datos_registrales, DATA1[214]['Actos'][1]['Datos registrales'])
 
     def test_get_actos(self):

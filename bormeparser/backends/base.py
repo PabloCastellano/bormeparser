@@ -40,7 +40,7 @@ class BormeAParserBackend(object):
             if not isinstance(id_anuncio, int):
                 continue
             data = anuncios[id_anuncio]
-            a = BormeAnuncio(id_anuncio, data['Empresa'], data['Actos'], data['Registro'])
+            a = BormeAnuncio(id_anuncio, data['Empresa'], data['Actos'], data['Extra'])
             bormeanuncios.append(a)
 
         fecha = regex_fecha(anuncios['borme_fecha'])

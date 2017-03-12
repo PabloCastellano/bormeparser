@@ -45,29 +45,53 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
     acto2 = '57344 - ALDARA CATERING SL'
     acto3 = u'473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)'
     acto4 = u'111141 - CAMAPLAS, S.L.(R.M. LAS PALMAS).'
+    acto5 = "114033 - PARTEI VALENCIA SOCIEDAD LIMITADA EN LIQUIDACION"
+    acto6 = "106606 - PLANTRONICS BV SUCURSAL EN ESPAÑA."
     empresa1 = 'ALDARA CATERING SL'
     empresa2 = 'ALDARA CATERING'
 
     def test_regex_empresa(self):
-        acto_id, empresa, registro = regex_empresa(self.acto1)
+        acto_id, empresa, extra = regex_empresa(self.acto1)
         self.assertEqual(acto_id, 57344)
         self.assertEqual(empresa, 'ALDARA CATERING SL')
-        self.assertEqual(registro, None)
+        self.assertEqual(extra["registro"], "")
+        self.assertEqual(extra["liquidacion"], False)
+        self.assertEqual(extra["sucursal"], False)
 
-        acto_id, empresa, registro = regex_empresa(self.acto2)
+        acto_id, empresa, extra = regex_empresa(self.acto2)
         self.assertEqual(acto_id, 57344)
         self.assertEqual(empresa, 'ALDARA CATERING SL')
-        self.assertEqual(registro, None)
+        self.assertEqual(extra["registro"], "")
+        self.assertEqual(extra["liquidacion"], False)
+        self.assertEqual(extra["sucursal"], False)
 
-        acto_id, empresa, registro = regex_empresa(self.acto3)
+        acto_id, empresa, extra = regex_empresa(self.acto3)
         self.assertEqual(acto_id, 473700)
         self.assertEqual(empresa, u'SA COVA PLAÇA MAJOR SL')
-        self.assertEqual(registro, 'Palma de Mallorca')
+        self.assertEqual(extra["registro"], 'Palma de Mallorca')
+        self.assertEqual(extra["liquidacion"], False)
+        self.assertEqual(extra["sucursal"], False)
 
-        acto_id, empresa, registro = regex_empresa(self.acto4)
+        acto_id, empresa, extra = regex_empresa(self.acto4)
         self.assertEqual(acto_id, 111141)
         self.assertEqual(empresa, 'CAMAPLAS, SL')
-        self.assertEqual(registro, 'Las Palmas (Canarias)')
+        self.assertEqual(extra["registro"], 'Las Palmas (Canarias)')
+        self.assertEqual(extra["liquidacion"], False)
+        self.assertEqual(extra["sucursal"], False)
+
+        acto_id, empresa, extra = regex_empresa(self.acto5)
+        self.assertEqual(acto_id, 114033)
+        self.assertEqual(empresa, 'PARTEI VALENCIA SL')
+        self.assertEqual(extra["registro"], "")
+        self.assertEqual(extra["liquidacion"], True)
+        self.assertEqual(extra["sucursal"], False)
+
+        acto_id, empresa, extra = regex_empresa(self.acto6)
+        self.assertEqual(acto_id, 106606)
+        self.assertEqual(empresa, "PLANTRONICS BV")
+        self.assertEqual(extra["registro"], "")
+        self.assertEqual(extra["liquidacion"], False)
+        self.assertEqual(extra["sucursal"], True)
 
     def test_regex_empresa_tipo(self):
         empresa, tipo = regex_empresa_tipo(self.empresa1)

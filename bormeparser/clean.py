@@ -62,8 +62,7 @@ SIGLAS = {
 }
 
 
-# TODO: Devolver palabras clave como SICAV, SUCURSAL EN ESPAÑA, EN LIQUIDACION
-# UNION TEMPORAL DE EMPRESAS LEY 18 1982 DE 26 DE MAYO
+# TODO: UNION TEMPORAL DE EMPRESAS LEY 18 1982 DE 26 DE MAYO
 def clean_empresa(nombre):
     nombre = nombre.rstrip(".")
     sucursal_spain = False
