@@ -390,7 +390,7 @@ class ThreadDownloadUrl(Thread):
     def run(self):
         while True:
             url, full_path = self.queue.get()
-            time.sleep(0.1)
+            time.sleep(0.3)
             downloaded = download_url(url, full_path)
 
             if downloaded:
