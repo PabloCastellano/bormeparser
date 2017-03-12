@@ -96,7 +96,7 @@ class PyPDF2Parser(BormeAParserBackend):
                         nombreacto = None
                         DATA[anuncio_id] = {
                             'Empresa': empresa,
-                            'Registro': registro,
+                            'Registro': extra["registro"],
                             'Actos': self.actos
                         }
 
@@ -157,12 +157,10 @@ class PyPDF2Parser(BormeAParserBackend):
                         logger.debug('END: cabecera')
                         cabecera = False
                         data = self._clean_data(data)
-                        anuncio_id, empresa, registro = regex_empresa(data, sanitize=self.sanitize)
-                        if registro is None:
-                            registro = ""
+                        anuncio_id, empresa, extra = regex_empresa(data, sanitize=self.sanitize)
                         logger.debug('  anuncio_id: %s' % anuncio_id)
                         logger.debug('  empresa: %s' % empresa)
-                        logger.debug('  registro: %s' % registro)
+                        logger.debug('  extra: {}'.format(extra))
                         data = ""
                     if texto:
                         logger.debug('END: texto')
@@ -262,7 +260,7 @@ class PyPDF2Parser(BormeAParserBackend):
             self._parse_acto(nombreacto, data, prefix='END')
             DATA[anuncio_id] = {
                 'Empresa': empresa,
-                'Registro': registro,
+                'Registro': extra["registro"],
                 'Actos': self.actos
             }
 
