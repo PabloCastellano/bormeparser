@@ -134,11 +134,11 @@ def regex_empresa_tipo(data):
         return empresa: "GRUAS BANCALERO"
         return tipo: "SL"
     """
-    empresa = data
+    empresa = clean_empresa(data)
     tipo = ''
     for t in ALL_SOCIEDADES:
-        if data.endswith(' %s' % t):
-            empresa = data[:-len(t) - 1]
+        if empresa.endswith(' %s' % t):
+            empresa = empresa[:-len(t) - 1]
             tipo = t
             empresa = empresa.rstrip(",")
     return empresa, tipo
@@ -147,6 +147,9 @@ def regex_empresa_tipo(data):
 def regex_empresa(data, sanitize=True):
     """ Captura el número de acto y el nombre de la empresa
         Si el nombre incluye el nombre de un registro mercantil, lo devuelve como tercer parámetro (sino None)
+
+        data: "57344 - ALDARA CATERING SL"
+        data: "473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)"
     """
 
     res = REGEX_EMPRESA_REGISTRO.match(data)

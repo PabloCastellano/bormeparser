@@ -44,6 +44,7 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
     acto1 = '57344 - ALDARA CATERING SL.'
     acto2 = '57344 - ALDARA CATERING SL'
     acto3 = u'473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)'
+    acto4 = u'111141 - CAMAPLAS, S.L.(R.M. LAS PALMAS).'
     empresa1 = 'ALDARA CATERING SL'
     empresa2 = 'ALDARA CATERING'
 
@@ -62,6 +63,11 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
         self.assertEqual(acto_id, 473700)
         self.assertEqual(empresa, u'SA COVA PLAÇA MAJOR SL')
         self.assertEqual(registro, 'Palma de Mallorca')
+
+        acto_id, empresa, registro = regex_empresa(self.acto4)
+        self.assertEqual(acto_id, 111141)
+        self.assertEqual(empresa, 'CAMAPLAS, SL')
+        self.assertEqual(registro, 'Las Palmas (Canarias)')
 
     def test_regex_empresa_tipo(self):
         empresa, tipo = regex_empresa_tipo(self.empresa1)
