@@ -16,6 +16,50 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+import re
+
+SIGLAS = {
+    "S.L": "SL",
+    "S L": "SL",
+    "SOCIEDAD LIMITADA": "SL",
+    "SOCIETAT LIMITADA": "SL",
+    "SOCIEDAD ANONIMA DEPORTIVA": "SAD",
+    "S.A.L": "SAL",
+    "SOCIEDAD ANONIMA LABORAL": "SAL",
+    "S.A": "SA",
+    "B.V": "BV",
+    "N.V": "NV",
+    "SOCIEDAD ANONIMA": "SA",
+    "S L L": "SLL",
+    "S.L.L": "SLL",
+    "SOCIEDAD LIMITADA LABORAL": "SLL",
+    "SOCIEDAD CIVIL PROFESIONAL": "SCP",
+    "SOCIEDAD LIMITADA PROFESIONAL": "SLP",
+    "S.L.P": "SLP",
+    "S. L. P": "SLP",
+    "S.L. PROFESIONAL": "SLP",
+    "SA UNIPERSONAL": "SAU",
+    "S.L UNIPERSONAL": "SLU",
+    "SL UNIPERSONAL": "SLU",
+    "SOCIEDAD LIMITADA UNIPERSONAL": "SLU",
+    "SOCIEDAD LIMITADA NUEVA EMPRESA": "SLNE",
+    "S.L.N.E": "SLNE",
+    "SOCIEDAD DE RESPONSABILIDAD LIMITADA": "SRL",
+    "SOCIEDAD DE RESPONSABILIDAD LIMITADA LABORAL": "SRLL",
+    "SOCIEDAD DE RESPONSABILIDAD LIMITADA PROFESIONAL": "SRLP",
+    "A.I.E": "AIE",
+    "AGRUPACION DE INTERES ECONOMICO": "AIE",
+    "FONDO DE PENSIONES": "FP",
+    "SOCIEDAD ANONIMA PROFESIONAL": "SAP",
+    "SOCIEDAD COMANDITARIA": "SC",
+    "SOCIEDAD COMANDITARIA SIMPLE": "SC",  # SC simple
+    "SOCIEDAD COMANDITARIA POR ACCIONES": "SC",  # SC por acciones
+    "LIMITED": "LTD",
+    "SOCIEDAD MERCANTIL ESTATAL": "SME",
+    "SOCIEDAD ANONIMA DE INVERSION DE CAPITAL VARIABLE": "SICAV",
+    "S.I.C.A.V. SA": "SICAV",
+    "SA SICAV": "SICAV",
+}
 
 
 # TODO: Devolver palabras clave como SICAV, SUCURSAL EN ESPAÑA, EN LIQUIDACION
@@ -24,86 +68,8 @@ def clean_empresa(nombre):
     nombre = nombre.rstrip(".")
     sucursal_spain = False
 
-    if nombre.endswith(' S.L'):
-        nombre = nombre[:-3] + 'SL'
-    if nombre.endswith(' S L'):
-        nombre = nombre[:-3] + 'SL'
-    elif nombre.endswith(' SOCIEDAD LIMITADA'):
-        nombre = nombre[:-17] + 'SL'
-    elif nombre.endswith(' SOCIETAT LIMITADA'):
-        nombre = nombre[:-17] + 'SL'
-    elif nombre.endswith(' SOCIEDAD ANONIMA DEPORTIVA'):
-        nombre = nombre[:-26] + 'SAD'
-    elif nombre.endswith(' S.A.L'):
-        nombre = nombre[:-5] + 'SAL'
-    elif nombre.endswith(' SOCIEDAD ANONIMA LABORAL'):
-        nombre = nombre[:-24] + 'SAL'
-    elif nombre.endswith(' S.A'):
-        nombre = nombre[:-3] + 'SA'
-    elif nombre.endswith(' B.V'):
-        nombre = nombre[:-3] + 'BV'
-    elif nombre.endswith(' N.V'):
-        nombre = nombre[:-3] + 'NV'
-    elif nombre.endswith(' SOCIEDAD ANONIMA'):
-        nombre = nombre[:-16] + 'SA'
-    elif nombre.endswith(' S L L'):
-        nombre = nombre[:-5] + 'SLL'
-    elif nombre.endswith(' S.L.L'):
-        nombre = nombre[:-5] + 'SLL'
-    elif nombre.endswith(' SOCIEDAD LIMITADA LABORAL'):
-        nombre = nombre[:-25] + 'SLL'
-    elif nombre.endswith(' SOCIEDAD CIVIL PROFESIONAL'):
-        nombre = nombre[:-26] + 'SCP'
-    elif nombre.endswith(' SOCIEDAD LIMITADA PROFESIONAL'):
-        nombre = nombre[:-29] + 'SLP'
-    elif nombre.endswith(' S.L.P'):
-        nombre = nombre[:-5] + 'SLP'
-    elif nombre.endswith(' S. L. P'):
-        nombre = nombre[:-7] + 'SLP'
-    elif nombre.endswith(' S.L. PROFESIONAL'):
-        nombre = nombre[:-16] + 'SLP'
-    elif nombre.endswith(' SA UNIPERSONAL'):
-        nombre = nombre[:-14] + 'SAU'
-    elif nombre.endswith(' S.L UNIPERSONAL'):
-        nombre = nombre[:-15] + 'SLU'
-    elif nombre.endswith(' SL UNIPERSONAL'):
-        nombre = nombre[:-14] + 'SLU'
-    elif nombre.endswith(' SOCIEDAD LIMITADA UNIPERSONAL'):
-        nombre = nombre[:-29] + 'SLU'
-    elif nombre.endswith(' SOCIEDAD LIMITADA NUEVA EMPRESA'):
-        nombre = nombre[:-31] + 'SLNE'
-    elif nombre.endswith(' S.L.N.E'):
-        nombre = nombre[:-7] + 'SLNE'
-    elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA'):
-        nombre = nombre[:-36] + 'SRL'
-    elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA LABORAL'):
-        nombre = nombre[:-44] + 'SRLL'
-    elif nombre.endswith(' SOCIEDAD DE RESPONSABILIDAD LIMITADA PROFESIONAL'):
-        nombre = nombre[:-48] + 'SRLP'
-    elif nombre.endswith(' A.I.E'):
-        nombre = nombre[:-5] + 'AIE'
-    elif nombre.endswith(' AGRUPACION DE INTERES ECONOMICO'):
-        nombre = nombre[:-31] + 'AIE'
-    elif nombre.endswith(' FONDO DE PENSIONES'):
-        nombre = nombre[:-18] + 'FP'
-    elif nombre.endswith(' SOCIEDAD ANONIMA PROFESIONAL'):
-        nombre = nombre[:-28] + 'SAP'
-    elif nombre.endswith(' SOCIEDAD COMANDITARIA'):
-        nombre = nombre[:-21] + 'SC'
-    elif nombre.endswith(' SOCIEDAD COMANDITARIA SIMPLE'):  # SC simple
-        nombre = nombre[:-28] + 'SC'
-    elif nombre.endswith(' SOCIEDAD COMANDITARIA POR ACCIONES'):  # SC por acciones
-        nombre = nombre[:-34] + 'SC'
-    elif nombre.endswith(' LIMITED'):
-        nombre = nombre[:-7] + 'LTD'
-    elif nombre.endswith(' SOCIEDAD MERCANTIL ESTATAL'):
-        nombre = nombre[:-26] + 'SME'
-
-    if nombre.endswith(' SOCIEDAD ANONIMA DE INVERSION DE CAPITAL VARIABLE'):
-        nombre = nombre[:-49] + 'SICAV'
-    if nombre.endswith(' S.I.C.A.V. SA'):
-        nombre = nombre[:-13] + 'SICAV'
-    if nombre.endswith(' SA SICAV'):
-        nombre = nombre[:-8] + 'SICAV'
+    for sigla in SIGLAS.keys():
+        regexp = " " + sigla.replace(".", "\.") + "$"
+        nombre = re.sub(regexp, " " + SIGLAS[sigla], nombre)
 
     return nombre
