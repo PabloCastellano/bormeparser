@@ -38,6 +38,7 @@ SOCIEDADES = {
     'SLNE': 'Sociedad Limitada Nueva Empresa',
     'SLP': 'Sociedad Limitada Profesional',
     'SLU': 'Sociedad Limitada Unipersonal',
+    'SME': 'Sociedad Mercantil Estatal',
     'SRL': 'Sociedad de Responsabilidad Limitada',
     'SRLL': 'Sociedad de Responsabilidad Limitada Laboral',
     'SRLP': 'Sociedad de Responsabilidad Limitada Profesional',
