@@ -96,7 +96,7 @@ class PyPDF2Parser(BormeAParserBackend):
                         nombreacto = None
                         DATA[anuncio_id] = {
                             'Empresa': empresa,
-                            'Registro': extra["registro"],
+                            'Extra': extra,
                             'Actos': self.actos
                         }
 
@@ -260,7 +260,7 @@ class PyPDF2Parser(BormeAParserBackend):
             self._parse_acto(nombreacto, data, prefix='END')
             DATA[anuncio_id] = {
                 'Empresa': empresa,
-                'Registro': extra["registro"],
+                'Extra': extra,
                 'Actos': self.actos
             }
 

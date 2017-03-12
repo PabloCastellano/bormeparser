@@ -134,11 +134,13 @@ class BormeAnuncio(object):
     Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
     """
 
-    def __init__(self, id, empresa, actos, registro=None, datos_registrales=None):
-        logger.debug(u"new BormeAnuncio({}) {} ({})".format(id, empresa, registro))
+    def __init__(self, id, empresa, actos, extra, datos_registrales=None):
+        logger.debug(u"new BormeAnuncio({}) {} ({})".format(id, empresa, extra))
         self.id = id
         self.empresa = empresa
-        self.registro = registro
+        self.registro = extra["registro"]
+        self.sucursal = extra["sucursal"]
+        self.liquidacion = extra["liquidacion"]
         self.datos_registrales = datos_registrales or ""
         self._set_actos(actos)
 
@@ -164,7 +166,7 @@ class BormeAnuncio(object):
             yield acto.name, acto.value
 
     def __repr__(self):
-        return "<BormeAnuncio({}) {} ({}) ({})>".format(self.id, self.empresa, self.registro, len(self.actos))
+        return "<BormeAnuncio({}) {} (r:{}, s:{}, l:{}) ({})>".format(self.id, self.empresa, self.registro, self.sucursal, self.liquidacion, len(self.actos))
 
 
 # TODO: guardar self.filepath si from_file, y si from_date y luego save_to_file tb
@@ -482,6 +484,8 @@ class Borme(object):
             doc['anuncios'][anuncio.id] = {
                 'empresa': anuncio.empresa,
                 'registro': anuncio.registro,
+                'sucursal': anuncio.sucursal,
+                'liquidacion': anuncio.liquidacion,
                 'datos registrales': anuncio.datos_registrales,
                 'actos': [],
                 'num_actos': 0
@@ -549,7 +553,8 @@ class Borme(object):
             bormeanuncios = []
             anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
             for id_anuncio, data in anuncios:
-                a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], data['registro'], data['datos registrales'])
+                extra = {"liquidacion": data["liquidacion"], "sucursal": data["sucursal"], "registro": data["registro"]}
+                a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], extra, data['datos registrales'])
                 bormeanuncios.append(a)
         borme = Borme(date, seccion, provincia, num, cve, bormeanuncios, filename)
         borme._url = url
