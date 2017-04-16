@@ -333,11 +333,19 @@ class BormeXMLTestCase(unittest.TestCase):
             ]
 
         self.assertEqual(self.bxml.get_cves(SECCION.A), seccion_a_bormes)
-        self.assertEqual(self.bxml.get_cves(SECCION.A, 'MADRID'), ['BORME-A-2015-183-28'])
+        self.assertEqual(self.bxml.get_cves(SECCION.A, 'MADRID'), 'BORME-A-2015-183-28')
         self.assertEqual(self.bxml.get_cves(SECCION.B), seccion_b_bormes)
-        self.assertEqual(self.bxml.get_cves(SECCION.B, 'MADRID'), ['BORME-B-2015-183-28'])
+        self.assertEqual(self.bxml.get_cves(SECCION.B, 'MADRID'), 'BORME-B-2015-183-28')
         self.assertEqual(self.bxml.get_cves(SECCION.C), seccion_c_bormes)
         self.assertEqual(self.bxml.get_cves(), seccion_a_bormes + seccion_b_bormes + seccion_c_bormes)
+
+    def test_get_provincias(self):
+        provincias = ['ARABA/ÁLAVA', 'ALICANTE', 'ALMERÍA', 'BADAJOZ', 'ILLES BALEARS', 'BARCELONA',  'BURGOS', 'CÁCERES', 'CÁDIZ', 'CASTELLÓN', 'CÓRDOBA',
+                      'A CORUÑA', 'CUENCA', 'HUESCA', 'LLEIDA', 'LA RIOJA', 'MADRID', 'MÁLAGA', 'MURCIA', 'NAVARRA', 'OURENSE', 'ASTURIAS', 'PALENCIA',
+                      'LAS PALMAS', 'PONTEVEDRA', 'SANTA CRUZ DE TENERIFE', 'CANTABRIA', 'SEGOVIA', 'SEVILLA', 'TARRAGONA', 'VALENCIA', 'VALLADOLID',
+                      'ZAMORA', 'ZARAGOZA', 'CEUTA']
+
+        self.assertEqual(self.bxml.get_provincias(SECCION.A), provincias)
 
     def test_get_sizes(self):
         seccion_a_sizes = {'BORME-A-2015-183-01': 264270,

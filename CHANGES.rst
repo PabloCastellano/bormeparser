@@ -18,6 +18,7 @@ Version 0.3.0 [unreleased]
 - Incluye nombre del R.M. en BORME-JSON
 - Cambios menores en los scripts
 - Borme.XML devuelve str en lugar de list si solo hay un elemento
+- BormeXML.get_provincias
 
 Version 0.2.4 [2016-09-21]
 --------------------------

@@ -282,6 +282,17 @@ class BormeXML(object):
                 sizes[cve] = int(size)
         return sizes
 
+    def get_provincias(self, seccion):
+        protocol = 'https' if self.use_https else 'http'
+        url_base = URL_BASE % protocol
+
+        xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo/text()'.format(seccion)
+        provincias = self.xml.xpath(xpath)
+        provincias.remove(u"ÍNDICE ALFABÉTICO DE SOCIEDADES")
+        return provincias
+
+    # TODO: Los nombres en el XML vienen en sus respectivos idiomas
+    # Mientras que PROVINCIA.provincia.GERONA no retornaría nada
     def _build_xpath(self, seccion=None, provincia=None):
         """
             Devuelve una lista con los elementos item
