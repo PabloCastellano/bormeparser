@@ -41,8 +41,8 @@ class BormeparserIsCompanyTestCase(unittest.TestCase):
 class BormeparserRegexEmpresaTestCase(unittest.TestCase):
     acto1 = '57344 - ALDARA CATERING SL.'
     acto2 = '57344 - ALDARA CATERING SL'
-    acto3 = u'473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)'
-    acto4 = u'111141 - CAMAPLAS, S.L.(R.M. LAS PALMAS).'
+    acto3 = '473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)'
+    acto4 = '111141 - CAMAPLAS, S.L.(R.M. LAS PALMAS).'
     acto5 = "114033 - PARTEI VALENCIA SOCIEDAD LIMITADA EN LIQUIDACION"
     acto6 = "106606 - PLANTRONICS BV SUCURSAL EN ESPAÑA."
     empresa1 = 'ALDARA CATERING SL'
@@ -65,7 +65,7 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
 
         acto_id, empresa, extra = regex_empresa(self.acto3)
         self.assertEqual(acto_id, 473700)
-        self.assertEqual(empresa, u'SA COVA PLAÇA MAJOR SL')
+        self.assertEqual(empresa, 'SA COVA PLAÇA MAJOR SL')
         self.assertEqual(extra["registro"], 'Palma de Mallorca')
         self.assertEqual(extra["liquidacion"], False)
         self.assertEqual(extra["sucursal"], False)
@@ -103,24 +103,24 @@ class BormeparserRegexEmpresaTestCase(unittest.TestCase):
 
 class BormeparserRegexCargosTestCase(unittest.TestCase):
     nombramientos1 = 'Adm. Solid.: RAMA SANCHEZ JOSE PEDRO;RAMA SANCHEZ JAVIER JORGE.'
-    nombramientos2 = u'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
-    nombramientos3 = u'Auditor: A.T.A AUDITORES SL. Aud.Supl.: CUEVAS MUÑOZ SILVIA MARIA.'
-    nombramientos4 = u'Adm. Solid.: ASDFG INVERSIONES S.L. Adm. Mancom.: ASDFG INVERSIONES S.L.;PEDRO PEREZ'
-    nombramientos5 = u"Apoderado: CASER PENSIONES ENTIDAD GESTORA DE FONDOS DE PENSI."
+    nombramientos2 = 'Auditor: ACME AUDITORES SL. Aud.Supl.: MACIAS MUÑOZ FELIPE JOSE.'
+    nombramientos3 = 'Auditor: A.T.A AUDITORES SL. Aud.Supl.: CUEVAS MUÑOZ SILVIA MARIA.'
+    nombramientos4 = 'Adm. Solid.: ASDFG INVERSIONES S.L. Adm. Mancom.: ASDFG INVERSIONES S.L.;PEDRO PEREZ'
+    nombramientos5 = "Apoderado: CASER PENSIONES ENTIDAD GESTORA DE FONDOS DE PENSI."
 
-    ceses1 = u'Adm. Mancom.: PEREZ;HILARIO'
-    ceses2 = u'Auditor: A.T.A AUDITORES SL. Adm. Mancom.: PEREZ;HILARIO'
-    ceses3 = u"Consejero: C1 C. Consejero: C2 -A- Secretario: C2 -B- Vicesecret.: C4 -D-"
+    ceses1 = 'Adm. Mancom.: PEREZ;HILARIO'
+    ceses2 = 'Auditor: A.T.A AUDITORES SL. Adm. Mancom.: PEREZ;HILARIO'
+    ceses3 = "Consejero: C1 C. Consejero: C2 -A- Secretario: C2 -B- Vicesecret.: C4 -D-"
 
     def test_regex_nombramientos(self):
         cargos1 = regex_cargos(self.nombramientos1)
         self.assertEqual(cargos1, {'Adm. Solid.': {'RAMA SANCHEZ JAVIER JORGE', 'RAMA SANCHEZ JOSE PEDRO'}})
 
         cargos2 = regex_cargos(self.nombramientos2)
-        self.assertEqual(cargos2, {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {u'MACIAS MUÑOZ FELIPE JOSE'}})
+        self.assertEqual(cargos2, {'Auditor': {'ACME AUDITORES SL'}, 'Aud.Supl.': {'MACIAS MUÑOZ FELIPE JOSE'}})
 
         cargos3 = regex_cargos(self.nombramientos3)
-        self.assertEqual(cargos3, {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {u'CUEVAS MUÑOZ SILVIA MARIA'}})
+        self.assertEqual(cargos3, {'Auditor': {'A.T.A AUDITORES SL'}, 'Aud.Supl.': {'CUEVAS MUÑOZ SILVIA MARIA'}})
 
         cargos4 = regex_cargos(self.nombramientos4)
         self.assertEqual(cargos4, {'Adm. Solid.': {'ASDFG INVERSIONES SL'},
@@ -150,47 +150,47 @@ class BormeparserRegexCargosTestCase(unittest.TestCase):
 
 
 class BormeparserRegexBoldTestCase(unittest.TestCase):
-    string1 = u'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
-    string2 = u'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
-    string3 = u'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
-    string4 = u'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B12345678.Ceses/Dimisiones.'
-    string5 = u'Declaración de unipersonalidad. Socio único: ENGLOBA GRUPO DE COMUNICACION SL. Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.'
+    string1 = 'Declaración de unipersonalidad. Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L. Nombramientos'
+    string2 = 'Declaración de unipersonalidad. Socio único: JOHN DOE. Datos registrales'
+    string3 = 'Declaración de unipersonalidad. Socio único: FOO DOE. Pérdida del caracter de unipersonalidad. Cambio de domicilio social.'
+    string4 = 'Declaración de unipersonalidad. Socio único: CORPOREISHON BLA BLA. Cif:B12345678.Ceses/Dimisiones.'
+    string5 = 'Declaración de unipersonalidad. Socio único: ENGLOBA GRUPO DE COMUNICACION SL. Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.'
 
 
     def test_regex_decl_unip(self):
         acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string1)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, u'Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L')
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, 'Socio único: GRUPO DE EMPRESAS E INVERSIONES YOLO S.L')
         self.assertEqual(nombreacto, 'Nombramientos')
 
         acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string2)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, u'Socio único: JOHN DOE')
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, 'Socio único: JOHN DOE')
         self.assertEqual(nombreacto, 'Datos registrales')
 
         acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string3)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, u'Socio único: FOO DOE')
-        self.assertEqual(nombreacto, u'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, 'Socio único: FOO DOE')
+        self.assertEqual(nombreacto, 'Pérdida del caracter de unipersonalidad. Cambio de domicilio social.')
 
         acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string4)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, u'Socio único: CORPOREISHON BLA BLA. Cif:B12345678')
-        self.assertEqual(nombreacto, u'Ceses/Dimisiones.')
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, 'Socio único: CORPOREISHON BLA BLA. Cif:B12345678')
+        self.assertEqual(nombreacto, 'Ceses/Dimisiones.')
 
         acto_colon, arg_colon, nombreacto = regex_bold_acto(self.string5)
-        self.assertEqual(acto_colon, u'Declaración de unipersonalidad')
-        self.assertEqual(arg_colon, u'Socio único: ENGLOBA GRUPO DE COMUNICACION SL')
-        self.assertEqual(nombreacto, u'Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.')
+        self.assertEqual(acto_colon, 'Declaración de unipersonalidad')
+        self.assertEqual(arg_colon, 'Socio único: ENGLOBA GRUPO DE COMUNICACION SL')
+        self.assertEqual(nombreacto, 'Sociedad unipersonal. Cambio de identidad del socio único: GRUPO ANTALA MEDIA SL. Datos registrales.')
 
 
 class BormeparserRegexBormeC(unittest.TestCase):
     titulo1 = 'PARQUE EMPRESARIAL OMEGA, S.L.U, SOCIEDAD ABSORBENTE\nFGLG OMEGA 2, S.L.U.\nFGLG OMEGA 5, S.L.U.(SOCIEDADES ABSORBIDAS)'
     titulo3 = 'INDUSTRIAS TEVI, S.L.\n(SOCIEDAD ESCINDIDA)\nTEVIINMUEBLES 2009, S.L.\n(SOCIEDAD BENEFICIARIA)'
     titulo4 = 'NAVES EN ALQUILER PARA LA INDUSTRIA, S.L.\nSOCIEDAD ABSORBENTE Y\nCOCINAS RONDA NORTE, S.L.\nSOCIEDAD ABSORBIDA'
-    #titulo5 = u'TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L. (SOCIEDAD ABSORBENTE), MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL (SOCIEDAD ABSORBIDA).'
+    #titulo5 = 'TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L. (SOCIEDAD ABSORBENTE), MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL (SOCIEDAD ABSORBIDA).'
     #titulo6 = 'SOCIEDAD ANONIMA\nINDUSTRIAS CELULOSA ARAGONESA\n(SOCIEDAD ABSORBENTE)\nCABALUR, SOCIEDAD LIMITADA UNIPERSONAL\n(SOCIEDAD ABSORBIDA)'
-    #titulo7 = u'SICA, S.L. (SOCIEDAD ABSORBENTE), CAOLINA, S.L. DE CARÁCTER UNIPERSONAL\n(SOCIEDAD ABSORBIDA)'
+    #titulo7 = 'SICA, S.L. (SOCIEDAD ABSORBENTE), CAOLINA, S.L. DE CARÁCTER UNIPERSONAL\n(SOCIEDAD ABSORBIDA)'
 
     def test_separar_empresas_titulo(self):
         empresas1 = borme_c_separa_empresas_titulo(self.titulo1)
@@ -200,7 +200,7 @@ class BormeparserRegexBormeC(unittest.TestCase):
         empresas4 = borme_c_separa_empresas_titulo(self.titulo4)
         self.assertEqual(empresas4, ['NAVES EN ALQUILER PARA LA INDUSTRIA, S.L.', 'COCINAS RONDA NORTE, S.L.'])
         #empresas5 = borme_c_separa_empresas_titulo(self.titulo5)
-        #self.assertEqual(empresas5, [u'TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L.', 'MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL'])
+        #self.assertEqual(empresas5, ['TÉCNICA EN INSTALACIONES DE FLUIDOS, S.L.', 'MONTAJES INOXIDABLES MOINOX, S.L. UNIPERSONAL'])
         #empresas6 = borme_c_separa_empresas_titulo(self.titulo6)
         #self.assertEqual(empresas6, ['SOCIEDAD ANONIMA INDUSTRIAS CELULOSA ARAGONESA', 'CABALUR, SOCIEDAD LIMITADA UNIPERSONAL'])
         #empresas7 = borme_c_separa_empresas_titulo(self.titulo7)

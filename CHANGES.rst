@@ -4,6 +4,7 @@ Changelog
 Version 0.3.0 [unreleased]
 --------------------------
 
+- Eliminado soporte de Python 2
 - Cambios en el formato BORME-JSON
 - Parser thread-safe (issue #7)
 - Nombres de actos repetidos en el mismo anuncio (issue #3)

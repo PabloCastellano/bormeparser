@@ -287,7 +287,7 @@ class BormeXML(object):
 
         xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo/text()'.format(seccion)
         provincias = self.xml.xpath(xpath)
-        provincias.remove(u"ÍNDICE ALFABÉTICO DE SOCIEDADES")
+        provincias.remove("ÍNDICE ALFABÉTICO DE SOCIEDADES")
         return provincias
 
     # TODO: Los nombres en el XML vienen en sus respectivos idiomas
@@ -297,11 +297,11 @@ class BormeXML(object):
             Devuelve una lista con los elementos item
         """
         if seccion and provincia:
-            xpath = u'//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
+            xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo[text()="{}"]'.format(seccion, provincia)
         elif seccion:
             xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item'.format(seccion)
         elif provincia:
-            xpath = u'//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
+            xpath = '//sumario/diario/seccion/emisor/item/titulo[text()="{}"]'.format(provincia)
         else:
             xpath = '//sumario/diario/seccion/emisor/item'
 

@@ -79,7 +79,7 @@ class BormeATestCase(unittest.TestCase):
         self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
         self.assertEqual(data['date'], '2015-02-10')
         self.assertEqual(data['seccion'], 'A')
-        self.assertEqual(data['provincia'], u'Cáceres')  # "C\u00e1ceres"
+        self.assertEqual(data['provincia'], 'Cáceres')
         self.assertEqual(data['num'], 27)
         self.assertEqual(data['url'], 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(data['from_anuncio'], 57315)
@@ -127,7 +127,7 @@ class FakeBormeTestCase(unittest.TestCase):
         self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
         self.assertEqual(data['date'], '2015-02-10')
         self.assertEqual(data['seccion'], 'A')
-        self.assertEqual(data['provincia'], u'Cáceres')  # "C\u00e1ceres"
+        self.assertEqual(data['provincia'], 'Cáceres')
         self.assertEqual(data['num'], 27)
         self.assertEqual(data['url'], 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
         self.assertEqual(data['from_anuncio'], 1)
@@ -258,21 +258,21 @@ class BormeXMLTestCase(unittest.TestCase):
         cls.bxml = BormeXML.from_file(path)
 
     def test_get_url_pdfs(self):
-        urls_a = {u'A CORU\xd1A': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-15.pdf',
+        urls_a = {'A CORUÑA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-15.pdf',
                   'ALICANTE': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-03.pdf',
-                  u'ALMER\xcdA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-04.pdf',
-                  u'ARABA/\xc1LAVA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-01.pdf',
+                  'ALMERÍA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-04.pdf',
+                  'ARABA/ÁLAVA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-01.pdf',
                   'ASTURIAS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-33.pdf',
                   'BADAJOZ': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-06.pdf',
                   'BARCELONA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-08.pdf',
                   'BURGOS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-09.pdf',
                   'CANTABRIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-39.pdf',
-                  u'CASTELL\xd3N': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-12.pdf',
+                  'CASTELLÓN': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-12.pdf',
                   'CEUTA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-51.pdf',
                   'CUENCA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-16.pdf',
-                  u'C\xc1CERES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-10.pdf',
-                  u'C\xc1DIZ': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-11.pdf',
-                  u'C\xd3RDOBA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-14.pdf',
+                  'CÁCERES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-10.pdf',
+                  'CÁDIZ': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-11.pdf',
+                  'CÓRDOBA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-14.pdf',
                   'HUESCA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-22.pdf',
                   'ILLES BALEARS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-07.pdf',
                   'LA RIOJA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-26.pdf',
@@ -280,7 +280,7 @@ class BormeXMLTestCase(unittest.TestCase):
                   'LLEIDA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-25.pdf',
                   'MADRID': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-28.pdf',
                   'MURCIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-30.pdf',
-                  u'M\xc1LAGA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-29.pdf',
+                  'MÁLAGA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-29.pdf',
                   'NAVARRA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-31.pdf',
                   'OURENSE': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-32.pdf',
                   'PALENCIA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-34.pdf',
@@ -293,16 +293,16 @@ class BormeXMLTestCase(unittest.TestCase):
                   'VALLADOLID': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-47.pdf',
                   'ZAMORA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-49.pdf',
                   'ZARAGOZA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-50.pdf',
-                  u'\xcdNDICE ALFAB\xc9TICO DE SOCIEDADES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-99.pdf'}
+                  'ÍNDICE ALFABÉTICO DE SOCIEDADES': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-99.pdf'}
 
         url_cve_a = {'BORME-A-2015-183-06': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-06.pdf'}
 
-        urls_b = {u'A CORU\xd1A': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-15.pdf',
-                  u'ALMER\xcdA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-04.pdf',
+        urls_b = {'A CORUÑA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-15.pdf',
+                  'ALMERÍA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-04.pdf',
                   'ILLES BALEARS': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-07.pdf',
-                  u'JA\xc9N': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-23.pdf',
+                  'JAÉN': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-23.pdf',
                   'MADRID': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-28.pdf',
-                  u'M\xc1LAGA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-29.pdf'}
+                  'MÁLAGA': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-29.pdf'}
 
         url_cve_b = {'BORME-B-2015-183-04': 'https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-B-2015-183-04.pdf'}
 
@@ -313,7 +313,7 @@ class BormeXMLTestCase(unittest.TestCase):
         self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.A), urls_a)
         self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.A, provincia='BADAJOZ'), url_cve_a)
         self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.B), urls_b)
-        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.B, provincia=u'ALMER\xcdA'), url_cve_b)
+        self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.B, provincia='ALMERÍA'), url_cve_b)
         self.assertEqual(self.bxml.get_url_pdfs(seccion=SECCION.C), urls_c)
         self.assertRaises(AttributeError, self.bxml.get_url_pdfs)
 
