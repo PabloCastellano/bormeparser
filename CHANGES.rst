@@ -17,6 +17,7 @@ Version 0.3.0 [unreleased]
 - Funciones de limpieza de datos en bormeparser.clean
 - Incluye nombre del R.M. en BORME-JSON
 - Cambios menores en los scripts
+- Borme.XML devuelve str en lugar de list si solo hay un elemento
 
 Version 0.2.4 [2016-09-21]
 --------------------------

@@ -267,6 +267,8 @@ class BormeXML(object):
         for item in self._build_xpath(seccion, provincia):
             if not item.get('id').endswith('-99'):
                 cves.append(item.get('id'))
+        if len(cves) == 1:
+            cves = cves[0]
         return cves
 
     def get_sizes(self, seccion=None, provincia=None):
