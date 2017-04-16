@@ -27,8 +27,8 @@ class CargoTestCase(unittest.TestCase):
 
     def test_from_string(self):
         self.assertEqual(CARGO.from_string('Adm.Man.Supl'), 'Administrador mancomunado suplente')
-        self.assertEqual(CARGO.from_string('Vpr.Com.Ctr'), u"Vicepresidente de la comisión de control")
-        self.assertEqual(CARGO.from_string('V-PRE.COMS.C'), u"Vicepresidente de la comisión de control")
+        self.assertEqual(CARGO.from_string('Vpr.Com.Ctr'), "Vicepresidente de la comisión de control")
+        self.assertEqual(CARGO.from_string('V-PRE.COMS.C'), "Vicepresidente de la comisión de control")
         self.assertRaises(BormeInvalidCargoException, CARGO.from_string, 'Cargo invalido')
 
 

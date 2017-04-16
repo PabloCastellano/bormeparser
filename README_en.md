@@ -30,12 +30,6 @@ Compiling
 
 lxml package has some parts that need to be compiled and you need the following dependencies:
 
-For Python 2:
-
-    sudo apt-get install python-dev libxslt1-dev
-
-For Python 3:
-
     sudo apt-get install python3-dev libxslt1-dev
 
 

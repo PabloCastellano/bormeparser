@@ -1,2 +1,0 @@
--r base.txt
-pdfminer.six==20160614

@@ -68,7 +68,7 @@ REGEX_BOLD = re.compile(RE_BOLD_KEYWORDS + '\. (.*?)\.\s*' + RE_ALL_KEYWORDS + '
 REGEX_EMPRESA = re.compile('^(\d+) - (.*?)\.?$')
 REGEX_EMPRESA_REGISTRO = re.compile('^(\d+) - (.*)\(R.M. (.*)\)\.?$')
 REGEX_PDF_TEXT = re.compile('^\((.*)\)Tj$')
-REGEX_BORME_NUM = re.compile(u'^Núm\. (\d+)', re.UNICODE)
+REGEX_BORME_NUM = re.compile('^Núm\. (\d+)', re.UNICODE)
 REGEX_BORME_FECHA = re.compile('^\w+ (\d+) de (\w+) de (\d+)')
 REGEX_BORME_CVE = re.compile('^cve: (.*)$')
 
@@ -81,13 +81,13 @@ def is_acto_cargo_entrante(data):
 
     if not is_acto_cargo(data):
         raise ValueError('No es un acto con cargos: %s' % data)
-    return data in [u'Reelecciones', u'Nombramientos']
+    return data in ['Reelecciones', 'Nombramientos']
 
 
 def is_acto_cargo(data):
     """ Comprueba si es un acto que tiene como parámetro una lista de cargos """
-    actos = [u'Revocaciones', u'Reelecciones', u'Cancelaciones de oficio de nombramientos', u'Nombramientos',
-             u'Ceses/Dimisiones', u'Emisión de obligaciones', u'Modificación de poderes']
+    actos = ['Revocaciones', 'Reelecciones', 'Cancelaciones de oficio de nombramientos', 'Nombramientos',
+             'Ceses/Dimisiones', 'Emisión de obligaciones', 'Modificación de poderes']
     return data in actos
 
 
@@ -97,7 +97,7 @@ def is_acto_noarg(data):
 
 
 def is_acto_bold_mix(data):
-    return data.startswith(u'Escisión total')
+    return data.startswith('Escisión total')
 
 
 def is_acto_bold(data):
@@ -169,9 +169,9 @@ def regex_empresa(data, sanitize=True):
         extra["liquidacion"] = True
         empresa = re.sub(" EN LIQUIDACION$", "", empresa)
 
-    if empresa.endswith(u" SUCURSAL EN ESPAÑA"):
+    if empresa.endswith(" SUCURSAL EN ESPAÑA"):
         extra["sucursal"] = True
-        empresa = re.sub(u" SUCURSAL EN ESPAÑA$", "", empresa)
+        empresa = re.sub(" SUCURSAL EN ESPAÑA$", "", empresa)
 
     if sanitize:
         empresa = clean_empresa(empresa)
