@@ -36,7 +36,6 @@ import json
 import os.path
 import re
 import requests
-import six
 
 from lxml import etree
 
@@ -93,7 +92,7 @@ class BormeActoTexto(BormeActo):
         self.name = name
 
     def _set_value(self, value):
-        if not (value is None or isinstance(value, six.string_types)):
+        if not (value is None or isinstance(value, str)):
             raise ValueError('value must be str or None: %s' % value)
         self.value = value
 
@@ -135,7 +134,7 @@ class BormeAnuncio(object):
     """
 
     def __init__(self, id, empresa, actos, extra, datos_registrales=None):
-        logger.debug(u"new BormeAnuncio({}) {} ({})".format(id, empresa, extra))
+        logger.debug("new BormeAnuncio({}) {} ({})".format(id, empresa, extra))
         self.id = id
         self.empresa = empresa
         self.registro = extra["registro"]
@@ -387,24 +386,16 @@ class BormeXML(object):
 
         self.xml.write(path, encoding='iso-8859-1', pretty_print=True)
 
-        if six.PY3:
-            with open(path, 'r', encoding='iso-8859-1') as fp:
-                content = fp.read()
-        else:
-            with open(path, 'r') as fp:
-                content = fp.read()
+        with open(path, 'r', encoding='iso-8859-1') as fp:
+            content = fp.read()
 
         content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
         if not self.is_final:
             logger.warning('Está guardando un archivo no definitivo')
             content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
 
-        if six.PY3:
-            with open(path, 'w', encoding='iso-8859-1') as fp:
-                fp.write(content)
-        else:
-            with open(path, 'w') as fp:
-                fp.write(content)
+        with open(path, 'w', encoding='iso-8859-1') as fp:
+            fp.write(content)
 
         return True
 

@@ -23,8 +23,6 @@ from bormeparser.regex import regex_cargos, regex_empresa, regex_bold_acto, is_c
 from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo, borme_c_separa_empresas_titulo
 
 
-
-
 class BormeparserIsCompanyTestCase(unittest.TestCase):
     empresa1 = 'PATATAS SL'
     empresa2 = 'HAMBURGUESAS AIE'

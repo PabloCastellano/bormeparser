@@ -1,2 +1,3 @@
+-r python.txt
 bpython==0.15
 coverage==4.2

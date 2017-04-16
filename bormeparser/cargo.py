@@ -21,8 +21,6 @@
 
 from bormeparser.exceptions import BormeInvalidCargoException
 
-import six
-
 
 class CARGO:
     PRESIDENTE = "Presidente"
@@ -999,7 +997,7 @@ class CARGO:
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
                  'Sociedades fusionadas': SOCIEDADES_FUSIONADAS,
                  }
-    KEYWORDS = list(six.viewkeys(_keywords))
+    KEYWORDS = list(_keywords.keys())
 
     @staticmethod
     def from_string(string):

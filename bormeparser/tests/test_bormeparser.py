@@ -19,7 +19,6 @@
 
 import datetime
 import os
-import six
 import tempfile
 import unittest
 
@@ -92,12 +91,12 @@ class BormeparserUrlsTestCase(unittest.TestCase):
     def test_url_pdfs_seccion(self):
         # tuple
         urls = bormeparser.get_url_pdfs(self.date, seccion=bormeparser.SECCION.A, secure=False)
-        six.assertCountEqual(self, urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
+        self.assertDictEqual(urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
 
         # datetime
         date = datetime.date(*self.date)
         urls = bormeparser.get_url_pdfs(date, seccion=bormeparser.SECCION.A, secure=False)
-        six.assertCountEqual(self, urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
+        self.assertDictEqual(urls, DATA[self.date]['pdf'][bormeparser.SECCION.A])
 
 
 class BormeparserInvalidDateTestCase(unittest.TestCase):

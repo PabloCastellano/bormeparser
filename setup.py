@@ -60,7 +60,6 @@ setup(
     keywords=['BORME', 'transparency', 'opendata', 'Spain', 'Registro mercantil', 'Boletín Oficial del Registro Mercantil'],
     classifiers=[
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 2',
     ],
     license=__license__,
     data_files=[('', ['LICENSE.txt'])],

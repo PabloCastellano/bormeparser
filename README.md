@@ -3,7 +3,7 @@
 bormeparser
 ===========
 
-**bormeparser** es una librería de Python para parsear los archivos del BORME (Boletín Oficial del Registro Mercantil en España).
+**bormeparser** es una librería de **Python 3** para parsear los archivos del BORME (Boletín Oficial del Registro Mercantil en España).
 
 [![Travis bormeparser](https://travis-ci.org/PabloCastellano/bormeparser.svg?branch=master)](https://travis-ci.org/PabloCastellano/bormeparser)
 [![Pypi bormeparser](https://badge.fury.io/py/bormeparser.png)]( https://pypi.python.org/pypi/bormeparser)
@@ -55,8 +55,6 @@ Puedes instalar bormeparser descargándolo y ejecutando:
     cd bormeparser
     python setup.py install
 
-Para Python 2, cambiar python3-dev por python-dev.
-
 
 Instalación desde Pip
 =====================
@@ -74,8 +72,6 @@ La carpeta scripts/ contiene algunos scripts útiles para tratar archivos BORME.
     python scripts/download_borme_pdfs.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01 -t 2016-06-30
     python scripts/check_bormes.py -d /tmp/bormemadrid -p MADRID -f 2016-06-01 -t 2016-06-30
     python scripts/borme_json_all.py -d /tmp/bormemadrid
-
-No está garantizado que todos los scripts sean compatibles con Python 2.
 
 Tests
 =====

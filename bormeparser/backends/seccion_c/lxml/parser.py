@@ -27,7 +27,6 @@ from lxml import etree
 import datetime
 import logging
 import re
-import six
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.WARN)
@@ -49,10 +48,7 @@ class LxmlBormeCParser(BormeCParserBackend):
         return cifs
 
     def parse(self):
-        if six.PY2:
-            fp = open(self.filename)
-        else:
-            fp = open(self.filename, 'r', encoding='iso-8859-1')
+        fp = open(self.filename, 'r', encoding='iso-8859-1')
 
         content = fp.read()
         fp.close()
