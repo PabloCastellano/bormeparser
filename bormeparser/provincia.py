@@ -34,6 +34,9 @@ class Provincia:
     def __repr__(self):
         return '%s: %s' % (self.__class__, self.name)
 
+    def __lt__(self, other):
+        return self.name < other.name
+
     # TODO: tildes
     def __eq__(self, other):
         """ Hace posible comparar la clase con una cadena (nombre de provincia) """
