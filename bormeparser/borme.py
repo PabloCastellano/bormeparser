@@ -48,7 +48,7 @@ logger.setLevel(logging.WARN)
 # Each new version adds 1 if the result file can change.
 RAW_FILE_VERSION = "1"
 # Thousands file version. It represents the file version part corresponding to this parser
-TH_FILE_VERSION = "1"
+TH_FILE_VERSION = "2"
 # The file version depends on parser one and parser two. It is coded to avoid
 # that the parser one changes and the parser two does not.
 FILE_VERSION = "{}".format(int(RAW_FILE_VERSION) + 1000 * int(TH_FILE_VERSION))
@@ -548,6 +548,9 @@ class Borme(object):
     def from_json(self, filename):
         with open(filename) as fp:
             d = json.load(fp)
+            if d["version"] < FILE_VERSION:
+                logger.warning("This JSON was generated with an older version of bormeparser")
+                logger.warning("Current version is {0}, file version is {1}.".format(FILE_VERSION, d["version"]))
             cve = d['cve']
             date = datetime.datetime.strptime(d['date'], '%Y-%m-%d').date()
             seccion = d['seccion']  # TODO: SECCION.from_borme()
