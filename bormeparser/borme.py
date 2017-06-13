@@ -34,7 +34,7 @@ import datetime
 import logging
 import json
 import os.path
-import os.makedirs
+import os
 import re
 import requests
 
