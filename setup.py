@@ -6,9 +6,7 @@ import sys
 from glob import glob
 from setuptools import setup, find_packages
 
-sys.path.insert(0, 'bormeparser')
-from version import __version__, __license__
-sys.path.remove('bormeparser')
+version = "0.3.0"
 
 
 def get_install_requires():
@@ -27,17 +25,6 @@ def get_install_requires():
     return requirements
 
 
-if sys.version_info[0] == 3:
-    long_description = open('README.md', encoding='utf-8').read()
-else:
-    long_description = open('README.md').read()
-
-if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist bdist_wheel upload -s")
-    print("You probably want to also tag the version now:")
-    print("  git tag -s -a v{version}".format(version=__version__))
-    print("  git push --tags")
-    sys.exit()
 
 try:
     os.symlink('../examples', 'bormeparser/examples')
@@ -50,9 +37,9 @@ setup(
     package_data={
         "bormeparser": glob("examples/*")
     },
-    version=__version__,
+    version=version,
     description="bormeparser is a Python library for parsing BORME files",
-    long_description=long_description,
+    long_description=open('README.md', encoding='utf-8').read(),
     author='Pablo Castellano',
     author_email='pablo@anche.no',
     url='https://github.com/PabloCastellano/bormeparser/',
@@ -61,7 +48,7 @@ setup(
     classifiers=[
         'Programming Language :: Python :: 3',
     ],
-    license=__license__,
+    license="GPLv3+",
     data_files=[('', ['LICENSE.txt'])],
     include_package_data=True,
     zip_safe=False,
