@@ -1,5 +1,5 @@
-lxml==3.6.4
-pdfminer.six==20160614
+lxml==4.1.1
+pdfminer.six==20170720
 PyPDF2==1.26.0
-requests==2.7.0
-wheel==0.29.0
+requests==2.13.0
+wheel==0.30.0
