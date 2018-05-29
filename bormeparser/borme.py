@@ -31,8 +31,9 @@ from .provincia import Provincia, PROVINCIA
 from .utils import get_borme_xml_filepath
 
 import datetime
-import logging
+import io
 import json
+import logging
 import os.path
 import re
 import requests
@@ -546,24 +547,44 @@ class Borme(object):
 
     @classmethod
     def from_json(self, filename):
-        with open(filename) as fp:
+        """Crea una instancia Borme a partir de un BORME-JSON.
+
+        El parámetro filename puede ser la ruta a un archivo o un objeto file
+        de un fichero JSON ya abierto.
+        """
+
+        if isinstance(filename, io.IOBase):
+            fp = filename
+            d = json.loads(fp.read().decode('utf-8'))
+        else:
+            fp = open(filename)
             d = json.load(fp)
-            if d["version"] < FILE_VERSION:
-                logger.warning("This JSON was generated with an older version of bormeparser")
-                logger.warning("Current version is {0}, file version is {1}.".format(FILE_VERSION, d["version"]))
-            cve = d['cve']
-            date = datetime.datetime.strptime(d['date'], '%Y-%m-%d').date()
-            seccion = d['seccion']  # TODO: SECCION.from_borme()
-            provincia = PROVINCIA.from_title(d['provincia'].upper())
-            num = d['num']
-            url = d.get('url')  # No obligatorio
-            bormeanuncios = []
-            anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
-            for id_anuncio, data in anuncios:
-                extra = {"liquidacion": data["liquidacion"], "sucursal": data["sucursal"], "registro": data["registro"]}
-                a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'], extra, data['datos registrales'])
-                bormeanuncios.append(a)
-        borme = Borme(date, seccion, provincia, num, cve, bormeanuncios, filename)
+
+        if d["version"] < FILE_VERSION:
+            logger.warning(
+                "This JSON was generated with an older version of bormeparser")
+            logger.warning(
+                "Current version is {0}, file version is {1}.".format(
+                    FILE_VERSION, d["version"]))
+        cve = d['cve']
+        date = datetime.datetime.strptime(d['date'], '%Y-%m-%d').date()
+        seccion = d['seccion']  # TODO: SECCION.from_borme()
+        provincia = PROVINCIA.from_title(d['provincia'].upper())
+        num = d['num']
+        url = d.get('url')  # No obligatorio
+        bormeanuncios = []
+        anuncios = sorted(d['anuncios'].items(), key=lambda t: t[0])
+        for id_anuncio, data in anuncios:
+            extra = {
+                "liquidacion": data["liquidacion"],
+                "sucursal": data["sucursal"],
+                "registro": data["registro"]
+            }
+            a = BormeAnuncio(int(id_anuncio), data['empresa'], data['actos'],
+                             extra, data['datos registrales'])
+            bormeanuncios.append(a)
+        borme = Borme(date, seccion, provincia, num, cve, bormeanuncios,
+                      filename)
         borme._url = url
         return borme
 
