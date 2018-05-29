@@ -6,7 +6,7 @@ import sys
 from glob import glob
 from setuptools import setup, find_packages
 
-version = '0.3.1'
+version = '0.3.2.dev0'
 
 
 def get_install_requires():
