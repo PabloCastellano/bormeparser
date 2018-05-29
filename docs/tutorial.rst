@@ -27,14 +27,14 @@ Pero podemos usar otras funciones para descargar el BORME directamente de ese d�
 .. code-block:: python
 
     import bormeparser
-    
+
     date = (2015, 6, 2)
     path = '/tmp/BORME-A-2015-102-29.pdf'
     downloaded = bormeparser.download_pdf(date, path, bormeparser.SECCION.A, bormeparser.PROVINCIA.MALAGA)
 
 .. code-block:: python
 
-    >>> print(donloaded)
+    >>> print(downloaded)
     True
 
 Para conocer la url de un PDF, bormeparser internamente descarga el archivo XML del día y ahí encuentra la ruta.
@@ -99,7 +99,7 @@ Y lo más importante: los anuncios mercantiles.
 
     >>> for anuncio in borme.get_anuncios()[:10]:
     ...         print(anuncio)
-    ...         
+    ...
     <BormeAnuncio(223966) POLYESTER MALAGA SA (1)>
     <BormeAnuncio(223967) RED MOUNTAIN PARK SL (3)>
     <BormeAnuncio(223968) ISOFT SANIDAD SA (1)>

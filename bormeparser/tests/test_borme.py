@@ -24,32 +24,40 @@ import tempfile
 import unittest
 
 import bormeparser
-from bormeparser.borme import Borme, BormeActoCargo, BormeActoTexto, BormeAnuncio, BormeXML
-from bormeparser.download import download_pdf, download_xml
+from bormeparser.borme import (
+        Borme, BormeActoCargo, BormeActoTexto, BormeAnuncio, BormeXML)
 from bormeparser.exceptions import BormeDoesntExistException
 from bormeparser.seccion import SECCION
 from bormeparser.provincia import PROVINCIA
 
-EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__), '..', 'examples')
+EXAMPLES_PATH = os.path.join(os.path.dirname(bormeparser.__file__),
+                             '..',
+                             'examples')
 
-DATA1 = {214: {'Actos': [{'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}}},
-                         {'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).'},
-                         {'Constitución': 'Comienzo de operaciones: 1.04.15. Objeto social: blabla. Domicilio: C/ RANDOM 1 2 (MALAGA). Capital: 3.000,00 Euros.'},
-                         {'Nombramientos': {'Adm. Unico': {'PEDRO GOMEZ GOMEZ'}}}],
-               'Extra': {"liquidacion": False, "sucursal": False, "registro": "R.M. MAHON"},
-               'Empresa': 'EMPRESA RANDOM SL.'},
-         'borme_cve': 'BORME-A-2015-102-29',
-         'borme_fecha': 'Martes 2 de junio de 2015',
-         'borme_num': 102,
-         'borme_provincia': 'MÁLAGA',
-         'borme_seccion': 'SECCIÓN PRIMERA'
-         }
+DATA1 = {
+    214: {
+        'Actos': [
+            {'Ceses/Dimisiones': {'Adm. Unico': {'JUAN GARCIA GARCIA'}}},
+            {'Datos registrales': 'T 5188, L 4095, F 146, S 8, H MA120039, I/A 4 (25.05.15).'},
+            {'Constitución': 'Comienzo de operaciones: 1.04.15. Objeto social: blabla. Domicilio: C/ RANDOM 1 2 (MALAGA). Capital: 3.000,00 Euros.'},
+            {'Nombramientos': {'Adm. Unico': {'PEDRO GOMEZ GOMEZ'}}}],
+        'Extra': {
+            "liquidacion": False, "sucursal": False, "registro": "R.M. MAHON"},
+        'Empresa': 'EMPRESA RANDOM SL.'
+        },
+    'borme_cve': 'BORME-A-2015-102-29',
+    'borme_fecha': 'Martes 2 de junio de 2015',
+    'borme_num': 102,
+    'borme_provincia': 'MÁLAGA',
+    'borme_seccion': 'SECCIÓN PRIMERA'
+}
 
 
 class BormeATestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'), SECCION.A)
+        cls.borme = bormeparser.parse(
+            os.path.join(EXAMPLES_PATH, 'BORME-A-2015-27-10.pdf'), SECCION.A)
 
     def test_instance(self):
         self.assertEqual(self.borme.date, datetime.date(year=2015, month=2, day=10))
@@ -350,10 +358,14 @@ class BormeXMLTestCase(unittest.TestCase):
         self.assertEqual(self.bxml.get_cves(), seccion_a_bormes + seccion_b_bormes + seccion_c_bormes)
 
     def test_get_provincias(self):
-        provincias = ['ARABA/ÁLAVA', 'ALICANTE', 'ALMERÍA', 'BADAJOZ', 'ILLES BALEARS', 'BARCELONA',  'BURGOS', 'CÁCERES', 'CÁDIZ', 'CASTELLÓN', 'CÓRDOBA',
-                      'A CORUÑA', 'CUENCA', 'HUESCA', 'LLEIDA', 'LA RIOJA', 'MADRID', 'MÁLAGA', 'MURCIA', 'NAVARRA', 'OURENSE', 'ASTURIAS', 'PALENCIA',
-                      'LAS PALMAS', 'PONTEVEDRA', 'SANTA CRUZ DE TENERIFE', 'CANTABRIA', 'SEGOVIA', 'SEVILLA', 'TARRAGONA', 'VALENCIA', 'VALLADOLID',
-                      'ZAMORA', 'ZARAGOZA', 'CEUTA']
+        provincias = [
+            'ARABA/ÁLAVA', 'ALICANTE', 'ALMERÍA', 'BADAJOZ', 'ILLES BALEARS',
+            'BARCELONA',  'BURGOS', 'CÁCERES', 'CÁDIZ', 'CASTELLÓN', 'CÓRDOBA',
+            'A CORUÑA', 'CUENCA', 'HUESCA', 'LLEIDA', 'LA RIOJA', 'MADRID',
+            'MÁLAGA', 'MURCIA', 'NAVARRA', 'OURENSE', 'ASTURIAS', 'PALENCIA',
+            'LAS PALMAS', 'PONTEVEDRA', 'SANTA CRUZ DE TENERIFE', 'CANTABRIA',
+            'SEGOVIA', 'SEVILLA', 'TARRAGONA', 'VALENCIA', 'VALLADOLID',
+            'ZAMORA', 'ZARAGOZA', 'CEUTA']
 
         self.assertEqual(self.bxml.get_provincias(SECCION.A), provincias)
 
@@ -444,7 +456,9 @@ class BormeXMLTestCase(unittest.TestCase):
 class BormeCTestCase1(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'), SECCION.C)
+        cls.borme = bormeparser.parse(
+                os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.xml'),
+                SECCION.C)
 
     def test_instance(self):
         self.assertEqual(self.borme['cifs'], {'A31017494', 'A31067218', 'A58348038', 'B31136005'})
@@ -465,7 +479,9 @@ class BormeCTestCase1(unittest.TestCase):
 class BormeCTestCase2(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.borme = bormeparser.parse(os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'), SECCION.C)
+        cls.borme = bormeparser.parse(
+                os.path.join(EXAMPLES_PATH, 'BORME-C-2011-20488.html'),
+                SECCION.C)
 
     def test_instance(self):
         self.assertEqual(self.borme['cifs'], {'A31017494', 'A31067218', 'A58348038', 'B31136005'})

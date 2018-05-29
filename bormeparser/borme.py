@@ -19,13 +19,18 @@
 
 
 from .acto import ACTO
-#from .download import download_pdf
-from .download import get_url_pdf, URL_BASE, get_url_xml, download_url, download_urls_multi, USE_HTTPS
-from .download import download_urls_multi_names, get_url_pdf_from_xml
-#from .exceptions import BormeInvalidActoException
-from .exceptions import BormeAlreadyDownloadedException, BormeAnuncioNotFound, BormeDoesntExistException
-from .regex import is_acto_cargo, is_acto_noarg
-#from .parser import parse as parse_borme
+from .download import (
+        get_url_pdf, URL_BASE, get_url_xml,
+        download_url, download_urls_multi, USE_HTTPS,
+        download_urls_multi_names, get_url_pdf_from_xml,
+        download_pdf)
+# from .exceptions import BormeInvalidActoException
+from .exceptions import (
+        BormeAlreadyDownloadedException,
+        BormeAnuncioNotFound,
+        BormeDoesntExistException)
+from .regex import is_acto_cargo
+# from .parser import parse as parse_borme
 from .seccion import SECCION
 from .provincia import Provincia, PROVINCIA
 from .utils import get_borme_xml_filepath
@@ -48,7 +53,8 @@ logger.setLevel(logging.WARN)
 # RAW_FILE_VERSION must be a positive integer string.
 # Each new version adds 1 if the result file can change.
 RAW_FILE_VERSION = "1"
-# Thousands file version. It represents the file version part corresponding to this parser
+# Thousands file version. It represents the file version part corresponding
+# to this parser
 TH_FILE_VERSION = "2"
 # The file version depends on parser one and parser two. It is coded to avoid
 # that the parser one changes and the parser two does not.
@@ -56,14 +62,15 @@ FILE_VERSION = "{}".format(int(RAW_FILE_VERSION) + 1000 * int(TH_FILE_VERSION))
 
 
 class BormeActo(object):
-    """
-    Representa un Acto del Registro Mercantil. Instanciar BormeActoTexto o BormeActoCargo
+    """Representa un Acto del Registro Mercantil. Instanciar BormeActoTexto
+       o BormeActoCargo
     """
     def __init__(self, name, value):
         logger.debug('new %s(%s): %s' % (self.__class__.__name__, name, value))
         if name not in ACTO.ALL_KEYWORDS:
             logger.warning('Invalid acto found: %s' % name)
-            #raise BormeInvalidActoException('Invalid acto found: %s' % acto_nombre)
+            # raise BormeInvalidActoException(
+            #       'Invalid acto found: %s' % acto_nombre)
         self._set_name(name)
         self._set_value(value)
 
@@ -79,7 +86,8 @@ class BormeActo(object):
         return self.name < other.name
 
     def __repr__(self):
-        return "<%s(%s): %s>" % (self.__class__.__name__, self.name, self.value)
+        return "<{}({}): {}>".format(
+                self.__class__.__name__, self.name, self.value)
 
 
 class BormeActoTexto(BormeActo):
@@ -89,7 +97,8 @@ class BormeActoTexto(BormeActo):
 
     def _set_name(self, name):
         if is_acto_cargo(name):
-            raise ValueError('No se puede BormeActoTexto con un acto de cargo: %s' % name)
+            raise ValueError(
+                'No se puede BormeActoTexto con un acto de cargo: %s' % name)
         self.name = name
 
     def _set_value(self, value):
@@ -99,13 +108,14 @@ class BormeActoTexto(BormeActo):
 
 
 class BormeActoCargo(BormeActo):
-    """
-    Representa un Acto del Registro Mercantil con atributo de lista de cargos y nombres.
+    """Representa un Acto del Registro Mercantil con atributo de lista de
+       cargos y nombres.
     """
 
     def _set_name(self, name):
         if not is_acto_cargo(name):
-            raise ValueError('No se puede BormeActoCargo sin un acto de cargo: %s' % name)
+            raise ValueError(
+                'No se puede BormeActoCargo sin un acto de cargo: %s' % name)
         self.name = name
 
     def _set_value(self, value):
@@ -130,8 +140,8 @@ class BormeActoCargo(BormeActo):
 
 
 class BormeAnuncio(object):
-    """
-    Representa un anuncio con un conjunto de actos mercantiles (Constitucion, Nombramientos, ...)
+    """Representa un anuncio con un conjunto de actos mercantiles
+       (Constitucion, Nombramientos, ...)
     """
 
     def __init__(self, id, empresa, actos, extra, datos_registrales=None):
@@ -166,10 +176,13 @@ class BormeAnuncio(object):
             yield acto.name, acto.value
 
     def __repr__(self):
-        return "<BormeAnuncio({}) {} (r:{}, s:{}, l:{}) ({})>".format(self.id, self.empresa, self.registro, self.sucursal, self.liquidacion, len(self.actos))
+        return "<BormeAnuncio({}) {} (r:{}, s:{}, l:{}) ({})>".format(
+                    self.id, self.empresa, self.registro, self.sucursal,
+                    self.liquidacion, len(self.actos))
 
 
-# TODO: guardar self.filepath si from_file, y si from_date y luego save_to_file tb
+# TODO: guardar self.filepath si from_file,
+# y si from_date y luego save_to_file tb
 class BormeXML(object):
 
     def __init__(self):
@@ -201,7 +214,8 @@ class BormeXML(object):
         else:
             self.next_borme = None
             self.is_final = False
-            logger.warning('Está accediendo un archivo BORME XML no definitivo')
+            logger.warning(
+                'Está accediendo un archivo BORME XML no definitivo')
 
     @property
     def url(self):
@@ -247,14 +261,15 @@ class BormeXML(object):
         return urls_cve
 
     def get_url_pdfs(self, seccion=None, provincia=None):
-        """
-            Obtiene urls para descargar BORME.
-            Debe especificar seccion, provincia, o ambas.
-            Para seccion='C', provincia no se tiene en cuenta.
+        """Obtiene urls para descargar BORME.
+
+        Debe especificar seccion, provincia, o ambas.
+        Para seccion='C', provincia no se tiene en cuenta.
         """
         if seccion == SECCION.C:
             if provincia:
-                logger.warn('provincia parameter makes no sense when seccion="C"')
+                logger.warn(
+                    'provincia parameter makes no sense when seccion="C"')
             urls = self._get_url_borme_c(format='xml')
         else:
             urls = self._get_url_borme_a(seccion=seccion, provincia=provincia)
@@ -283,9 +298,6 @@ class BormeXML(object):
         return sizes
 
     def get_provincias(self, seccion):
-        protocol = 'https' if self.use_https else 'http'
-        url_base = URL_BASE % protocol
-
         xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo/text()'.format(seccion)
         provincias = self.xml.xpath(xpath)
         provincias.remove("ÍNDICE ALFABÉTICO DE SOCIEDADES")
@@ -312,16 +324,18 @@ class BormeXML(object):
             return self.xml.xpath(xpath)
 
     def _get_url_borme_c(self, format='xml'):
-        """
-            Obtiene las URLs para descargar los BORMEs de la seccion C y la fecha indicada.
-            format: xml, htm, pdf
+        """Obtiene las URLs para descargar los BORMEs de la seccion C y la
+           fecha indicada.
+
+           El parámetro format puede ser: 'xml', 'html' o 'pdf'
         """
 
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
         urls = {}
 
-        for item in self.xml.xpath('//sumario/diario/seccion[@num="C"]/emisor/item'):
+        xpath_query = '//sumario/diario/seccion[@num="C"]/emisor/item'
+        for item in self.xml.xpath(xpath_query):
             if format == 'xml':
                 url = url_base + item.xpath('urlXml')[0].text
             elif format in ('htm', 'html'):
@@ -345,7 +359,8 @@ class BormeXML(object):
 
         """
         if not seccion and not provincia:
-            raise AttributeError('You must specifiy either provincia or seccion or both')
+            raise AttributeError(
+                    'You must specifiy either provincia or seccion or both')
 
         protocol = 'https' if self.use_https else 'http'
         url_base = URL_BASE % protocol
@@ -364,7 +379,8 @@ class BormeXML(object):
         return urls
 
     def download_borme(self, path, provincia=None, seccion=None):
-        """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
+        """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada
+        """
         urls = self.get_url_pdfs(provincia=provincia, seccion=seccion)
         if seccion == SECCION.C:
             files = download_urls_multi_names(urls, path)
@@ -373,14 +389,18 @@ class BormeXML(object):
         return True, files
 
     def download_single_borme(self, filename, seccion, provincia):
-        """ Descarga BORME PDF de la provincia, la seccion y la fecha indicada """
+        """ Descarga BORME PDF de la provincia, la seccion y la fecha indicada
+        """
         url = get_url_pdf(self.date, seccion, provincia)
         downloaded = download_url(url, filename)
         return downloaded
 
     # TODO: Obtener versión definitiva si ya ha sido publicado el próximo BORME
     def save_to_file(self, path):
-        """ Guarda el archivo XML en disco. Útil cuando se genera el XML a partir de una fecha. """
+        """ Guarda el archivo XML en disco.
+
+        Útil cuando se genera el XML a partir de una fecha.
+        """
         # El archivo generado es diferente. Se corrige manualmente:
         #   en la cabecera XML usa " en lugar de '
         #   <fechaSig/> en lugar de <fechaSig></fechaSig>
@@ -390,7 +410,10 @@ class BormeXML(object):
         with open(path, 'r', encoding='iso-8859-1') as fp:
             content = fp.read()
 
-        content = content.replace("<?xml version='1.0' encoding='ISO-8859-1'?>", '<?xml version="1.0" encoding="ISO-8859-1"?>')
+        # Reemplaza comillas simples
+        content = content.replace(
+                    "<?xml version='1.0' encoding='ISO-8859-1'?>",
+                    '<?xml version="1.0" encoding="ISO-8859-1"?>')
         if not self.is_final:
             logger.warning('Está guardando un archivo no definitivo')
             content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
@@ -403,7 +426,8 @@ class BormeXML(object):
 
 class Borme(object):
 
-    def __init__(self, date, seccion, provincia, num, cve, anuncios=None, filename=None, lazy=True):
+    def __init__(self, date, seccion, provincia, num, cve, anuncios=None,
+                 filename=None, lazy=True):
         if isinstance(date, tuple):
             date = datetime.date(year=date[0], month=date[1], day=date[2])
         self.date = date
@@ -431,12 +455,14 @@ class Borme(object):
         self.anuncios = {}
         for anuncio in anuncios:
             self.anuncios[anuncio.id] = anuncio
-        self.anuncios_rango = (min(self.anuncios.keys()), max(self.anuncios.keys()))
+        self.anuncios_rango = (min(self.anuncios.keys()),
+                               max(self.anuncios.keys()))
 
     def _set_url(self):
         xml_path = get_borme_xml_filepath(self.date)
         if os.path.isfile(xml_path):
-            self._url = get_url_pdf_from_xml(self.date, self.seccion, self.provincia, xml_path)
+            self._url = get_url_pdf_from_xml(self.date, self.seccion,
+                                             self.provincia, xml_path)
         else:
             self._url = get_url_pdf(self.date, self.seccion, self.provincia)
 
@@ -450,7 +476,9 @@ class Borme(object):
         try:
             return self.anuncios[anuncio_id]
         except KeyError:
-            raise BormeAnuncioNotFound('Anuncio %d not found in BORME %s' % (anuncio_id, str(self)))
+            raise BormeAnuncioNotFound(
+                'Anuncio {} not found in BORME {}'.format(
+                    anuncio_id, str(self)))
 
     def get_anuncios_ids(self):
         """
@@ -467,7 +495,8 @@ class Borme(object):
     def download(self, filename):
         if self.filename is not None:
             raise BormeAlreadyDownloadedException(filename)
-        downloaded = download_pdf(self.date, filename, self.seccion, self.provincia)
+        downloaded = download_pdf(self.date, filename, self.seccion,
+                                  self.provincia)
         if downloaded:
             self.filename = filename
         return downloaded
@@ -496,8 +525,9 @@ class Borme(object):
                 'num_actos': 0
             }
             for acto in anuncio.actos:
+                acto_dict = {acto.name: acto.value}
                 doc['anuncios'][anuncio.id]['num_actos'] += 1
-                doc['anuncios'][anuncio.id]['actos'].append({acto.name: acto.value})
+                doc['anuncios'][anuncio.id]['actos'].append(acto_dict)
             num_anuncios += 1
 
         doc['num_anuncios'] = num_anuncios
@@ -513,14 +543,16 @@ class Borme(object):
         logger.debug(doc)
         return doc
 
-    def to_json(self, path=None, overwrite=True, pretty=True, include_url=True):
-        """
-            Genera BORME-JSON a partir del archivo PDF
-            Nota: Requiere conexión a Internet si include_url=True
-            path: directorio o archivo
-            overwrite: Sobreescribe el archivo si ya existe
-            pretty: Genera el BORME-JSON con indentación para que sea más legible
-            include_url: Incluir la URL para descargar el BORME de su fuente oficial
+    def to_json(self, path=None, overwrite=True, pretty=True,
+                include_url=True):
+        """Genera BORME-JSON a partir del archivo PDF
+
+        Nota: Requiere conexión a Internet si include_url=True
+        path: directorio o archivo
+        overwrite: Sobreescribe el archivo si ya existe
+        pretty: Genera el BORME-JSON con indentación para que sea más legible
+        include_url: Incluir la URL para descargar el BORME de su fuente
+                     oficial posteriormente.
         """
         def set_default(obj):
             """ serialize Python sets as lists
@@ -542,7 +574,8 @@ class Borme(object):
         doc = self._to_dict(include_url)
         indent = 2 if pretty else None
         with open(path, 'w') as fp:
-            json.dump(doc, fp, default=set_default, indent=indent, sort_keys=True)
+            json.dump(doc, fp, default=set_default, indent=indent,
+                      sort_keys=True)
         return path
 
     @classmethod
@@ -592,4 +625,5 @@ class Borme(object):
         return self.anuncios_rango[1] < other.anuncios_rango[0]
 
     def __repr__(self):
-        return "<Borme(%s) seccion:%s provincia:%s>" % (self.date, self.seccion, self.provincia)
+        return "<Borme({}) seccion:{} provincia:{}>".format(
+                    self.date, self.seccion, self.provincia)
