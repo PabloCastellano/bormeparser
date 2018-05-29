@@ -1,10 +1,11 @@
 Changelog for bormeparser
 =========================
 
-0.3.1 (unreleased)
+0.3.1 (2018-05-29)
 ------------------
 
-- Nothing changed yet.
+- Añadidos más tipos de sociedad
+- Borme.from_json: permitir un objeto file como argumento filename
 
 
 0.3.0 (2018-03-12)
