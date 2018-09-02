@@ -71,7 +71,12 @@ SIGLAS = {
 # TODO: UNION TEMPORAL DE EMPRESAS LEY 18 1982 DE 26 DE MAYO
 def clean_empresa(nombre):
     nombre = nombre.rstrip(".")
-    sucursal_spain = False
+
+    if nombre.endswith(" EN LIQUIDACION"):
+        nombre = re.sub(" EN LIQUIDACION$", "", nombre)
+
+    if nombre.endswith(" SUCURSAL EN ESPAÑA"):
+        nombre = re.sub(" SUCURSAL EN ESPAÑA$", "", nombre)
 
     for sigla in SIGLAS.keys():
         regexp = " " + sigla.replace(".", "\.") + "$"

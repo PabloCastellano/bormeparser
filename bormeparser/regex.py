@@ -111,6 +111,7 @@ def is_company(data):
     """ Comprueba si es algún tipo de sociedad o por el contrario es una persona física """
     siglas = ALL_SOCIEDADES
     siglas = list(map(lambda x: ' %s' % x, siglas))
+    data = clean_empresa(data)
     return any(data.endswith(s) for s in siglas)
 
 
