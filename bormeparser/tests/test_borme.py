@@ -73,16 +73,15 @@ class BormeATestCase(unittest.TestCase):
         self.assertEqual(ids, list(range(57315, 57345)))
 
     def test_json(self):
-        fp = tempfile.NamedTemporaryFile()
-        filename = fp.name
-        fp.close()
+        temp_fp = tempfile.NamedTemporaryFile()
+        temp_filename = temp_fp.name
 
-        converted = self.borme.to_json(filename)
+        converted = self.borme.to_json(temp_filename)
         self.assertTrue(converted)
 
-        fp = open(filename)
-        data = json.load(fp)
-        fp.close()
+        # Check output json values
+        with open(temp_filename) as fp:
+            data = json.load(fp)
 
         self.assertEqual(data['cve'], 'BORME-A-2015-27-10')
         self.assertEqual(data['date'], '2015-02-10')
@@ -94,26 +93,30 @@ class BormeATestCase(unittest.TestCase):
         self.assertEqual(data['to_anuncio'], 57344)
         self.assertEqual(data['num_anuncios'], 30)
 
-        b = Borme.from_json(filename)
+        # Borme.from_json(): use filename as parameter
+        b = Borme.from_json(temp_filename)
+
         self.assertEqual(b.date, datetime.date(year=2015, month=2, day=10))
         self.assertEqual(b.seccion, SECCION.A)
         self.assertEqual(b.provincia, PROVINCIA.CACERES)
         self.assertEqual(b.num, 27)
         self.assertEqual(b.cve, 'BORME-A-2015-27-10')
         self.assertEqual(b.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
-        self.assertEqual(b.filename, filename)
+        self.assertEqual(b.filename, temp_filename)
 
-        fp = open(filename, 'r')
-        b = Borme.from_json(fp)
+        # Borme.from_json(): use file object as parameter
+        with open(temp_filename) as fp:
+            b = Borme.from_json(fp)
+
         self.assertEqual(b.date, datetime.date(year=2015, month=2, day=10))
         self.assertEqual(b.seccion, SECCION.A)
         self.assertEqual(b.provincia, PROVINCIA.CACERES)
         self.assertEqual(b.num, 27)
         self.assertEqual(b.cve, 'BORME-A-2015-27-10')
         self.assertEqual(b.url, 'https://boe.es/borme/dias/2015/02/10/pdfs/BORME-A-2015-27-10.pdf')
-        self.assertEqual(b.filename, filename)
+        self.assertEqual(b.filename, temp_filename)
 
-        os.unlink(filename)
+        temp_fp.close()
 
 
 class FakeBormeTestCase(unittest.TestCase):

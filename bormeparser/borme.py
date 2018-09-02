@@ -587,11 +587,11 @@ class Borme(object):
         """
 
         if isinstance(filename, io.IOBase):
-            fp = filename
-            d = json.loads(fp.read().decode('utf-8'))
+            d = json.loads(filename.read())
+            filename = filename.name
         else:
-            fp = open(filename)
-            d = json.load(fp)
+            with open(filename) as fp:
+                d = json.load(fp)
 
         if d["version"] < FILE_VERSION:
             logger.warning(
