@@ -294,13 +294,20 @@ def get_url_xml(date, secure=USE_HTTPS):
     return BORME_XML_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day)
 
 
-def download_url(url, filename=None):
+def download_url(url, filename=None, try_again=0):
     logger.debug('Downloading URL: %s' % url)
     if os.path.exists(filename):
         logger.warning('%s already exists!' % os.path.basename(filename))
         return False
+    try:
+        req = requests.get(url, stream=True)
+    except Exception as e:
+        logger.warning('%s failed to download (%d time)!' % (url, try_again + 1))
+        if try_again < 3:
+            return download_url(url, filename=filename, try_again=try_again+1)
+        else:
+            raise e
 
-    req = requests.get(url, stream=True)
     with open(filename, "wb") as fp:
         for chunk in req.iter_content(chunk_size=1024):
             if chunk:

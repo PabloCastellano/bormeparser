@@ -40,6 +40,7 @@ import io
 import json
 import logging
 import os.path
+import os
 import re
 import requests
 
@@ -404,6 +405,10 @@ class BormeXML(object):
         # El archivo generado es diferente. Se corrige manualmente:
         #   en la cabecera XML usa " en lugar de '
         #   <fechaSig/> en lugar de <fechaSig></fechaSig>
+
+        # el path puede no existir ya que es de una fecha anterior.
+        if not os.path.isdir(os.path.dirname(path)):
+            os.makedirs(os.path.dirname(path))
 
         self.xml.write(path, encoding='iso-8859-1', pretty_print=True)
 
