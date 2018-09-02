@@ -4,10 +4,6 @@ python:
   - "3.4"
   - "3.6"
 
-branches:
-  only:
-    - master
-
 # command to install requirements
 install:
   - pip install coveralls
