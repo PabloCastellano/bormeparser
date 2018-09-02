@@ -75,6 +75,7 @@ class ACTO:
     ANOTACION_PREVENTIVA_DEMANDA = 53
     ANOTACION_PREVENTIVA_DECLARACION = 54
     CIERRE_SUCURSAL = 55
+    ADAPTACION_LEY_44_2015 = 56
 
     # Palabras clave con argumentos
     _arg_keywords = {
@@ -124,6 +125,7 @@ class ACTO:
         'Pérdida del caracter de unipersonalidad': PERDIDA_DEL_CARACTER_DE_UNIPERSONALIDAD,
         'Reapertura hoja registral': REAPERTURA_HOJA_REGISTRAL,
         'Adaptación Ley 2/95': ADAPTACION_LEY_2_95,
+        'Adaptación Ley 44/2015': ADAPTACION_LEY_44_2015,
         'Adaptada segun D.T. 2 apartado 2 Ley 2/95': ADAPTACION_LEY_2_95,
         'Cierre provisional hoja registral por baja en el índice de Entidades Jurídicas': CIERRE_PROVISIONAL_BAJA_EN_EL_INDICE_DE_ENTIDADES_JURIDICAS,
         'Cierre provisional de la hoja registral por revocación del NIF': CIERRE_PROVISIONAL_REVOCACION_NIF,
