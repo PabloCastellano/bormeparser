@@ -78,6 +78,8 @@ def clean_empresa(nombre):
     if nombre.endswith(" SUCURSAL EN ESPAÑA"):
         nombre = re.sub(" SUCURSAL EN ESPAÑA$", "", nombre)
 
+    nombre = nombre.rstrip(".")
+
     for sigla in SIGLAS.keys():
         regexp = " " + sigla.replace(".", "\.") + "$"
         nombre = re.sub(regexp, " " + SIGLAS[sigla], nombre)

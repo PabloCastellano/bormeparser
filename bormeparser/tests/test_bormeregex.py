@@ -24,18 +24,19 @@ from bormeparser.regex import is_acto_cargo_entrante, regex_empresa_tipo, borme_
 
 
 class BormeparserIsCompanyTestCase(unittest.TestCase):
-    empresa1 = 'PATATAS SL'
-    empresa2 = 'HAMBURGUESAS AIE'
-    empresa3 = 'ZANAHORIAS SA'
-    empresa4 = 'COA-COA BARBACOA SRL'
-    persona1 = 'JOHN DOE'
 
     def test_is_company(self):
-        self.assertTrue(is_company(self.empresa1))
-        self.assertTrue(is_company(self.empresa2))
-        self.assertTrue(is_company(self.empresa3))
-        self.assertTrue(is_company(self.empresa4))
-        self.assertFalse(is_company(self.persona1))
+        # Company names
+        self.assertTrue(is_company("PATATAS SL"))
+        self.assertTrue(is_company("HAMBURGUESAS AIE"))
+        self.assertTrue(is_company("ZANAHORIAS SA"))
+        self.assertTrue(is_company("COA-COA BARBACOA SRL"))
+        self.assertTrue(is_company("FRALVAL S.L"))
+        self.assertTrue(is_company("HUPRECESA SA EN LIQUIDACION"))
+        self.assertTrue(is_company("CARGLASS B.V. SUCURSAL EN ESPAÑA"))
+
+        # Person names
+        self.assertFalse(is_company("JOHN DOE"))
 
 
 class BormeparserRegexEmpresaTestCase(unittest.TestCase):
