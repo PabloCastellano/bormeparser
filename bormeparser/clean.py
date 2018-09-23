@@ -80,7 +80,7 @@ def clean_empresa(nombre):
 
     nombre = nombre.rstrip(".")
 
-    for sigla in SIGLAS.keys():
+    for sigla in sorted(SIGLAS.keys()):
         regexp = " " + sigla.replace(".", "\.") + "$"
         nombre = re.sub(regexp, " " + SIGLAS[sigla], nombre)
 

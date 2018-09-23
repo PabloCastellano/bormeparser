@@ -65,4 +65,4 @@ SOCIEDADES.update({
     'LTD': 'Limited company',
 })
 
-ALL_SOCIEDADES = SOCIEDADES.keys()
+ALL_SOCIEDADES = sorted(SOCIEDADES.keys())
