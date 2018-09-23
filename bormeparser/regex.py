@@ -112,7 +112,10 @@ def is_company(data):
     siglas = ALL_SOCIEDADES
     siglas = list(map(lambda x: ' %s' % x, siglas))
     data = clean_empresa(data)
-    return any(data.endswith(s) for s in siglas)
+    alguna_sigla = any(data.endswith(s) for s in siglas)
+    if not alguna_sigla:
+        return 'SOCIEDAD' in data
+    return True
 
 
 # HACK
@@ -134,6 +137,10 @@ def regex_empresa_tipo(data):
         data: "GRUAS BANCALERO SL"
         return empresa: "GRUAS BANCALERO"
         return tipo: "SL"
+
+    Problema con otras sociedades tipo:
+      TENEGUIA GESTION FINANCIERA SL SOCIEDAD COMANDITARIA SIMPLE
+      GARNO INVESTMENTS SICAV SOCIEDAD ANONIMA
     """
     empresa = clean_empresa(data)
     tipo = ''

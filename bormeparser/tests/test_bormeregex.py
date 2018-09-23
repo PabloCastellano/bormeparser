@@ -34,6 +34,7 @@ class BormeparserIsCompanyTestCase(unittest.TestCase):
         self.assertTrue(is_company("FRALVAL S.L"))
         self.assertTrue(is_company("HUPRECESA SA EN LIQUIDACION"))
         self.assertTrue(is_company("CARGLASS B.V. SUCURSAL EN ESPAÑA"))
+        self.assertTrue(is_company("SOCIEDAD COOPERATIVA ANDALUZA BEDMARENSE"))
 
         # Person names
         self.assertFalse(is_company("JOHN DOE"))
