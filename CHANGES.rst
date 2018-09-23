@@ -1,10 +1,10 @@
 Changelog for bormeparser
 =========================
 
-0.3.3 (unreleased)
+0.3.3 (2018-09-23)
 ------------------
 
-- Nothing changed yet.
+- is_company(): llama a clean_empresa() y comprueba si contiene la palabra "SOCIEDAD"
 
 
 0.3.2 (2018-09-23)
@@ -16,7 +16,6 @@ Changelog for bormeparser
 - download_url() ahora reintenta la descarga si hubo un error
 - BormeXML.save_to_file() crea el directorio si no existe
 - clean_empresa(): quita "EN LIQUIDACION" y "SUCURSAL EN ESPAÑA" del nombre
-- is_company(): llama a clean_empresa() y comprueba si contiene la palabra "SOCIEDAD"
 
 
 0.3.1 (2018-05-29)
