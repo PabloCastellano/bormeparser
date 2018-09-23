@@ -441,8 +441,6 @@ class Borme(object):
         self.num = num
         self.cve = cve
         self.filename = filename
-        self._parsed = False
-        self.num_pages = 0  # TODO
         self._set_anuncios(anuncios)
         self._url = None
         if not lazy:
