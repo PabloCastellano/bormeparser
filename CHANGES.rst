@@ -1,10 +1,10 @@
 Changelog for bormeparser
 =========================
 
-0.3.4 (unreleased)
+0.3.4 (2018-09-24)
 ------------------
 
-- Nothing changed yet.
+- Nuevo método BormeXML.get_cve_url()
 
 
 0.3.3 (2018-09-23)
