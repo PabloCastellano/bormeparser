@@ -298,6 +298,18 @@ class BormeXML(object):
                 sizes[cve] = int(size)
         return sizes
 
+    def get_url_cve(self, cve):
+        """ Devuelve la url de descarga de un BORME-PDF """
+        xpath = '//sumario/diario/seccion/emisor/item[@id="{}"]/urlPdf/text()'.format(cve)
+        urls = self.xml.xpath(xpath)
+
+        if len(urls) != 1:
+            raise AttributeError('CVE not found in this BORME XML')
+
+        protocol = 'https' if self.use_https else 'http'
+        url_base = URL_BASE % protocol
+        return url_base + urls[0]
+
     def get_provincias(self, seccion):
         xpath = '//sumario/diario/seccion[@num="{}"]/emisor/item/titulo/text()'.format(seccion)
         provincias = self.xml.xpath(xpath)

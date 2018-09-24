@@ -229,6 +229,9 @@ class BormeXMLInstanceTestCase(unittest.TestCase):
         self.assertEqual(bxml.prev_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] - 1))
         self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
 
+        url = bxml.get_url_cve("BORME-A-2015-183-04")
+        self.assertEqual(url, "https://www.boe.es/borme/dias/2015/09/24/pdfs/BORME-A-2015-183-04.pdf")
+
         # from remote file (https)
         bxml = BormeXML.from_file(self.url)
         self.assertEqual(bxml.url, self.url)
@@ -238,7 +241,7 @@ class BormeXMLInstanceTestCase(unittest.TestCase):
         self.assertEqual(bxml.prev_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] - 1))
         self.assertEqual(bxml.next_borme, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2] + 1))
 
-        # from remote file (insecure https)
+        # from remote file (insecure http)
         bxml = BormeXML.from_file(self.url, secure=False)
         self.assertEqual(bxml.url, self.url_insecure)
         self.assertEqual(bxml.date, datetime.date(year=self.date[0], month=self.date[1], day=self.date[2]))
