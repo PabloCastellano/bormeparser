@@ -43,6 +43,7 @@ def check_range(begin, end, provincia, seccion, directory, download_xml):
     while next_date and next_date <= end:
         logger.info('Checking files from {}'.format(next_date.isoformat()))
         xml_path = get_borme_xml_filepath(next_date, directory)
+        logger.debug(xml_path)
         try:
             bxml = BormeXML.from_file(xml_path)
         except IOError:
@@ -67,6 +68,7 @@ def check_range(begin, end, provincia, seccion, directory, download_xml):
             filename = cve + '.pdf'
             filepath = os.path.join(path, filename)
 
+            logger.debug(filepath)
             if not os.path.exists(filepath):
                 logger.debug('Missing PDF: {}\n'.format(filepath))
                 results['missing'] += 1
