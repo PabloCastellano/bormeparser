@@ -55,7 +55,7 @@ URL_BASE = '%s://www.boe.es'
 USE_HTTPS = True
 
 # Download threads
-THREADS = 4
+THREADS = 8
 
 
 # date = (year, month, date) or datetime.date
@@ -393,7 +393,7 @@ class ThreadDownloadUrl(Thread):
     def run(self):
         while True:
             url, full_path = self.queue.get()
-            time.sleep(0.3)
+            time.sleep(0.6)
             downloaded = download_url(url, full_path)
 
             if downloaded:
