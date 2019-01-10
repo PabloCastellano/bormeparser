@@ -31,11 +31,7 @@ from .seccion import SECCION
 
 requests.adapters.DEFAULT_RETRIES = 3
 
-try:
-    # Python 3
-    from queue import Queue
-except ImportError:
-    from Queue import Queue
+from queue import Queue
 
 import logging
 logger = logging.getLogger(__name__)

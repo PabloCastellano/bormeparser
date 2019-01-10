@@ -19,13 +19,9 @@
 
 import os.path
 
-try:
-    # Python 3
-    import configparser
-    config = configparser.ConfigParser()
-except ImportError:
-    import ConfigParser
-    config = ConfigParser.ConfigParser()
+import configparser
+
+config = configparser.ConfigParser()
 
 CONFIG_FILE = os.path.expanduser("~/.bormecfg")
 DEFAULTS = {
