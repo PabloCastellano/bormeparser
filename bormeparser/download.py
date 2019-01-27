@@ -309,8 +309,9 @@ def download_url(url, filename=None, try_again=0):
             if chunk:
                 fp.write(chunk)
 
-    content_length = req.headers['content-length']
-    logger.debug("%.2f KB" % (int(content_length) / 1024.0))
+    if 'content-length' in req.headers:
+        content_length = req.headers['content-length']
+        logger.debug("%.2f KB" % (int(content_length) / 1024.0))
 
     return True
 
