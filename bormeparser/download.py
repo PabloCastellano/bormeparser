@@ -147,7 +147,7 @@ def get_nbo_from_xml(source):
     """
     if source.startswith('http'):
         req = requests.get(source)
-        content = req.text.encode('iso-8859-1')
+        content = req.text.encode(req.encoding)
         tree = etree.fromstring(content).getroottree()
     else:
         tree = etree.parse(source)
@@ -201,7 +201,7 @@ def get_url_pdfs_seccion(date, seccion, secure=USE_HTTPS):
     url = get_url_xml(date, secure=secure)
     req = requests.get(url)
     protocol = 'https' if secure else 'http'
-    content = req.text.encode('iso-8859-1')
+    content = req.text.encode(req.encoding)
     tree = etree.fromstring(content).getroottree()
 
     if tree.getroot().tag != 'sumario':
