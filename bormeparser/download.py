@@ -293,7 +293,7 @@ def get_url_xml(date, secure=USE_HTTPS):
 def download_url(url, filename=None, try_again=0):
     logger.debug('Downloading URL: %s' % url)
     if os.path.exists(filename):
-        logger.warning('%s already exists!' % os.path.basename(filename))
+        logger.debug('%s already exists!' % os.path.basename(filename))
         return False
     try:
         req = requests.get(url, stream=True)

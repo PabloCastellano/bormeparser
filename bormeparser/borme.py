@@ -216,8 +216,7 @@ class BormeXML(object):
         else:
             self.next_borme = None
             self.is_final = False
-            logger.warning(
-                'Está accediendo un archivo BORME XML no definitivo')
+            logger.debug('Está accediendo un archivo BORME XML no definitivo')
 
     @property
     def url(self):
@@ -433,7 +432,7 @@ class BormeXML(object):
                     "<?xml version='1.0' encoding='ISO-8859-1'?>",
                     '<?xml version="1.0" encoding="ISO-8859-1"?>')
         if not self.is_final:
-            logger.warning('Está guardando un archivo no definitivo')
+            logger.debug('Está guardando un archivo no definitivo')
             content = content.replace('<fechaSig/>', '<fechaSig></fechaSig>')
 
         with open(path, 'w', encoding='iso-8859-1') as fp:
