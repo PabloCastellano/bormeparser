@@ -129,7 +129,7 @@ class BormeparserDownloadTestCase(unittest.TestCase):
         path = os.path.join(tempfile.gettempdir(), '20150602.xml')
         downloaded = bormeparser.download_xml(self.date, path)
         self.assertTrue(downloaded)
-        self.assertEqual(os.path.getsize(path), 31590)
+        self.assertEqual(os.path.getsize(path), 31983)
         os.unlink(path)
 
     # TODO: Get size from xml: urlPdf/szBytes
