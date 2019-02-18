@@ -1,10 +1,14 @@
 Changelog for bormeparser
 =========================
 
-0.3.5 (unreleased)
+0.3.5 (2019-02-18)
 ------------------
 
-- Nothing changed yet.
+- Mejora en la detección del encoding de BORME-XML
+- No fallar cuando la cabecera Content-Length no esté presente
+- Pequeños cambios en los niveles de logging
+- download: ajustados los valores por defecto de sleep y threads
+- Borrados los checks de python2
 
 
 0.3.4 (2018-09-24)
