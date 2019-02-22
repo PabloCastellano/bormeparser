@@ -5,6 +5,8 @@ python:
   - "3.6"
   - "3.7"
 
+dist: xenial
+
 # command to install requirements
 install:
   - pip install coveralls
