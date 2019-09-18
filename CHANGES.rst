@@ -1,10 +1,11 @@
 Changelog for bormeparser
 =========================
 
-0.3.6 (unreleased)
+0.4.0 (2019-09-18)
 ------------------
 
-- Nothing changed yet.
+- Bump requirements
+- Require python 3.5
 
 
 0.3.5 (2019-02-18)
