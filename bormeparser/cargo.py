@@ -54,6 +54,7 @@ class CARGO:
     SECRETARIO_NO_CONSEJERO = "Secretario no consejero"
     VICESECRETARIO_NO_CONSEJERO = "Vicesecretario no consejero"
     AUDITOR = "Auditor"
+    AUDITOR_INDIVIDUAL = "Auditor individual"
     ADM_CONCURS = "Administrador concurs."
     REP_ADM_CONC = "Representante administrador concurs."
     AUDITOR_SUPLENTE = "Auditor suplente"
@@ -585,6 +586,7 @@ class CARGO:
                  'S.NO CONS.GO': SECRETARIO_NO_CONSEJERO_GO,
                  'MBRO.CONS.GO': MIEMBRO_CONSEJERO_GO,
                  'Auditor': AUDITOR,
+                 'AUDIT.INDIV.': AUDITOR_INDIVIDUAL,
                  'Aud.C.Con.': AUDITOR_CUENTAS_CONSOLIDADAS,
                  'AUDT.CTS.CON': AUDITOR_CUENTAS_CONSOLIDADAS,
                  'AUDIT.CC.SUP': AUDITOR_CUENTAS_CONSOLIDADAS_SUPLENTE,
