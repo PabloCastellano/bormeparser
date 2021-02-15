@@ -4,8 +4,10 @@ Changelog for bormeparser
 0.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- No generar universal wheel (py2 ya no está soportado)
+- Detectar cargo "AUDIT.INDIV."
+- Pequeñas mejoras en scripts check_bormes.py y download_borme_pdf.py
+- Actualizada dependencia lxml (CVE-2020-27783)
 
 0.4.0 (2019-09-18)
 ------------------
