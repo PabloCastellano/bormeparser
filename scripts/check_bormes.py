@@ -70,8 +70,9 @@ def check_range(begin, end, provincia, seccion, directory, download_xml):
 
             logger.debug(filepath)
             if not os.path.exists(filepath):
-                logger.debug('Missing PDF: {}\n'.format(filepath))
                 results['missing'] += 1
+                logger.debug('Missing PDF: {}\n'.format(filepath))
+                summary.append(filepath)
                 continue
 
             if os.path.getsize(filepath) != size:
@@ -85,8 +86,12 @@ def check_range(begin, end, provincia, seccion, directory, download_xml):
 
         next_date = bxml.next_borme
 
+    if bxml.date != end:
+        print("\nWarning, could not continue and reach the end date.")
+        print("Try removing " + xml_path + " and then run with --download-xml.")
+
     if len(summary) > 0:
-        print('\nMissing files:')
+        print('\nMissing or incorrect files:')
         print('\n'.join(summary[:10]))
     if len(summary) > 10:
         print('This list is truncated. There are {} files not shown.'.format(len(summary) - 10))
