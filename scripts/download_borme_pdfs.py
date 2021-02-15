@@ -92,8 +92,8 @@ if __name__ == '__main__':
 
     bormeparser.borme.logger.setLevel(logging.ERROR)
     if args.verbose:
-        bormeparser.download.logger.setLevel(logging.INFO)
-        logger.setLevel(logging.INFO)
+        bormeparser.download.logger.setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
     else:
         bormeparser.download.logger.setLevel(logging.ERROR)
         logger.setLevel(logging.INFO)
