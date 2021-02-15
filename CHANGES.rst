@@ -1,7 +1,7 @@
 Changelog for bormeparser
 =========================
 
-0.4.1 (unreleased)
+0.4.1 (2021-02-15)
 ------------------
 
 - No generar universal wheel (py2 ya no está soportado)
