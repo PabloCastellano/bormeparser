@@ -1,7 +1,7 @@
 Changelog for bormeparser
 =========================
 
-0.4.2 (unreleased)
+0.4.2 (2021-03-01)
 ------------------
 
 - Actualizadas las dependencias
