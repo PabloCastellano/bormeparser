@@ -1,5 +1,5 @@
 lxml==4.7.1
 pdfminer.six==20201018
-PyPDF2==1.26.0
+PyPDF2==2.10.1
 requests<3.0.0,>=2.22.0
 wheel==0.36.2
