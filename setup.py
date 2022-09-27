@@ -12,7 +12,7 @@ def get_install_requires():
     parse requirements.txt, ignore links, exclude comments
     """
     requirements = []
-    for requirements_file in ('requirements/base.txt',):
+    for requirements_file in ('requirements.txt',):
         for line in open(requirements_file).readlines():
             line = line.rstrip()
             # skip to next iteration if comment or empty line
