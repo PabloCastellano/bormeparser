@@ -1,4 +1,4 @@
--r base.txt
+-r requirements.txt
 bpython==0.23
 coverage==6.4.4
 zest.releaser==7.0.0
