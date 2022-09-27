@@ -1,4 +1,4 @@
 -r base.txt
-bpython==0.18
-coverage==5.5
-zest.releaser==6.19.1
+bpython==0.23
+coverage==6.4.4
+zest.releaser==7.0.0

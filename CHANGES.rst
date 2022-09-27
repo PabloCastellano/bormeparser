@@ -1,10 +1,12 @@
 Changelog for bormeparser
 =========================
 
-0.4.3 (unreleased)
+0.5.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Actualizadas las dependencias
+- Bormeparser requiere Python 3.6+ ahora
+- Añadido Dockerfile
 
 
 0.4.2 (2021-03-01)
