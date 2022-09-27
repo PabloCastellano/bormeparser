@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 #
 # bormeparser documentation build configuration file, created by
 # sphinx-quickstart on Sat Jun 27 16:25:25 2015.
@@ -50,7 +49,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'bormeparser'
-copyright = '2015, Pablo Castellano'
+copyright = '2015-2022, Pablo Castellano'
 author = 'Pablo Castellano'
 
 # The version info for the project you're documenting, acts as replacement for
