@@ -1,6 +1,12 @@
 Changelog for bormeparser
 =========================
 
+0.5.1 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 0.5.0 (2022-09-27)
 ------------------
 
