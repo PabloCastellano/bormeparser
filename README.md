@@ -1,16 +1,17 @@
 < [English version here](README_en.md) >
 
-bormeparser
-===========
-
-**bormeparser** es una librería de **Python 3** para parsear los archivos del BORME (Boletín Oficial del Registro Mercantil en España).
-
 [![Travis bormeparser](https://travis-ci.org/PabloCastellano/bormeparser.svg?branch=master)](https://travis-ci.org/PabloCastellano/bormeparser)
 [![Pypi bormeparser](https://badge.fury.io/py/bormeparser.png)]( https://pypi.python.org/pypi/bormeparser)
 [![Downloads bormeparser](https://img.shields.io/pypi/dm/bormeparser.svg)](https://pypi.python.org/pypi/bormeparser)
 [![Coverage Status](https://coveralls.io/repos/PabloCastellano/bormeparser/badge.svg)](https://coveralls.io/r/PabloCastellano/bormeparser)
 [![Documentation Status](https://readthedocs.org/projects/bormeparser/badge/?version=latest)](https://readthedocs.org/projects/bormeparser/?badge=latest)
-[![Requirements Status](https://requires.io/github/PabloCastellano/bormeparser/requirements.svg?branch=master)](https://requires.io/github/PabloCastellano/bormeparser/requirements/?branch=master)
+
+**NOTA: Este repositorio se encuentra desmantenido. Si buscas una solución para acceder a la información mercantil mediante API y con soporte para empresas, consulta [LibreBOR](https://librebor.me) y [Documentación LibreBOR API](https://docs.librebor.me/).**
+
+bormeparser
+===========
+
+**bormeparser** es una librería de **Python 3** para parsear los archivos del BORME (Boletín Oficial del Registro Mercantil en España).
 
 Qué es BORME
 ============
