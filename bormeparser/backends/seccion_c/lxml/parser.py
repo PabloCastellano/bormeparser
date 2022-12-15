@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # bormeparser.backends.seccion_c.basic.parser.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -83,7 +84,7 @@ class LxmlBormeCParser(BormeCParserBackend):
         empresa = empresas[0]
         relacionadas = empresas[1:]
 
-        if departamento == EMISOR.FUSIONES_ABORCIONES:
+        if departamento == EMISOR.FUSIONES_ABSORCIONES:
             logger.warning('En fusiones y absorciones debe haber al menos 2 empresas.')
             #assert(len(empresas) > 1)
 

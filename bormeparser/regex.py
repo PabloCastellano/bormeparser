@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # regex.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -96,13 +97,20 @@ def is_acto_noarg(data):
 
 
 def is_acto_bold_mix(data):
-    return data.startswith('Escisión total')
+    if data:
+        return data.startswith('Escisión total')
+    else:
+        logger.debug('is_acto_bold_mix: data is empty')
+        return False
 
 
 def is_acto_bold(data):
-    for acto in ACTO.BOLD_KEYWORDS:
-        if data.startswith(acto):
-            return True
+    if data:
+        for acto in ACTO.BOLD_KEYWORDS:
+            if data.startswith(acto):
+                return True
+    else:
+        logger.debug('is_acto_bold: data is empty')
     return False
 
 
@@ -159,7 +167,7 @@ def regex_empresa(data, sanitize=True):
         data: "57344 - ALDARA CATERING SL"
         data: "473700 - SA COVA PLAÇA MAJOR SL(R.M. PALMA DE MALLORCA)"
     """
-
+    empresa = None
     extra = {"liquidacion": False, "sucursal": False, "registro": ""}
     res = REGEX_EMPRESA_REGISTRO.match(data)
     if res:
@@ -182,6 +190,9 @@ def regex_empresa(data, sanitize=True):
 
     if sanitize:
         empresa = clean_empresa(empresa)
+    if not empresa:
+        logger.warning("No se ha podido extraer el nombre de la empresa: " + data)
+        raise ValueError("No se ha podido extraer el nombre de la empresa: " + data)
     return int(acto_id), empresa, extra
 
 
@@ -216,8 +227,16 @@ def regex_bold_acto(data):
     data: "Declaración de unipersonalidad. Socio único: BRENNAN KEVIN LIONEL. Nombramientos."
           "Sociedad unipersonal. Cambio de identidad del socio único: OLSZEWSKI GRZEGORZ. Ceses/Dimisiones."
     """
-    acto_colon, arg_colon, nombreacto, nombreacto2 = REGEX_BOLD.match(data).groups()
-    nombreacto += nombreacto2
+    acto_colon = None
+    arg_colon = None
+    nombreacto = None
+    information = REGEX_BOLD.match(data)
+    if information:
+        acto_colon, arg_colon, nombreacto, nombreacto2 = information.groups()
+        nombreacto += nombreacto2
+    else:
+        logger.warning("No se ha podido extraer el acto: " + data)
+        # raise ValueError("No se ha podido extraer el acto: " + data)
     return acto_colon, arg_colon, nombreacto
 
 

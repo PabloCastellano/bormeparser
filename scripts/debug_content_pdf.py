@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # debug_content_pdf.py - Debug PDF content
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>

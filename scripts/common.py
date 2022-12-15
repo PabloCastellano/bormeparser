@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # common.py - Common functions for bormeparser scripts
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>

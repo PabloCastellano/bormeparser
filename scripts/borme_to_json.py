@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # borme_to_json.py - Convert BORME A PDF files to JSON
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>

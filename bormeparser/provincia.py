@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # provincia.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -117,6 +118,12 @@ class PROVINCIA:
         try:
             if title == 'ARABA/ÁLAVA':
                 return PROVINCIA.ALAVA
+            # elif title == 'ALICANTE/ALACANT':
+            #     return PROVINCIA.ALICANTE
+            # elif title == 'CASTELLON/CASTELLO':
+            #     return PROVINCIA.CASTELLON
+            # elif title == 'VALENCIA/VALENCIA':
+            #     return PROVINCIA.VALENCIA
             title = remove_accents(title).replace(' ', '_')
             return getattr(PROVINCIA, title)
         except AttributeError:

@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # borme_json_date.py - Convert BORME PDF files to JSON for a specific date range
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>

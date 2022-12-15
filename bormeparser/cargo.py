@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # cargo.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -49,6 +50,7 @@ class CARGO:
     LIQUIDADOR = "Liquidador"
     APODERADO_SUCURSAL = "Apoderado sucursal"
     REPR_143_RRM = "Representante art. 143 del Reglamento del Registro Mercantil"
+    AUDIT_ART265 = "Art. 265. Nombramiento por el registrador mercantil"
     AUDITOR_CUENTAS_CONSOLIDADAS = "Auditor de cuentas consolidadas"
     SECRETARIO_NO_CONSEJERO = "Secretario no consejero"
     VICESECRETARIO_NO_CONSEJERO = "Vicesecretario no consejero"
@@ -62,6 +64,7 @@ class CARGO:
     ENTIDAD_DEPOSITARIA = "Entidad depositaria"
     CONSEJERO_DOMINIC = "Consejero dominic."
     CONSEJERO_EJECUTIVO = "Consejero ejecutivo"
+    CONSEJERO_NO_EJECUTIVO = "Consejero no ejecutivo"
     MIEMBRO_COMIT_AUD = "Miembro de la comisión Aud."
     SECRETARIO_COMIT_AUD = "Secretario de la comisión Aud."
     PRESIDENTE_COMIT_AUD = "Presidente de la comisión Aud."
@@ -215,6 +218,7 @@ class CARGO:
     PRESIDENTE_EJECUTIVO = "Presidente ejecutivo"
     ADMINISTRADOR_MANCOMUNADO_SUPLENTE = "Administrador mancomunado suplente"
     VICESECRETARIO_COMISION_CONTROL = "Vicesecretario de la comisión de control"
+    CONTROL_JUNTA_DIRECTIVA = "Control de la Junta Directiva"
     DIRECTOR_ADMINIS = "Director Adminis."  # ?
     SUBDIRECTOR_GENERAL = "Subdirector general"
     MIEMBRO_COMISION_GER = "Miembro de la comisión Ger."  # ?
@@ -299,6 +303,8 @@ class CARGO:
     MIEMBRO_COMISION_CYA = "Miembro de la comisión CyA"
     MIEMBRO_COMISION_VIG = "Miembro de la comisión VIG"
     SUPLENTE_COMISION_VIG = "Suplente de la comisión VIG"
+    MIEMBRO_COMITE_COMISION_FORMACION_PERMANENTE = "Miembro Comite Comision de Formacion Permanente"
+    MIEMBRO_COMISION_PERMANENTE = "Miembro de la comisión permanente"
     AG_REV_TIT = 'Ag.Rev.Tit.'  # ?
     PRESIDENTE_COMISION_RIESGOS = "Presidente de la comisión de riesgos"
     VICEPRESIDENTE_COMISION_RIESGOS = "Vicepresidente de la comisión de riesgos"
@@ -388,6 +394,7 @@ class CARGO:
     SECRETARIO_SUPLENTE_NO_CONSEJERO = "Secretario suplente no consejero"
     VICESECRETARIO_PRIMERO = "Vicesecretario primero"
     VICESECRETARIO_TERCERO_NO_CONSEJERO = "Vicesecretario tercero no consejero"
+    VICESECRETARIO_CUARTO_NO_CONSEJERO = "Vicesecretario cuarto no consejero"
     CONSEJERO_DELEGADO_SUPLENTE = "Consejero delegado suplente"
     CONSEJERO_DELEGADO_JUN = "Consejero delegado jun."  # ?
     VOCAL_3_CONSEJO_RECTOR = "Vocal 3 del consejo rector"
@@ -405,9 +412,12 @@ class CARGO:
     CONSEJERO_EXT_DOM = "Consejero externo Dom."  # ?
     CONSEJERO_OTR_EXT = "Consejero Otr. externo"  # ?
     CONSEJERO_EXTERNO = "Consejero externo"
+    CONSEJERO_EXTERNO_INDEPENDIENTE = "Consejero externo independiente"
     PRESIDENTE_SUPLENTE = "Presidente suplente"
     MIEMBRO_COMISION_CONSU = "Miembro de la comisión Consu."  # ?
     MIEMBRO_COMISION_REP_MUNI = "Miembro de la comisión Rep. Muni."  # ?
+    COMISION_SIN_BONIFICACION = "Comisión sin bonificación"
+    SOCIO_MIEMBRO = "Socio miembro"
 
     _keywords = {'Presidente': PRESIDENTE,
                  'PRESIDENTE': PRESIDENTE,
@@ -450,6 +460,7 @@ class CARGO:
                  'V-SEC.NO.C.2': VICESECRETARIO_SEGUNDO_NO_CONSEJERO,
                  'Vsecr2.NC': VICESECRETARIO_SEGUNDO_NO_CONSEJERO,
                  'Vsecr3.NC': VICESECRETARIO_TERCERO_NO_CONSEJERO,
+                 'Vsecr4.NC.': VICESECRETARIO_CUARTO_NO_CONSEJERO,
                  'Cons.Del.Man': CONSEJERO_DELEGADO_MANCOMUNADO,
                  'CONS.DEL.MAN': CONSEJERO_DELEGADO_MANCOMUNADO,
                  'Con.Del.manc': CONSEJERO_DELEGADO_MANCOMUNADO,
@@ -457,6 +468,7 @@ class CARGO:
                  'Cons.Del.Jun': CONSEJERO_DELEGADO_JUN,
                  'CONS.OTR.EXT': CONSEJERO_OTR_EXT,
                  'Cons.Externo': CONSEJERO_EXTERNO,
+                 'Cons.Ext.Ind': CONSEJERO_EXTERNO_INDEPENDIENTE,
                  'Vcs.Cons.Rec': VICESECRETARIO_CONSEJO_RECTOR,
                  'Mie.Cons.Rec': MIEMBRO_CONSEJO_RECTOR,
                  'Miem.Co.Rec': MIEMBRO_CONSEJO_RECTOR,
@@ -509,7 +521,7 @@ class CARGO:
                  'ADM.SUP.MAN.': ADMINISTRADOR_MANCOMUNADO_SUPLENTE,
                  'Admin.1º': ADMINISTRADOR_PRIMERO,
                  'Apoderado': APODERADO,
-                 'APODERADO': APODERADO,
+                 'oderado 20': APODERADO,
                  'poderado 1': APODERADO,
                  'Apo.Man.Soli': APODERADO_MANCOMUNADO_SOLIDARIO,
                  'Apo.Manc.': APODERADO_MANCOMUNADO,
@@ -527,6 +539,7 @@ class CARGO:
                  'Apo.Soc.Uni.': APODERADO_SOC_UNI,
                  'Soc.Prof.': SOCIO_PROFESIONAL,
                  'Soc.Uni.Prof': SOCIO_UNICO_PROFESIONAL,
+                 'Socio Miembr': SOCIO_MIEMBRO,
                  'Representan': REPRESENTANTE,
                  'Represent.': REPRESENTANTE,
                  'REPRESENT.': REPRESENTANTE,
@@ -544,7 +557,9 @@ class CARGO:
                  'Cons.Delegad': CONSEJERO_DELEGADO,
                  'Cons.Ext.Dom': CONSEJERO_EXT_DOM,
                  'CONS.EJECUTI': CONSEJERO_EJECUTIVO,
+                 'Cons.Ejecuti': CONSEJERO_EJECUTIVO,
                  'Consejero Ej': CONSEJERO_EJECUTIVO,
+                 'Cons.NO Ejec': CONSEJERO_NO_EJECUTIVO,
                  'Liquidador': LIQUIDADOR,
                  'LIQUIDADOR': LIQUIDADOR,
                  'Liq.Sup.': LIQUIDADOR_SUPLENTE,
@@ -563,6 +578,7 @@ class CARGO:
                  'Liqid.Unic': LIQUIDADOR_UNICO,
                  'Liq.Judicial': LIQUIDADOR_JUDICIAL,
                  'REPR.143 RRM': REPR_143_RRM,
+                 'AUDIT.ART265': AUDIT_ART265,
                  'CONSEJERO': CONSEJERO,
                  'ConsejSuplen': CONSEJERO_SUPLENTE,
                  'Consj. Supl.': CONSEJERO_SUPLENTE,
@@ -571,6 +587,7 @@ class CARGO:
                  'CONS.HONORA.': CONSEJERO_HONORA,
                  'Cons. Idpte.': CONSEJERO_INDEPENDIENTE,
                  'Con.Ind.': CONSEJERO_INDEPENDIENTE,
+                 'Con.Ind': CONSEJERO_INDEPENDIENTE,
                  'CONS.INDEPEN': CONSEJERO_INDEPENDIENTE,
                  'CON.INDEPEND': CONSEJERO_INDEPENDIENTE,
                  'Con.Ind.Coor': CONSEJERO_IND_COOR,
@@ -579,6 +596,7 @@ class CARGO:
                  'CONS.DEL.M/S': CONSEJERO_DELEGADO_MANCOMUNADO_SOLIDARIO,
                  'Co.De.Ma.So': CONSEJERO_DELEGADO_MANCOMUNADO_SOLIDARIO,
                  'Cons.Del.Sol': CONSEJERO_DELEGADO_SOLIDARIO,
+                 'CONS.DEL.SOL': CONSEJERO_DELEGADO_SOLIDARIO,
                  'SecreNoConsj': SECRETARIO_NO_CONSEJERO,
                  'SECR.NO CONS': SECRETARIO_NO_CONSEJERO,
                  'Scr:no.Cons': SECRETARIO_NO_CONSEJERO,
@@ -618,6 +636,7 @@ class CARGO:
                  'Secr.Com.Ctr': SECRETARIO_COMISION_CONTROL,
                  'SEC.COMS.CTR': SECRETARIO_COMISION_CONTROL,
                  'Vices.Com.Ct': VICESECRETARIO_COMISION_CONTROL,
+                 'Cont.J.Dir.': CONTROL_JUNTA_DIRECTIVA,
                  'Miem.Com.Ctr': MIEMBRO_COMISION_CONTROL,
                  'MRO.COMS.CTR': MIEMBRO_COMISION_CONTROL,
                  'MBRO.COM.CRT': MIEMBRO_COMISION_CONTROL,
@@ -808,6 +827,7 @@ class CARGO:
                  'SecrCENoCon': SECRETARIO_COMISION_EJECUTIVA_NO_CONSEJERO,
                  'Vpr.Com.Ejec': VICEPRESIDENTE_COMISION_EJECUTIVA,
                  'Vicpres C.E': VICEPRESIDENTE_COMISION_EJECUTIVA,
+                 'VicPres C.E.': VICEPRESIDENTE_COMISION_EJECUTIVA,
                  'Miem.Com.Ej.': MIEMBRO_COMISION_EJECUTIVA,
                  'MRO.COMS.EJE': MIEMBRO_COMISION_EJECUTIVA,
                  'MBRO.COM.EJE': MIEMBRO_COMISION_EJECUTIVA,
@@ -835,6 +855,7 @@ class CARGO:
                  'PR.COM.NOM.R': PRESIDENTE_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
                  'PR.COMS.NOMB': PRESIDENTE_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
                  'Mbro.Cte.NyR': MIEMBRO_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
+                 'Miem.Com.Nom': MIEMBRO_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
                  'Secr.Cte.NyR': SECRETARIO_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
                  'SeCoNoRe': SECRETARIO_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
                  'MeCoNoRe': ME_COMITE_NOMBRAMIENTOS_Y_RETRIBUCIONES,
@@ -943,6 +964,8 @@ class CARGO:
                  'Mbro.Com.CyA': MIEMBRO_COMISION_CYA,
                  'MRO.COMS.VIG': MIEMBRO_COMISION_VIG,
                  'SUPL.COMS.VI': SUPLENTE_COMISION_VIG,
+                 'Mie.Com.CFP': MIEMBRO_COMITE_COMISION_FORMACION_PERMANENTE,
+                 'Mie.Com.Per.': MIEMBRO_COMISION_PERMANENTE,
                  'Ag.Rev.Tit.': AG_REV_TIT,
                  'PRE.C.RIESGO': PRESIDENTE_COMISION_RIESGOS,
                  'PreCoRies': PRESIDENTE_COMISION_RIESGOS,
@@ -977,6 +1000,7 @@ class CARGO:
                  'SOCIO HONOR': SOCIO_HONORIFICO,
                  'OBSER.CON.AD': OBSER_CON_AD,
                  'MBRO.COMISIO': MIEMBRO_COMISION,
+                 'Miem.Com.': MIEMBRO_COMISION,
                  'MiemComIndp': MIEMBRO_COMISION_INDEPENDIENTE,
                  'Sec.G.C.A': SECRETARIO_GCA,
                  'Pres.Junta': PRESIDENTE_JUNTA,
@@ -993,16 +1017,24 @@ class CARGO:
                  'COM.GERENCIA': COM_GERENCIA,
                  'MBRO.C.RESPO': MIEMBRO_COMISION_RESPO,
                  'PTE.COMI.RES': PRESIDENTE_COMISION_RESPO,
+                 'Com.Sin.bon': COMISION_SIN_BONIFICACION,
 
                  # hack
                  'Sociedades beneficiarias': SOCIEDADES_BENEFICIARIAS,
                  'Sociedades fusionadas': SOCIEDADES_FUSIONADAS,
                  }
-    KEYWORDS = list(_keywords.keys())
+    # Create keyword using keys to lowercase
+    lowerd1 = {k.lower(): v for k, v in _keywords.items()}
+    # Create keyword using keys to uppercase
+    upperd2 = {k.upper(): v for k, v in _keywords.items()}
+    # Join all keywords
+    dnew = lowerd1 | upperd2 | _keywords
+
+    KEYWORDS = list(dnew.keys())
 
     @staticmethod
     def from_string(string):
         try:
-            return CARGO._keywords[string]
+            return CARGO.dnew[string]
         except KeyError:
             raise BormeInvalidCargoException(string)
