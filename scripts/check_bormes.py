@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # check_bormes.py - Check BORME files are present and not corrupt
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -57,7 +58,7 @@ def check_range(begin, end, provincia, seccion, directory, download_xml):
                 bxml.save_to_file(xml_path)
             else:
                 logger.info('Missing XML: {}\n'.format(os.path.basename(xml_path)))
-                logger.info('If you want to continue use --download-xml.\n')
+                logger.info('If you want to continue use --download-xml or -x\n')
                 return
 
         sizes = bxml.get_sizes(seccion, provincia)

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # seccion.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -25,7 +26,7 @@ class SECCION:
     # TODO: No detecta tipo C, viene el texto comprimido
     @staticmethod
     def from_borme(seccion, subseccion):
-        if seccion in ('SECCIÓN PRIMERA', 'SECCIÓN PRIMERA'):
+        if 'SECCIÓN PRIMERA' in seccion:
             if subseccion == 'Actos inscritos':
                 return SECCION.A
             elif subseccion == 'Otros actos publicados en el Registro Mercantil':
@@ -37,7 +38,11 @@ class SECCION:
 
 
 class SUBSECCION:
+    # SECCIÓN PRIMERA. Empresarios.
     # Actos inscritos
     ACTOS_INSCRITOS = 'A'
+    # SECCIÓN PRIMERA. Empresarios.
     # Otros actos publicados en el Registro Mercantil
     OTROS_ACTOS = 'B'
+    # SECCIÓN SEGUNDA. Anuncios y avisos legales
+    ANUNCIOS_Y_AVISOS_LEGALES = 'C'

@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # borme_json_all.py - Convert all BORME PDF files to JSON
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -24,6 +25,7 @@ from bormeparser.backends.defaults import OPTIONS
 OPTIONS['SANITIZE_COMPANY_NAME'] = True
 
 import argparse
+import logging
 import os
 import sys
 import time
@@ -34,6 +36,9 @@ from queue import Queue
 BORME_ROOT = bormeparser.CONFIG["borme_root"]
 THREADS = 6
 
+logger = logging.getLogger(__name__)
+ch = logging.StreamHandler()
+logger.addHandler(ch)
 
 class ThreadConvertJSON(Thread):
     def __init__(self, queue):
@@ -43,14 +48,22 @@ class ThreadConvertJSON(Thread):
     def run(self):
         while True:
             pdf_path, json_path = self.queue.get()
-            print('Creating %s ...' % json_path)
+            # remove first part of path
+            shortpath = json_path.replace(BORME_ROOT, '')
+            # print(f'Creating {json_path} ...', end=' ')
             try:
                 borme = bormeparser.parse(pdf_path, bormeparser.SECCION.A)
                 borme.to_json(json_path)
-                print('{cve}: OK'.format(cve=borme.cve))
+                # print(f'Done {shortpath} ' + '{cve}: OK'.format(cve=borme.cve))
             except Exception as e:
-                print('ERROR: {} ({})'.format(os.path.basename(pdf_path), e))
+                # filenamePDF = os.path.basename(pdf_path)
+                # shortpathPDF = pdf_path.replace(BORME_ROOT, '')
+                print(f'ERROR: {pdf_path} ({e})')
+                # expand complete error exception
+                import traceback
+                traceback.print_exc()
             self.queue.task_done()
+            time.sleep(0.0001)
 
 
 def walk_borme_root(bormes_root, json_root=None):
@@ -81,7 +94,16 @@ def walk_borme_root(bormes_root, json_root=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Convert all BORME PDF files to JSON.')
     parser.add_argument('-d', '--directory', default=BORME_ROOT, help='Directory to download files (default is {})'.format(BORME_ROOT))
+    parser.add_argument('-v', '--verbose', action='store_true', default=False, help='Verbose mode')
     args = parser.parse_args()
+
+    bormeparser.borme.logger.setLevel(logging.ERROR)
+    if args.verbose:
+        bormeparser.download.logger.setLevel(logging.DEBUG)
+        logger.setLevel(logging.DEBUG)
+    else:
+        bormeparser.download.logger.setLevel(logging.ERROR)
+        logger.setLevel(logging.INFO)
 
     start_time = time.time()
 
@@ -98,7 +120,10 @@ if __name__ == '__main__':
         sys.exit(1)
 
     for day_dir, json_day_dir, filename in walk_borme_root(args.directory, json_root):
-        if not filename.endswith('.pdf') or filename.endswith('-99.pdf'):
+        if (not filename.endswith('.pdf') or
+            filename.endswith('-99.pdf') or
+                # process only BORME-A- files
+                not filename.startswith('BORME-A-')):
             continue
         pdf_path = os.path.join(day_dir, filename)
         json_filename = filename.replace('.pdf', '.json')

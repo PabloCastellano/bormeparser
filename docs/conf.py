@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # bormeparser documentation build configuration file, created by
 # sphinx-quickstart on Sat Jun 27 16:25:25 2015.

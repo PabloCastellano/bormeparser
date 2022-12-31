@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # download.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -59,26 +60,26 @@ THREADS = 8
 
 # date = (year, month, date) or datetime.date
 # filename = path to filename or just filename
-def download_xml(date, filename, secure=USE_HTTPS):
+def download_xml(date, filename, secure=USE_HTTPS, forcedownload=False):
     url = get_url_xml(date, secure=secure)
-    downloaded = download_url(url, filename)
+    downloaded = download_url(url, filename, forcedownload=forcedownload)
     return downloaded
 
 
-def download_pdfs(date, path, provincia=None, seccion=None, secure=USE_HTTPS):
+def download_pdfs(date, path, provincia=None, seccion=None, secure=USE_HTTPS, forcedownload=False):
     """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada """
     urls = get_url_pdfs(date, provincia=provincia, seccion=seccion, secure=secure)
-    files = download_urls(urls, path)
+    files = download_urls(urls, path, forcedownload=forcedownload)
     return True, files
 
 
 # date = (year, month, date) or datetime.date
 # seccion = ('A', 'B', 'C') or SECCION.A, SECCION.B, ...
 # province = class PROVINCIA: PROVINCIA.MALAGA, PROVINCIA.MADRID, ...
-def download_pdf(date, filename, seccion, provincia, parse=False):
+def download_pdf(date, filename, seccion, provincia, parse=False, forcedownload=False):
     """ Descarga BORME PDF de la provincia, la seccion y la fecha indicada """
     url = get_url_pdf(date, seccion, provincia)
-    downloaded = download_url(url, filename)
+    downloaded = download_url(url, filename, forcedownload=forcedownload)
 
     if downloaded:
         logger.debug('Downloaded: {}'.format(filename))
@@ -289,17 +290,20 @@ def get_url_xml(date, secure=USE_HTTPS):
     return BORME_XML_URL.format(protocol=protocol, year=date.year, month=date.month, day=date.day)
 
 
-def download_url(url, filename=None, try_again=0):
+def download_url(url, filename=None, try_again=0, forcedownload=False):
     logger.debug('Downloading URL: %s' % url)
     if os.path.exists(filename):
-        logger.debug('%s already exists!' % os.path.basename(filename))
-        return False
+        if forcedownload:
+            logger.debug('%s already exists, but forcing download!' % os.path.basename(filename))
+        else:
+            logger.debug('%s already exists!' % os.path.basename(filename))
+            return False
     try:
         req = requests.get(url, stream=True)
     except Exception as e:
         logger.warning('%s failed to download (%d time)!' % (url, try_again + 1))
         if try_again < 3:
-            return download_url(url, filename=filename, try_again=try_again+1)
+            return download_url(url, filename=filename, try_again=try_again+1, forcedownload=forcedownload)
         else:
             raise e
 
@@ -315,7 +319,7 @@ def download_url(url, filename=None, try_again=0):
     return True
 
 
-def download_urls(urls, path):
+def download_urls(urls, path, forcedownload=False):
     """
         Descarga las urls a path indicado.
         Devuelve la lista de archivos que fueron descargados.
@@ -324,7 +328,7 @@ def download_urls(urls, path):
     for url in urls.values():
         filename = url.split('/')[-1]
         full_path = os.path.join(path, filename)
-        downloaded = download_url(url, full_path)
+        downloaded = download_url(url, full_path, forcedownload=forcedownload)
 
         if downloaded:
             files.append(full_path)
@@ -335,7 +339,7 @@ def download_urls(urls, path):
     return files
 
 
-def download_urls_multi(urls, path, threads=THREADS):
+def download_urls_multi(urls, path, forcedownload=False, threads=THREADS):
     """
         Descarga las urls a path indicado (versión multihilo).
         urls: {_: url}
@@ -353,13 +357,13 @@ def download_urls_multi(urls, path, threads=THREADS):
     for url in urls.values():
         filename = url.split('/')[-1]
         full_path = os.path.join(path, filename)
-        q.put((url, full_path))
+        q.put((url, full_path, forcedownload))
 
     q.join()
     return files
 
 
-def download_urls_multi_names(urls, path, threads=THREADS):
+def download_urls_multi_names(urls, path, forcedownload=False, threads=THREADS):
     """
         Descarga las urls al path indicado (versión multihilo).
         urls: {filename: url}
@@ -376,7 +380,7 @@ def download_urls_multi_names(urls, path, threads=THREADS):
 
     for filename, url in urls.items():
         full_path = os.path.join(path, filename)
-        q.put((url, full_path))
+        q.put((url, full_path, forcedownload))
 
     q.join()
     return files
@@ -392,9 +396,9 @@ class ThreadDownloadUrl(Thread):
 
     def run(self):
         while True:
-            url, full_path = self.queue.get()
+            url, full_path, forcedownload = self.queue.get()
             time.sleep(0.6)
-            downloaded = download_url(url, full_path)
+            downloaded = download_url(url, full_path, forcedownload=forcedownload)
 
             if downloaded:
                 self.files.append(full_path)

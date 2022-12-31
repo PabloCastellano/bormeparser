@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # parser.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>

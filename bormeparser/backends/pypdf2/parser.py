@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # bormeparser.backends.pypdf2.parser.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -57,6 +58,9 @@ class PyPDF2Parser(BormeAParserBackend):
         seccion = False
         subseccion = False
         texto = False
+        anuncio_id = None
+        empresa = None
+        extra = None
 
         DATA = {
             'borme_fecha': None,
@@ -257,6 +261,12 @@ class PyPDF2Parser(BormeAParserBackend):
 
         if nombreacto:
             self._parse_acto(nombreacto, data, prefix='END')
+            if not empresa:
+                logger.warning(msg='No se encontró la empresa en el fichero %s' % self.filename)
+            if not extra:
+                logger.warning(msg='No se encontró el "extra" en el fichero %s' % self.filename)
+            if not anuncio_id:
+                logger.warning(msg='No se encontró el anuncio_id en el fichero %s' % self.filename)
             DATA[anuncio_id] = {
                 'Empresa': empresa,
                 'Extra': extra,
@@ -275,7 +285,7 @@ class PyPDF2Parser(BormeAParserBackend):
         if is_acto_cargo(nombreacto):
             cargos = regex_cargos(data, sanitize=self.sanitize)
             if not cargos:
-                logger.warning('No se encontraron cargos en la cadena: %s' % data)
+                logger.warning(f'No se encontraron cargos en la cadena: {data}\n\tdel fichero {self.filename}')
             data = cargos
 
         logger.debug('  %s nombreactoW: %s' % (prefix, nombreacto))
@@ -284,11 +294,16 @@ class PyPDF2Parser(BormeAParserBackend):
 
     def _parse_acto_bold(self, nombreacto, data):
         end = False
+        if not nombreacto:
+            logger.debug('No hay nombreacto')
+            return end, nombreacto
 
         if is_acto_bold_mix(nombreacto):
             end = True
         elif is_acto_bold(nombreacto):
             acto_colon, arg_colon, nombreacto = regex_bold_acto(nombreacto)
+            if not nombreacto:
+                logger.warning(msg='No se encontró el nombre del acto en el fichero %s' % self.filename)
             self.actos.append({acto_colon: arg_colon})
 
             logger.debug('  F2 nombreactoW: %s -- %s' % (acto_colon, arg_colon))

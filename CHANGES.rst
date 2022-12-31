@@ -1,6 +1,12 @@
 Changelog for bormeparser
 =========================
 
+0.5.2 (unreleased)
+------------------
+
+- New force download flag in download_url()
+
+
 0.5.1 (unreleased)
 ------------------
 

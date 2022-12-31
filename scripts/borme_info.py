@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # borme_info.py - Shows BORME A info
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>

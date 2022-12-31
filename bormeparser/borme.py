@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # borme.py -
 # Copyright (C) 2015-2022 Pablo Castellano <pablo@anche.no>
@@ -70,7 +71,8 @@ class BormeActo(object):
         if name not in ACTO.ALL_KEYWORDS:
             logger.warning('Invalid acto found: %s' % name)
             # raise BormeInvalidActoException(
-            #       'Invalid acto found: %s' % acto_nombre)
+            #       'Invalid acto found: %s' % name)
+            # raise ValueError('Invalid acto found: %s' % name)
         self._set_name(name)
         self._set_value(value)
 
@@ -390,21 +392,21 @@ class BormeXML(object):
 
         return urls
 
-    def download_borme(self, path, provincia=None, seccion=None):
+    def download_borme(self, path, provincia=None, seccion=None, forcedownload=False):
         """ Descarga BORMEs PDF de las provincia, la seccion y la fecha indicada
         """
         urls = self.get_url_pdfs(provincia=provincia, seccion=seccion)
         if seccion == SECCION.C:
-            files = download_urls_multi_names(urls, path)
+            files = download_urls_multi_names(urls, path, forcedownload)
         else:
-            files = download_urls_multi(urls, path)
+            files = download_urls_multi(urls, path, forcedownload)
         return True, files
 
-    def download_single_borme(self, filename, seccion, provincia):
+    def download_single_borme(self, filename, seccion, provincia, forcedownload=False):
         """ Descarga BORME PDF de la provincia, la seccion y la fecha indicada
         """
         url = get_url_pdf(self.date, seccion, provincia)
-        downloaded = download_url(url, filename)
+        downloaded = download_url(url, filename, forcedownload=forcedownload)
         return downloaded
 
     # TODO: Obtener versión definitiva si ya ha sido publicado el próximo BORME
@@ -452,6 +454,8 @@ class Borme(object):
         self.num = num
         self.cve = cve
         self.filename = filename
+        self.anuncios = None
+        self.anuncios_rango = (None, None)
         self._set_anuncios(anuncios)
         self._url = None
         if not lazy:
@@ -469,8 +473,9 @@ class Borme(object):
         self.anuncios = {}
         for anuncio in anuncios:
             self.anuncios[anuncio.id] = anuncio
-        self.anuncios_rango = (min(self.anuncios.keys()),
-                               max(self.anuncios.keys()))
+        if len(self.anuncios) > 0:
+            self.anuncios_rango = (min(self.anuncios.keys()),
+                                   max(self.anuncios.keys()))
 
     def _set_url(self):
         xml_path = get_borme_xml_filepath(self.date)

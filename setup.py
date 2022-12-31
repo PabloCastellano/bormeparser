@@ -1,10 +1,11 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import os
 from glob import glob
 from setuptools import setup, find_packages
 
-version = '0.5.1.dev0'
+version = '0.5.2.dev0'
 
 
 def get_install_requires():
@@ -47,6 +48,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
     ],
     license="GPLv3+",
     data_files=[('', ['LICENSE.txt'])],

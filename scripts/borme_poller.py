@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # borme_poller.py -
 # Copyright (C) 2015 Pablo Castellano <pablo@anche.no>
