@@ -117,6 +117,12 @@ class PROVINCIA:
         try:
             if title == 'ARABA/ÁLAVA':
                 return PROVINCIA.ALAVA
+            elif title == 'ALICANTE/ALACANT':
+                return PROVINCIA.ALICANTE
+            elif title == 'CASTELLÓN/CASTELLÓ':
+                return PROVINCIA.CASTELLON
+            elif title == 'VALENCIA/VALÈNCIA':
+                return PROVINCIA.VALENCIA
             title = remove_accents(title).replace(' ', '_')
             return getattr(PROVINCIA, title)
         except AttributeError:
